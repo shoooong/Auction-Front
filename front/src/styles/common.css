@@ -1,0 +1,22 @@
+@import url('./color.scss'); 
+
+* {margin: 0;padding: 0;box-sizing: border-box; font-family: 'Pretendard', sans-serif !important;}
+
+ol,ul, li {list-style: none;}
+a {text-decoration: none;}
+a:link {color: var(--primary);text-decoration: none;}
+a:hover {color: var(--primary);}
+a:active {color: var(--primary);text-decoration: underline;}
+
+input {line-height: 1;border: none;outline: none;}
+img, fieldset {border: none;}
+
+body {font-family: 'Pretendard', sans-serif !important;font-size: 16px;font-weight: 400;color: var(--primary);line-height: 1;}
+em {font-style: normal;}
+
+.blind {text-indent: -9999px;font-size: 0;}
+legend {position: absolute;width: 0;height: 0;line-height: 0;font-size: 0;text-indent: -9999px;overflow: hidden;}
+table {border-collapse: collapse;border-spacing: 0;}
+table caption {position: absolute;;width: 0;height: 0;line-height: 0;font-size: 0;overflow: hidden;}
+button {border: none;background: none;cursor: pointer;}
+hr {display: none;}

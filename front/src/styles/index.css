@@ -17,10 +17,6 @@
 /* box-layout */
 .box {background: #fff; border-radius: 8px; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); height: 150px; margin-bottom: 40px;}
 
-/* color */
-.light-blue {background: #eff3f6;}
-.teal-blue {background-color: #5b718f;}
-
 /* font */
 .text-ellipsis {text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
 .text-center {text-align: center;}

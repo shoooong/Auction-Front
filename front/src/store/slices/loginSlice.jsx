@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginPost } from "../../../api/userApi";
+import { loginPost } from "../../api/user/userApi";
 
 const initState = {
     email:''

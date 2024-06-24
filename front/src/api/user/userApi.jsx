@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SERVER_URL } from "./serverApi";
+import { SERVER_URL } from "../serverApi";
 
 const host = `${SERVER_URL}/user`;
 

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import { loginPostAsync, logout } from "../pages/user/slices/loginSlice";
+import { loginPostAsync, logout } from "../store/slices/loginSlice";
 
 const useCustomLogin = () => {
 

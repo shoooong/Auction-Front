@@ -33,6 +33,10 @@ const LoginComponent = () => {
                 // moveToPath('/');
                 // 1) 로그인 성공 시 '/'로 이동, 2) 뒤로 가기 했을 때 로그인 화면 볼 수 없게
             };
+        })
+        .catch(error => {
+            console.error('Login failed: ', error);
+            alert("로그인 오류입니다. 다시 시도해주세요.");
         });
     };
 

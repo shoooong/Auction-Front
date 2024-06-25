@@ -3,6 +3,7 @@ import LogoutPage from "../pages/user/LogoutPage";
 
 const Loading = <div>Loading...</div>
 const Login = lazy(() => import("../pages/user/LoginPage"));
+const KakaoRedirect = lazy(() => import("../pages/user/KakaoRedirectPage"));
 
 const userRouter = () => {
     return [
@@ -13,6 +14,10 @@ const userRouter = () => {
         {
             path: "logout",
             element: <Suspense fallback={Loading}><LogoutPage /></Suspense>
+        },
+        {
+            path: "kakao",
+            element: <Suspense fallback={Loading}><KakaoRedirect /></Suspense>
         }
     ];
 };

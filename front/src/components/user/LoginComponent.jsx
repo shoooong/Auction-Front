@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import KakaoLoginComponent from "./KakaoLoginComponent";
 
 const initState = {
     email: '',
@@ -19,8 +20,6 @@ const LoginComponent = () => {
     };
 
     const handleClickLogin = (e) => {
-        // 동기화된 호출
-        // dispatch(login(loginParam));
 
         // loginSlice 비동기 호출
         doLogin(loginParam)
@@ -61,6 +60,7 @@ const LoginComponent = () => {
                     </div>
                 </div>
             </div>
+            <KakaoLoginComponent />
         </div>
     );
 };

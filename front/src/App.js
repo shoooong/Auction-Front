@@ -3,7 +3,6 @@ import './App.css';
 import Root from './router/root';
 import { Provider } from 'react-redux';
 import store from './store/store';
-import ExamPage from './pages/user/ExamPage';
 
 function App() {
   return (

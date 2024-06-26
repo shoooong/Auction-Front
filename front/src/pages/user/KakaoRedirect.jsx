@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
-import { getAccessToken } from "../../api/user/kakaoApi";
+import { getAccessToken } from "api/user/kakaoApi";
 
 const KakaoRedirectPage = () => {
     const [searchParams] = useSearchParams();
@@ -9,13 +9,13 @@ const KakaoRedirectPage = () => {
 
     useEffect(() => {
         getAccessToken(authCode)
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('Error access token:', error);
-            alert('access token error!');
-        });
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error("Error access token:", error);
+                alert("access token error!");
+            });
     }, [authCode]);
 
     return (

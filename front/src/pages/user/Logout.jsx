@@ -1,5 +1,5 @@
-import LogoutComponent from "../../components/user/LogoutComponent";
-import Header from "./Header";
+import LogoutComponent from "components/user/LogoutComponent";
+import Header from "pages/common/Header";
 
 const LogoutPage = () => {
     return (
@@ -11,6 +11,6 @@ const LogoutPage = () => {
             </div>
         </div>
     );
-}
+};
 
 export default LogoutPage;

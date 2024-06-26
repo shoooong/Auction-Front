@@ -1,5 +1,7 @@
-import LoginComponent from "../../components/user/LoginComponent";
-import Header from "./Header";
+import LoginComponent from "components/user/LoginComponent";
+import Header from "pages/common/Header";
+
+import "styles/style.css";
 
 const LoginPage = () => {
     return (

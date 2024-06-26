@@ -116,7 +116,7 @@
 
 /* select, input */
 select {-o-appearance: none; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
-.select {width: 150px; height: 30px; border: 1px solid #CBC9D7; border-radius: 4px; font-size: 14px; font-weight: 300; padding: 0 8px; background: url(../images/down_arrow.svg)no-repeat 94% center; cursor: pointer;}
+.select {width: 150px; height: 30px; border: 1px solid #CBC9D7; border-radius: 4px; font-size: 14px; font-weight: 300; padding: 0 8px; cursor: pointer;}
 .select option {font-size: 12px; font-weight: 300;}
 
 /* common */

@@ -1,14 +1,19 @@
-import { Suspense, lazy } from "react";
-import userRouter from "./userRouter";
-import { RouterProvider } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-const { createBrowserRouter } = require("react-router-dom");
+import Header from "layout/Header";
+import userRouter from "./userRouter";
+import mainRouter from "./mainRouter";
 
 const root = createBrowserRouter([
     {
+        path: "/",
+        element: <Header />,
+        children: mainRouter(),
+    },
+    {
         path: "user",
-        children: userRouter()
-    }
+        children: userRouter(),
+    },
 ]);
 
 const Root = () => <RouterProvider router={root} />;

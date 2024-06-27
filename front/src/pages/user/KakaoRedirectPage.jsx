@@ -1,9 +1,17 @@
-import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+
 import { getAccessToken, getUserWithAccessToken } from "../../api/user/kakaoApi";
+import { login } from "../../store/slices/loginSlice";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const KakaoRedirectPage = () => {
     const [searchParams] = useSearchParams();
+
+    const {moveToPath} = useCustomLogin();
+
+    const dispatch = useDispatch();
 
     const authCode = searchParams.get("code");
 
@@ -16,6 +24,14 @@ const KakaoRedirectPage = () => {
                 })
                 .then(userInfo => {
                     console.log(userInfo);
+
+                    dispatch(login(userInfo));
+
+                    if (userInfo && !userInfo.social) {
+                        moveToPath("/");
+                    } else {
+                        moveToPath("/user/mypage/modify");
+                    }
                 })
                 .catch(error => {
                     console.error('Error access token:', error);

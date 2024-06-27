@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
-import { getAccessToken } from "../../api/user/kakaoApi";
+import { getAccessToken, getUserWithAccessToken } from "../../api/user/kakaoApi";
 
 const KakaoRedirectPage = () => {
     const [searchParams] = useSearchParams();
@@ -8,20 +8,27 @@ const KakaoRedirectPage = () => {
     const authCode = searchParams.get("code");
 
     useEffect(() => {
-        getAccessToken(authCode)
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('Error access token:', error);
-            alert('access token error!');
-        });
+        if (authCode) {
+            getAccessToken(authCode)
+                .then(accessToken => {
+                    console.log(accessToken);
+                    return getUserWithAccessToken(accessToken);
+                })
+                .then(userInfo => {
+                    console.log(userInfo);
+                })
+                .catch(error => {
+                    console.error('Error access token:', error);
+                    alert('access token error!');
+                });
+        }
     }, [authCode]);
+
 
     return (
         <div>
             <div>Kakao Login Redirect</div>
-            <div>{authCode}</div>
+            <div>Authorization Code: {authCode}</div>
         </div>
     );
 };

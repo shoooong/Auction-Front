@@ -1,3 +1,3 @@
 export default function LifeSample() {
-    return;
+    return <div>라이프 페이지</div>;
 }

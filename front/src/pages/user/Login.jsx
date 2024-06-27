@@ -1,5 +1,5 @@
 import LoginComponent from "components/user/LoginComponent";
-import Header from "pages/common/Header";
+import Header from "layout/Header";
 
 import "styles/style.css";
 

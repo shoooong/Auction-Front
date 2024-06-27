@@ -1,12 +1,16 @@
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+import Header from "layout/Header";
 import userRouter from "./userRouter";
 import mypageRouter from "./mypageRouter";
-
-
-import { RouterProvider } from "react-router-dom";
-
-const { createBrowserRouter } = require("react-router-dom");
+import mainRouter from "./mainRouter";
 
 const root = createBrowserRouter([
+    {
+        path: "/",
+        element: <Header />,
+        children: mainRouter(),
+    },
     {
         path: "user",
         children: userRouter()
@@ -15,6 +19,7 @@ const root = createBrowserRouter([
         path: "mypage",
         children: mypageRouter()
     }
+
 ]);
 
 const Root = () => <RouterProvider router={root} />;

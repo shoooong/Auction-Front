@@ -1,5 +1,5 @@
 import LogoutComponent from "components/user/LogoutComponent";
-import Header from "pages/common/Header";
+import Header from "layout/Header";
 
 const LogoutPage = () => {
     return (

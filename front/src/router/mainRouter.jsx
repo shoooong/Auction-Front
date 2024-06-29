@@ -2,21 +2,32 @@ import MainCategory from "layout/MainCategory";
 import StyleCategory from "layout/StyleCategory";
 import ClothesCategory from "layout/ClothesCategory";
 import LifeCategory from "layout/LifeCategory";
+import MypageCategory from "layout/MypageCategory";
 
 import clothesRouter from "./clothesRouter";
 import lifeRouter from "./lifeRouter";
 import userRouter from "./userRouter";
+import mypageRouter from "./mypageRouter";
+
+import Sample from "pages/Sample";
 
 const mainRouter = () => {
     return [
+        {
+            path: "sample",
+            element: <Sample />,
+        },
         {
             path: "/",
             element: <MainCategory />,
             children: [
                 {
                     path: "/",
-                    element: <ClothesCategory />,
-                    children: clothesRouter(),
+                    element: (
+                        <>
+                            <ClothesCategory />
+                        </>
+                    ),
                 },
                 {
                     path: "life",
@@ -42,6 +53,10 @@ const mainRouter = () => {
             ],
         },
         {
+            path: "clothes",
+            children: clothesRouter(),
+        },
+        {
             path: "shop",
             element: (
                 <>
@@ -65,8 +80,17 @@ const mainRouter = () => {
             ],
         },
         {
-            path: "serviceCenter",
+            path: "service",
             element: <div>고객센터</div>,
+            children: userRouter(),
+        },
+        {
+            path: "mypage",
+            element: <MypageCategory />,
+            children: mypageRouter(),
+        },
+        {
+            path: "user",
             children: userRouter(),
         },
     ];

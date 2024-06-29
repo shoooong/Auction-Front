@@ -2,7 +2,14 @@ export default function clothesRouter() {
     return [
         {
             path: "top",
-            element: <div>상의</div>,
+            element: (
+                <>
+                    <div className="container">
+                        <div className="sub-nav"></div>
+                        <div>상의</div>
+                    </div>
+                </>
+            ),
         },
         {
             path: "bottom",

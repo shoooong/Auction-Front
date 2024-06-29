@@ -5,9 +5,12 @@ import { Box } from "@mui/material";
 
 import logo from "assets/images/logo.svg";
 import Search from "assets/images/search.svg";
+import useCustomLogin from "hooks/useCustomLogin";
 
 export default function Header() {
     const loginState = useSelector((state) => state.loginSlice);
+
+    const { doLogout } = useCustomLogin();
 
     return (
         <>
@@ -27,7 +30,8 @@ export default function Header() {
                             {!loginState.email ? (
                                 <Link to="/user/login">로그인</Link>
                             ) : (
-                                <Link to="/user/logout">로그아웃</Link>
+                                <Link to="/" onClick={doLogout}>로그아웃</Link>
+
                             )}
                         </Box>
                         <Box className="nav">

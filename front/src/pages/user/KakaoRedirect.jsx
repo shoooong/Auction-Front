@@ -30,7 +30,7 @@ const KakaoRedirectPage = () => {
                     if (userInfo && !userInfo.social) {
                         moveToPath("/");
                     } else {
-                        moveToPath("/user/mypage/modify");
+                        moveToPath("/mypage/modify");
                     }
                 })
                 .catch(error => {

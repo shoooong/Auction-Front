@@ -1,6 +1,13 @@
 import { useState } from "react";
 
-import { IconButton, Button, Box, Dialog, DialogTitle } from "@mui/material";
+import {
+    ToggleButton,
+    IconButton,
+    Button,
+    Box,
+    Dialog,
+    DialogTitle,
+} from "@mui/material";
 import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
 
 import BookmarkOff from "assets/images/bookmark-off.svg";
@@ -18,12 +25,8 @@ export default function Sample() {
     // 팝업 훅
     const [open, setOpen] = useState(false);
 
-    // 마이페이지 탭버튼
-    // const [value, setValue] = React.useState(0);
-
-    // const handleChange = (event, newValue) => {
-    //     setValue(newValue);
-    // };
+    // toggle 버튼
+    const [selected, setSelected] = useState(false);
 
     return (
         <div className="container">
@@ -423,14 +426,14 @@ export default function Sample() {
 
             <h1>버튼들</h1>
             <div className="flex ">
-                <button className="align-center flex-grow inline-flex flex-start buy-btn">
+                <button className="align-center flex-grow inline-flex flex-start buy-btn btn btn-text">
                     구매
                     <span>
                         <span>210,000원</span>
                         즉시 구매가
                     </span>
                 </button>
-                <button className="flex-grow align-center inline-flex flex-start sell-btn">
+                <button className="flex-grow align-center inline-flex flex-start sell-btn btn btn-text">
                     판매
                     <span>
                         <span>210,000원</span>
@@ -438,8 +441,9 @@ export default function Sample() {
                     </span>
                 </button>
             </div>
+
             <Button
-                className="full-btn align-center"
+                className="btn full-btn border-btn align-center"
                 onClick={() => setLike((like) => !like)}
             >
                 {like ? (
@@ -453,33 +457,61 @@ export default function Sample() {
                 )}
                 관심상품 <span>3,298</span>
             </Button>
-            <Button className="full-btn full-btn-apply">응모하기</Button>
-            <button className="buy-btn flex justify-center">
+            <Button className="btn btn-text full-btn apply-btn">
+                응모하기
+            </Button>
+            <button className="btn btn-text buy-btn flex justify-center">
                 구매
                 <b>일반배송(5-7일소요)</b>
             </button>
-            <Button className="medium-btn">
+
+            <ToggleButton
+                value="check"
+                selected={selected}
+                onChange={() => {
+                    setSelected(!selected);
+                }}
+                className="btn toggle-btn"
+            >
                 <span className="black-label">225</span>
-            </Button>
-            <Button className="medium-btn medium-btn-click">
-                <span className="black-label">225</span>
-            </Button>
-            <Button className="medium-btn">
+            </ToggleButton>
+
+            <ToggleButton
+                value="check"
+                selected={selected}
+                onChange={() => {
+                    setSelected(!selected);
+                }}
+                className="btn toggle-btn"
+            >
                 <span className="black-label">225</span>
                 <span className="black-label">구매입찰</span>
-            </Button>
-            <Button className="medium-btn">
+            </ToggleButton>
+
+            <ToggleButton
+                value="check"
+                selected={selected}
+                onChange={() => {
+                    setSelected(!selected);
+                }}
+                className="btn toggle-btn"
+            >
                 <span className="black-label">225</span>
                 <span className="red-label">230,000</span>
-            </Button>
-            <Button className="medium-btn">
+            </ToggleButton>
+
+            <ToggleButton
+                value="check"
+                selected={selected}
+                onChange={() => {
+                    setSelected(!selected);
+                }}
+                className="btn toggle-btn"
+            >
                 <span className="black-label">225</span>
                 <span className="green-label">230,000</span>
-            </Button>
-            <Button className="medium-btn medium-btn-click">
-                <span className="black-label">225</span>
-                <span className="black-label">구매입찰</span>
-            </Button>
+            </ToggleButton>
+
             <Button className="cancel-btn">
                 <span className="black-label">취소</span>
             </Button>

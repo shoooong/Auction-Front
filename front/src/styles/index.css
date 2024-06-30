@@ -50,6 +50,16 @@
 .red {color: var(--red);}
 
 /* -------------------------------------------- 컴포넌트 ---------------------------------------------------*/
+.box {border-bottom: 1px solid var(--borderbox); padding: 40px 0;}
+.product-title-box {margin-bottom: 15px;}
+
+.product {margin-bottom: 40px;}
+.product-wrap .product:not(:nth-child(5n)) {margin-right: 32px;}
+.product > div:first-child {border-radius: 10px; background: #ddd; height: 230px; position: relative; width: 230px;}
+.product > div:last-child {margin-top: 10px;}
+.product > div:last-child p:last-of-type {margin-bottom: 10px;}
+.product > div:last-child span:not(:first-of-type) {display: block; margin-top: 5px;}
+
 .title {font-size: var(--ft25); font-weight: var(--semibold); color: var(--black); text-align: center; margin-bottom: 20px;}
 .product-title {font-size: var(--ft16); font-weight: var(--semibold); color: var(--black); line-height: 1.2;}
 .product-sub-title {font-size: var(--ft16); font-weight: var(--medium); color: var(--palegrey); line-height: 1.2;}
@@ -57,26 +67,40 @@
 .light-black {font-size: var(--ft13); font-weight: var(--light); color: var(--black); }
 .light-grey {font-size: 11px; font-weight: var(--light); color: var(--palegrey);}
 
+
 .red-bullet {background: #ffeef4; color: #f00; font-size: 10px; font-weight: var(--light); padding: 3px 5px;}
 
+
+/* 버튼 */
 .add-btn {border: 1px solid var(--borderBasic) !important; color: var(--black) !important; border-radius: 10px !important; padding: 13px 32px; font-size: var(--ft13) !important; font-weight: var(--light) !important;}
 
-.box {border-bottom: 1px solid var(--borderbox); padding: 40px 0;}
-.product-title-box {margin-bottom: 15px;}
-
-.product {margin-bottom: 40px;}
-.product-wrap .product:not(:nth-child(5n)) {margin-right: 32px;}
-.product > div:first-child {border-radius: 10px; background: #ddd; height: 230px; position: relative; width: 230px;}
+/* 북마크,좋아요 & 랭킹 */
 .product > div:first-child .rank {background: var(--black); font-size: var(--ft25); color: #fff; width: 26px; text-align: center; display: inline-block; padding: 3px 0;}
 .product > div:first-child .MuiButtonBase-root {position: absolute !important; bottom: 3px !important; right: 12px !important; padding: 0 !important;}
 
-.product > div:last-child {margin-top: 10px;}
-.product > div:last-child p:last-of-type {margin-bottom: 10px;}
-.product > div:last-child span:not(:first-of-type) {display: block; margin-top: 5px;}
 
-.buy-btn,
-.sell-btn {font-size: var(--ft18) !important; font-weight: var(--bold) !important; background: var(--buy) !important; color: #fff !important; padding: 15px !important; border-radius: 10px !important;}
+.btn {border-radius: 10px !important; padding: 15px !important;}
 
+.border-btn {border: 1px solid var(--borderBasic) !important;}
+.border-btn-click {border: 1px solid var(--borderBlack) !important;}
+
+.full-btn {font-size: 15px !important; font-weight: var(--regular) !important; color: var(--black) !important; width: 100% !important;}
+.full-btn > span {line-height: 1 !important; padding: 0 5px !important; font-weight: var(--semibold) !important;}
+
+.medium-btn {padding: 13px 0 !important; width: 126px !important; line-height: 1 !important; flex-direction: column !important;}
+
+.toggle-btn {padding: 13px 0 !important; width: 126px !important; line-height: 1 !important; flex-direction: column !important;}
+.toggle-btn.Mui-selected {background: none !important; border: 1px solid var(--borderBlack) !important;}
+
+.btn-text {font-size: var(--ft18) !important; font-weight: var(--bold) !important;}
+.btn-text b {width: 100%; font-size: var(--ft12); font-weight: var(--regular); margin-top: 5px;}
+
+
+.buy-btn {background: var(--buy) !important; color: #fff !important;}
+.sell-btn {background: var(--sell) !important; color: #fff !important;}
+.apply-btn {background: var(--apply) !important; color: #fff !important;}
+
+/* dash있는 버튼들 */
 .buy-btn span,
 .sell-btn span {padding-left: 20px !important; position: relative; font-size: 11px; font-weight: var(--regular); line-height: 1 !important; text-align: left;}
 .buy-btn > span::before,
@@ -84,11 +108,9 @@
 .buy-btn > span > span,
 .sell-btn > span > span {display: block; padding: 0 !important; font-size: 15px; font-weight: var(--bold); margin-bottom: 5px;}
 
-.buy-btn b {width: 100%; font-size: var(--ft12); font-weight: var(--regular);}
 
-.sell-btn {background: var(--sell) !important;}
 
-.medium-btn {border-radius: 10px !important; border: 1px solid var(--borderBasic) !important; padding: 13px 0 !important; width: 126px !important; line-height: 1 !important; flex-direction: column !important;}
+
 .black-label {font-size: var(--ft14); color: var(--black); display: block; line-height: 1.2;}
 .white-label {font-size: var(--ft14); color: var(--white); display: block; line-height: 1.2;}
 .red-label {font-size: var(--ft14); color: var(--red); display: block; width: 100%;}
@@ -100,10 +122,6 @@
 .confirm-btn {background-color: var(--greyblack) !important; border: none !important}
 
 .small-btn {border-radius: 10px !important; border: 1px solid var(--borderBasic) !important; padding: 11px 0 !important; width: 85px !important; font-size: var(--ft12) !important; font-weight: var(--light) !important; color: var(--black) !important;}
-
-.full-btn {font-size: 15px !important; font-weight: var(--regular) !important; color: var(--black) !important; width: 100% !important; border-radius: 10px !important; border: 1px solid var(--borderBasic) !important; padding: 15px 0 !important;}
-.full-btn span {line-height: 1 !important; padding: 0 5px !important;}
-.full-btn-apply {background: var(--apply) !important; color: var(--white) !important; font-size: var(--ft18) !important; font-weight: var(--bold) !important;}
 
 .login-btn {background: var(--basic) !important; color: var(--whitegrey) !important; font-size: var(--ft16) !important; font-weight: var(--bold) !important;}
 .login-btn:hover {background: var(--hover) !important;}
@@ -147,10 +165,10 @@
 .product-tab .base-Tab-root.base--selected {background: var(--white); border-radius: 10px; font-weight: var(--bold); font-size: var(--ft13); color: var(--black); padding: 8px 0;}
 
 .mypage-tab .base-TabsList-root {display: flex; padding: 12px 0; text-align: center;}
-.mypage-tab .base-Tab-root {flex: 1 1; color: var(--black); font-size: var(--ft18);}
+.mypage-tab .base-Tab-root {flex: 1 1; color: var(--black); font-size: var(--ft18); border-bottom: 1px solid var(--borderBasic);}
 .mypage-tab .base-Tab-root b {color: var(--grey); display: block; margin-top: 5px; font-weight: var(--regular); font-size: var(--ft16);}
 
-.mypage-tab .base-Tab-root.base--selected {font-weight: var(--thick);}
+.mypage-tab .base-Tab-root.base--selected {font-weight: var(--thick); border-bottom: 2px solid var(--borderBlack);}
 .mypage-tab.buying .base-Tab-root.base--selected {color: var(--red);}
 .mypage-tab.sales .base-Tab-root.base--selected {color: var(--green);}
 .mypage-tab .base-Tab-root.base--selected b {color: var(--black); font-weight: var(--bold);}

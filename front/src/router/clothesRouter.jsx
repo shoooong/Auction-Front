@@ -13,19 +13,47 @@ export default function clothesRouter() {
         },
         {
             path: "bottom",
-            element: <div>하의</div>,
+            element: (
+                <>
+                    <div className="container">
+                        <div className="sub-nav"></div>
+                        <div>하의</div>
+                    </div>
+                </>
+            ),
         },
         {
             path: "outer",
-            element: <div>아우터</div>,
+            element: (
+                <>
+                    <div className="container">
+                        <div className="sub-nav"></div>
+                        <div>아우터</div>
+                    </div>
+                </>
+            ),
         },
         {
             path: "shoes",
-            element: <div>신발</div>,
+            element: (
+                <>
+                    <div className="container">
+                        <div className="sub-nav"></div>
+                        <div>신발</div>
+                    </div>
+                </>
+            ),
         },
         {
             path: "inner",
-            element: <div>이너웨어</div>,
+            element: (
+                <>
+                    <div className="container">
+                        <div className="sub-nav"></div>
+                        <div>이너웨어</div>
+                    </div>
+                </>
+            ),
         },
     ];
 }

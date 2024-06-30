@@ -35,7 +35,6 @@ const mypageRouter = () => {
             path: "modify",
             element: (
                 <Suspense fallback={Loading}>
-                    <div className="sub-nav"></div>
                     <UserModify />
                 </Suspense>
             ),

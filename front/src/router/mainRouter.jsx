@@ -3,13 +3,16 @@ import StyleCategory from "layout/StyleCategory";
 import ClothesCategory from "layout/ClothesCategory";
 import LifeCategory from "layout/LifeCategory";
 import MypageCategory from "layout/MypageCategory";
+import ServiceCategory from "layout/ServiceCategory";
 
 import clothesRouter from "./clothesRouter";
 import lifeRouter from "./lifeRouter";
 import userRouter from "./userRouter";
 import mypageRouter from "./mypageRouter";
+import serviceRouter from "./serviceRouter";
 
 import Sample from "pages/Sample";
+import Shop from "pages/shop/Shop";
 
 const mainRouter = () => {
     return [
@@ -23,16 +26,11 @@ const mainRouter = () => {
             children: [
                 {
                     path: "/",
-                    element: (
-                        <>
-                            <ClothesCategory />
-                        </>
-                    ),
+                    element: <ClothesCategory />,
                 },
                 {
                     path: "life",
                     element: <LifeCategory />,
-                    children: lifeRouter(),
                 },
                 {
                     path: "/tech",
@@ -57,20 +55,19 @@ const mainRouter = () => {
             children: clothesRouter(),
         },
         {
+            path: "life",
+            children: lifeRouter(),
+        },
+        {
             path: "shop",
-            element: (
-                <>
-                    <div className="sub-nav"></div>
-                    <div>SHOP 페이지</div>
-                </>
-            ),
+            element: <Shop />,
         },
         {
             path: "style",
             element: <StyleCategory />,
             children: [
                 {
-                    path: "feed",
+                    path: "",
                     element: <div>피드</div>,
                 },
                 {
@@ -81,8 +78,8 @@ const mainRouter = () => {
         },
         {
             path: "service",
-            element: <div>고객센터</div>,
-            children: userRouter(),
+            element: <ServiceCategory />,
+            children: serviceRouter(),
         },
         {
             path: "mypage",

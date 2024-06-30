@@ -5,7 +5,7 @@ export default function Style() {
         <>
             <div className="container">
                 <div className="sub-nav">
-                    <Link to="/style/feed">피드</Link>
+                    <Link to="/style">피드</Link>
                     <Link to="/style/rank">랭킹</Link>
                 </div>
             </div>

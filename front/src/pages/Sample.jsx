@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { IconButton, Button, Box, Dialog, DialogTitle } from "@mui/material";
+import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
 
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
@@ -16,14 +17,13 @@ export default function Sample() {
 
     // 팝업 훅
     const [open, setOpen] = useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-    // const [maxWidth, setMaxWidth] = useState("lg");
+    // 마이페이지 탭버튼
+    // const [value, setValue] = React.useState(0);
+
+    // const handleChange = (event, newValue) => {
+    //     setValue(newValue);
+    // };
 
     return (
         <div className="container">
@@ -453,21 +453,184 @@ export default function Sample() {
                 )}
                 관심상품 <span>3,298</span>
             </Button>
+            <Button className="full-btn full-btn-apply">응모하기</Button>
+            <button className="buy-btn flex justify-center">
+                구매
+                <b>일반배송(5-7일소요)</b>
+            </button>
+            <Button className="medium-btn">
+                <span className="black-label">225</span>
+            </Button>
+            <Button className="medium-btn medium-btn-click">
+                <span className="black-label">225</span>
+            </Button>
+            <Button className="medium-btn">
+                <span className="black-label">225</span>
+                <span className="black-label">구매입찰</span>
+            </Button>
+            <Button className="medium-btn">
+                <span className="black-label">225</span>
+                <span className="red-label">230,000</span>
+            </Button>
+            <Button className="medium-btn">
+                <span className="black-label">225</span>
+                <span className="green-label">230,000</span>
+            </Button>
+            <Button className="medium-btn medium-btn-click">
+                <span className="black-label">225</span>
+                <span className="black-label">구매입찰</span>
+            </Button>
+            <Button className="cancel-btn">
+                <span className="black-label">취소</span>
+            </Button>
+            <Button className="confirm-btn">
+                <span className="white-label">확인</span>
+            </Button>
+            <Button className="small-btn">프로필 관리</Button>
 
             <h1>팝업</h1>
-            <Button className="popup" onClick={() => setOpen(true)}>
+            <Box className="popup space-between" onClick={() => setOpen(true)}>
                 모든 사이즈
-            </Button>
+                <span className="popup-icon"></span>
+            </Box>
 
-            <Dialog onClose={handleClose} open={open} maxWidth={"md"}>
-                <DialogTitle>Set backup account</DialogTitle>
-                <div>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-                    modi sed laboriosam eum voluptatibus. Fugit, natus? Hic
-                    minima illo autem totam consequatur similique excepturi
-                    voluptatum perferendis sit debitis, facere quis.
+            <Dialog open={open}>
+                <div className="popup-title-box">
+                    <DialogTitle>
+                        구매하기<span>(가격 단위: 원)</span>
+                    </DialogTitle>
+                    <Button
+                        className="popup-close-btn"
+                        onClick={() => setOpen(false)}
+                    ></Button>
+                </div>
+
+                <div className="popup-content">
+                    <Box className="popup-product flex align-center">
+                        <div className="w20p">
+                            <div style={{ background: "#ddd", height: "80px" }}>
+                                여기다 상품 놔
+                            </div>
+                        </div>
+                        <div className="product-info w80p">
+                            <span>FQ3000-100</span>
+                            <span>Nike x Supreme SB Darwin Low White</span>
+                            <span>나이키 x 슈프림 SB 다윈 로우 화이트</span>
+                        </div>
+                    </Box>
+
+                    <div className="scroll">
+                        <div className="inline-flex">
+                            <Button className="medium-btn medium-btn-click">
+                                <span className="black-label">프로필 관리</span>
+                            </Button>
+                            <Button className="medium-btn">
+                                <span className="black-label">프로필 관리</span>
+                            </Button>
+                            <Button className="medium-btn">
+                                <span className="black-label">프로필 관리</span>
+                            </Button>
+                            <Button className="medium-btn">
+                                <span className="black-label">프로필 관리</span>
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="popup-bottom justify-center">
+                    <Button
+                        className="cancel-btn"
+                        onClick={() => setOpen(false)}
+                    >
+                        <span className="black-label">취소</span>
+                    </Button>
+                    <Button className="confirm-btn">
+                        <span className="white-label">확인</span>
+                    </Button>
                 </div>
             </Dialog>
+
+            <h1>탭메뉴 - 마이페이지</h1>
+            <div className="mypage-tab buying">
+                <Tabs defaultValue={1}>
+                    <TabsList>
+                        <Tab value={1}>
+                            <span>0</span>
+                            <b>구매 입찰</b>
+                        </Tab>
+                        <Tab value={2}>
+                            <span>0</span>
+                            <b>진행중</b>
+                        </Tab>
+                        <Tab value={3}>
+                            <span>0</span>
+                            <b>종료</b>
+                        </Tab>
+                    </TabsList>
+                    <TabPanel value={1}>First page</TabPanel>
+                    <TabPanel value={2}>Second page</TabPanel>
+                    <TabPanel value={3}>Third page</TabPanel>
+                </Tabs>
+            </div>
+            <div className="mypage-tab sales">
+                <Tabs defaultValue={1}>
+                    <TabsList>
+                        <Tab value={1}>
+                            <span>0</span>
+                            <b>판매 입찰</b>
+                        </Tab>
+                        <Tab value={2}>
+                            <span>0</span>
+                            <b>진행중</b>
+                        </Tab>
+                        <Tab value={3}>
+                            <span>0</span>
+                            <b>종료</b>
+                        </Tab>
+                    </TabsList>
+                    <TabPanel value={1}>First page</TabPanel>
+                    <TabPanel value={2}>Second page</TabPanel>
+                    <TabPanel value={3}>Third page</TabPanel>
+                </Tabs>
+            </div>
+
+            <h1>탭메뉴 - 상품 상세 페이지</h1>
+            <div className="product-tab">
+                <Tabs defaultValue={1}>
+                    <TabsList>
+                        <Tab value={1}>1개월</Tab>
+                        <Tab value={2}>3개월</Tab>
+                        <Tab value={3}>6개월</Tab>
+                        <Tab value={4}>1년</Tab>
+                        <Tab value={5}>전체</Tab>
+                    </TabsList>
+                    <TabPanel value={1}>First page</TabPanel>
+                    <TabPanel value={2}>Second page</TabPanel>
+                    <TabPanel value={3}>Third page</TabPanel>
+                    <TabPanel value={4}>fourth page</TabPanel>
+                    <TabPanel value={5}>fifth page</TabPanel>
+                </Tabs>
+            </div>
+
+            <h1>스낵바 알림창</h1>
+            <div className="snackbar">
+                <div className="space-between">
+                    <div className="align-center">
+                        <span
+                            style={{
+                                width: "34px",
+                                height: "34px",
+                                background: "#ddd",
+                                display: "inline-block",
+                            }}
+                        >
+                            {/* 이미지 넣을 것.. */}
+                        </span>
+                        <span>관심 상품에 저장되었습니다.</span>
+                    </div>
+                    <Button>보러가기</Button>
+                </div>
+            </div>
         </div>
     );
 }

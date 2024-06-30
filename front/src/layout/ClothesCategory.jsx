@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Card, Box } from "@mui/material";
 
@@ -17,7 +17,7 @@ export default function ClothesCategory() {
             <BannerSlide />
 
             <div className="container">
-                <Box className="bottom-nav no-flex justify-center">
+                <Box className="bottom-nav no-wrap">
                     <Card>
                         <Link to="clothes/top">
                             <img src={Top} alt="상의 라우터" />

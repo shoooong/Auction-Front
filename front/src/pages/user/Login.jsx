@@ -98,11 +98,11 @@ const LoginPage = () => {
                         </ul>
 
                         {/* <KakaoLoginComponent /> */}
-                        <div className="full-btn align-center justify-center">
+                        <div className="btn full-btn border-btn align-center justify-center">
                             <span></span>
                             <Link to={link}>네이버로 로그인</Link>
                         </div>
-                        <div className="full-btn align-center justify-center">
+                        <div className="btn full-btn border-btn align-center justify-center">
                             <span></span>
                             <Link to={link}>카카오톡으로 로그인</Link>
                         </div>

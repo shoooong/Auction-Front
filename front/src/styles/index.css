@@ -6,7 +6,10 @@
 
 /* 최상단 side navi */
 .aside {height: 30px;}
-.aside a {font-size: var(--ft12); font-weight: var(--regular); color: var(--grey); margin-left: 22px;}
+.aside a,
+.aside .alarm-btn
+ {font-size: var(--ft12); font-weight: var(--regular); color: var(--grey); margin-left: 22px;}
+.alarm-btn {display: inline !important; padding: 0 !important; min-width: 0 !important; line-height: 1 !important;}
 
 /* main navi */
 .nav {height: calc(100% - 30px)}
@@ -113,6 +116,7 @@
 
 .black-label {font-size: var(--ft14); color: var(--black); display: block; line-height: 1.2;}
 .white-label {font-size: var(--ft14); color: var(--white); display: block; line-height: 1.2;}
+.grey-label {font-size: var(--ft14); color: var(--grey); display: block; line-height: 1.2;}
 .red-label {font-size: var(--ft14); color: var(--red); display: block; width: 100%;}
 .green-label {font-size: var(--ft14); color: var(--green); display: block;}
 .medium-btn-click {border: 1px solid var(--borderBlack) !important;}
@@ -133,7 +137,7 @@
 .popup-icon {background: url(../assets/images/arrow.svg)no-repeat center; width: 19px; height: 19px; display: inline-block;}
 
 .popup-title-box {text-align: center; padding: 13px 15px; position: relative;}
-.popup-title-box .popup-close-btn {background: url(../assets/images/close-btn.svg)no-repeat center/contain; width: 19px; height: 10px; display: inline-block; position: absolute; top: 20px; right: 0;}
+.popup-close-btn {background: url(../assets/images/close-btn.svg)no-repeat center/contain; width: 19px; height: 10px; display: inline-block; position: absolute; top: 20px; right: 0;}
 
 .popup-title-box .MuiTypography-root {padding: 0px !important; font-size: var(--ft18) !important; font-weight: var(--bold) !important; color: var(--black) !important;}
 .popup-title-box span {font-size: var(--ft13); font-weight: var(--regular); color: var(--grey); display: block;}
@@ -196,3 +200,16 @@
 .input-box input:-ms-input-placeholder {color: var(--palegrey) !important;}
 .input-box input::-ms-input-placeholder {color: var(--palegrey) !important;}
 .input-box input::placeholder {color: var(--palegrey) !important;}
+
+
+/* 알림 */
+.alarm-popup {background: rgba(0,0,0,0.4); width: 100%; height: 100%; z-index: 9999999999; position: absolute; top: 0;}
+.alarm-wrap {background: #fff; width: 400px; height: 100%; position: fixed; top: 0; right: 0;}
+
+.alarm-wrap .title-box {padding: 25px 20px;}
+.alarm-wrap .title-box .title {text-align: left; margin-bottom: 0px;}
+.alarm-wrap .title-box .popup-close-btn {top: 25px; right: 0px; position: absolute; width: 20px; height: 20px;}
+
+.alarm-box {border-top: 1px solid var(--borderBasic); padding: 20px 20px;}
+.alarm-box .black-label {margin-bottom: 5px; font-weight: var(--bold); font-size: var(--ft16);}
+.alarm-box .alarm {padding-bottom: 10px; border-bottom: 1px solid var(--borderBasic); margin-bottom: 15px; padding: 0px 3px 10px; word-break: keep-all;}

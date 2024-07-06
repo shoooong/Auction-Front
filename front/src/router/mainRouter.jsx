@@ -12,6 +12,7 @@ import mypageRouter from "./mypageRouter";
 import serviceRouter from "./serviceRouter";
 
 import Sample from "pages/Sample";
+import AdminSample from "pages/admin/AdminExample";
 import Shop from "pages/shop/Shop";
 
 const mainRouter = () => {
@@ -19,6 +20,10 @@ const mainRouter = () => {
         {
             path: "sample",
             element: <Sample />,
+        },
+        {
+            path: "admin",
+            element: <AdminSample />,
         },
         {
             path: "/",

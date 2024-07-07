@@ -14,6 +14,7 @@ import serviceRouter from "./serviceRouter";
 import Sample from "pages/Sample";
 import AdminSample from "pages/admin/AdminExample";
 import Shop from "pages/shop/Shop";
+import LuckyDraw from "pages/draw/LuckyDraw";
 
 const mainRouter = () => {
     return [
@@ -46,8 +47,8 @@ const mainRouter = () => {
                     element: <div>랭킹</div>,
                 },
                 {
-                    path: "/draw",
-                    element: <div>럭키드로우</div>,
+                    path: "/luckydraw",
+                    element: <LuckyDraw />
                 },
                 {
                     path: "/event",

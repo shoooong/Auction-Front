@@ -32,5 +32,14 @@ export const modifyUser = async (user) => {
         
         throw error;
     }
-    
-}
+};
+
+export const registerUser = async (userData) => {
+    try {
+        const res = await axios.post(`${host}/user/register`, userData);
+        return res.data;
+    } catch (error) {
+        console.error('axios register error...', error);
+        throw error;
+    }
+};

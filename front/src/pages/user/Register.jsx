@@ -1,43 +1,41 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import useCustomLogin from "../../hooks/useCustomLogin";
-import { getKaKaoLoginLink } from "../../api/user/kakaoApi";
-// import KakaoLoginComponent from "components/user/KakaoLoginComponent";
-
 import { TextField, Button } from "@mui/material";
 
 import Logo from "assets/images/logo.svg";
+import useCustomRegister from "hooks/useCustomRegister";
+import { getKaKaoLoginLink } from "../../api/user/kakaoApi";
 
 const initState = {
     email: "",
     password: "",
+    name: "",
+    phoneNum: "",
 };
 
-const LoginPage = () => {
-    const [loginParam, setLoginParam] = useState({ ...initState });
+const RegisterPage = () => {
+    const [registerParam, setRegisterParam] = useState({ ...initState });
 
-    const { doLogin, moveToPath } = useCustomLogin();
+    const { doRegister, moveToPath } = useCustomRegister();
 
-    const handleChange = (e) => {
-        loginParam[e.target.name] = e.target.value;
-
-        setLoginParam({ ...loginParam });
+    const handleChange = ({ target: { name, value } }) => {
+        setRegisterParam((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleClickLogin = async (e) => {
+    const handleClickRegister = async (e) => {
         try {
-            const data = await doLogin(loginParam);
-            console.log(data);
+            const { registerData } = await doRegister(registerParam);
 
-            if (data.error) {
-                alert("이메일과 패스워드가 일치하지 않습니다");
+            if (registerData.error) {
+                alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
             } else {
-                moveToPath('/');
+                alert("회원 가입에 성공했습니다. 로그인 페이지로 이동합니다.");
+                moveToPath('/user/login');
             }
         } catch (error) {
-            console.error('Login failed: ', error);
-            alert("로그인 오류입니다. 다시 시도해주세요.");
+            console.error("Registration failed: ", error);
+            alert("회원 가입 오류입니다. 다시 시도해주세요.");
         }
     };
 
@@ -45,7 +43,6 @@ const LoginPage = () => {
     const link = getKaKaoLoginLink();
 
     return (
-        // <LoginComponent />
         <>
             <div className="container">
                 <div className="sub-nav"></div>
@@ -61,7 +58,7 @@ const LoginPage = () => {
                             <TextField
                                 variant="standard"
                                 name="email"
-                                value={loginParam.email}
+                                value={registerParam.email}
                                 placeholder="예) push@push.co.kr"
                                 onChange={handleChange}
                             />
@@ -70,30 +67,33 @@ const LoginPage = () => {
                                 variant="standard"
                                 name="password"
                                 type={"password"}
-                                value={loginParam.password}
+                                value={registerParam.password}
+                                onChange={handleChange}
+                            />
+                            <p>이름</p>
+                            <TextField
+                                variant="standard"
+                                name="name"
+                                value={registerParam.name}
+                                onChange={handleChange}
+                            />
+                            <p>휴대폰번호</p>
+                            <TextField
+                                variant="standard"
+                                name="phoneNum"
+                                value={registerParam.phoneNum}
+                                placeholder="예) 01012345678"
                                 onChange={handleChange}
                             />
                         </div>
                         <Button
                             className="full-btn align-center login-btn"
-                            onClick={handleClickLogin}
+                            onClick={handleClickRegister}
+                            style={{ marginBottom: '20px' }}
                         >
-                            로그인
+                            회원 가입
                         </Button>
 
-                        <ul className="flex">
-                            <li className="flex-grow text-center">
-                                <Link to="/user/register">이메일 가입</Link>
-                            </li>
-                            <li className="flex-grow text-center">
-                                <Link to="/user/register">이메일 찾기</Link>
-                            </li>
-                            <li className="flex-grow text-center">
-                                <Link to="/user/register">비밀번호 찾기</Link>
-                            </li>
-                        </ul>
-
-                        {/* <KakaoLoginComponent /> */}
                         <div className="btn full-btn border-btn align-center justify-center">
                             <span></span>
                             <Link to={link}>네이버로 로그인</Link>
@@ -109,4 +109,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default RegisterPage;

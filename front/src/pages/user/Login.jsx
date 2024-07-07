@@ -33,7 +33,11 @@ const LoginPage = () => {
             if (data.error) {
                 alert("이메일과 패스워드가 일치하지 않습니다");
             } else {
-                moveToPath('/');
+                if (data.role === true) {
+                    moveToPath('/admin');
+                } else {
+                    moveToPath('/');
+                }
             }
         } catch (error) {
             console.error('Login failed: ', error);

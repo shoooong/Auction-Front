@@ -27,11 +27,11 @@ const KakaoRedirectPage = () => {
 
                     dispatch(login(userInfo));
 
-                    if (userInfo && !userInfo.social) {
+                    // if (userInfo && !userInfo.social) {
+                    //     moveToPath("/");
+                    // } else {
                         moveToPath("/");
-                    } else {
-                        moveToPath("/mypage/modify");
-                    }
+                    // }
                 })
                 .catch(error => {
                     console.error('Error access token:', error);

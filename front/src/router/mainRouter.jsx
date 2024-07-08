@@ -15,6 +15,7 @@ import Sample from "pages/Sample";
 import AdminSample from "pages/admin/AdminExample";
 import Shop from "pages/shop/Shop";
 import LuckyDraw from "pages/draw/LuckyDraw";
+import luckyDrawRouter from "./luckyDrawRouter";
 
 const mainRouter = () => {
     return [
@@ -48,7 +49,11 @@ const mainRouter = () => {
                 },
                 {
                     path: "/luckydraw",
-                    element: <LuckyDraw />
+                    element: <LuckyDraw />,
+                },
+                {
+                    path: ":luckyId",
+                    children: luckyDrawRouter(),
                 },
                 {
                     path: "/event",
@@ -56,6 +61,7 @@ const mainRouter = () => {
                 },
             ],
         },
+    
         {
             path: "clothes",
             children: clothesRouter(),

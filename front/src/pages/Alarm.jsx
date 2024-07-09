@@ -1,10 +1,8 @@
-import { useState } from "react";
-
-import { Box, Button, DialogTitle } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 export default function Alarm(props) {
+    // props
     const { open, close } = props;
-    // const [alarmOpen, setAlarmOpen] = useState(false);
 
     return (
         <>
@@ -27,7 +25,8 @@ export default function Alarm(props) {
                                     내용 내용 내용 내용 내용 내용 내용 내용 내용
                                 </span>
                             </div>
-                            <div className="alarm">
+
+                            {/* <div className="alarm">
                                 <span className="black-label">알람 타이틀</span>
                                 <span className="grey-label">
                                     알람 내용내용 내용 내용 내용 내용 내용 내용
@@ -50,7 +49,7 @@ export default function Alarm(props) {
                                     내용 내용 내용 내용 내용 내용 내용 내용 내용
                                     내용 내용 내용 내용 내용 내용 내용 내용 내용
                                 </span>
-                            </div>
+                            </div> */}
                         </div>
                     </Box>
                 </div>

@@ -39,6 +39,13 @@ const LuckyDrawDetail = () => {
     const handleEnterClick = async () => {
         try {
             const userInfo = getCookie("user");
+
+            if (!userInfo || !userInfo.accessToken) {
+                alert('로그인이 필요한 서비스입니다.');
+                navigate('/user/login');
+                return;
+            }
+            
             const {accessToken} = userInfo;
 
             const response = await axios.post(`${SERVER_URL}/luckydraw/${luckyId}/enter`, {}, {
@@ -46,6 +53,7 @@ const LuckyDrawDetail = () => {
                     Authorization: `Bearer ${accessToken}`
                 }
             });
+            
             console.log('Enter response:', response.data);
             alert('응모가 완료되었습니다.');
             navigate("/luckydraw");

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import useCustomLogin from "../../hooks/useCustomLogin";
-import { getKaKaoLoginLink } from "../../api/user/kakaoApi";
+import useCustomLogin from "hooks/useCustomLogin";
+import { getKaKaoLoginLink } from "api/user/kakaoApi";
 // import KakaoLoginComponent from "components/user/KakaoLoginComponent";
 
 import { TextField, Button } from "@mui/material";

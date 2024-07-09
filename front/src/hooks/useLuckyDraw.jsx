@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { SERVER_URL } from 'api/serverApi';
 
 const useLuckyDraw = () => {
     const [drawItems, setDrawItems] = useState([]);
@@ -9,7 +10,7 @@ const useLuckyDraw = () => {
     useEffect(() => {
         const fetchDrawItems = async () => {
             try {
-                const response = await axios.get('/luckydraw');
+                const response = await axios.get(`${SERVER_URL}/luckydraw`);
                 const data = response.data;
 
                 if (Array.isArray(data)) {

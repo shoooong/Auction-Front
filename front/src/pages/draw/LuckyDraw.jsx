@@ -30,7 +30,7 @@ const LuckyDraw = () => {
             
 
             {drawItems.map(item => (
-                <div className='column-direction align-center'>
+                <div key={item.luckyId} className='column-direction align-center'>
                         <div className='img-box'>
                             <p>{item.luckyImage}</p>
                         </div>

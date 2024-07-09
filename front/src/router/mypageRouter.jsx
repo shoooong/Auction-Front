@@ -1,7 +1,5 @@
 import { Suspense, lazy } from "react";
 
-import MypageCategory from "layout/MypageCategory";
-
 const Loading = <div>Loading...</div>;
 const UserModify = lazy(() => import("../pages/user/Modify"));
 

@@ -137,7 +137,7 @@
 .popup-icon {background: url(../assets/images/arrow.svg)no-repeat center; width: 19px; height: 19px; display: inline-block;}
 
 .popup-title-box {text-align: center; padding: 13px 15px; position: relative;}
-.popup-close-btn {background: url(../assets/images/close-btn.svg)no-repeat center/contain; width: 19px; height: 10px; display: inline-block; position: absolute; top: 20px; right: 0;}
+.popup-close-btn {background: url(../assets/images/close-btn.svg)no-repeat center/contain; width: 19px; height: 10px; display: inline-block; position: absolute !important; top: 20px; right: 0;}
 
 .popup-title-box .MuiTypography-root {padding: 0px !important; font-size: var(--ft18) !important; font-weight: var(--bold) !important; color: var(--black) !important;}
 .popup-title-box span {font-size: var(--ft13); font-weight: var(--regular); color: var(--grey); display: block;}

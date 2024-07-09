@@ -1,4 +1,3 @@
-import { Instagram } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
 import FooterLogo from "assets/images/footer-logo.svg";

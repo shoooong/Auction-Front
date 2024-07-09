@@ -52,35 +52,47 @@ const LuckyDrawDetail = () => {
         }
     };
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const optionsDate = { month: 'long', day: 'numeric' };
+        const optionsTime = { hour: 'numeric', minute: 'numeric', hour12: true };
+
+        const formattedDate = date.toLocaleDateString('ko-KR', optionsDate);
+        const formattedTime = date.toLocaleTimeString('ko-KR', optionsTime);
+
+        return `${formattedDate} ${formattedTime}`;
+    };
+
+    const startDate = luckyDraw ? formatDate(luckyDraw.luckyStartDate) : '';
+    const endDate = luckyDraw ? formatDate(luckyDraw.luckyEndDate) : '';
+    const luckyDate = luckyDraw ? formatDate(luckyDraw.luckyDate) : '';
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 
     return (
         <div className="container">
-            <div className="product"
-                style={{ display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center"}}>
-                
-                <div style={{ width: "500px", height: "500px" }}>
+            <div className="detail-container">
+                <div className='detail-img-box pos-sticky'>
                     <p>{luckyDraw.luckyImage}</p>
                 </div>
 
                 <div className='w50p'>
+                    <h1 className='detail-title'>{luckyDraw.luckyName}</h1>
+                    <p className='detail-content'>{luckyDraw.content}</p>
+                    
                     <div>
-                        <h1>{luckyDraw.luckyName}</h1>
-                        <p>{luckyDraw.content}</p>
+                        <p className='banner'>남은 시간</p>
                     </div>
+
                     <div>
-                        <p>남은 시간</p>
-                    </div>
-                    <div>
-                        <Button className="btn btn-text apply-btn"
+                        <Button className="btn btn-text apply-btn full-btn"
                                 onClick={handleEnterClick}
                         >
                             응모하기
                         </Button>
                     </div>
+
                     <div>
                         <Button
                             className="btn full-btn border-btn align-center"
@@ -98,24 +110,26 @@ const LuckyDrawDetail = () => {
                             관심상품 <span>3,298</span>
                         </Button>
                     </div>
-                    <div>
-                        <p>배너</p>
+
+                    <div className='banner'>
+                        <img src='kreamapp://exhibitions/5441' alt='이벤트 배너' />
                     </div>
-                    <div style={{ marginTop: "20px"}}>
+
+                    <div className='data-container'>
                         <h5>응모 기간</h5>
-                        <p>{new Date(luckyDraw.luckyStartDate).toLocaleString()} ~ {new Date(luckyDraw.luckyEndDate).toLocaleString()}</p>
+                        <p>{startDate} ~ {endDate}</p>
                     </div>
-                    <div style={{ marginTop: "20px"}}>
+                    <div className='data-container'>
                         <h5>당첨자 발표</h5>
-                        <p>{new Date(luckyDraw.luckyDate).toLocaleString()}</p>
+                        <p>{luckyDate}</p>
                     </div>
-                    <div style={{ marginTop: "20px"}}>
+                    <div className='data-container'>
                         <h5>당첨 인원</h5>
-                        <p>{luckyDraw.luckyPeople}</p>
+                        <p>{luckyDraw.luckyPeople}명</p>
                     </div>
                 </div>
             </div>
-        </div>
+         </div>
     );
 };
 

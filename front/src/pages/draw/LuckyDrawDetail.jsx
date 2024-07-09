@@ -7,6 +7,7 @@ import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 
 import { getCookie } from 'pages/user/cookieUtil';
+import { SERVER_URL } from 'api/serverApi';
 
 const LuckyDrawDetail = () => {
     const { luckyId } = useParams();
@@ -15,13 +16,14 @@ const LuckyDrawDetail = () => {
     const [error, setError] = useState(null);
 
     const [like, setLike] = useState(false);
+    const [remainingTime, setRemainingTime] = useState("");
 
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchLuckyDraw = async () => {
             try {
-                const response = await axios.get(`/luckydraw/${luckyId}`);
+                const response = await axios.get(`${SERVER_URL}/luckydraw/${luckyId}`);
                 console.log('Response data:', response.data);
                 setLuckyDraw(response.data);
             } catch (error) {
@@ -39,7 +41,7 @@ const LuckyDrawDetail = () => {
             const userInfo = getCookie("user");
             const {accessToken} = userInfo;
 
-            const response = await axios.post(`/luckydraw/${luckyId}/enter`, {}, {
+            const response = await axios.post(`${SERVER_URL}/luckydraw/${luckyId}/enter`, {}, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -67,6 +69,33 @@ const LuckyDrawDetail = () => {
     const endDate = luckyDraw ? formatDate(luckyDraw.luckyEndDate) : '';
     const luckyDate = luckyDraw ? formatDate(luckyDraw.luckyDate) : '';
 
+    useEffect(() => {
+        if (luckyDraw) {
+            const endDate = new Date(luckyDraw.luckyEndDate);
+            const updateRemainingTime = () => {
+                const now = new Date();
+                const timeDiff = endDate - now;
+
+                if (timeDiff <= 0) {
+                    setRemainingTime("00<span class='colon'>:</span>00<span class='colon'>:</span>00<span class='colon'>:</span>00");
+                } else {
+                    const days = String(Math.floor(timeDiff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                    const hours = String(Math.floor((timeDiff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+                    const minutes = String(Math.floor((timeDiff / (1000 * 60)) % 60)).padStart(2, '0');
+                    const seconds = String(Math.floor((timeDiff / 1000) % 60)).padStart(2, '0');
+                    setRemainingTime(
+                        `${days}<span class='colon'>:</span>${hours}<span class='colon'>:</span>${minutes}<span class='colon'>:</span>${seconds}`
+                    );
+                }
+            };
+
+            updateRemainingTime();
+            const intervalId = setInterval(updateRemainingTime, 1000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [luckyDraw]);
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 
@@ -81,8 +110,8 @@ const LuckyDrawDetail = () => {
                     <h1 className='detail-title'>{luckyDraw.luckyName}</h1>
                     <p className='detail-content'>{luckyDraw.content}</p>
                     
-                    <div>
-                        <p className='banner'>남은 시간</p>
+                    <div className='time-container'>
+                        <p className='time' dangerouslySetInnerHTML={{ __html: remainingTime }}></p>
                     </div>
 
                     <div>
@@ -128,6 +157,21 @@ const LuckyDrawDetail = () => {
                         <p>{luckyDraw.luckyPeople}명</p>
                     </div>
                 </div>
+            </div>
+
+            <div className='cautions'>
+                <p>유의 사항</p>
+                <ul>
+                    <li>본 이벤트는 PUSH 7월 신규회원 대상 앱 전용 이벤트입니다. (24년 7월 1일 이후 가입 회원 대상)</li>
+                    <li>광고성 정보 수신 설정(앱푸시, 문자, 메일)에 모두 동의해야 응모 참여 가능합니다.</li>
+                    <li>응모 이벤트 참여 완료는 마이페이지 응모내역에서 확인 가능합니다.</li>
+                    <li>당첨자에 한하여 거래 체결 관련 개별 메시지를 발송 드리며, 미당첨자에게는 별도의 연락을 드리지 않습니다.</li>
+                    <li>당첨자에게 서류 요청 후, 72시간 내에 회신이 없으면 당첨이 자동 취소되며, 재추첨은 진행되지 않습니다.</li>
+                    <li>제세공과금은 PUSH에서 부담하며, 제세공과금 처리를 위해 가입하신 이메일 주소로 신분증 등 서류를 요청드립니다.</li>
+                    <li>회원정보가 일치하지 않거나 부당한 방법으로 응모한 고객의 경우 당첨이 자동 취소되며, 및 추후 이벤트 응모 시 불이익을 받을 수 있습니다.</li>
+                    <li>경품은 랜덤으로 지급되며, 교환 및 환불이 불가능합니다.</li>
+                    <li>일부 제품은 출시 연기 및 수급 상황에 따라 배송이 늦어질 수 있습니다.</li>
+                </ul>
             </div>
          </div>
     );

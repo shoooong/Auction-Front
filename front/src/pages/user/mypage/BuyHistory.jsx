@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { SERVER_URL } from "api/serverApi";
-import { getCookie } from "pages/user/cookieUtil";
 import { useNavigate } from "react-router-dom";
+
+import { getBuyHistory } from "api/user/mypageApi";
+import { getCookie } from "pages/user/cookieUtil";
+
 import photo from "assets/images/myson.jpg";
 
 export default function BuyHistory() {
@@ -22,17 +23,13 @@ export default function BuyHistory() {
             }
 
             try {
-                const response = await axios.get(`${SERVER_URL}/mypage/buyHistory`, {
-                    headers: {
-                        Authorization: `Bearer ${userInfo.accessToken}`
-                    }
-                });
-                setBuyHistory(response.data);
+                const response = await getBuyHistory();
+                setBuyHistory(response);
             } catch (error) {
                 setError('정보를 불러오는 중 오류가 발생했습니다.');
-            } finally {
                 setLoading(false);
             }
+            setLoading(false);
         };
         fetchData();
     }, [navigate]);

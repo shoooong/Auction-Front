@@ -40,3 +40,13 @@ export const getBookmarkProducts = async () => {
         throw error;
     }
 }
+
+export const getDrawHistory = async () => {
+    try {
+        const res = await jwtAxios.get(`${SERVER_URL}/mypage/drawHistory`);
+        return res.data;
+    } catch (error) {
+        console.error('getDrawHistory error...', error);
+        throw error;
+    }
+}

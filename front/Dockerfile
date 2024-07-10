@@ -13,7 +13,7 @@ FROM nginx:alpine
 
 RUN ls -al
 COPY --from=build /app/build /usr/share/nginx/html
-COPY ./etc/nginx/sites-available/project.conf /etc/nginx/conf.d/default.conf
+COPY /etc/nginx/sites-available/project.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

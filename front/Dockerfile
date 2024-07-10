@@ -4,6 +4,8 @@ FROM node:14-alpine as build
 WORKDIR /app
 
 COPY package*.json ./
+RUN ls -al
+RUN pwd
 RUN npm install
 COPY . .
 RUN npm run build
@@ -12,8 +14,7 @@ RUN npm run build
 FROM nginx:alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
-RUN pwd
-COPY ./project.conf /etc/nginx/conf.d/default.conf
+COPY project.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

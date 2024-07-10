@@ -1,5 +1,7 @@
 import MypageMain from "pages/user/mypage/MypageMain";
 import BuyHistory from "pages/user/mypage/BuyHistory";
+import SaleHistory from "pages/user/mypage/SaleHistory";
+
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>;
@@ -17,7 +19,7 @@ const mypageRouter = () => {
         },
         {
             path: "salesHistory",
-            element: <div>마이페이지 판매내역</div>,
+            element: <SaleHistory />,
         },
         {
             path: "applyHistory",

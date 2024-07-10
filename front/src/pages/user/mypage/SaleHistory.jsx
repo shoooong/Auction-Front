@@ -5,8 +5,8 @@ import { getCookie } from "pages/user/cookieUtil";
 import { useNavigate } from "react-router-dom";
 import photo from "assets/images/myson.jpg";
 
-export default function BuyHistory() {
-    const [buyHistory, setBuyHistory] = useState(null);
+export default function SaleHistory() {
+    const [saleHistory, setSaleHistory] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -22,12 +22,12 @@ export default function BuyHistory() {
             }
 
             try {
-                const response = await axios.get(`${SERVER_URL}/mypage/buyHistory`, {
+                const response = await axios.get(`${SERVER_URL}/mypage/saleHistory`, {
                     headers: {
                         Authorization: `Bearer ${userInfo.accessToken}`
                     }
                 });
-                setBuyHistory(response.data);
+                setSaleHistory(response.data);
             } catch (error) {
                 setError('정보를 불러오는 중 오류가 발생했습니다.');
             } finally {
@@ -47,28 +47,29 @@ export default function BuyHistory() {
     return (
         <div className="data-container">
             <div className="history-title">
-                <p>구매 내역</p>
+                <p>판매 내역</p>
             </div>
             <div>
-                <div className="buy-summary">
-                    <div>전체 <span>{buyHistory.allCount}</span></div>
-                    <div>입찰 중 <span>{buyHistory.processCount}</span></div>
-                    <div>종료 <span>{buyHistory.completeCount}</span></div>
+                <div className="sale-summary">
+                    <div>전체 <span>{saleHistory.allCount}</span></div>
+                    <div>검수 중 <span>{saleHistory.inspectionCount}</span></div>
+                    <div>진행 중 <span>{saleHistory.processCount}</span></div>
+                    <div>종료 <span>{saleHistory.completeCount}</span></div>
                 </div>
-                {buyHistory.orderDetails.length > 0 ? (
-                    buyHistory.orderDetails.map(order => (
-                        <div className="buy-item" key={order.productId}>
+                {saleHistory.saleDetails.length > 0 ? (
+                    saleHistory.saleDetails.map(sale => (
+                        <div className="sale-item" key={sale.productId}>
                             <img src={photo} alt="이앤톤" />
                             <div>
-                                <p>{order.productName}</p>
-                                <p>{order.productSize}</p>
+                                <p>{sale.productName}</p>
+                                <p>{sale.productSize}</p>
                             </div>
-                            <p>{formatPrice(order.orderPrice)}원</p>
-                            <p>{order.orderStatus}</p>
+                            <p>{formatPrice(sale.saleBiddingPrice)}원</p>
+                            <p>{sale.salesStatus}</p>
                         </div>
                     ))
                 ) : (
-                    <p className="non-history">구매 내역이 없습니다.</p>
+                    <p className="non-history">판매 내역이 없습니다.</p>
                 )}
             </div>
         </div>

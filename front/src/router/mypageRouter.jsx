@@ -1,3 +1,4 @@
+import MypageMain from "pages/user/MypageMain";
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>;
@@ -7,7 +8,7 @@ const mypageRouter = () => {
     return [
         {
             path: "",
-            element: <div>마이페이지 메인</div>,
+            element: <MypageMain />
         },
         {
             path: "buyingHistory",

@@ -4,14 +4,17 @@ FROM node:14-alpine as build
 WORKDIR /app
 
 COPY package*.json ./
-RUN ls -al
-RUN pwd
 RUN npm install
 COPY . .
 RUN npm run build
+RUN ls -al
+RUN pwd
 
 # Stage 2: Serve the React app with Nginx
 FROM nginx:alpine
+
+RUN ls -al
+RUN pwd
 
 COPY --from=build /app/build /usr/share/nginx/html
 COPY project.conf /etc/nginx/conf.d/default.conf

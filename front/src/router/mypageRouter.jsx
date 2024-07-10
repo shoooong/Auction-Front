@@ -50,6 +50,14 @@ const mypageRouter = () => {
             ),
         },
         {
+            path: "account",
+            element: (
+                <>
+                    <div>마이페이지 - 계좌관리</div>
+                </>
+            ),
+        },
+        {
             path: "coupon",
             element: (
                 <>

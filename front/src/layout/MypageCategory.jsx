@@ -21,6 +21,7 @@ export default function MypageCategory() {
                             <h3>내 정보</h3>
                             <Link to="/mypage/modify">프로필 관리</Link>
                             <Link to="/mypage/delivery">배송지 관리</Link>
+                            <Link to="/mypage/account">계좌 관리</Link>
                             <Link to="/mypage/coupon">쿠폰</Link>
                         </div>
                     </div>

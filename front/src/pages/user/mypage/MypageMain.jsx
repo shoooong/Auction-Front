@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { SERVER_URL } from "api/serverApi";
+
+import { getMypageData } from "api/user/mypageApi";
 import { getCookie } from "pages/user/cookieUtil";
 import { Button } from "@mui/material";
 // import { Button, IconButton } from "@mui/material";
@@ -25,17 +25,16 @@ export default function MypageMain() {
     const [buyHistory, setBuyHistory] = useState(null);
     const [saleHistory, setSaleHistory] = useState(null);
     const [bookmarkProducts, setBookmarkProducts] = useState([]);
+    // const [like, setLike] = useState(false);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    // const [like, setLike] = useState(false);
-
-    const userInfo = getCookie("user");
-
     useEffect(() => {
         const fetchData = async () => {
+            const userInfo = getCookie("user");
+
             if (!userInfo || !userInfo.accessToken) {
                 alert('로그인이 필요한 서비스입니다.');
                 navigate('/user/login');
@@ -43,16 +42,13 @@ export default function MypageMain() {
             }
 
             try {
-                const response = await axios.get(`${SERVER_URL}/mypage`, {
-                    headers: {
-                        Authorization: `Bearer ${userInfo.accessToken}`
-                    }
-                });
-                setProfile(response.data.profileDto);
-                setCouponCount(response.data.couponCount);
-                setBuyHistory(response.data.buyHistoryDto);
-                setSaleHistory(response.data.saleHistoryDto);
-                setBookmarkProducts(response.data.bookmarkProductsDto);
+                const response = await getMypageData();
+
+                setProfile(response.profileDto);
+                setCouponCount(response.couponCount);
+                setBuyHistory(response.buyHistoryDto);
+                setSaleHistory(response.saleHistoryDto);
+                setBookmarkProducts(response.bookmarkProductsDto);
             } catch (error) {
                 setError('정보를 불러오는 중 오류가 발생했습니다.');
             } finally {

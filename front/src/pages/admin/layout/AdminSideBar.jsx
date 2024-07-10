@@ -27,7 +27,7 @@ const Nav = () => {
         <NavLink to="/admin/products/의류">
           <ListItemText primary="입고 상품 관리" />
         </NavLink>
-        <NavLink to="/admin/lucky-draw-management">
+        <NavLink to="/admin/luckydraw">
           <ListItemText primary="행운의 추첨 관리" />
         </NavLink>
         <NavLink to="/admin/notice-management">

@@ -30,3 +30,13 @@ export const getSaleHistory = async () => {
         throw error;
     }
 };
+
+export const getBookmarkProducts = async () => {
+    try {
+        const res = await jwtAxios.get(`${SERVER_URL}/mypage/bookmark/product`);
+        return res.data;
+    } catch (error) {
+        console.error('getBookmarkProducts error...', error);
+        throw error;
+    }
+}

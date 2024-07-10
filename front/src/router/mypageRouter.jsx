@@ -1,6 +1,7 @@
 import MypageMain from "pages/user/mypage/MypageMain";
 import BuyHistory from "pages/user/mypage/BuyHistory";
 import SaleHistory from "pages/user/mypage/SaleHistory";
+import MypageBookmark from "components/mypage/MypageBookmark";
 
 import { Suspense, lazy } from "react";
 
@@ -27,11 +28,7 @@ const mypageRouter = () => {
         },
         {
             path: "bookmark",
-            element: (
-                <>
-                    <div>마이페이지의 관심 - 북마크</div>
-                </>
-            ),
+            element: <MypageBookmark />
         },
         {
             path: "modify",

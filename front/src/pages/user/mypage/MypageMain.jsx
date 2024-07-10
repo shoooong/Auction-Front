@@ -163,7 +163,7 @@ export default function MypageMain() {
                                 </div>
                             ))
                         ) : (
-                            <p>구매 내역이 없습니다.</p>
+                            <p className="non-history">구매 내역이 없습니다.</p>
                         )}
                     </div>
                 )}
@@ -196,7 +196,7 @@ export default function MypageMain() {
                                 </div>
                             ))
                         ) : (
-                            <p>판매 내역이 없습니다.</p>
+                            <p className="non-history">판매 내역이 없습니다.</p>
                         )}
                     </div>
                 )}
@@ -254,7 +254,7 @@ export default function MypageMain() {
                         ))}
                     </div>
                 ): (
-                    <p>관심 상품이 없습니다.</p>
+                    <p className="non-history">관심 상품이 없습니다.</p>
                 )}
             </div>
         </div>

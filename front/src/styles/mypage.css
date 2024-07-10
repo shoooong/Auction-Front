@@ -12,6 +12,7 @@
 */
 
 
+
 /* 1. 프로필 */
 .profile-container {
     display: flex;
@@ -147,6 +148,12 @@
 .buy-item p, .sale-item p {
     flex: 1;
     margin-left: 20px; 
+}
+
+.non-history {
+    color: #ababab !important;
+    text-align: center;
+    margin: 20px 0;
 }
 
 

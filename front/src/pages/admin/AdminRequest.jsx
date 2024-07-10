@@ -1,54 +1,43 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, Typography, Button, CircularProgress } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import RequestModal from "./layout/RequestModal";
-import { SERVER_URL, ACCESS_TOKEN } from "api/serverApi";
+import { getRequests } from "api/admin/requestApi";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const AdminRequest = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${SERVER_URL}/admin/requests`, {
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-          },
-        });
-        setProducts(response.data.products || []);
-        console.log("API Response:", response.data.products);
-      } catch (error) {
-        console.error("Error fetching data", error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const fetchProduct = async (productId) => {
+  const fetchRequests = async () => {
     try {
-      const response = await axios.get(
-        `${SERVER_URL}/admin/requests/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-          },
-        }
-      );
-      return response.data;
+      const data = await getRequests();
+      setProducts(data.products || []);
+      console.log("API Response:", data.products);
     } catch (error) {
-      console.error("Error fetching product details", error);
+      console.error("Error fetching data", error);
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchRequests();
+  }, []);
+
+  const renderStatusCell = (params) => (
+    <span style={{ color: params.value === "REQUEST" ? "blue" : "green" }}>
+      {params.value === "REQUEST" ? "요청" : "승인"}
+    </span>
+  );
+
+  const renderApproveCell = (params) => (
+    <Button variant="contained" color="primary" size="small">
+      {params.row.productStatus === "REQUEST" ? "요청" : "승인"}
+    </Button>
+  );
 
   const columns = [
     {
@@ -78,23 +67,15 @@ const AdminRequest = () => {
       width: 150,
       headerAlign: "center",
       align: "center",
-      renderCell: (params) => (
-        <span style={{ color: params.value === "REQUEST" ? "blue" : "green" }}>
-          {params.value === "REQUEST" ? "요청" : "승인"}
-        </span>
-      ),
+      renderCell: renderStatusCell,
     },
     {
       field: "approve",
       headerName: "승인여부",
-      flex: 1, // 여백 문제를 해결하기 위해 flex 사용
+      flex: 1,
       headerAlign: "center",
       align: "center",
-      renderCell: (params) => (
-        <Button variant="contained" color="primary" size="small">
-          {params.row.productStatus === "REQUEST" ? "요청" : "승인"}
-        </Button>
-      ),
+      renderCell: renderApproveCell,
     },
   ];
 
@@ -105,15 +86,8 @@ const AdminRequest = () => {
     productStatus: product.productStatus,
   }));
 
-  const handleRowClick = async (params) => {
-    const productDetails = await fetchProduct(params.id);
-    setSelectedProduct(productDetails);
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setSelectedProduct(null);
+  const handleRowClick = (params) => {
+    navigate(`/admin/request/${params.id}`);
   };
 
   if (loading) {
@@ -168,13 +142,7 @@ const AdminRequest = () => {
             },
           }}
         />
-        {selectedProduct && (
-          <RequestModal
-            product={selectedProduct}
-            open={modalOpen}
-            onClose={handleCloseModal}
-          />
-        )}
+        <Outlet context={{ fetchRequests }} />
       </Box>
     </Box>
   );

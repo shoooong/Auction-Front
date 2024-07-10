@@ -1,16 +1,37 @@
-import AdminMain from "pages/admin/AdminMain";
 import AdminProducts from "pages/admin/AdminProducts";
 import AdminRequest from "pages/admin/AdminRequest";
+import AdminProductDetailed from "pages/admin/AdminProductDetailed";
+import AdminRequestDetailed from "pages/admin/AdminRequestDetailed";
+import AdminLuckdraws from "pages/admin/AdminLuckydraws";
 
 const AdminRouter = () => {
   return [
     {
+      //요청 상품
       path: "request",
       element: <AdminRequest />,
+      children: [
+        {
+          //요청상품 상세
+          path: ":productId",
+          element: <AdminRequestDetailed />,
+        },
+      ],
     },
     {
-      path: "products",
+      //판매상품관리 (대분류 + 소분류 조회)
+      path: "products/:mainDepartment",
       element: <AdminProducts />,
+    },
+    {
+      //판매상품관리 (판매입찰 + 구매입찰 조회)
+      path: "product/:modelNum",
+      element: <AdminProductDetailed />,
+    },
+    {
+      //관리자 럭키드로우 상품 조회
+      path: "luckydraw",
+      element: <AdminLuckdraws />,
     },
   ];
 };

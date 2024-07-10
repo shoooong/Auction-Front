@@ -8,21 +8,21 @@ import AdminRouter from "./AdminRouter";
 import AdminLayout from "pages/admin/layout/AdminLayout";
 
 const root = createBrowserRouter([
-    {
-        path: "/",
-        element: (
-            <>
-                <Header />
-                <Footer />
-            </>
-        ),
-        children: mainRouter(),
-    },
-    {
-        path: "/admin",
-        element: <AdminLayout />,
-        children: AdminRouter(),
-    },
+  {
+    path: "/",
+    element: (
+      <>
+        <Header />
+        <Footer />
+      </>
+    ),
+    children: mainRouter(),
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: AdminRouter(),
+  },
 ]);
 
 const Root = () => <RouterProvider router={root} />;

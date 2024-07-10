@@ -2,9 +2,10 @@ import MypageMain from "pages/user/mypage/MypageMain";
 import BuyHistory from "pages/user/mypage/BuyHistory";
 import SaleHistory from "pages/user/mypage/SaleHistory";
 import MypageBookmark from "components/mypage/MypageBookmark";
+import DrawHistory from "pages/user/mypage/DrawHistory";
+import Account from "pages/user/mypage/Account";
 
 import { Suspense, lazy } from "react";
-import DrawHistory from "pages/user/mypage/DrawHistory";
 
 const Loading = <div>Loading...</div>;
 const UserModify = lazy(() => import("pages/user/mypage/Modify"));
@@ -49,11 +50,7 @@ const mypageRouter = () => {
         },
         {
             path: "account",
-            element: (
-                <>
-                    <div>마이페이지 - 계좌관리</div>
-                </>
-            ),
+            element: <Account />
         },
         {
             path: "coupon",

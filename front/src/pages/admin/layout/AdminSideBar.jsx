@@ -3,6 +3,8 @@ import { Box, List, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
 import UserProfile from "./UserProfile"; // UserProfile 컴포넌트 경로에 맞게 수정하세요.
 
+const mainDepartments = ["의류", "라이프", "테크"]; // 대분류 항목을 배열로 관리
+
 const Nav = () => {
   return (
     <Box
@@ -22,7 +24,7 @@ const Nav = () => {
         <NavLink to="/admin/request">
           <ListItemText primary="요청 상품 관리" />
         </NavLink>
-        <NavLink to="/admin/products">
+        <NavLink to="/admin/products/의류">
           <ListItemText primary="입고 상품 관리" />
         </NavLink>
         <NavLink to="/admin/lucky-draw-management">

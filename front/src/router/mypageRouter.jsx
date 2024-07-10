@@ -5,7 +5,7 @@ import SaleHistory from "pages/user/mypage/SaleHistory";
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>;
-const UserModify = lazy(() => import("../pages/user/Modify"));
+const UserModify = lazy(() => import("pages/user/mypage/Modify"));
 
 const mypageRouter = () => {
     return [

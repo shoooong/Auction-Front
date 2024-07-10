@@ -1,10 +1,10 @@
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>;
-const Login = lazy(() => import("../pages/user/Login"));
-const KakaoRedirect = lazy(() => import("../pages/user/KakaoRedirect"));
-const UserModify = lazy(() => import("../pages/user/Modify"));
-const Register = lazy(() => import("../pages/user/Register"));
+const Login = lazy(() => import("pages/user/Login"));
+const KakaoRedirect = lazy(() => import("pages/user/KakaoRedirect"));
+const UserModify = lazy(() => import("pages/user/mypage/Modify"));
+const Register = lazy(() => import("pages/user/Register"));
 
 const userRouter = () => {
     return [

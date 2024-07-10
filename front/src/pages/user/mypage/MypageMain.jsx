@@ -150,8 +150,8 @@ export default function MypageMain() {
                             <div>종료 <span>{buyHistory.completeCount}</span></div>
                         </div>
                         {buyHistory.orderDetails.length > 0 ? (
-                            buyHistory.orderDetails.map(order => (
-                                <div className="buy-item" key={order.productId}>
+                            buyHistory.orderDetails.map((order, index) => (
+                                <div className="buy-item" key={index}>
                                     {/* <img src={order.productImg} alt={order.productName} /> */}
                                     <img src={photo} alt="이앤톤" />
                                     <div>
@@ -183,8 +183,8 @@ export default function MypageMain() {
                             <div>종료 <span>{saleHistory.completeCount}</span></div>
                         </div>
                         {saleHistory.saleDetails.length > 0 ? (
-                            saleHistory.saleDetails.map(sale => (
-                                <div className="sale-item" key={sale.productId}>
+                            saleHistory.saleDetails.map((sale, index) => (
+                                <div className="sale-item" key={index}>
                                     {/* <img src={sale.productImg} alt={sale.productName} /> */}
                                     <img src={photo} alt="이앤톤" />
                                     <div>
@@ -213,8 +213,8 @@ export default function MypageMain() {
                 </div>
                 {bookmarkProducts.length > 0 ? (
                     <div className="bookmark-grid">
-                        {bookmarkProducts.map(bookmark => (
-                            <div className="bookmark-item" key={bookmark.productDetailsDto.productId}>
+                        {bookmarkProducts.map((bookmark, index) => (
+                            <div className="bookmark-item" key={index}>
                                 {/* <img src={bookmark.productDetailsDto.productImg} alt={bookmark.productDetailsDto.name} /> */}
                                 {/* <img src={photo} alt="이앤톤" /> */}
 

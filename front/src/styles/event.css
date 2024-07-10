@@ -1,0 +1,24 @@
+.text40 {
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: -2.5;
+}
+.text-box {
+    margin: 40px;
+}
+
+.fc-blue {
+    color: #2259c5;
+}
+.fc-black {
+    color: #000;
+}
+.bottom-box {
+    background-color: #333;
+    width: 1920px;
+    height: 200px;
+    margin-top: 100px;
+}
+.bg-gray {
+    background: #ebebeb;
+}

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { SERVER_URL } from 'api/serverApi';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { SERVER_URL } from "api/serverApi";
 
 const useLuckyDraw = () => {
     const [drawItems, setDrawItems] = useState([]);
@@ -30,5 +30,3 @@ const useLuckyDraw = () => {
 
     return { drawItems, loading, error };
 };
-
-export default useLuckyDraw;

@@ -16,93 +16,94 @@ import AdminSample from "pages/admin/AdminExample";
 import Shop from "pages/shop/Shop";
 import LuckyDraw from "pages/draw/LuckyDraw";
 import luckyDrawRouter from "./luckyDrawRouter";
+import EventSample from "pages/event/EventSample";
 
 const mainRouter = () => {
-  return [
-    {
-      path: "sample",
-      element: <Sample />,
-    },
-    // {
-    //     path: "admin",
-    //     element: <AdminSample />,
-    // },
-    {
-      path: "/",
-      element: <MainCategory />,
-      children: [
+    return [
         {
-          path: "/",
-          element: <ClothesCategory />,
+            path: "sample",
+            element: <Sample />,
         },
+        // {
+        //     path: "admin",
+        //     element: <AdminSample />,
+        // },
         {
-          path: "life",
-          element: <LifeCategory />,
+            path: "/",
+            element: <MainCategory />,
+            children: [
+                {
+                    path: "/",
+                    element: <ClothesCategory />,
+                },
+                {
+                    path: "life",
+                    element: <LifeCategory />,
+                },
+                {
+                    path: "/tech",
+                    element: <div>테크</div>,
+                },
+                {
+                    path: "/rank",
+                    element: <div>랭킹</div>,
+                },
+                {
+                    path: "/luckydraw",
+                    element: <LuckyDraw />,
+                },
+                {
+                    path: ":luckyId",
+                    children: luckyDrawRouter(),
+                },
+                {
+                    path: "/event",
+                    element: <EventSample />,
+                },
+            ],
         },
-        {
-          path: "/tech",
-          element: <div>테크</div>,
-        },
-        {
-          path: "/rank",
-          element: <div>랭킹</div>,
-        },
-        {
-          path: "/luckydraw",
-          element: <LuckyDraw />,
-        },
-        {
-          path: ":luckyId",
-          children: luckyDrawRouter(),
-        },
-        {
-          path: "/event",
-          element: <div>쿠폰 이벤트~!</div>,
-        },
-      ],
-    },
 
-    {
-      path: "clothes",
-      children: clothesRouter(),
-    },
-    {
-      path: "life",
-      children: lifeRouter(),
-    },
-    {
-      path: "shop",
-      element: <Shop />,
-    },
-    {
-      path: "style",
-      element: <StyleCategory />,
-      children: [
         {
-          path: "",
-          element: <div>피드</div>,
+            path: "clothes",
+            children: clothesRouter(),
         },
         {
-          path: "rank",
-          element: <div>랭킹</div>,
+            path: "life",
+            children: lifeRouter(),
         },
-      ],
-    },
-    {
-      path: "service",
-      element: <ServiceCategory />,
-      children: serviceRouter(),
-    },
-    {
-      path: "mypage",
-      element: <MypageCategory />,
-      children: mypageRouter(),
-    },
-    {
-      path: "user",
-      children: userRouter(),
-    },
-  ];
+        {
+            path: "shop",
+            element: <Shop />,
+        },
+        {
+            path: "style",
+            element: <StyleCategory />,
+            children: [
+                {
+                    path: "",
+                    element: <div>피드</div>,
+                },
+                {
+                    path: "rank",
+                    element: <div>랭킹</div>,
+                },
+            ],
+        },
+        {
+            path: "service",
+            element: <ServiceCategory />,
+            children: serviceRouter(),
+        },
+        {
+            path: "mypage",
+            element: <MypageCategory />,
+            children: mypageRouter(),
+        },
+        {
+            path: "user",
+            children: userRouter(),
+        },
+    ];
 };
 
 export default mainRouter;

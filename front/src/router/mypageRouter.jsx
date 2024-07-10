@@ -4,6 +4,7 @@ import SaleHistory from "pages/user/mypage/SaleHistory";
 import MypageBookmark from "components/mypage/MypageBookmark";
 
 import { Suspense, lazy } from "react";
+import DrawHistory from "pages/user/mypage/DrawHistory";
 
 const Loading = <div>Loading...</div>;
 const UserModify = lazy(() => import("pages/user/mypage/Modify"));
@@ -24,7 +25,7 @@ const mypageRouter = () => {
         },
         {
             path: "applyHistory",
-            element: <div>마이페이지 응모내역</div>,
+            element: <DrawHistory />,
         },
         {
             path: "bookmark",

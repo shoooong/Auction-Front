@@ -3,12 +3,14 @@
 2) footer 침범
 3) 불러온 데이터 없을경우 width 좁아짐
 4) 관심상품 이미지 - 북마크 아이콘버튼 넣기
+5) .draw-name:hover::after - data-full-text
+6) 탭 변경
 
-5) 이벤트 배너
-6) 아이콘 다시 넣기 
-7) enum명 한글로 변경
-8) 판매자 등급 호버 효과..
-9) 쿠폰, 회원탈퇴 링크연결
+7) 이벤트 배너
+8) 아이콘 다시 넣기 
+9) enum명 한글로 변경
+10) 판매자 등급 호버 효과..
+11) 쿠폰, 회원탈퇴 링크연결
 */
 
 
@@ -71,7 +73,7 @@
 }
 
 
-/* 3. 구매내역, 판매내역 */
+/* 3. 구매내역, 판매내역, 응모내역 */
 .history-title {
     display: flex;
     justify-content: space-between;
@@ -94,27 +96,28 @@
     color: var(--grey) !important;
 }
 
-.buy-summary, .sale-summary {
+.buy-summary, .sale-summary, .draw-summary {
     display: flex;
     justify-content: space-around;
     align-items: center;
     border-radius: 10px;
     background-color: #f9f9f9;
     height: 100px;
+    color: #000;
 }
 
-.buy-summary div, .sale-summary div {
+.buy-summary div, .sale-summary div, .draw-summary div {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0 16px;
 }
 
-.buy-summary div:nth-child(1), .sale-summary div:nth-child(1) {
+.buy-summary div:nth-child(1), .sale-summary div:nth-child(1), .draw-summary div:nth-child(1) {
     border-right: 1px solid #d9d9d9;
 }
 
-.buy-summary span, .sale-summary span {
+.buy-summary span, .sale-summary span, .draw-summary span {
     font-size: 1.5rem; 
     font-weight: bold;
     margin-top: 5px;
@@ -128,11 +131,7 @@
     color: #31B461;
 }
 
-.buy-summary, .sale-summary {
-    color: #000;
-}
-
-.buy-item, .sale-item {
+.buy-item, .sale-item, .draw-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -144,10 +143,33 @@
     flex: 7;
     margin-left: 20px;
 }
+.draw-item > div {
+    display: flex;
+    flex-direction: column;
+    flex: 6;
+    margin-left: 20px;
+    min-width: 0;
+}
 
 .buy-item p, .sale-item p {
     flex: 1;
-    margin-left: 20px; 
+    margin-left: 20px;
+}
+.draw-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    display: inline-block;
+}
+ 
+.draw-date {
+    flex: 2;
+    margin-left: 20px;
+}
+.draw-status {
+    flex: 1;
+    margin-left: 20px;
 }
 
 .non-history {
@@ -218,13 +240,7 @@
     cursor: pointer;
 }
 
-.buy-item img {
-    border-radius: 10px;
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-}
-.sale-item img {
+.buy-item img, .sale-item img, .draw-item img {
     border-radius: 10px;
     width: 80px;
     height: 80px;

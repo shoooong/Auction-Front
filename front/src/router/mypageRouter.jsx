@@ -5,7 +5,7 @@ import SaleHistory from "pages/user/mypage/SaleHistory";
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>;
-const UserModify = lazy(() => import("../pages/user/Modify"));
+const UserModify = lazy(() => import("pages/user/mypage/Modify"));
 
 const mypageRouter = () => {
     return [
@@ -46,6 +46,14 @@ const mypageRouter = () => {
             element: (
                 <>
                     <div>마이페이지 - 배송지관리</div>
+                </>
+            ),
+        },
+        {
+            path: "account",
+            element: (
+                <>
+                    <div>마이페이지 - 계좌관리</div>
                 </>
             ),
         },

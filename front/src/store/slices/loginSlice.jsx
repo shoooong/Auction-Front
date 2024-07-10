@@ -6,6 +6,8 @@ const initState = {
     email:'',
     password:'',
     nickname:'',
+    phoneNum: '',
+    profileImg: ''
 };
 
 const loadMemberCookie = () => {
@@ -19,14 +21,10 @@ const loadMemberCookie = () => {
         console.log(userInfo.nickname);
         console.log(userInfo.email);
         console.log(userInfo.password);
-
+        console.log(userInfo.phoneNum);
+        console.log(userInfo.profileImg);
 
     };
-    // if (userInfo) {
-
-    //     console.log("userInfo: " + userInfo);
-    //     console.log(userInfo.nickname);
-    // };
 
     return userInfo;
 }
@@ -44,9 +42,12 @@ const loginSlice = createSlice({
 
             const payload = action.payload;
 
-            setCookie("user", JSON.stringify(payload), 1);
+            console.log("Payload for cookie:", payload);
 
-            return payload;
+            setCookie("user", JSON.stringify(payload), 1);
+        
+
+            return { ...state, ...payload };
         },
         logout: (state, action) => {
             console.log("logout...");
@@ -65,7 +66,10 @@ const loginSlice = createSlice({
             if (!payload.error) {
                 setCookie("user", JSON.stringify(payload), 1)         // 1일
             }
-            return payload;
+
+            console.log("Payload for cookie:", payload);
+
+            return { ...state, ...payload };
         })
         .addCase(loginPostAsync.pending, (state,action) => {
             console.log("pending")

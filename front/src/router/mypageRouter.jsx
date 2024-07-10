@@ -1,4 +1,5 @@
-import MypageMain from "pages/user/MypageMain";
+import MypageMain from "pages/user/mypage/MypageMain";
+import BuyHistory from "pages/user/mypage/BuyHistory";
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>;
@@ -12,7 +13,7 @@ const mypageRouter = () => {
         },
         {
             path: "buyingHistory",
-            element: <div>마이페이지 구매내역</div>,
+            element: <BuyHistory />,
         },
         {
             path: "salesHistory",

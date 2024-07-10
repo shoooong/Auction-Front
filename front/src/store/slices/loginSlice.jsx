@@ -3,7 +3,9 @@ import { loginPost } from "../../api/user/userApi";
 import { getCookie, setCookie, removeCookie } from "../../pages/user/cookieUtil";
 
 const initState = {
-    email:''
+    email:'',
+    password:'',
+    nickname:'',
 };
 
 const loadMemberCookie = () => {
@@ -15,7 +17,16 @@ const loadMemberCookie = () => {
 
         console.log("userInfo: " + userInfo);
         console.log(userInfo.nickname);
+        console.log(userInfo.email);
+        console.log(userInfo.password);
+
+
     };
+    // if (userInfo) {
+
+    //     console.log("userInfo: " + userInfo);
+    //     console.log(userInfo.nickname);
+    // };
 
     return userInfo;
 }

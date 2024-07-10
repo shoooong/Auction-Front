@@ -1,0 +1,132 @@
+/* LuckyDraw */
+.title-container {
+    margin-top: 20px;
+    text-align: center;
+    border: 1px solid #000;
+    width: 100%;
+    height: 400px;
+}
+.lucky-draw {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 3rem;
+    color: var(--black);
+    font-weight: bolder;
+}
+.title1 {
+    color: var(--black);
+    margin-bottom: 10px;
+}
+.title2 {
+    color: var(--grey);
+}
+
+.img-box {
+    border-radius: 10px;
+    background: #eee;
+    height: 300px;
+    position: relative;
+    width: 300px;
+    margin-top: 80px;
+    margin-bottom: 20px;
+}
+.title {
+    width: 300px;
+    text-align: left;
+}
+.content {
+    width: 300px;
+    text-align: left;
+    color: var(--grey);
+    margin-bottom: 20px;
+}
+
+
+/* LuckyDrawDetail */
+.w50p > * {
+    margin-bottom: 20px;
+}
+.detail-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.detail-img-box {
+    width: 500px;
+    height: 500px;
+    background-color: #eee;
+}
+
+.detail-title {
+    color: var(--black);
+    font-size: 1.5rem;
+}
+.detail-content {
+    color: var(--grey);
+    width: 100%;
+    max-width: 600px;
+}
+
+.time-container {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    color: var(--black);
+    font-weight: 600;
+    font-size: 2rem;
+}
+.time {
+    font-size: 1.5em;
+}
+.colon::before, .colon::after {
+    content: ' ';
+    letter-spacing: 0.1em; 
+}
+
+.data-container {
+    border-top: 1px solid rgba(24, 24, 24, 0.1);
+}
+.data-container  h5 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: var(--black);
+    font-weight: 700;
+    font-size: 1.1em;
+}
+.data-container  p {
+    color: var(--black);
+}
+
+.banner {
+    border: 1px solid #000;
+    height: 90px;
+}
+
+.cautions {
+    margin-top: 50px ;
+    padding: 50px;
+    border-top: 1px solid rgba(24, 24, 24, 0.1);
+    color: var(--black);
+
+}
+.cautions p {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.cautions ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.cautions li {
+    margin-bottom: 10px;
+}
+.cautions li::before {
+    content: '•';
+    left: 0;
+    color: #000;
+    font-size: 1.2em; 
+    line-height: 1.3em; 
+    margin-right: 10px;
+}

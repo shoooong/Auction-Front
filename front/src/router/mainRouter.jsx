@@ -1,15 +1,13 @@
 import MainCategory from "layout/MainCategory";
-import StyleCategory from "layout/StyleCategory";
+import Style from "pages/style/Style";
 import ClothesCategory from "layout/ClothesCategory";
 import LifeCategory from "layout/LifeCategory";
 import MypageCategory from "layout/MypageCategory";
 import ServiceCategory from "layout/ServiceCategory";
-
 import lifeRouter from "./lifeRouter";
 import userRouter from "./userRouter";
 import mypageRouter from "./mypageRouter";
 import serviceRouter from "./serviceRouter";
-
 import Sample from "pages/Sample";
 import AdminSample from "pages/admin/AdminExample";
 import Shop from "pages/shop/Shop";
@@ -71,7 +69,7 @@ const mainRouter = () => {
     },
     {
       path: "style",
-      element: <StyleCategory />,
+      element: <Style />,
       children: [
         {
           path: "",

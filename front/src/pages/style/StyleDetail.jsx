@@ -9,7 +9,7 @@ const FeedDetail = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/feed/styleFeed/${feedId}`);
+        const response = await axios.get(`http://localhost:80/feed/styleFeed/${feedId}`);
         const postData = {
           username: response.data.userId ? `User ${response.data.userId}` : 'Unknown',
           image: response.data.feedImage,

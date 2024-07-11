@@ -1,4 +1,4 @@
-.post {
+.feed {
   background-color: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -7,12 +7,12 @@
   height: 300px;
 }
 
-.post-image {
+.feed-image {
   width: 100%;
   height: auto;
 }
 
-.post-info {
+.feed-info {
   padding: 10px;
 }
 

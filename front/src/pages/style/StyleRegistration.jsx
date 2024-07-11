@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../../styles/feedregistration.css';
+import '../../styles/styleregistration.css';
 
 const FeedRegistrationForm = () => {
   const [feedTitle, setFeedTitle] = useState('');
@@ -16,7 +16,7 @@ const FeedRegistrationForm = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/feed/user/feedRegistration', newFeed, {
+      const response = await axios.post('http://localhost:80/feed/user/feedRegistration', newFeed, {
         headers: {
           'Content-Type': 'application/json'
         }

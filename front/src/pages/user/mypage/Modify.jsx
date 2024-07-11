@@ -83,9 +83,9 @@ const ModifyPage = () => {
     };
 
     return (
-        <div className="data-container">
-            <div  className="history-title">
-                <p>프로필 수정</p>
+        <div>
+            <div className="history-title">
+                <h2 className="title">프로필 수정</h2>
             </div>
 
             <div className="top-container">

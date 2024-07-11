@@ -69,7 +69,10 @@ const Account = () => {
     };
 
     return (
-        <div className="account-container">
+        <div>
+            <div className="history-title">
+                <h2 className='title'>계좌 관리</h2>
+            </div>
             {account.depositor && !isAdding && !isEditing && (
                 <div>
                     <p><strong>예금주</strong> {account.depositor}</p>

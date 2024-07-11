@@ -45,9 +45,9 @@ const DrawHistory = () => {
     };
 
     return (
-        <div className="data-container">
+        <div>
             <div className="history-title">
-                <p>응모 내역</p>
+            <h2 className="title">응모 내역</h2>
             </div>
             <div className="draw-summary">
                 <div>전체 <span>{drawHistory.allCount}</span></div>

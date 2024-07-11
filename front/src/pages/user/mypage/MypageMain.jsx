@@ -83,7 +83,7 @@ export default function MypageMain() {
 
 
     return (
-        <div className="data-container">
+        <div className="full-container">
             {profile && (
                 <div className="profile-container"> 
                     <div className="profile">

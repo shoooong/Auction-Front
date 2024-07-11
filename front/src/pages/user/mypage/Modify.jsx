@@ -83,21 +83,27 @@ const ModifyPage = () => {
     };
 
     return (
-        <div>
-            <div className="modify-img">
-                <img src={user.profileImg} alt="프로필 이미지" />
-                <div>
-                    <input type="file" accept="image/*" onChange={handleFileChange} />
-                </div>
+        <div className="data-container">
+            <div  className="history-title">
+                <p>프로필 수정</p>
             </div>
 
-            <div>
-                <div className="modify-nickname">
-                    <input name="nickname" type={'text'} value={user.nickname} onChange={handleChange} />
+            <div className="top-container">
+                <div className="modify-img-container">
+                    <img className="modify-img" src={user.profileImg} alt="프로필 이미지" />
+                    <div className="file-input-container">
+                        <input type="file" id="file-input" accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
+                        <label htmlFor="file-input" className="file-input-label">파일 선택</label>
+                    </div>
                 </div>
+                <div>
+                    <div className="modify-nickname">
+                        <input name="nickname" type={'text'} value={user.nickname} onChange={handleChange} />
+                    </div>
 
-                <div className="modify-email">
-                    <input name="email" type={'text'} value={maskEmail(user.email)} readOnly />
+                    <div className="modify-email">
+                        <input name="email" type={'text'} value={maskEmail(user.email)} readOnly />
+                    </div>
                 </div>
             </div>
 

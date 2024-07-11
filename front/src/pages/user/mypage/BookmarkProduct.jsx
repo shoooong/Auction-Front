@@ -42,7 +42,7 @@ const BookmarkProduct = () => {
     };
 
     return (
-        <div className="data-container">
+        <div className="full-container">
            {bookmarkProducts.length > 0 ? (
                 <div className="bookmark-grid">
                     {bookmarkProducts.map((bookmark, index) => (

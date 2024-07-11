@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
-const Postcode = () => {
+const Postcode = ({ onSave, selectedAddress }) => {
     const [zonecode, setZonecode] = useState('');
     const [roadAddress, setRoadAddress] = useState('');
     const [jibunAddress, setJibunAddress] = useState('');
     const [extraAddress, setExtraAddress] = useState('');
     const [detailAddress, setDetailAddress] = useState('');
     const [guide, setGuide] = useState('');
+
+    const [defaultAddress, setDefaultAddress] = useState(false);
+    const [addressName, setAddressName] = useState('');
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -19,6 +21,18 @@ const Postcode = () => {
             document.body.removeChild(script);
         };
     }, []);
+
+    useEffect(() => {
+        if (selectedAddress) {
+            setZonecode(selectedAddress.zonecode);
+            setRoadAddress(selectedAddress.roadAddress);
+            setJibunAddress(selectedAddress.jibunAddress);
+            setExtraAddress(selectedAddress.extraAddress);
+            setDetailAddress(selectedAddress.detailAddress);
+            setDefaultAddress(selectedAddress.defaultAddress);
+            setAddressName(selectedAddress.addressName);
+        }
+    }, [selectedAddress]);
 
     const handleComplete = (data) => {
         let roadAddr = data.roadAddress;
@@ -58,23 +72,22 @@ const Postcode = () => {
         }).open();
     };
 
-    const handleSave = async () => {
+    const handleSave = () => {
         const addressData = {
             zonecode,
             roadAddress,
             jibunAddress,
             detailAddress,
-            extraAddress
+            extraAddress,
+            defaultAddress,
+            addressName
         };
-        
-        try {
-            const response = await axios.put('http://localhost:5000/save-address', addressData);
-            console.log(response.data.message);
-        } catch (error) {
-            console.error('There was an error saving the address data!', error);
-        }
 
-        console.log("저장된 주소 데이터:", addressData);
+        if (selectedAddress) {
+            onSave(addressData, selectedAddress.addressId);
+        } else {
+            onSave(addressData);
+        }
     };
 
     return (
@@ -86,6 +99,12 @@ const Postcode = () => {
             <span id="guide" style={{ color: '#999', display: guide ? 'block' : 'none' }}>{guide}</span>
             <input type="text" id="sample4_detailAddress" placeholder="상세주소" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
             <input type="text" id="sample4_extraAddress" placeholder="참고항목" value={extraAddress} readOnly />
+
+            <label>
+                <input type="checkbox" checked={defaultAddress} onChange={(e) => setDefaultAddress(e.target.checked)} />
+                기본 배송지로 설정
+            </label>
+            <input type="text" placeholder="배송지명" value={addressName} onChange={(e) => setAddressName(e.target.value)} />
 
             <button type="button" onClick={handleSave}>저장</button>
         </div>

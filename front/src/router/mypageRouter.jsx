@@ -4,6 +4,7 @@ import SaleHistory from "pages/user/mypage/SaleHistory";
 import MypageBookmark from "components/mypage/MypageBookmark";
 import DrawHistory from "pages/user/mypage/DrawHistory";
 import Account from "pages/user/mypage/Account";
+import Address from "pages/user/mypage/Address";
 
 import { Suspense, lazy } from "react";
 
@@ -14,7 +15,7 @@ const mypageRouter = () => {
     return [
         {
             path: "",
-            element: <MypageMain />
+            element: <MypageMain />,
         },
         {
             path: "buyingHistory",
@@ -30,7 +31,7 @@ const mypageRouter = () => {
         },
         {
             path: "bookmark",
-            element: <MypageBookmark />
+            element: <MypageBookmark />,
         },
         {
             path: "modify",
@@ -42,11 +43,7 @@ const mypageRouter = () => {
         },
         {
             path: "delivery",
-            element: (
-                <>
-                    <div>마이페이지 - 배송지관리</div>
-                </>
-            ),
+            element: <Address />,
         },
         {
             path: "account",

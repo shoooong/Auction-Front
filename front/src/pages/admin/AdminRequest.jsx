@@ -41,7 +41,7 @@ const AdminRequest = () => {
 
   const columns = [
     {
-      field: "id",
+      field: "indexId",
       headerName: "번호",
       width: 90,
       headerAlign: "center",
@@ -79,8 +79,9 @@ const AdminRequest = () => {
     },
   ];
 
-  const rows = products.map((product) => ({
+  const rows = products.map((product, index) => ({
     id: product.productId,
+    indexId: index + 1,
     productName: product.productName,
     productBrand: product.productBrand,
     productStatus: product.productStatus,

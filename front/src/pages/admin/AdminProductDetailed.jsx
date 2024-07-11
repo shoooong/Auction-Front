@@ -114,8 +114,9 @@ const AdminProductDetailed = () => {
     ) || {};
 
   const rowsBuying =
-    selectedProductDetail.buyingBiddingDtoList?.map((bid, idx) => ({
-      id: `buying-${idx}`,
+    selectedProductDetail.buyingBiddingDtoList?.map((bid, index) => ({
+      // id: `buying-${idx}`,
+      id: index + 1,
       ...bid,
       buyingBiddingPrice: `${bid.buyingBiddingPrice}원`,
       buyer: `${bid.buyer.nickname} (${bid.buyer.email})`,
@@ -123,8 +124,9 @@ const AdminProductDetailed = () => {
 
   const rowsSelling = filteredSalesBidding(
     selectedProductDetail.salesBiddingDtoList || []
-  ).map((bid, idx) => ({
-    id: `sales-${idx}`,
+  ).map((bid, index) => ({
+    // id: `sales-${idx}`,
+    id: index + 1,
     ...bid,
     salesBiddingPrice: `${bid.salesBiddingPrice}원`,
     seller: `${bid.seller.nickname} (${bid.seller.email})`,

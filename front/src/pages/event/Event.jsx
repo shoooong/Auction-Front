@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import useCouponEvent from "hooks/useCouponEvent";
 import { useNavigate } from "react-router-dom";
 import jwtAxios from "pages/user/jwtUtil";
-import eventBanner from "assets/images/event_banner.svg";
 import couponDownBtn from "assets/images/coupon_down.svg";
 import "styles/event.css";
 import { getCookie } from "pages/user/cookieUtil";
@@ -45,11 +44,9 @@ export default function EventSample() {
     return (
         <>
             <div className="bg bg-gray">
+                <div className="event-banner"></div>
                 <div className="container fle column-direction justify-center align-center">
                     <div></div>
-                    <div>
-                        <img src={eventBanner} alt="Sample" />
-                    </div>
                     <div className="text-center">
                         <div className="text-box">
                             <span className="text40 fc-blue">
@@ -94,9 +91,9 @@ export default function EventSample() {
                             </p>
                         </div>
                     ))}
-
-                    <div className="bottom-box"></div>
                 </div>
+
+                <div className="bottom-box"></div>
             </div>
         </>
     );

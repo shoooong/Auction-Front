@@ -10,14 +10,14 @@ import userRouter from "./userRouter";
 import mypageRouter from "./mypageRouter";
 import serviceRouter from "./serviceRouter";
 
-import Style from "pages/style/Style"
+import Style from "pages/style/Style";
 import Sample from "pages/Sample";
 import AdminSample from "pages/admin/AdminExample";
 import Shop from "pages/shop/Shop";
 import LuckyDraw from "pages/draw/LuckyDraw";
 import luckyDrawRouter from "./luckyDrawRouter";
-import EventSample from "pages/event/EventSample";
-import StyleDetail from "pages/style/StyleDetail"
+import Event from "pages/event/Event";
+import StyleDetail from "pages/style/StyleDetail";
 
 const mainRouter = () => {
     return [
@@ -59,7 +59,7 @@ const mainRouter = () => {
                 },
                 {
                     path: "/event",
-                    element: <EventSample />,
+                    element: <Event />,
                 },
             ],
         },
@@ -90,7 +90,7 @@ const mainRouter = () => {
                 },
                 {
                     path: "styledetail",
-                    element: <StyleDetail/>
+                    element: <StyleDetail />,
                 },
             ],
         },

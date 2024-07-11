@@ -88,7 +88,7 @@
 .border-btn-click {border: 1px solid var(--borderBlack) !important;}
 
 .full-btn {font-size: 15px !important; font-weight: var(--regular) !important; color: var(--black) !important; width: 100% !important;}
-.full-btn > span {line-height: 1 !important; padding: 0 5px !important; font-weight: var(--semibold) !important;}
+.full-btn > span {line-height: 1 !important; padding: 0 5px !important; font-weight: var(--semibold) !important; height: 16px;}
 
 .medium-btn {padding: 13px 0 !important; width: 126px !important; line-height: 1 !important; flex-direction: column !important;}
 

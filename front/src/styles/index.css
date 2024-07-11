@@ -66,8 +66,8 @@
 .title {font-size: var(--ft25); font-weight: var(--semibold); color: var(--black); text-align: center; margin-bottom: 20px;}
 .product-title {font-size: var(--ft16); font-weight: var(--semibold); color: var(--black); line-height: 1.2;}
 .product-sub-title {font-size: var(--ft16); font-weight: var(--medium); color: var(--palegrey); line-height: 1.2;}
-.semibold-black {font-size: var(--ft13); font-weight: var(--semibold); color: var(--black) !important; line-height: 1.3;}
-.light-black {font-size: var(--ft13); font-weight: var(--light); color: var(--black); }
+.semibold-black {font-size: var(--ft15); font-weight: var(--semibold); color: var(--black) !important; line-height: 1.3;}
+.light-black {font-size: var(--ft15); font-weight: var(--light); color: var(--black); }
 .light-grey {font-size: 11px; font-weight: var(--light); color: var(--palegrey);}
 
 
@@ -88,7 +88,7 @@
 .border-btn-click {border: 1px solid var(--borderBlack) !important;}
 
 .full-btn {font-size: 15px !important; font-weight: var(--regular) !important; color: var(--black) !important; width: 100% !important;}
-.full-btn > span {line-height: 1 !important; padding: 0 5px !important; font-weight: var(--semibold) !important;}
+.full-btn > span {line-height: 1 !important; padding: 0 5px !important; font-weight: var(--semibold) !important; height: 16px;}
 
 .medium-btn {padding: 13px 0 !important; width: 126px !important; line-height: 1 !important; flex-direction: column !important;}
 

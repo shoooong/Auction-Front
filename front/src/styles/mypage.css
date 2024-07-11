@@ -1,0 +1,340 @@
+/* TODO:
+1) 최상단 줄 없애기
+2) footer 침범
+3) 불러온 데이터 없을경우 width 좁아짐
+4) 관심상품 이미지 - 북마크 아이콘버튼 넣기
+5) .draw-name:hover::after - data-full-text
+6) 탭 변경
+
+7) 이벤트 배너
+8) 아이콘 다시 넣기 
+9) enum명 한글로 변경
+10) 판매자 등급 호버 효과..
+11) 쿠폰, 회원탈퇴 링크연결
+*/
+
+
+.full-container {
+    /* width: 100vw; */
+    margin-bottom: 50px;
+}
+
+.data-container {
+    /* width: 100vw; */
+    margin-bottom: 80px;
+}
+
+/* 1. 프로필 */
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ebebeb;
+    border-radius: 10px;
+    height: 100px;
+}
+
+.profile {
+    display: flex;
+
+    padding-left: 30px;
+}
+
+.profile div {
+    line-height: 1.5;
+    margin-top: 2px;
+}
+.profile div p:first-child {
+    font-weight: bolder;
+}
+.profile div p:nth-child(2) {
+    color: #ababab;
+    font-size: 0.8rem;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    padding-right: 30px;
+}
+.profile-container div Button {
+    border: 1px solid #ebebeb;
+    border-radius: 10px;
+}
+
+
+/* 2. 버튼들 */
+.buttons {
+    display: flex;
+    border: 1px solid #ebebeb;
+    border-radius: 10px;
+    height: 130px;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* 3. 구매내역, 판매내역, 응모내역 */
+.history-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.history-title p {
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+
+.history-title a {
+    color: var(--palegrey);
+    text-decoration: none;
+    position: relative;
+    margin-right: 15px;
+}
+.history-title a::after {
+    content: ">";
+    position: absolute;
+    top: -1px;
+    right: -15px;
+    color: var(--palegrey);
+}
+
+.history-title a:hover {
+    color: var(--grey);
+}
+.history-title a:hover::after {
+    
+    color: var(--grey);
+}
+
+
+.buy-summary, .sale-summary, .draw-summary {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    height: 100px;
+    color: #000;
+}
+
+.buy-summary div, .sale-summary div, .draw-summary div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.buy-summary div:nth-child(1), .sale-summary div:nth-child(1), .draw-summary div:nth-child(1) {
+    border-right: 1px solid #d9d9d9;
+}
+
+.buy-summary span, .sale-summary span, .draw-summary span {
+    font-size: 1.5rem; 
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.buy-summary div:first-child span {
+    color: #3F6EC9;
+}
+
+.sale-summary div:first-child span {
+    color: #31B461;
+}
+
+.buy-item, .sale-item, .draw-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ebebeb;
+    padding: 15px 15px;
+}
+
+.buy-item div, .sale-item div {
+    flex: 7;
+    margin-left: 20px;
+}
+.draw-item > div {
+    display: flex;
+    flex-direction: column;
+    flex: 6;
+    margin-left: 20px;
+    min-width: 0;
+}
+
+.buy-item p, .sale-item p {
+    flex: 1;
+    margin-left: 20px;
+}
+.draw-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    display: inline-block;
+}
+ 
+.draw-date {
+    flex: 2;
+    margin-left: 20px;
+}
+.draw-status {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.non-history {
+    color: #ababab !important;
+    text-align: center;
+    margin: 20px 0;
+}
+
+
+/* 4. 이벤트 배너 */
+.mypage-banner {
+    border: 1px solid #000;
+    height: 110px;
+    margin-top: 30px;
+}
+
+
+/* 5. 관심상품 */
+.bookmark-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.bookmark-item {
+    /* padding: 16px; */
+    margin-bottom: 10px;
+}
+
+.bookmark-text1, 
+.bookmark-text2, 
+.bookmark-text3, 
+.bookmark-text4 {
+    margin-top: 7px;
+}
+
+.bookmark-text1, .bookmark-text4 {
+    font-weight: bold;
+}
+.bookmark-text3 {
+    background-color: #FFEEF4;
+    color: rgba(255, 0, 0, 0.5) !important;
+    font-size: 0.7rem;
+    display: inline-block;
+    padding: 2px 2px;
+}
+.bookmark-text5 {
+    color: #ababab !important;
+    font-size: 0.8rem;
+    margin-top: 2px;
+}
+
+
+/* 프로필 관리 */
+.top-container {
+    display: flex;
+    /* justify-content: flex-start;
+    gap: 50%; */
+    align-items: center;
+    padding: 20px 20px;
+}
+
+
+
+/* img 관련 */
+.profile img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    -o-object-fit: cover;
+       object-fit: cover;
+    margin-right: 20px;
+}
+
+.button img {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.buy-item img, .sale-item img, .draw-item img {
+    border-radius: 10px;
+    width: 80px;
+    height: 80px;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+
+.bookmark-item img {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+
+.modify-img-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin: 20px; */
+    border: 1px solid #000;
+  }
+  
+  .modify-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    -o-object-fit: cover;
+       object-fit: cover;
+    margin-bottom: 10px;
+    border: 1px solid #000;
+  }
+
+  .file-input-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+  }
+  
+  input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  .file-input-label {
+    font-size: 15px;
+    padding: 10px 15px;
+    color: white;
+    background-color: var(--apply);
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+
+  .bookmark-tab {
+    margin-bottom: 30px;
+  }

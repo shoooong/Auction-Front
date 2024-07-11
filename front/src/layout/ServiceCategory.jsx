@@ -12,8 +12,8 @@ export default function MypageCategory() {
 
                         <div>
                             <h3>문의</h3>
-                            <Link to="/service/info">공지사항</Link>
-                            <Link to="/service/personalQuestion">1:1 문의</Link>
+                            <Link to="/service/notice">공지사항</Link>
+                            <Link to="/service/inquiry">1:1 문의</Link>
                             <Link to="/service/request">
                                 미등록 상품 등록 요청
                             </Link>

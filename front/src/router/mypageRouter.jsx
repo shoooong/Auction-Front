@@ -1,33 +1,37 @@
+import MypageMain from "pages/user/mypage/MypageMain";
+import BuyHistory from "pages/user/mypage/BuyHistory";
+import SaleHistory from "pages/user/mypage/SaleHistory";
+import MypageBookmark from "components/mypage/MypageBookmark";
+import DrawHistory from "pages/user/mypage/DrawHistory";
+import Account from "pages/user/mypage/Account";
+import Address from "pages/user/mypage/Address";
+
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>;
-const UserModify = lazy(() => import("../pages/user/Modify"));
+const UserModify = lazy(() => import("pages/user/mypage/Modify"));
 
 const mypageRouter = () => {
     return [
         {
             path: "",
-            element: <div>마이페이지 메인</div>,
+            element: <MypageMain />,
         },
         {
             path: "buyingHistory",
-            element: <div>마이페이지 구매내역</div>,
+            element: <BuyHistory />,
         },
         {
             path: "salesHistory",
-            element: <div>마이페이지 판매내역</div>,
+            element: <SaleHistory />,
         },
         {
             path: "applyHistory",
-            element: <div>마이페이지 응모내역</div>,
+            element: <DrawHistory />,
         },
         {
             path: "bookmark",
-            element: (
-                <>
-                    <div>마이페이지의 관심 - 북마크</div>
-                </>
-            ),
+            element: <MypageBookmark />,
         },
         {
             path: "modify",
@@ -39,11 +43,11 @@ const mypageRouter = () => {
         },
         {
             path: "delivery",
-            element: (
-                <>
-                    <div>마이페이지 - 배송지관리</div>
-                </>
-            ),
+            element: <Address />,
+        },
+        {
+            path: "account",
+            element: <Account />
         },
         {
             path: "coupon",

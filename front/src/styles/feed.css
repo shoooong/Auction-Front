@@ -1,0 +1,31 @@
+.feed {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 300px;
+  height: 300px;
+}
+
+.feed-image {
+  width: 100%;
+  height: auto;
+}
+
+.feed-info {
+  padding: 10px;
+}
+
+.username {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.likes {
+  color: red;
+}
+
+.description {
+  margin: 0;
+}

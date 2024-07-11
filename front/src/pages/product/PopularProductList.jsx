@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-    IconButton,
-    Button,
-    Box,
-} from "@mui/material";
+import { IconButton, Button, Box } from "@mui/material";
 import BookmarkOff from "../../assets/images/bookmark-off.svg";
 import BookmarkOn from "../../assets/images/bookmark-on.svg";
 import Product from "./Product";
@@ -19,8 +15,10 @@ const PopularProductList = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/products/키친');
-                const data = response.data.map(product => ({
+                const response = await axios.get(
+                    "http://localhost:80/products/키친"
+                );
+                const data = response.data.map((product) => ({
                     productId: product.productId,
                     productImg: tempImg,
                     productBrand: product.productBrand,
@@ -31,7 +29,7 @@ const PopularProductList = () => {
                 }));
                 setProducts(data);
             } catch (error) {
-                console.error('Error fetching products: ', error);
+                console.error("Error fetching products: ", error);
             }
         };
 
@@ -39,7 +37,7 @@ const PopularProductList = () => {
     }, []);
 
     const loadMoreProducts = () => {
-        setVisibleProducts(prevVisibleProducts => prevVisibleProducts + 5);
+        setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 5);
     };
 
     return (
@@ -50,25 +48,29 @@ const PopularProductList = () => {
                     <h3 className="product-sub-title">거래량 급상승</h3>
                 </Box>
                 <Box className="product-wrap no-wrap">
-                    {products.slice(0, visibleProducts).map((product, index) => (
-                        <Product
-                            key={index}
-                            rank={index + 1} // 순위 전달
-                            productImg={product.productImg}
-                            productBrand={product.productBrand}
-                            productName={product.productName}
-                            productLike={product.productLike}
-                            modelNum={product.modelNum}
-                            productMinPrice={product.productMinPrice}
-                            setLike={setLike}
-                            like={like}
-                        />
-                    ))}
+                    {products
+                        .slice(0, visibleProducts)
+                        .map((product, index) => (
+                            <Product
+                                key={index}
+                                rank={index + 1} // 순위 전달
+                                productImg={product.productImg}
+                                productBrand={product.productBrand}
+                                productName={product.productName}
+                                productLike={product.productLike}
+                                modelNum={product.modelNum}
+                                productMinPrice={product.productMinPrice}
+                                setLike={setLike}
+                                like={like}
+                            />
+                        ))}
                 </Box>
 
                 {visibleProducts < products.length && (
                     <div className="text-center">
-                        <Button className="add-btn" onClick={loadMoreProducts}>더보기</Button>
+                        <Button className="add-btn" onClick={loadMoreProducts}>
+                            더보기
+                        </Button>
                     </div>
                 )}
             </Box>

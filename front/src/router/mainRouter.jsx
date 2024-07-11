@@ -4,19 +4,20 @@ import ClothesCategory from "layout/ClothesCategory";
 import LifeCategory from "layout/LifeCategory";
 import MypageCategory from "layout/MypageCategory";
 import ServiceCategory from "layout/ServiceCategory";
-
 import clothesRouter from "./clothesRouter";
 import lifeRouter from "./lifeRouter";
 import userRouter from "./userRouter";
 import mypageRouter from "./mypageRouter";
 import serviceRouter from "./serviceRouter";
 
+import Style from "pages/style/Style"
 import Sample from "pages/Sample";
 import AdminSample from "pages/admin/AdminExample";
 import Shop from "pages/shop/Shop";
 import LuckyDraw from "pages/draw/LuckyDraw";
 import luckyDrawRouter from "./luckyDrawRouter";
 import EventSample from "pages/event/EventSample";
+import StyleDetail from "pages/style/StyleDetail"
 
 const mainRouter = () => {
     return [
@@ -77,7 +78,7 @@ const mainRouter = () => {
         },
         {
             path: "style",
-            element: <StyleCategory />,
+            element: <Style />,
             children: [
                 {
                     path: "",
@@ -86,6 +87,10 @@ const mainRouter = () => {
                 {
                     path: "rank",
                     element: <div>랭킹</div>,
+                },
+                {
+                    path: "styledetail",
+                    element: <StyleDetail/>
                 },
             ],
         },

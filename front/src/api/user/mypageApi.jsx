@@ -70,3 +70,34 @@ export const registerOrModifyAccount = async (account) => {
         throw error;
     }
 };
+
+
+export const getAddress = async () => {
+    try {
+        const response = await jwtAxios.get(`${SERVER_URL}/mypage/address`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching address data:', error);
+        throw error;
+    }
+};
+
+export const addAddress = async (addressData) => {
+    try {
+        const response = await jwtAxios.post(`${SERVER_URL}/mypage/address`, addressData);
+        return response.data;
+    } catch (error) {
+        console.error('Error adding address data:', error);
+        throw error;
+    }
+};
+
+export const modifyAddress = async (addressData, addressId) => {
+    try {
+        const response = await jwtAxios.put(`${SERVER_URL}/mypage/address?addressId=${addressId}`, addressData);
+        return response.data;
+    } catch (error) {
+        console.error('Error modifying address data:', error);
+        throw error;
+    }
+};

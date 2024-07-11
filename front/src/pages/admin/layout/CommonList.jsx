@@ -16,6 +16,7 @@ const CommonList = ({ rows, columns, onRowClick }) => {
         pageSizeOptions={[5, 10]}
         disableColumnMenu
         onRowClick={(params) => onRowClick(params.row)}
+        style={{ height: 600 }} // DataGrid의 높이를 고정
         sx={{
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: "#f2f2f2",

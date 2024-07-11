@@ -3,6 +3,7 @@ import AdminRequest from "pages/admin/AdminRequest";
 import AdminProductDetailed from "pages/admin/AdminProductDetailed";
 import AdminRequestDetailed from "pages/admin/AdminRequestDetailed";
 import AdminLuckdraws from "pages/admin/AdminLuckydraws";
+import AdminNoticeSample from "pages/admin/AdminNoticeSample";
 
 const AdminRouter = () => {
   return [
@@ -32,6 +33,11 @@ const AdminRouter = () => {
       //관리자 럭키드로우 상품 조회
       path: "luckydraw",
       element: <AdminLuckdraws />,
+    },
+    {
+      // 공지사항
+      path: "notice",
+      element: <AdminNoticeSample />, //정식님이 만드신 관리자 공지사항
     },
   ];
 };

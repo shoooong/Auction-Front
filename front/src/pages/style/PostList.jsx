@@ -10,7 +10,7 @@ const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/feed/feedList');
+        const response = await axios.get('http://localhost:80/feed/feedList');
         const data = response.data.map(post => ({
           id: post.feedId,
           username: post.userId ? `User ${post.userId}` : 'Unknown',

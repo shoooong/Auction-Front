@@ -53,8 +53,9 @@ export default function BuyHistory() {
                     <div>종료 <span>{buyHistory.completeCount}</span></div>
                 </div>
                 {buyHistory.orderDetails.length > 0 ? (
-                    buyHistory.orderDetails.map(order => (
-                        <div className="buy-item" key={order.productId}>
+                    buyHistory.orderDetails.map((order, index) => (
+                        <div className="buy-item" key={index}>
+                            {/* <img src={order.productImg} alt={order.productName} /> */}
                             <img src={photo} alt="이앤톤" />
                             <div>
                                 <p>{order.productName}</p>

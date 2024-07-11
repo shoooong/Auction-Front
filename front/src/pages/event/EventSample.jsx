@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import sampleImage from "assets/images/event_banner.svg"; // 이미지 파일 경로를 올바르게 지정
-import couponImage from "assets/images/coupon_main.svg"; // 이미지 파일 경로를 올바르게 지정
+import useCouponEvent from "hooks/useCouponEvent";
+import { useNavigate } from "react-router-dom";
+import jwtAxios from "pages/user/jwtUtil";
+import eventBanner from "assets/images/event_banner.svg";
+import couponDownBtn from "assets/images/coupon_down.svg";
 import "styles/event.css";
-import { ACCESS_TOKEN } from "api/serverApi";
 import { getCookie } from "pages/user/cookieUtil";
 import { SERVER_URL } from "api/serverApi";
+
 export default function EventSample() {
+    const { coupons } = useCouponEvent();
     const navigate = useNavigate();
-    const { couponId } = useParams();
-    const handleCouponIssue = async () => {
+
+    const handleCouponIssue = async (couponId) => {
         try {
             const userInfo = getCookie("user");
 
@@ -22,7 +24,7 @@ export default function EventSample() {
 
             const { accessToken } = userInfo;
 
-            const response = await axios.post(
+            const response = await jwtAxios.post(
                 `${SERVER_URL}/coupon/${couponId}/issue`,
                 {},
                 {
@@ -43,10 +45,10 @@ export default function EventSample() {
     return (
         <>
             <div className="bg bg-gray">
-                <div className="container flex justify-center align-center">
+                <div className="container fle column-direction justify-center align-center">
                     <div></div>
                     <div>
-                        <img src={sampleImage} alt="Sample" />
+                        <img src={eventBanner} alt="Sample" />
                     </div>
                     <div className="text-center">
                         <div className="text-box">
@@ -56,17 +58,44 @@ export default function EventSample() {
                             </span>
                             <p className="text40 fc-black">타임어택 Event!</p>
                         </div>
-                        <button
-                            onClick={handleCouponIssue}
-                            style={{ border: "none", background: "none" }}
+                    </div>
+
+                    {coupons.map((item) => (
+                        <div
+                            key={item.couponId}
+                            className="flex align-center column-direction justify-center"
                         >
-                            <img src={couponImage} alt="coupon" />
-                        </button>
-                        <div className="bottom-box"></div>
-                    </div>
-                    <div className="coupon-container">
-                        <p></p>
-                    </div>
+                            <div className="coupon-container">
+                                <div className="coupon-content1">
+                                    <p className="text60">
+                                        {item.amount.toLocaleString()}
+                                    </p>
+                                    <p className="text18">{item.content}</p>
+                                    <p className="text16">
+                                        1인당 1장씩 발급 가능
+                                    </p>
+                                </div>
+                                <div
+                                    className="coupon-content2"
+                                    onClick={() =>
+                                        handleCouponIssue(item.couponId)
+                                    }
+                                >
+                                    <div className="coupon-downBtn">
+                                        <img src={couponDownBtn} alt="coupon" />
+                                    </div>
+                                    <div className="issue">
+                                        <p className="issue-p">발급</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="exp text16">
+                                쿠폰은 발급일로부터 7일 이내에 사용 가능합니다.
+                            </p>
+                        </div>
+                    ))}
+
+                    <div className="bottom-box"></div>
                 </div>
             </div>
         </>

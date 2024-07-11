@@ -2,19 +2,21 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { SERVER_URL } from "api/serverApi";
 
-const useLuckyDraw = () => {
-    const [drawItems, setDrawItems] = useState([]);
+const useCouponEvent = () => {
+    const [coupons, setCoupons] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchDrawItems = async () => {
             try {
-                const response = await axios.get(`${SERVER_URL}/luckydraw`);
+                const response = await axios.get(
+                    `${SERVER_URL}/coupon/time-attack`
+                );
                 const data = response.data;
 
                 if (Array.isArray(data)) {
-                    setDrawItems(data);
+                    setCoupons(data);
                 } else {
                     throw new Error("Unexpected response format");
                 }
@@ -28,7 +30,7 @@ const useLuckyDraw = () => {
         fetchDrawItems();
     }, []);
 
-    return { drawItems, loading, error };
+    return { coupons, loading, error };
 };
 
-export default useLuckyDraw;
+export default useCouponEvent;

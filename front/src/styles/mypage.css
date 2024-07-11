@@ -15,11 +15,13 @@
 
 
 .full-container {
-    width: 100vh;
+    /* width: 100vw; */
+    margin-bottom: 50px;
 }
 
 .data-container {
-    width: 100vh;
+    /* width: 100vw; */
+    margin-bottom: 80px;
 }
 
 /* 1. 프로필 */
@@ -85,8 +87,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 0;
-    margin-top: 30px;
+    margin-bottom: 16px;
 }
 
 .history-title p {
@@ -95,13 +96,27 @@
 }
 
 .history-title a {
-    color: #ababab !important;
+    color: var(--palegrey);
     text-decoration: none;
+    position: relative;
+    margin-right: 15px;
+}
+.history-title a::after {
+    content: ">";
+    position: absolute;
+    top: -1px;
+    right: -15px;
+    color: var(--palegrey);
 }
 
 .history-title a:hover {
-    color: var(--grey) !important;
+    color: var(--grey);
 }
+.history-title a:hover::after {
+    
+    color: var(--grey);
+}
+
 
 .buy-summary, .sale-summary, .draw-summary {
     display: flex;
@@ -203,6 +218,7 @@
 
 .bookmark-item {
     /* padding: 16px; */
+    margin-bottom: 10px;
 }
 
 .bookmark-text1, 
@@ -245,7 +261,8 @@
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
     margin-right: 20px;
 }
 
@@ -260,14 +277,16 @@
     border-radius: 10px;
     width: 80px;
     height: 80px;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
 }
 
 .bookmark-item img {
     width: 200px;
     height: 200px;
     border-radius: 10px;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
 }
 
 .modify-img-container {
@@ -282,7 +301,8 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
     margin-bottom: 10px;
     border: 1px solid #000;
   }

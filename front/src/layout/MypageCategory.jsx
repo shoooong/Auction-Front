@@ -27,7 +27,7 @@ export default function MypageCategory() {
                     </div>
                 </div>
 
-                <div style={{ height: "2000px" }}>
+                <div className="w80p">
                     <Outlet />
                 </div>
             </div>

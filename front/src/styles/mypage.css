@@ -333,3 +333,8 @@
     cursor: pointer;
     text-align: center;
   }
+
+
+  .bookmark-tab {
+    margin-bottom: 30px;
+  }

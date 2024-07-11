@@ -54,8 +54,8 @@ export default function SaleHistory() {
                     <div>종료 <span>{saleHistory.completeCount}</span></div>
                 </div>
                 {saleHistory.saleDetails.length > 0 ? (
-                    saleHistory.saleDetails.map(sale => (
-                        <div className="sale-item" key={sale.productId}>
+                    saleHistory.saleDetails.map((sale, index) => (
+                        <div className="sale-item" key={index}>
                             <img src={photo} alt="이앤톤" />
                             <div>
                                 <p>{sale.productName}</p>

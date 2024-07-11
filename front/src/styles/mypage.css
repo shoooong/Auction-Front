@@ -14,6 +14,13 @@
 */
 
 
+.full-container {
+    width: 100vh;
+}
+
+.data-container {
+    width: 100vh;
+}
 
 /* 1. 프로필 */
 .profile-container {
@@ -222,6 +229,16 @@
 }
 
 
+/* 프로필 관리 */
+.top-container {
+    display: flex;
+    /* justify-content: flex-start;
+    gap: 50%; */
+    align-items: center;
+    padding: 20px 20px;
+}
+
+
 
 /* img 관련 */
 .profile img {
@@ -252,3 +269,47 @@
     border-radius: 10px;
     object-fit: cover;
 }
+
+.modify-img-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin: 20px; */
+    border: 1px solid #000;
+  }
+  
+  .modify-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 1px solid #000;
+  }
+
+  .file-input-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+  }
+  
+  input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  .file-input-label {
+    font-size: 15px;
+    padding: 10px 15px;
+    color: white;
+    background-color: var(--apply);
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }

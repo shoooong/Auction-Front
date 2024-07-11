@@ -74,7 +74,9 @@ const Address = () => {
 
     return (
         <div>
-            <p>배송지 관리</p>
+            <div className="history-title">
+                <h2 className="title">배송지 관리</h2>
+            </div>
             <div>
                 {addresses.map(address => (
                     <div key={address.addressId} onClick={() => setSelectedAddress(address)}>

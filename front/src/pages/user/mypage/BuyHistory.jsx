@@ -42,9 +42,9 @@ export default function BuyHistory() {
     };
 
     return (
-        <div className="data-container">
+        <div>
             <div className="history-title">
-                <p>구매 내역</p>
+            <h2 className="title">구매 내역</h2>
             </div>
             <div>
                 <div className="buy-summary">

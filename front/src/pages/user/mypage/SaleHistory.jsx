@@ -42,9 +42,9 @@ export default function SaleHistory() {
     };
 
     return (
-        <div className="data-container">
+        <div>
             <div className="history-title">
-                <p>판매 내역</p>
+                <h2 className="title">판매 내역</h2>
             </div>
             <div>
                 <div className="sale-summary">

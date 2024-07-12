@@ -4,9 +4,20 @@ import AdminProductDetailed from "pages/admin/AdminProductDetailed";
 import AdminRequestDetailed from "pages/admin/AdminRequestDetailed";
 import AdminLuckdraws from "pages/admin/AdminLuckydraws";
 import AdminNoticeSample from "pages/admin/AdminNoticeSample";
+import AdminMain from "pages/admin/AdminMain";
+import AdminRegister from "pages/admin/AdminRegister";
 
 const AdminRouter = () => {
   return [
+    {
+      path: "login",
+      element: <AdminMain />,
+    },
+    {
+      path: "register",
+      element: <AdminRegister />,
+    },
+
     {
       //요청 상품
       path: "request",

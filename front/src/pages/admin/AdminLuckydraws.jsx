@@ -9,11 +9,29 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
+import { getCookie } from "pages/user/cookieUtil";
+import { useNavigate } from "react-router-dom";
 
 const AdminLuckdraws = () => {
   const [luckyProcessStatus, setLuckyProcessStatus] = useState(""); // default status
   const [luckyDraws, setLuckyDraws] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userInfo = getCookie("user");
+
+      if (!userInfo || !userInfo.accessToken) {
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/admin");
+        return;
+      }
+      try {
+      } catch (error) {}
+    };
+    fetchData();
+  }, [navigate]);
 
   //기존 럭키드로우 리스트 다운
   const fetchData = async (status) => {

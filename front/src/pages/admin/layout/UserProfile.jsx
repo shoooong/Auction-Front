@@ -1,22 +1,16 @@
-// import React, { useEffect, useState } from "react";
 import { Box, Typography, Avatar } from "@mui/material";
+import { Link } from "react-router-dom";
+
+import { useSelector } from "react-redux";
 import selkiAvatar from "assets/images/selkiAvatar.svg";
-import axios from "axios";
+import bumsu from "assets/images/bumsu.svg"; // 기본 아바타 이미지
+import useCustomLogin from "hooks/useCustomLogin";
 
-const UserProfile = ({ name, accountType }) => {
-  // const [avatarUrl, setAvatarUrl] = useState("");
+const UserProfile = () => {
+  const loginState = useSelector((state) => state.loginSlice);
+  const { doLogout } = useCustomLogin();
 
-  // useEffect(() => {
-  //   // 백엔드 API 호출
-  //   axios
-  //     .get("/api/user/avatar")
-  //     .then((response) => {
-  //       setAvatarUrl(response.data.avatarUrl);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching avatar:", error);
-  //     });
-  // }, []);
+  const isLoggedIn = !!loginState.email;
 
   return (
     <Box
@@ -31,13 +25,26 @@ const UserProfile = ({ name, accountType }) => {
       }}
     >
       <Avatar
-        alt={name}
-        src={selkiAvatar}
+        alt={isLoggedIn ? loginState.nickname : "not defined"}
+        src={isLoggedIn ? selkiAvatar : bumsu}
         sx={{ width: 48, height: 48, marginRight: "16px" }}
       />
       <Box>
-        <Typography variant="body1">{name}</Typography>
-        <Typography variant="body2">{accountType}</Typography>
+        <Typography variant="body1">
+          {isLoggedIn ? loginState.nickname : "로그인해주세요"}
+        </Typography>
+        <Typography variant="body2">
+          {isLoggedIn ? (loginState.role ? "관리자 계정" : "사용자 계정") : ""}
+        </Typography>
+        <Box className="aside flex align-center">
+          {!loginState.email ? (
+            <Link to="/admin/login">로그인</Link>
+          ) : (
+            <Link to="/admin/login" onClick={doLogout}>
+              로그아웃
+            </Link>
+          )}
+        </Box>
       </Box>
     </Box>
   );

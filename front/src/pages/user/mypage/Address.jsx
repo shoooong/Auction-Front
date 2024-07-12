@@ -35,13 +35,21 @@ const Address = () => {
         fetchData(setAddresses, setLoading, navigate);
     }, [navigate]);
 
+    useEffect(() => {
+        console.log('addresses:', addresses); 
+    }, [addresses]);
+
     const handleAddAddress = async (addressData) => {
         try {
             const response = await addAddress(addressData);
-            setAddresses([...addresses, response]);
-            setIsAdding(false);
+            if (response.defaultAddress) {
+                setAddresses([response, ...addresses.map(address => ({ ...address, defaultAddress: false }))]);
+            } else {
+                setAddresses([...addresses, response]);
+            }
         } catch (error) {
             console.error('배송지 추가 중 오류가 발생했습니다.', error);
+            alert('배송지 추가 중 오류가 발생했습니다.');
         }
     };
 
@@ -49,9 +57,15 @@ const Address = () => {
         try {
             const response = await modifyAddress(addressData, addressId);
             setAddresses(addresses.map(address => address.addressId === addressId ? response : address));
+            if (response.defaultAddress) {
+                setAddresses(addresses.map(address => address.addressId === addressId ? response : { ...address, defaultAddress: false }).sort((a, b) => b.defaultAddress - a.defaultAddress));
+            } else {
+                setAddresses(addresses.map(address => address.addressId === addressId ? response : address));
+            }
             setSelectedAddress(null);
         } catch (error) {
             console.error('배송지 수정 중 오류가 발생했습니다.', error);
+            alert('배송지 수정 중 오류가 발생했습니다.');
         }
     };
 
@@ -61,6 +75,8 @@ const Address = () => {
         } else {
             handleAddAddress(addressData);
         }
+        setIsAdding(false);
+        setSelectedAddress(null);   
     };
 
     const handleCancel = () => {
@@ -70,20 +86,27 @@ const Address = () => {
 
     if (loading) return <div>Loading...</div>;
 
-
-
     return (
         <div>
             <div className="history-title">
                 <h2 className="title">배송지 관리</h2>
             </div>
             <div>
-                {addresses.map(address => (
+                {addresses.map((address) => (
                     <div key={address.addressId} onClick={() => setSelectedAddress(address)}>
+                        <p>{address.zonecode}</p>
                         <p>{address.addressName}</p>
                         <p>{address.roadAddress}</p>
                         <p>{address.detailAddress}</p>
-                        <button type="button" onClick={() => setSelectedAddress(address)}>수정</button>
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedAddress(address);
+                            }}
+                        >
+                            수정
+                        </button>
                     </div>
                 ))}
                 {addresses.length === 0 && <p>등록된 배송지가 없습니다.</p>}

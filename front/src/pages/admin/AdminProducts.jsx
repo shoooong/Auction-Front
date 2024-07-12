@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { getProductsByDepartment } from "api/admin/productApi";
 import CommonList from "./layout/CommonList";
+import { getCookie } from "pages/user/cookieUtil";
 
 const departments = {
   의류: ["상의", "하의", "아우터", "신발", "이너웨어"],
@@ -84,6 +85,21 @@ const AdminProducts = () => {
   const [tabValue, setTabValue] = useState(
     Object.keys(departments).indexOf(initialMainDepartment)
   );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userInfo = getCookie("user");
+
+      if (!userInfo || !userInfo.accessToken) {
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/admin");
+        return;
+      }
+      try {
+      } catch (error) {}
+    };
+    fetchData();
+  }, [navigate]);
 
   const fetchProducts = useCallback(async (department) => {
     setLoading(true);

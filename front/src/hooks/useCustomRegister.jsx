@@ -1,40 +1,51 @@
-import { useNavigate } from 'react-router-dom';
-import { registerUser, loginPost } from "api/user/userApi";
+import { useNavigate } from "react-router-dom";
+import { registerUser, registerAdmin, loginPost } from "api/user/userApi";
 
-import { setCookie } from 'pages/user/cookieUtil';
+import { setCookie } from "pages/user/cookieUtil";
 
 const useCustomRegister = () => {
-    const navigate = useNavigate();
-  
-    const doRegister = async (registerParam) => {
-      try {
-        const registerData = await registerUser(registerParam);
+  const navigate = useNavigate();
 
-        if (!registerData.error) {
-            const loginParam = {
-                email: registerParam.email,
-                password: registerParam.password,
-            };
-            const loginData = await loginPost(loginParam);
+  const doRegister = async (registerParam) => {
+    try {
+      // const registerData = await registerUser(registerParam);
+      // isAdmin 플래그에 따라 registerUser 또는 registerAdmin 호출
+      const registerData = registerParam.isAdmin
+        ? await registerAdmin(registerParam)
+        : await registerUser(registerParam);
 
-            if (loginData.token) {
-                setCookie("user", JSON.stringify({ accessToken: loginData.token, refreshToken: loginData.refreshToken }), 1);
-            }
+      if (!registerData.error) {
+        const loginParam = {
+          email: registerParam.email,
+          password: registerParam.password,
+        };
+        const loginData = await loginPost(loginParam);
 
-            return { registerData, loginData };
+        if (loginData.token) {
+          setCookie(
+            "user",
+            JSON.stringify({
+              accessToken: loginData.token,
+              refreshToken: loginData.refreshToken,
+            }),
+            1
+          );
         }
-        return { registerData, loginData: null };
-    } catch (error) {
-        console.error("Registration failed: ", error);
-        throw error;
+
+        return { registerData, loginData };
       }
-    };
-  
-    const moveToPath = (path) => {
-      navigate(path);
-    };
-  
-    return { doRegister, moveToPath };
+      return { registerData, loginData: null };
+    } catch (error) {
+      console.error("Registration failed: ", error);
+      throw error;
+    }
   };
-  
-  export default useCustomRegister;
+
+  const moveToPath = (path) => {
+    navigate(path);
+  };
+
+  return { doRegister, moveToPath };
+};
+
+export default useCustomRegister;

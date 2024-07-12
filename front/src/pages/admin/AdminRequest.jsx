@@ -3,12 +3,28 @@ import { Box, Typography, Button, CircularProgress } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { getRequests } from "api/admin/requestApi";
 import { Outlet, useNavigate } from "react-router-dom";
+import { getCookie } from "pages/user/cookieUtil";
 
 const AdminRequest = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userInfo = getCookie("user");
+
+      if (!userInfo || !userInfo.accessToken) {
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/admin");
+        return;
+      }
+      try {
+      } catch (error) {}
+    };
+    fetchData();
+  }, [navigate]);
 
   const fetchRequests = async () => {
     try {

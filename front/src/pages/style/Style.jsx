@@ -1,22 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import FeedList from './FeedList';
-import StyleRegistration from './StyleRegistration'
 import '../../styles/stylefeed.css';
 
-const App = () => {
+const Style = () => {
   return (
-    <div className="app">
-      <header className="header">
-        <nav className="nav">
-          <a href="#">HOME</a>
-          <a href="#">SHOP</a>
-          <a href="#">STYLE</a>
-        </nav>
+    <div className="style">
+      <header>
+        <h1>스타일 페이지</h1>
+        <Link to="/style/register">
+          <button className="register-button">스타일 등록하기</button>
+        </Link>
       </header>
       <FeedList />
-      <StyleRegistration />
     </div>
   );
 };
 
-export default App;
+export default Style;

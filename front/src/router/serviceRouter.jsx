@@ -3,7 +3,7 @@ import { Suspense, lazy } from "react";
 const Loading = <div>Loading...</div>;
 const Notice = lazy(() => import("../pages/serviceCenter/notice/Notice"));
 const NoitceDetail = lazy(() => import("../pages/serviceCenter/notice/NoticeDetail"));
-const Inquiry = lazy(() => import("../pages/serviceCenter/inquiry/Inquiry"));
+const Inquiry = lazy(() => import("../pages/serviceCenter/inquiry/InquiryPage"));
 const InquiryRegistration = lazy(() => import("../pages/serviceCenter/inquiry/InquiryRegistration"))
 
 export default function clothesRouter() {

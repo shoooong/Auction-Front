@@ -9,7 +9,7 @@ const NoticeDetail = () => {
 
     useEffect(() => {
         // Fetch the notice details from the backend
-        axios.get(`http://localhost:80/notice/notice/${noticeId}`)
+        axios.get(`http://localhost:8080/notice/notice/${noticeId}`)
             .then(response => {
                 setNotice(response.data);
             })

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import '../../styles/styleregistration.css';
+import jwtAxios from 'pages/user/jwtUtil'; 
 
 const FeedRegistrationForm = () => {
   const [feedTitle, setFeedTitle] = useState('');
@@ -16,7 +15,7 @@ const FeedRegistrationForm = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:80/feed/user/feedRegistration', newFeed, {
+      const response = await jwtAxios.post('http://localhost:80/feed/user/feedRegistration', newFeed, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -27,17 +26,11 @@ const FeedRegistrationForm = () => {
       setUserId('');
     } catch (error) {
       if (error.response) {
-
         console.error('Error response:', error.response.data);
-    
         console.error('Status code:', error.response.status);
-
       } else if (error.request) {
-
         console.error('No response received:', error.request);
-
       } else {
-        
         console.error('Error setting up request:', error.message);
       }
     }

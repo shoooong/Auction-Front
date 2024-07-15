@@ -8,7 +8,9 @@ const InquiryDetailPage = () => {
   return (
     <div className="inquiry-detail-page">
       <h1>문의 상세</h1>
+      
       <InquiryDetail inquiryId={inquiryId} />
+      
       <div className="navigation-buttons">
         <Link to="/service/inquiry" className="back-button">
           목록으로 돌아가기

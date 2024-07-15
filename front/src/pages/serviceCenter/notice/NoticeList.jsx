@@ -1,4 +1,3 @@
-// src/components/NoticeList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -9,8 +8,8 @@ const NoticeList = () => {
     const [activeTab] = useState('all');
 
     useEffect(() => {
-        // Fetch notices from the backend
-        axios.get('http://localhost:8080/notice/noticeList')
+
+        axios.get('http://localhost:80/notice/noticeList')
             .then(response => {
                 setNotices(response.data);
             })
@@ -23,7 +22,7 @@ const NoticeList = () => {
         if (activeTab === 'all') {
             return true;
         } else {
-            return notice.type === activeTab; // Adjust this line according to your filtering logic
+            return notice.type === activeTab;
         }
     });
 

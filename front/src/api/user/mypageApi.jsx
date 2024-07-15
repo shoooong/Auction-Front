@@ -101,3 +101,13 @@ export const modifyAddress = async (addressData, addressId) => {
         throw error;
     }
 };
+
+export const deleteAddress = async (addressId) => {
+    try {
+        const response = await jwtAxios.delete(`${SERVER_URL}/mypage/address?addressId=${addressId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting address data:', error);
+        throw error;
+    }
+};

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/feed.css'
 
-const Post = ({ username, image, description, likes }) => {
+const Feed = ({ username, image, description, likes }) => {
   return (
     <div className="feed">
       <img src={image} alt={description} className="feed-image" />
@@ -14,4 +14,4 @@ const Post = ({ username, image, description, likes }) => {
   );
 };
 
-export default Post;
+export default Feed;

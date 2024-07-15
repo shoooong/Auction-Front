@@ -9,7 +9,8 @@ const NoticeList = () => {
     const [activeTab] = useState('all');
 
     useEffect(() => {
-        axios.get('http://localhost:80/notice/noticeList')
+        // Fetch notices from the backend
+        axios.get('http://localhost:8080/notice/noticeList')
             .then(response => {
                 setNotices(response.data);
             })

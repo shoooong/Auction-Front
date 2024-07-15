@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Feed from './Feed';
+import Feed from '../../pages/style/Feed';
 import { Link } from 'react-router-dom';
 import '../../styles/feedlist.css'
 
-const FeedList = () => {
+const StyleRankingList = () => {
   const [feeds, setFeeds] = useState([]);
 
   useEffect(() => {
     const fetchFeeds = async () => {
       try {
-        const response = await axios.get('http://localhost:80/feed/feedList');
+        const response = await axios.get('http://localhost:80/feed/feedRanking');
         const data = response.data.map(feed => ({
           id: feed.feedId,
           username: feed.userId ? `User ${feed.userId}` : 'Unknown',
@@ -20,7 +20,7 @@ const FeedList = () => {
         }));
         setFeeds(data);
       } catch (error) {
-        console.error('Error fetching feeds:', error);
+        console.error('Error fetching posts:', error);
       }
     };
 
@@ -43,4 +43,4 @@ const FeedList = () => {
   );
 };
 
-export default FeedList;
+export default StyleRankingList;

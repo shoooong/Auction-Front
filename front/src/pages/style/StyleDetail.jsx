@@ -4,39 +4,39 @@ import axios from 'axios';
 
 const FeedDetail = () => {
   const { feedId } = useParams();
-  const [post, setPost] = useState(null);
+  const [feed, setFeed] = useState(null);
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchFeed = async () => {
       try {
         const response = await axios.get(`http://localhost:80/feed/styleFeed/${feedId}`);
-        const postData = {
+        const feedData = {
           username: response.data.userId ? `User ${response.data.userId}` : 'Unknown',
           image: response.data.feedImage,
           description: response.data.feedTitle,
           likes: response.data.likeCount,
-          details: response.data.details // 예: 상세 내용 필드
+          details: response.data.details
         };
-        setPost(postData);
+        setFeed(feedData);
       } catch (error) {
-        console.error('Error fetching post:', error);
+        console.error('Error fetching feed:', error);
       }
     };
 
-    fetchPost();
+    fetchFeed();
   }, [feedId]);
 
-  if (!post) {
+  if (!feed) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="feed-detail">
-      <h1>{post.username}</h1>
-      <img src={post.image} alt={post.description} className="feed-detail-image" />
-      <p>{post.description}</p>
-      <p>Likes: {post.likes}</p>
-      <p>{post.details}</p> {/* 추가적인 상세 내용 */}
+      <h1>{feed.username}</h1>
+      <img src={feed.image} alt={feed.description} className="feed-detail-image" />
+      <p>{feed.description}</p>
+      <p>Likes: {feed.likes}</p>
+      <p>{feed.details}</p> {}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getAddress, addAddress, modifyAddress } from "api/user/mypageApi";
+import { getAddress, addAddress, modifyAddress, deleteAddress } from "api/user/mypageApi";
 import Postcode from "components/mypage/Postcode";
 import { getCookie } from 'pages/user/cookieUtil';
 
@@ -69,6 +69,16 @@ const Address = () => {
         }
     };
 
+    const handleDeleteAddress = async (addressId) => {
+        try {
+            await deleteAddress(addressId);
+            setAddresses(addresses.filter(address => address.addressId !== addressId));
+        } catch (error) {
+            console.error('배송지 삭제 중 오류가 발생했습니다.', error);
+            alert('배송지 삭제 중 오류가 발생했습니다.');
+        }
+    };
+
     const handleSave = (addressData) => {
         if (selectedAddress) {
             handleModifyAddress(addressData, selectedAddress.addressId);
@@ -98,15 +108,9 @@ const Address = () => {
                         <p>{address.addressName}</p>
                         <p>{address.roadAddress}</p>
                         <p>{address.detailAddress}</p>
-                        <button
-                            type="button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedAddress(address);
-                            }}
-                        >
-                            수정
-                        </button>
+
+                        <button type="button" onClick={() => setSelectedAddress(address)}>수정</button>
+                        <button type="button" onClick={(e) => { e.stopPropagation(); handleDeleteAddress(address.addressId); }}>삭제</button>
                     </div>
                 ))}
                 {addresses.length === 0 && <p>등록된 배송지가 없습니다.</p>}

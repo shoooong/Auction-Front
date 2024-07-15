@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Feed from './Feed';
 import { Link } from 'react-router-dom';
-import '../../styles/feedlist.css'
+import Feed from './Feed';
 
 const FeedList = () => {
   const [feeds, setFeeds] = useState([]);
@@ -30,7 +29,7 @@ const FeedList = () => {
   return (
     <div className="feed-list">
       {feeds.map(feed => (
-        <Link key={feed.id} to={`/style/styledetail/${feed.id}`}> {}
+        <Link key={feed.id} to={`/style/styledetail/${feed.id}`}>
           <Feed
             username={feed.username}
             image={feed.image}

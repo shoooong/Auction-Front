@@ -14,7 +14,8 @@ import LuckyDraw from "pages/draw/LuckyDraw";
 import luckyDrawRouter from "./luckyDrawRouter";
 import StyleRegistration from "pages/style/StyleRegistration";
 import FeedBookmark from "pages/style/FeedBookmark";
-import StyleRanking from "pages/Rank/StyleRanking"
+import StyleRanking from "pages/Rank/StyleRanking";
+import FeedDetailTop from "pages/style/FeedDetailTop";
 
 const mainRouter = () => {
   return [
@@ -22,10 +23,6 @@ const mainRouter = () => {
       path: "sample",
       element: <Sample />,
     },
-    // {
-    //     path: "admin",
-    //     element: <AdminSample />,
-    // },
     {
       path: "/",
       element: <MainCategory />,
@@ -45,12 +42,6 @@ const mainRouter = () => {
         {
           path: "/rank",
           element: <div>랭킹</div>,
-          // children:[
-          //   {
-          //     path: "style",
-          //     element: <div>범수</div>,   
-          //   },
-          // ],
         },
         {
           path: "/styleranking",
@@ -82,16 +73,15 @@ const mainRouter = () => {
       path: "style",
       element: <Style />,
       children: [
-        {
-          path: "",
-          element: <div>피드</div>,
-        },
       ],
     },
-
     {
       path: "register",
       element: <StyleRegistration/>,
+    },
+    {
+      path: "style/styledetail/:id",
+      element: <FeedDetailTop />,
     },
     {
       path: "feedbookmark",
@@ -115,7 +105,6 @@ const mainRouter = () => {
         path : "clothes",
         element : <clothesMain />,
     }
-
   ];
 };
 

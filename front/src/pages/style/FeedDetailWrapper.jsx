@@ -1,7 +1,9 @@
 import React from 'react';
-import FeedDetail from './StyleDetail'
+import { useParams } from 'react-router-dom';
+import FeedDetail from './FeedDetail';
 
-const FeedDetailWrapper = ({ feedId }) => {
+const FeedDetailWrapper = () => {
+  const { feedId } = useParams();
   return (
     <div className="feed-detail-wrapper">
       <FeedDetail feedId={feedId} />

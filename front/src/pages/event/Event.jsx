@@ -7,7 +7,7 @@ import "styles/event.css";
 import { getCookie } from "pages/user/cookieUtil";
 import { SERVER_URL } from "api/serverApi";
 
-export default function EventSample() {
+export default function Event() {
     const { coupons } = useCouponEvent();
     const navigate = useNavigate();
 

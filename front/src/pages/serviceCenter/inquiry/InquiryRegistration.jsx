@@ -21,7 +21,7 @@ const InquiryRegistration = () => {
                 console.log('Inquiry successfully submitted');
                 setSuccess(true);
             } else {
-                const errorData = response.data; // response.data는 예상되는 오류 데이터 형식에 맞춰 수정 필요
+                const errorData = response.data;
                 console.error('Failed to submit inquiry:', errorData);
                 setError('문의 등록에 실패했습니다. 다시 시도해 주세요.');
             }

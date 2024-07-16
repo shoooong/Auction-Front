@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import jwtAxios from 'pages/user/jwtUtil';
+import { SERVER_URL } from "api/serverApi";
 
 const FeedDetail = () => {
   const [feed, setFeed] = useState(null);
   const [error, setError] = useState(null);
-  const { id } = useParams();  // 여기서는 그대로 'id'를 사용합니다.
+  const [isSaved, setIsSaved] = useState(false);
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchFeedDetail = async () => {
       try {
-        // 여기서 'feedId'로 변경합니다.
-        const response = await axios.get(`http://localhost:80/feed/styleFeed/${id}`);
+        const response = await jwtAxios.get(`${SERVER_URL}/feed/styleFeed/${id}`);
         setFeed(response.data);
       } catch (error) {
         console.error('Error fetching feed details:', error);
@@ -20,6 +21,15 @@ const FeedDetail = () => {
     };
     fetchFeedDetail();
   }, [id]);
+
+  const handleSave = async () => {
+    try {
+      await jwtAxios.post(`${SERVER_URL}/feed/user/saveFeedBookmark`, { feedId: id });
+      setIsSaved(!isSaved);
+    } catch (error) {
+      console.error('Error saving feed:', error);
+    }
+  };
 
   if (error) return <div>Error: {error}</div>;
   if (!feed) return <div>Loading...</div>;
@@ -32,6 +42,14 @@ const FeedDetail = () => {
         <p className="username">@{feed.userId ? `User ${feed.userId}` : 'Unknown'}</p>
         <p className="likes">❤️ {feed.likeCount}</p>
         <p className="description">{feed.feedContent}</p>
+        <button onClick={handleSave} className="save-button">
+          {isSaved ? (
+            <i className="fa-solid fa-bookmark"></i>
+          ) : (
+            <i className="fa-regular fa-bookmark"></i>
+          )}
+          {isSaved ? ' Saved' : ' Save'}
+        </button>
       </div>
     </div>
   );

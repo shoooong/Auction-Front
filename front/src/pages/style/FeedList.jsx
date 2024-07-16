@@ -3,13 +3,15 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Feed from './Feed';
 
+import {SERVER_URL} from "api/serverApi";
+
 const FeedList = () => {
   const [feeds, setFeeds] = useState([]);
 
   useEffect(() => {
     const fetchFeeds = async () => {
       try {
-        const response = await axios.get('http://localhost:80/feed/feedList');
+        const response = await axios.get(`${SERVER_URL}/feed/feedList`);
         const data = response.data.map(feed => ({
           id: feed.feedId,
           username: feed.userId ? `User ${feed.userId}` : 'Unknown',
@@ -19,7 +21,7 @@ const FeedList = () => {
         }));
         setFeeds(data);
       } catch (error) {
-        console.error('Error fetching feeds:', error);
+       console.error('Error fetching feeds:', error);
       }
     };
 

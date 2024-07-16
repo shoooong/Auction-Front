@@ -7,7 +7,7 @@ const Inquiry = lazy(() => import("../pages/serviceCenter/inquiry/InquiryPage"))
 const InquiryRegistration = lazy(() => import("../pages/serviceCenter/inquiry/InquiryRegistration"));
 const InquiryDetail = lazy(() => import("../pages/serviceCenter/inquiry/InquiryDetailTop"));
 const AdminInquiry = lazy(() => import("../pages/serviceCenter/inquiry/AdminInquiryPage"));
-const AdminInquiryDetail = lazy(() =>("../pages/serviceCenter/inquiry/AdminInquiryDetailTop"));
+const AdminInquiryDetail = lazy(() => import("../pages/serviceCenter/inquiry/AdminInquiryDetailTop"));
 
 export default function clothesRouter() {
     return [
@@ -60,8 +60,12 @@ export default function clothesRouter() {
             element: <NoitceDetail />,
         },
         {
-            path: "admin/inquiry/:inquiryId",
-            element: <AdminInquiryDetail />,
-        },
+            path: "admininquiry/:inquiryId",
+            element: (
+              <Suspense fallback={Loading}>
+                <AdminInquiryDetail />
+              </Suspense>
+            ),
+          },
     ];
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import InquiryItem from './InquiryItem';
 
 const AdminInquiryItemList = ({ inquiries }) => {
   return (
@@ -25,7 +24,7 @@ const AdminInquiryItemList = ({ inquiries }) => {
               <td>{new Date(inquiry.createdDate).toLocaleString()}</td>
               <td>{inquiry.response ? '답변 완료' : '답변 대기'}</td>
               <td>
-                <Link to={`/admin/inquiry/${inquiry.inquiryId}`}>
+                <Link to={`/service/admininquiry/${inquiry.inquiryId}`}>
                   상세보기
                 </Link>
               </td>

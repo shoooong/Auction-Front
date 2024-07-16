@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
+import { Link } from 'react-router-dom';
 
 const AdminInquiryDetail = ({ inquiryId }) => {
   const [inquiry, setInquiry] = useState(null);
@@ -39,7 +40,7 @@ const AdminInquiryDetail = ({ inquiryId }) => {
       <p><strong>내용:</strong> {inquiry.content}</p>
       {/* 필요에 따라 추가 필드 표시 가능 */}
       <div className="navigation-buttons">
-        <Link to="/admin/inquiry" className="back-button">
+        <Link to="/service/admininquiry" className="back-button">
           목록으로 돌아가기
         </Link>
       </div>

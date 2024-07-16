@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import jwtAxios from 'pages/user/jwtUtil';
 import { useParams, useNavigate } from 'react-router-dom';
 import NoticeDetailContent from './NoticeDetailContent';
 import NoticeEditForm from './NoticeEditForm';
@@ -15,7 +15,7 @@ const AdminNoticeDetailContainer = () => {
   useEffect(() => {
     const fetchNotice = async () => {
       try {
-        const response = await axios.get(`http://localhost:80/notice/admin/notice/${noticeId}`);
+        const response = await jwtAxios.get(`http://localhost:80/notice/admin/notice/${noticeId}`);
         setNotice(response.data);
         setLoading(false);
       } catch (err) {
@@ -34,7 +34,7 @@ const AdminNoticeDetailContainer = () => {
   const handleUpdate = async (updatedNotice) => {
     console.log('Updating notice:', updatedNotice);
     try {
-      const response = await axios.put(`http://localhost:80/notice/user/modifyNotice/${noticeId}`, updatedNotice);
+      const response = await jwtAxios.put(`http://localhost:80/notice/user/modifyNotice/${noticeId}`, updatedNotice);
       console.log('Update response:', response.data);
       setNotice(response.data);
       setIsEditing(false);
@@ -47,9 +47,9 @@ const AdminNoticeDetailContainer = () => {
     console.log('Delete button clicked');
     if (window.confirm('정말로 이 공지사항을 삭제하시겠습니까?')) {
       try {
-        await axios.delete(`http://localhost:80/notice/user/deleteNotice/${noticeId}`);
+        await jwtAxios.delete(`http://localhost:80/notice/user/deleteNotice/${noticeId}`);
         console.log('Notice deleted successfully');
-        navigate('/admin/notices'); // 삭제 후 목록 페이지로 이동
+        navigate('/admin/notices');
       } catch (err) {
         console.error('공지사항 삭제 실패:', err);
       }

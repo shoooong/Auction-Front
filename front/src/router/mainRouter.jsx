@@ -38,7 +38,7 @@ const mainRouter = () => {
                 },
                 {
                     path: "/tech",
-                    element: <div>테크</div>,
+                    element: <div>수현이전용</div>,
                 },
                 {
                     path: "/rank",

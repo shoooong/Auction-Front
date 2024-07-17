@@ -18,7 +18,7 @@ import { getCookie } from "pages/user/cookieUtil";
 const departments = {
   의류: ["상의", "하의", "아우터", "신발", "이너웨어"],
   라이프: ["인테리어", "키친", "뷰티"],
-  테크: [],
+  TECH: [],
 };
 
 const DepartmentTabs = React.memo(({ mainDepartment, handleTabChange }) => (

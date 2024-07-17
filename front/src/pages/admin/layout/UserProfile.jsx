@@ -13,17 +13,7 @@ const UserProfile = () => {
   const isLoggedIn = !!loginState.email;
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        backgroundColor: "#2C57AC",
-        borderRadius: "8px",
-        padding: "8px",
-        color: "#fff",
-        marginBottom: "16px",
-      }}
-    >
+    <Box className="row-direction admin-profile-container">
       <Avatar
         alt={isLoggedIn ? loginState.nickname : "not defined"}
         src={isLoggedIn ? selkiAvatar : bumsu}
@@ -36,15 +26,17 @@ const UserProfile = () => {
         <Typography variant="body2">
           {isLoggedIn ? (loginState.role ? "관리자 계정" : "사용자 계정") : ""}
         </Typography>
-        <Box className="aside flex align-center">
-          {!loginState.email ? (
-            <Link to="/admin/login">로그인</Link>
-          ) : (
-            <Link to="/admin/login" onClick={doLogout}>
-              로그아웃
-            </Link>
-          )}
-        </Box>
+      </Box>
+      <Box className="link-container text-right align-center">
+        {!loginState.email ? (
+          <Link to="/admin/login" className="login-link">
+            로그인
+          </Link>
+        ) : (
+          <Link to="/admin/login" onClick={doLogout} className="login-link">
+            로그아웃
+          </Link>
+        )}
       </Box>
     </Box>
   );

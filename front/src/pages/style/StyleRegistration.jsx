@@ -1,28 +1,32 @@
 import React, { useState } from 'react';
 import jwtAxios from 'pages/user/jwtUtil'; 
+import {SERVER_URL} from "../../api/serverApi";
 
 const FeedRegistrationForm = () => {
   const [feedTitle, setFeedTitle] = useState('');
-  const [feedImage, setFeedImage] = useState('');
+  const [feedImage, setFeedImage] = useState(null);
   const [userId, setUserId] = useState('');
+
+  const handleImageChange = (event) => {
+    setFeedImage(event.target.files[0]);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const newFeed = {
-      feedTitle,
-      feedImage,
-      userId: parseInt(userId),
-    };
+    const formData = new FormData();
+    formData.append('feedTitle', feedTitle);
+    formData.append('feedImage', feedImage);
+    formData.append('userId', userId);
 
     try {
-      const response = await jwtAxios.post('http://localhost:80/feed/user/feedRegistration', newFeed, {
+      const response = await jwtAxios.post(`${SERVER_URL}/feed/user/feedRegistration`, formData, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'multipart/form-data'
         }
       });
       console.log('Feed registered successfully:', response.data);
       setFeedTitle('');
-      setFeedImage('');
+      setFeedImage(null);
       setUserId('');
     } catch (error) {
       if (error.response) {
@@ -50,12 +54,12 @@ const FeedRegistrationForm = () => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="feedImage">피드 이미지 URL:</label>
+        <label htmlFor="feedImage">피드 이미지:</label>
         <input
-          type="text"
+          type="file"
           id="feedImage"
-          value={feedImage}
-          onChange={(e) => setFeedImage(e.target.value)}
+          onChange={handleImageChange}
+          accept="image/*"
           required
         />
       </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
 import { Link } from 'react-router-dom';
+import { SERVER_URL } from '../../../api/serverApi';
 
 const AdminInquiryDetail = ({ inquiryId }) => {
   const [inquiry, setInquiry] = useState(null);
@@ -11,7 +12,7 @@ const AdminInquiryDetail = ({ inquiryId }) => {
     const fetchInquiry = async () => {
       try {
         setLoading(true);
-        const response = await jwtAxios.get(`http://localhost:80/inquiry/admin/${inquiryId}`);
+        const response = await jwtAxios.get(`${SERVER_URL}/inquiry/admin/${inquiryId}`);
         setInquiry(response.data);
         setError(null);
       } catch (error) {

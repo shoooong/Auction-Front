@@ -1,0 +1,5 @@
+/*  ----------------------------- tree-view -----------------------------------*/
+.tree-view {margin-top: 45px;}
+.tree-view b {color: var(--black); font-size: var(--ft16); font-weight: var(--semibold); padding: 0 20px 0 10px; width: 100%; display: flex; justify-content: space-between; position: relative; margin-bottom: 20px;}
+.tree-view b::before {content: ""; position: absolute; background-color: var(--black); width: 3px; height: 15px; top: 0px; left: 0px;}
+.tree-view b > span {font-size: var(--ft13); font-weight: var(--light); color: var(--grey);}

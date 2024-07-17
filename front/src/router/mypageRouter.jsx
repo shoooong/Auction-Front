@@ -5,6 +5,7 @@ import MypageBookmark from "components/mypage/MypageBookmark";
 import DrawHistory from "pages/user/mypage/DrawHistory";
 import Account from "pages/user/mypage/Account";
 import Address from "pages/user/mypage/Address";
+import Coupon from "pages/user/mypage/coupon";
 
 import { Suspense, lazy } from "react";
 
@@ -47,15 +48,11 @@ const mypageRouter = () => {
         },
         {
             path: "account",
-            element: <Account />
+            element: <Account />,
         },
         {
             path: "coupon",
-            element: (
-                <>
-                    <div>마이페이지 - 쿠폰</div>
-                </>
-            ),
+            element: <Coupon />,
         },
     ];
 };

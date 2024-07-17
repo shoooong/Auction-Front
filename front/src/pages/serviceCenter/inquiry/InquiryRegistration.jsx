@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import jwtAxios from 'pages/user/jwtUtil'; // jwtAxios 모듈 import
+import jwtAxios from 'pages/user/jwtUtil';
+import { SERVER_URL } from '../../../api/serverApi';
 
 const InquiryRegistration = () => {
     const [title, setTitle] = useState('');
@@ -12,7 +13,7 @@ const InquiryRegistration = () => {
         e.preventDefault();
 
         try {
-            const response = await jwtAxios.post('http://localhost:80/inquiry/user/registration', {
+            const response = await jwtAxios.post(`${SERVER_URL}/inquiry/user/registration`, {
                 inquiryTitle: title,
                 inquiryContent: content,
             });
@@ -21,7 +22,7 @@ const InquiryRegistration = () => {
                 console.log('Inquiry successfully submitted');
                 setSuccess(true);
             } else {
-                const errorData = response.data; // response.data는 예상되는 오류 데이터 형식에 맞춰 수정 필요
+                const errorData = response.data;
                 console.error('Failed to submit inquiry:', errorData);
                 setError('문의 등록에 실패했습니다. 다시 시도해 주세요.');
             }

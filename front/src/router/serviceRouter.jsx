@@ -5,7 +5,6 @@ const Notice = lazy(() => import("../pages/serviceCenter/notice/Notice"));
 const NoticeDetail = lazy(() => import("../pages/serviceCenter/notice/NoticeDetail"));
 const Inquiry = lazy(() => import("../pages/serviceCenter/inquiry/InquiryPage"));
 const InquiryRegistration = lazy(() => import("../pages/serviceCenter/inquiry/InquiryRegistration"));
-const InquiryDetail = lazy(() => import("../pages/serviceCenter/inquiry/InquiryDetailTop"));
 const AdminInquiryDetail = lazy(() => import("../pages/serviceCenter/inquiry/AdminInquiryDetailTop"));
 const NoticeRegister = lazy(() => import("../pages/serviceCenter/notice/NoticeRegistration"));
 
@@ -44,10 +43,6 @@ export default function clothesRouter() {
             element: <Suspense fallback={Loading}>
                 <InquiryRegistration />
             </Suspense>
-        },
-        {
-            path: "inquiry/:inquiryId",
-            element: <InquiryDetail />,
         },
         {
             path: "notice/:noticeId",

@@ -6,11 +6,8 @@ const NoticeDetail = lazy(() => import("../pages/serviceCenter/notice/NoticeDeta
 const Inquiry = lazy(() => import("../pages/serviceCenter/inquiry/InquiryPage"));
 const InquiryRegistration = lazy(() => import("../pages/serviceCenter/inquiry/InquiryRegistration"));
 const InquiryDetail = lazy(() => import("../pages/serviceCenter/inquiry/InquiryDetailTop"));
-const AdminInquiry = lazy(() => import("../pages/serviceCenter/inquiry/AdminInquiryPage"));
 const AdminInquiryDetail = lazy(() => import("../pages/serviceCenter/inquiry/AdminInquiryDetailTop"));
-const AdminNotice = lazy(() => import("../pages/serviceCenter/notice/AdminNotice"));
 const NoticeRegister = lazy(() => import("../pages/serviceCenter/notice/NoticeRegistration"));
-const AdminNoticeDetail = lazy(() => import("../pages/serviceCenter/notice/AdminNoticeDetail"));
 
 export default function clothesRouter() {
     return [
@@ -39,22 +36,6 @@ export default function clothesRouter() {
             )
         },
         {
-            path: "admininquiry",
-            element: (
-                <Suspense fallback={Loading}>
-                    <AdminInquiry />
-                </Suspense>
-            )
-        },
-        {
-            path: "adminnotice",
-            element: (
-                <Suspense fallback={Loading}>
-                    <AdminNotice />
-                </Suspense>
-            )
-        },
-        {
             path: "request",
             element: <div>미등록 상품 등록요청</div>,
         },
@@ -79,14 +60,6 @@ export default function clothesRouter() {
             element: (
               <Suspense fallback={Loading}>
                 <AdminInquiryDetail />
-              </Suspense>
-            ),
-          },
-          {
-            path: "adminnotice/:noticeId",
-            element: (
-              <Suspense fallback={Loading}>
-                <AdminNoticeDetail />
               </Suspense>
             ),
           },

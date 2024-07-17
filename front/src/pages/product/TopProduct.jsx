@@ -6,6 +6,7 @@ import BookmarkOn from "../../assets/images/bookmark-on.svg";
 import Product from "./Product";
 import "../../styles/product.css";
 import tempImg from "../../assets/images/feed6.png";
+import { SERVER_URL } from '../../api/serverApi';
 
 const TopProduct = () => {
     const [like, setLike] = useState(false);
@@ -16,7 +17,7 @@ const TopProduct = () => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(
-                    "http://localhost:80/products/상의"
+                    `${SERVER_URL}/products/신발`
                 );
                 const data = response.data.map((product) => ({
                     productId: product.productId,

@@ -38,7 +38,7 @@ const AdminNoticeList = () => {
             <li key={index}>
               <span className="title">{notice.noticeTitle}</span>
               <span className="content">
-                <Link to={`/service/adminnotice/${notice.noticeId}`}>
+                <Link to={`/admin/notice/${notice.noticeId}`}>
                   {notice.noticeContent}
                 </Link>
               </span>

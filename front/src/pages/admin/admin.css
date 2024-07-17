@@ -1,0 +1,85 @@
+/* sidebar */
+.admin-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.admin-nav {
+  background-color: var(--buy);
+  padding: 10px 20px;
+  color: var(--whitegrey); /* 폰트 색상 흰색 */
+  display: block; /* 링크를 블록 요소로 설정 */
+  width: 100%; /* 링크의 너비를 100%로 설정하여 부모 요소를 채우도록 함 */
+  height: 100%;
+}
+
+.admin-navlink {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  font-size: var(--ft28);
+  font-weight: var(--bold); /* 폰트 두께 bold */
+  height: 30px;
+  margin: 15px 0; /* 상단 여백 15px, 하단 여백 15px */
+  color: inherit;
+  text-decoration: none; /* 링크 밑줄 제거 */
+}
+.admin-navlink .icon {
+  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 조절 */
+  display: flex;
+  align-items: center;
+}
+/* hover 효과 추가 */
+.admin-navlink:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* 배경색 변경 */
+  color: var(--white); /* 폰트 색상 primary로 변경 */
+  cursor: pointer; /* 마우스 포인터 변경 */
+}
+
+/* profile */
+.admin-profile-container {
+  background-color: #2c57ac;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  font-size: var(--ft14);
+}
+.link-container {
+  font-size: inherit;
+  margin-left: auto;
+  margin-right: auto;
+}
+.login-link {
+  font-size: inherit;
+  color: var(--palegrey);
+}
+.login-link:hover {
+  color: var(--whitegrey);
+  text-decoration: none;
+}
+
+.admin-content-container {
+  padding: 20px 0;
+  height: 100%;
+}
+.admin-title-box {
+  margin-bottom: 15px;
+}
+
+.admin-main-title {
+  font-size: var(--ft16);
+  font-weight: var(--semibold);
+  color: var(--black);
+  line-height: 1.6;
+}
+
+/* commonList */
+.admin-list-container {
+  height: 100%;
+}
+.admin-list {
+  border-color: var(--palegrey);
+  border-radius: 10px !important;
+}

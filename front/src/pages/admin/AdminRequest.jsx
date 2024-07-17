@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Box, Typography, Button, CircularProgress } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import React, { useState, useEffect, useCallback } from "react";
+import { Box, Typography, CircularProgress, Button } from "@mui/material";
 import { getRequests } from "api/admin/requestApi";
 import { Outlet, useNavigate } from "react-router-dom";
 import { getCookie } from "pages/user/cookieUtil";
+import CommonList from "./layout/CommonList";
+
+const ApproveCell = ({ productStatus }) => (
+  <Button variant="contained" color="primary" size="small">
+    {productStatus === "REQUEST" ? "요청" : "승인"}
+  </Button>
+);
 
 const AdminRequest = () => {
   const [products, setProducts] = useState([]);
@@ -11,22 +17,8 @@ const AdminRequest = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const userInfo = getCookie("user");
-
-      if (!userInfo || !userInfo.accessToken) {
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/admin");
-        return;
-      }
-      try {
-      } catch (error) {}
-    };
-    fetchData();
-  }, [navigate]);
-
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
+    setLoading(true);
     try {
       const data = await getRequests();
       setProducts(data.products || []);
@@ -37,23 +29,21 @@ const AdminRequest = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchRequests();
   }, []);
 
-  const renderStatusCell = (params) => (
-    <span style={{ color: params.value === "REQUEST" ? "blue" : "green" }}>
-      {params.value === "REQUEST" ? "요청" : "승인"}
-    </span>
-  );
+  useEffect(() => {
+    const fetchData = async () => {
+      const userInfo = getCookie("user");
 
-  const renderApproveCell = (params) => (
-    <Button variant="contained" color="primary" size="small">
-      {params.row.productStatus === "REQUEST" ? "요청" : "승인"}
-    </Button>
-  );
+      if (!userInfo || !userInfo.accessToken) {
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/admin");
+        return;
+      }
+      fetchRequests();
+    };
+    fetchData();
+  }, [navigate, fetchRequests]);
 
   const columns = [
     {
@@ -65,10 +55,11 @@ const AdminRequest = () => {
     },
     {
       field: "productName",
-      headerName: "제목",
+      headerName: "상품명",
       width: 150,
       headerAlign: "center",
       align: "left",
+      flex: 1,
     },
     {
       field: "productBrand",
@@ -76,22 +67,25 @@ const AdminRequest = () => {
       width: 150,
       headerAlign: "center",
       align: "left",
+      flex: 1,
+    },
+    {
+      field: "modelNum",
+      headerName: "모델명",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      flex: 1,
     },
     {
       field: "productStatus",
       headerName: "상태",
-      width: 150,
-      headerAlign: "center",
-      align: "center",
-      renderCell: renderStatusCell,
-    },
-    {
-      field: "approve",
-      headerName: "승인여부",
       flex: 1,
       headerAlign: "center",
       align: "center",
-      renderCell: renderApproveCell,
+      renderCell: (params) => (
+        <ApproveCell productStatus={params.row.productStatus} />
+      ),
     },
   ];
 
@@ -100,12 +94,16 @@ const AdminRequest = () => {
     indexId: index + 1,
     productName: product.productName,
     productBrand: product.productBrand,
+    modelNum: product.modelNum,
     productStatus: product.productStatus,
   }));
 
-  const handleRowClick = (params) => {
-    navigate(`/admin/request/${params.id}`);
-  };
+  const handleRowClick = useCallback(
+    (row) => {
+      navigate(`/admin/request/${row.id}`);
+    },
+    [navigate]
+  );
 
   if (loading) {
     return (
@@ -133,34 +131,12 @@ const AdminRequest = () => {
   }
 
   return (
-    <Box sx={{ padding: "16px" }}>
-      <Typography variant="h6" gutterBottom>
-        요청 상품 관리
-      </Typography>
-      <Box sx={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          checkboxSelection
-          disableColumnMenu
-          onRowClick={handleRowClick}
-          sx={{
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: "#f2f2f2",
-            },
-            "& .MuiDataGrid-cell": {
-              textAlign: "center",
-            },
-          }}
-        />
-        <Outlet context={{ fetchRequests }} />
-      </Box>
+    <Box className="column-direction admin-content-container">
+      <div className="admin-title-box">
+        <p className="admin-main-title">요청 상품 관리</p>
+      </div>
+      <CommonList rows={rows} columns={columns} onRowClick={handleRowClick} />
+      <Outlet context={{ fetchRequests }} />
     </Box>
   );
 };

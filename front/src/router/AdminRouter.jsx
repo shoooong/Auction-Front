@@ -6,9 +6,10 @@ import AdminLuckdraws from "pages/admin/AdminLuckydraws";
 import AdminMain from "pages/admin/AdminMain";
 import AdminRegister from "pages/admin/AdminRegister";
 import AdminNotice from "pages/serviceCenter/notice/AdminNotice";
-import AdminInquiry from "pages/serviceCenter/inquiry/AdminInquiryPage";
 import AdminNoticeDetail from "pages/serviceCenter/notice/AdminNoticeDetail";
-import AdminInquiryDetail from "pages/serviceCenter/inquiry/AdminInquiryDetail";
+import AdminInquiry from "pages/serviceCenter/inquiry/AdminInquiryPage";
+import AdminInquiryDetail from "pages/serviceCenter/inquiry/AdminInquiryDetailTop";
+import NoticeRegistration from "pages/serviceCenter/notice/NoticeRegistration";
 
 const AdminRouter = () => {
   return [
@@ -59,12 +60,18 @@ const AdminRouter = () => {
       element: <AdminNoticeDetail />,
     },
     {
-      path: "notice"
+      path: "notice/register",
+      element: <NoticeRegistration />,
     },
     {
       // 1:1문의
       path: "inquiry",
       element: <AdminInquiry />,
+    },
+    // 1:1문의 상세
+    {
+      path: "inquiry/:inquiryId",
+      element: <AdminInquiryDetail />,
     },
   ];
 };

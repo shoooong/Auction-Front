@@ -8,7 +8,7 @@ const AdminNotice = () => {
     <div className="app-container">
       <div className="content-container">
         <NoticeTab />
-        <Link to="/service/adminnotice/create" className="create-notice-btn">
+        <Link to="/admin/notice/register" className="create-notice-btn">
           공지사항 등록하기
         </Link>
         <AdminNoticeList />

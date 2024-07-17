@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
 import { SERVER_URL } from '../../../api/serverApi';
+import { useNavigate } from 'react-router-dom';
 
 const NoticeRegistrationForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [type, setType] = useState('notice');
+  const [type, setType] = useState('notice'); // 공지사항 유형 상태
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ const NoticeRegistrationForm = () => {
         setTitle('');
         setContent('');
         setType('notice');
+        navigate('/admin/notice'); // 등록 완료 후 이동할 페이지 경로
       }
     } catch (error) {
       console.error('Error registering notice:', error);

@@ -8,7 +8,7 @@ import AdminRegister from "pages/admin/AdminRegister";
 import AdminNotice from "pages/serviceCenter/notice/AdminNotice";
 import AdminNoticeDetail from "pages/serviceCenter/notice/AdminNoticeDetail";
 import AdminInquiry from "pages/serviceCenter/inquiry/AdminInquiryPage";
-import AdminInquiryDetail from "pages/serviceCenter/inquiry/AdminInquiryDetailPage";
+import AdminInquiryDetail from "pages/serviceCenter/inquiry/AdminInquiryDetailTop";
 import NoticeRegistration from "pages/serviceCenter/notice/NoticeRegistration";
 
 const AdminRouter = () => {

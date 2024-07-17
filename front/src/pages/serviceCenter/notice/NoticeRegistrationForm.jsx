@@ -24,9 +24,7 @@ const NoticeRegistrationForm = () => {
         setTitle('');
         setContent('');
         setType('notice');
-        setTimeout(() => {
-          navigate('/admin/notice'); // 등록 완료 후 이동할 페이지 경로
-        }, 2000); // 2초 후 리디렉션
+        navigate('/admin/notice'); // 등록 완료 후 이동할 페이지 경로
       }
     } catch (error) {
       console.error('Error registering notice:', error);

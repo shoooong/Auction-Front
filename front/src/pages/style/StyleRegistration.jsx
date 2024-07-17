@@ -63,16 +63,6 @@ const FeedRegistrationForm = () => {
           required
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="userId">사용자 ID:</label>
-        <input
-          type="text"
-          id="userId"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          required
-        />
-      </div>
       <button type="submit">등록</button>
     </form>
   );

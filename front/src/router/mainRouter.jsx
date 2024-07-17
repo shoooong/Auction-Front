@@ -76,7 +76,7 @@ const mainRouter = () => {
             children: [],
         },
         {
-            path: "register",
+            path: "style/register",
             element: <StyleRegistration />,
         },
         {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import jwtAxios from 'pages/user/jwtUtil'; 
+import {SERVER_URL} from "../../api/serverApi";
 
 const FeedRegistrationForm = () => {
   const [feedTitle, setFeedTitle] = useState('');
@@ -18,7 +19,7 @@ const FeedRegistrationForm = () => {
     formData.append('userId', userId);
 
     try {
-      const response = await jwtAxios.post('http://localhost:80/feed/user/feedRegistration', formData, {
+      const response = await jwtAxios.post(`${SERVER_URL}/feed/user/feedRegistration`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

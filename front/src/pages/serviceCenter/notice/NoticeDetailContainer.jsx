@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import NoticeDetailContent from './NoticeDetailContent';
+import { SERVER_URL } from '../../../api/serverApi';
 
 const NoticeDetailContainer = () => {
   const [notice, setNotice] = useState(null);
@@ -12,7 +13,7 @@ const NoticeDetailContainer = () => {
   useEffect(() => {
     const fetchNotice = async () => {
       try {
-        const response = await axios.get(`http://localhost:80/notice/notice/${noticeId}`);
+        const response = await axios.get(`${SERVER_URL}/notice/notice/${noticeId}`);
         setNotice(response.data);
         setLoading(false);
       } catch (err) {

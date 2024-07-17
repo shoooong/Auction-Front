@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
+import { SERVER_URL } from '../../../api/serverApi';
 
 const NoticeRegistrationForm = () => {
   const [title, setTitle] = useState('');
@@ -10,7 +11,7 @@ const NoticeRegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await jwtAxios.post('http://localhost:80/notice/user/noticeRegistration', {
+      const response = await jwtAxios.post(`${SERVER_URL}/notice/user/noticeRegistration`, {
         noticeTitle: title,
         noticeContent: content,
         noticeType: type
@@ -18,7 +19,6 @@ const NoticeRegistrationForm = () => {
       
       if (response.status === 200) {
         setMessage('등록 완료되었습니다.');
-        // 폼 초기화
         setTitle('');
         setContent('');
         setType('notice');

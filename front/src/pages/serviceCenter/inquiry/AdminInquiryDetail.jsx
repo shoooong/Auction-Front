@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
+import { Link } from 'react-router-dom';
 import { SERVER_URL } from '../../../api/serverApi';
 
-const InquiryDetail = ({ inquiryId }) => {
+const AdminInquiryDetail = ({ inquiryId }) => {
   const [inquiry, setInquiry] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +12,7 @@ const InquiryDetail = ({ inquiryId }) => {
     const fetchInquiry = async () => {
       try {
         setLoading(true);
-        const response = await jwtAxios.get(`${SERVER_URL}/inquiry/${inquiryId}`);
+        const response = await jwtAxios.get(`${SERVER_URL}/inquiry/admin/${inquiryId}`);
         setInquiry(response.data);
         setError(null);
       } catch (error) {
@@ -30,13 +31,22 @@ const InquiryDetail = ({ inquiryId }) => {
   if (!inquiry) return <div>No inquiry found</div>;
 
   return (
-    <div className="inquiry-detail">
-      <h2>Inquiry Detail</h2>
+    <div className="admin-inquiry-detail">
+      <h2>관리자 전용 1대1 문의 상세</h2>
       <p><strong>ID:</strong> {inquiry.inquiryId}</p>
-      <p><strong>Title:</strong> {inquiry.title}</p>
-      <p><strong>Content:</strong> {inquiry.content}</p>
+      <p><strong>제목:</strong> {inquiry.title}</p>
+      <p><strong>작성자:</strong> {inquiry.userId}</p>
+      <p><strong>작성일:</strong> {new Date(inquiry.createdDate).toLocaleString()}</p>
+      <p><strong>상태:</strong> {inquiry.response ? '답변 완료' : '답변 대기'}</p>
+      <p><strong>내용:</strong> {inquiry.content}</p>
+      {/* 필요에 따라 추가 필드 표시 가능 */}
+      <div className="navigation-buttons">
+        <Link to="/service/admininquiry" className="back-button">
+          목록으로 돌아가기
+        </Link>
+      </div>
     </div>
   );
 };
 
-export default InquiryDetail;
+export default AdminInquiryDetail;

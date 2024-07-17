@@ -2,9 +2,12 @@ import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>;
 const Notice = lazy(() => import("../pages/serviceCenter/notice/Notice"));
-const NoitceDetail = lazy(() => import("../pages/serviceCenter/notice/NoticeDetail"));
+const NoticeDetail = lazy(() => import("../pages/serviceCenter/notice/NoticeDetail"));
 const Inquiry = lazy(() => import("../pages/serviceCenter/inquiry/InquiryPage"));
-const InquiryRegistration = lazy(() => import("../pages/serviceCenter/inquiry/InquiryRegistration"))
+const InquiryRegistration = lazy(() => import("../pages/serviceCenter/inquiry/InquiryRegistration"));
+const InquiryDetail = lazy(() => import("../pages/serviceCenter/inquiry/InquiryDetailTop"));
+const AdminInquiryDetail = lazy(() => import("../pages/serviceCenter/inquiry/AdminInquiryDetailTop"));
+const NoticeRegister = lazy(() => import("../pages/serviceCenter/notice/NoticeRegistration"));
 
 export default function clothesRouter() {
     return [
@@ -13,6 +16,14 @@ export default function clothesRouter() {
             element: (
                 <Suspense fallback={Loading}>
                 <Notice />
+                </Suspense>
+            )
+        },
+        {
+            path: "adminnotice/create",
+            element: (
+                <Suspense fallback={Loading}>
+                <NoticeRegister />
                 </Suspense>
             )
         },
@@ -35,10 +46,22 @@ export default function clothesRouter() {
             </Suspense>
         },
         {
-            path: "noticedetail",
+            path: "inquiry/:inquiryId",
+            element: <InquiryDetail />,
+        },
+        {
+            path: "notice/:noticeId",
             element: <Suspense fallback={Loading}>
-                <NoitceDetail />
+                <NoticeDetail />
             </Suspense>
         },
+        {
+            path: "admininquiry/:inquiryId",
+            element: (
+              <Suspense fallback={Loading}>
+                <AdminInquiryDetail />
+              </Suspense>
+            ),
+          },
     ];
 }

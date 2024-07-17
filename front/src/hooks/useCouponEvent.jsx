@@ -15,6 +15,8 @@ const useCouponEvent = () => {
                 );
                 const data = response.data;
 
+                console.log(data);
+
                 if (Array.isArray(data)) {
                     setCoupons(data);
                 } else {

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Feed from './Feed';
 import { Link } from 'react-router-dom';
-import '../../styles/feedlist.css'
+import Feed from './Feed';
+
+import {SERVER_URL} from "api/serverApi";
 
 const FeedList = () => {
   const [feeds, setFeeds] = useState([]);
@@ -10,7 +11,7 @@ const FeedList = () => {
   useEffect(() => {
     const fetchFeeds = async () => {
       try {
-        const response = await axios.get('http://localhost:80/feed/feedList');
+        const response = await axios.get(`${SERVER_URL}/feed/feedList`);
         const data = response.data.map(feed => ({
           id: feed.feedId,
           username: feed.userId ? `User ${feed.userId}` : 'Unknown',
@@ -20,7 +21,7 @@ const FeedList = () => {
         }));
         setFeeds(data);
       } catch (error) {
-        console.error('Error fetching feeds:', error);
+       console.error('Error fetching feeds:', error);
       }
     };
 
@@ -30,7 +31,7 @@ const FeedList = () => {
   return (
     <div className="feed-list">
       {feeds.map(feed => (
-        <Link key={feed.id} to={`/style/styledetail/${feed.id}`}> {}
+        <Link key={feed.id} to={`/style/styledetail/${feed.id}`}>
           <Feed
             username={feed.username}
             image={feed.image}

@@ -57,7 +57,7 @@ a:active {color: var(--primary);text-decoration: none;}
 input {line-height: 1;border: none;outline: none;}
 img, fieldset {border: none;}
 
-body {font-family: 'Pretendard', sans-serif !important;font-size: 16px;font-weight: 400;color: var(--black);line-height: 1;}
+body {font-family: 'Pretendard', sans-serif !important;font-size: 16px;font-weight: 400;color: var(--primary);line-height: 1;}
 em {font-style: normal;}
 
 .blind {text-indent: -9999px;font-size: 0;}

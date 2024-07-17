@@ -39,6 +39,9 @@ const Nav = () => {
           </span>
           <ListItemText primary="공지사항 관리" />
         </NavLink>
+        <NavLink to="/admin/inquiry">
+          <ListItemText primary="1:1 문의 관리" />
+        </NavLink>
       </List>
     </Box>
   );

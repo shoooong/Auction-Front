@@ -14,109 +14,98 @@ import LuckyDraw from "pages/draw/LuckyDraw";
 import luckyDrawRouter from "./luckyDrawRouter";
 import StyleRegistration from "pages/style/StyleRegistration";
 import FeedBookmark from "pages/style/FeedBookmark";
-import StyleRanking from "pages/Rank/StyleRanking"
+import StyleRanking from "pages/Rank/StyleRanking";
+import FeedDetailTop from "pages/style/FeedDetailTop";
+import Event from "pages/event/Event";
 
 const mainRouter = () => {
-  return [
-    {
-      path: "sample",
-      element: <Sample />,
-    },
-    // {
-    //     path: "admin",
-    //     element: <AdminSample />,
-    // },
-    {
-      path: "/",
-      element: <MainCategory />,
-      children: [
+    return [
         {
-          path: "/",
-          element: <ClothesCategory />,
+            path: "sample",
+            element: <Sample />,
         },
         {
-          path: "life",
-          element: <LifeCategory />,
+            path: "/",
+            element: <MainCategory />,
+            children: [
+                {
+                    path: "/",
+                    element: <ClothesCategory />,
+                },
+                {
+                    path: "life",
+                    element: <LifeCategory />,
+                },
+                {
+                    path: "/tech",
+                    element: <div>테크</div>,
+                },
+                {
+                    path: "/rank",
+                    element: <div>랭킹</div>,
+                },
+                {
+                    path: "/styleranking",
+                    element: <StyleRanking />,
+                },
+                {
+                    path: "/luckydraw",
+                    element: <LuckyDraw />,
+                },
+                {
+                    path: ":luckyId",
+                    children: luckyDrawRouter(),
+                },
+                {
+                    path: "/event",
+                    element: <Event />,
+                },
+            ],
         },
         {
-          path: "/tech",
-          element: <div>테크</div>,
+            path: "life",
+            children: lifeRouter(),
         },
         {
-          path: "/rank",
-          element: <div>랭킹</div>,
-          // children:[
-          //   {
-          //     path: "style",
-          //     element: <div>범수</div>,   
-          //   },
-          // ],
+            path: "shop",
+            element: <Shop />,
         },
         {
-          path: "/styleranking",
-          element: <StyleRanking />
+            path: "style",
+            element: <Style />,
+            children: [],
         },
         {
-          path: "/luckydraw",
-          element: <LuckyDraw />,
+            path: "register",
+            element: <StyleRegistration />,
         },
         {
-          path: ":luckyId",
-          children: luckyDrawRouter(),
+            path: "style/styledetail/:id",
+            element: <FeedDetailTop />,
         },
         {
-          path: "/event",
-          element: <div>쿠폰 이벤트~!</div>,
+            path: "feedbookmark",
+            element: <FeedBookmark />,
         },
-      ],
-    },
-    {
-      path: "life",
-      children: lifeRouter(),
-    },
-    {
-      path: "shop",
-      element: <Shop />,
-    },
-    {
-      path: "style",
-      element: <Style />,
-      children: [
         {
-          path: "",
-          element: <div>피드</div>,
+            path: "service",
+            element: <ServiceCategory />,
+            children: serviceRouter(),
         },
-      ],
-    },
-
-    {
-      path: "register",
-      element: <StyleRegistration/>,
-    },
-    {
-      path: "feedbookmark",
-      element: <FeedBookmark />,
-    },
-    {
-      path: "service",
-      element: <ServiceCategory />,
-      children: serviceRouter(),
-    },
-    {
-      path: "mypage",
-      element: <MypageCategory />,
-      children: mypageRouter(),
-    },
-    {
-      path: "user",
-      children: userRouter(),
-    },
-    {
-        path : "clothes",
-        element : <clothesMain />,
-    }
-
-  ];
+        {
+            path: "mypage",
+            element: <MypageCategory />,
+            children: mypageRouter(),
+        },
+        {
+            path: "user",
+            children: userRouter(),
+        },
+        {
+            path: "clothes",
+            element: <clothesMain />,
+        },
+    ];
 };
 
 export default mainRouter;

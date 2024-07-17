@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import InquiryItemList from './InquiryItemList';
+import AdminInquiryItemList from './AdminInquiryItemList';
 import jwtAxios from '../../../pages/user/jwtUtil';
 import { SERVER_URL } from '../../../api/serverApi';
 
-const InquiryListContainer = () => {
+const AdminInquiryListContainer = () => {
   const [inquiries, setInquiries] = useState([]);
 
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await jwtAxios.get(`${SERVER_URL}/inquiry/inquiryList`);
+        const response = await jwtAxios.get(`${SERVER_URL}/inquiry/admin/inquiryList`);
         setInquiries(response.data);
       } catch (error) {
         console.error('Error fetching inquiries:', error);
       }
     };
-
     fetchInquiries();
   }, []);
 
-  return <InquiryItemList inquiries={inquiries} />;
+  return <AdminInquiryItemList inquiries={inquiries} />;
 };
 
-export default InquiryListContainer;
+export default AdminInquiryListContainer;

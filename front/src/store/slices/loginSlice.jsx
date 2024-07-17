@@ -44,15 +44,14 @@ const loginSlice = createSlice({
 
             console.log("Payload for cookie:", payload);
 
-            setCookie("user", JSON.stringify(payload), 1);
+            // setCookie("user", JSON.stringify(payload), 1);
         
-
             return { ...state, ...payload };
         },
         logout: (state, action) => {
             console.log("logout...");
 
-            removeCookie("user");
+            // removeCookie("user");
 
             return {...initState}
         }
@@ -63,9 +62,9 @@ const loginSlice = createSlice({
 
             const payload = action.payload;
 
-            if (!payload.error) {
-                setCookie("user", JSON.stringify(payload), 1)         // 1일
-            }
+            // if (!payload.error) {
+            //     setCookie("user", JSON.stringify(payload), 1)         
+            // }
 
             console.log("Payload for cookie:", payload);
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { getMypageData } from "api/user/mypageApi";
-import { getCookie } from "pages/user/cookieUtil";
 import { Button } from "@mui/material";
 // import { Button, IconButton } from "@mui/material";
 
@@ -31,14 +30,6 @@ export default function MypageMain() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const userInfo = getCookie("user");
-
-            if (!userInfo || !userInfo.accessToken) {
-                alert("로그인이 필요한 서비스입니다.");
-                navigate("/user/login");
-                return;
-            }
-
             try {
                 const response = await getMypageData();
 
@@ -48,13 +39,15 @@ export default function MypageMain() {
                 setSaleHistory(response.saleHistoryDto);
                 setBookmarkProducts(response.bookmarkProductsDto);
             } catch (error) {
+                console.log(error);
                 setError("정보를 불러오는 중 오류가 발생했습니다.");
+                // handleError(error);
             } finally {
                 setLoading(false);
             }
         };
         fetchData();
-    }, [navigate]);
+    }, []);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;

@@ -32,13 +32,13 @@ const LuckyDrawDetail = () => {
 
     const handleEnterClick = async () => {
         try {
-            const userInfo = getCookie("user");
+            // const userInfo = getCookie("user");
 
-            if (!userInfo || !userInfo.accessToken) {
-                alert('로그인이 필요한 서비스입니다.');
-                navigate('/user/login');
-                return;
-            }
+            // if (!userInfo || !userInfo.accessToken) {
+            //     alert('로그인이 필요한 서비스입니다.');
+            //     navigate('/user/login');
+            //     return;
+            // }
 
             const data = await enterLuckyDraw(luckyId);
             console.log('Enter response:', data);
@@ -47,8 +47,8 @@ const LuckyDrawDetail = () => {
             navigate("/luckydraw");
         } catch (error) {
             setError('응모 중 오류가 발생했습니다.');
-            alert(error.message);
-            navigate(0);
+            // alert(error.message);
+            // navigate(0);
         }
     };
 

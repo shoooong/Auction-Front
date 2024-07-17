@@ -21,16 +21,16 @@ const useCustomRegister = () => {
         };
         const loginData = await loginPost(loginParam);
 
-        if (loginData.token) {
-          setCookie(
-            "user",
-            JSON.stringify({
-              accessToken: loginData.token,
-              refreshToken: loginData.refreshToken,
-            }),
-            1
-          );
-        }
+        // if (loginData.token) {
+        //   setCookie(
+        //     "user",
+        //     JSON.stringify({
+        //       accessToken: loginData.token,
+        //       refreshToken: loginData.refreshToken,
+        //     }),
+        //     1
+        //   );
+        // }
 
         return { registerData, loginData };
       }

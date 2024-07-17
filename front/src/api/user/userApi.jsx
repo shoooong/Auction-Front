@@ -3,7 +3,11 @@ import { SERVER_URL } from "../serverApi";
 import jwtAxios from "pages/user/jwtUtil";
 
 export const loginPost = async (loginParam) => {
-  const header = { headers: { "Content-Type": "x-www-form-urlencoded" } };
+  // const header = { headers: { "Content-Type": "x-www-form-urlencoded" } };
+  const header = { 
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    withCredentials: true
+  };
 
   const form = new FormData();
   form.append("username", loginParam.email);
@@ -24,7 +28,7 @@ export const loginPost = async (loginParam) => {
 
 export const getUser = async () => {
   try {
-    const res = await jwtAxios.get(`${SERVER_URL}/mypage/modify`);
+    const res = await jwtAxios.get('/mypage/modify');
     return res.data;
   } catch (error) {
     console.error("axios getUser error...", error);
@@ -35,7 +39,7 @@ export const getUser = async () => {
 
 export const modifyUser = async (user) => {
   try {
-    const res = await jwtAxios.put(`${SERVER_URL}/mypage/modify`, user);
+    const res = await jwtAxios.put('/mypage/modify', user);
 
     return res.data;
   } catch (error) {

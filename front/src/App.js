@@ -9,6 +9,7 @@ import store from './store/store';
 function App() {
 	return (
 		<Provider store={store}>
+			<h1>{process.env.REACT_APP_HOST}</h1>
 			<Root />
 		</Provider>
 	);

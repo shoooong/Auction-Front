@@ -25,12 +25,11 @@ const refresh = async (refreshToken) => {
 const beforeReq = async (config) => {
     console.log("before request...");
 
-    let accessToken = getCookie("accessToken");
-    const refreshToken = getCookie("refreshToken");
+    let isLoginCookie = getCookie("isLogin");
 
-    console.log("refreshToken : ", refreshToken);
+    console.log("isLoginCookie : ", isLoginCookie);
     
-    if (refreshToken === null) {
+    if (isLoginCookie === null) {
         console.log("User not found!");
         alert("로그인이 필요한 서비스 입니다.");
         window.location.href = 'http://www.sho0ong.com/user/login';
@@ -43,27 +42,27 @@ const beforeReq = async (config) => {
         });
     };
 
-    if (!accessToken) {
-        try {
-            const data = await refresh(refreshToken);
-            accessToken = data.accessToken;
-            setCookie('accessToken', accessToken, 1/24);
-        } catch (error) {
-            console.log("Failed to refresh token!");
-            alert("로그인이 필요한 서비스 입니다.");
-            window.location.href = 'http://www.sho0ong.com/user/login';
+    // if (!accessToken) {
+    //     try {
+    //         const data = await refresh(refreshToken);
+    //         accessToken = data.accessToken;
+    //         setCookie('accessToken', accessToken, 1/24);
+    //     } catch (error) {
+    //         console.log("Failed to refresh token!");
+    //         alert("로그인이 필요한 서비스 입니다.");
+    //         window.location.href = 'http://www.sho0ong.com/user/login';
 
-            return Promise.reject({
-                response: {
-                    status: 401,
-                    data: { error: "REQUIRE_LOGIN" }
-                }
-            });
-        }
-    }
+    //         return Promise.reject({
+    //             response: {
+    //                 status: 401,
+    //                 data: { error: "REQUIRE_LOGIN" }
+    //             }
+    //         });
+    //     }
+    // }
 
 
-    config.headers.Authorization = `Bearer ${accessToken}`;
+    // config.headers.Authorization = `Bearer ${accessToken}`;
 
     return config;
 };

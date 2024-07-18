@@ -34,7 +34,7 @@ const beforeReq = (config) => {
     if (refreshToken === null && accessToken === null) {
         console.log("User not found!");
         alert("로그인이 필요한 서비스 입니다.");
-        window.location.href = 'http://localhost:3000/user/login';
+        window.location.href = 'http://www.sho0ong.com/user/login';
 
         return Promise.reject({
             response: {

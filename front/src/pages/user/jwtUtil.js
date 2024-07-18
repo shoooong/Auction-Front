@@ -26,12 +26,10 @@ const refreshToken = async (refreshToken) => {
 const beforeReq = (config) => {
     console.log("before request...");
 
-    // const accessToken = document.cookie("accessToken");
-    // const refreshToken = document.cookie("refreshToken");
     const accessToken = getCookie("accessToken");
-    const refreshToken = document.cookie("refreshToken");
+    const refreshToken = getCookie("refreshToken");
 
-    console.log("ddd", refreshToken);
+    console.log("refreshToken : ", refreshToken);
     
     if (refreshToken === null && accessToken === null) {
         console.log("User not found!");
@@ -45,8 +43,6 @@ const beforeReq = (config) => {
             }
         });
     };
-
-    // const {accessToken} = userInfo;
 
     config.headers.Authorization = `Bearer ${accessToken}`;
 

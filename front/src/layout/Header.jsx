@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { NavLink, Link, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { Box, Button } from "@mui/material";
 
@@ -11,9 +10,7 @@ import Search from "assets/images/search.svg";
 import useCustomLogin from "hooks/useCustomLogin";
 
 export default function Header() {
-    const loginState = useSelector((state) => state.loginSlice);
-
-    const { doLogout } = useCustomLogin();
+    const { isLogin, doLogout } = useCustomLogin();
 
     // 알람
     const [alarmOpen, setAlarmOpen] = useState(false);
@@ -38,7 +35,7 @@ export default function Header() {
                             >
                                 알림
                             </Button>
-                            {!loginState.email ? (
+                            {!isLogin ? (
                                 <Link to="/user/login">로그인</Link>
                             ) : (
                                 <Link to="/" onClick={doLogout}>

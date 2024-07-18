@@ -3,7 +3,6 @@ import { SERVER_URL } from "../serverApi";
 import jwtAxios from "pages/user/jwtUtil";
 
 export const loginPost = async (loginParam) => {
-  // const header = { headers: { "Content-Type": "x-www-form-urlencoded" } };
   const header = { 
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     withCredentials: true

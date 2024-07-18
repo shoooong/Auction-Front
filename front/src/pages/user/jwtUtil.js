@@ -9,7 +9,7 @@ const jwtAxios = axios.create({
 });
 
 
-const refreshToken = async (refreshToken) => {
+const refresh = async (refreshToken) => {
     try {
         const res = await jwtAxios.post('/user/refresh', {refreshToken});
         console.log(res.data);
@@ -45,7 +45,7 @@ const beforeReq = async (config) => {
 
     if (!accessToken) {
         try {
-            const data = await refreshToken(refreshToken);
+            const data = await refresh(refreshToken);
             accessToken = data.accessToken;
             setCookie('accessToken', accessToken, 1/24);
         } catch (error) {

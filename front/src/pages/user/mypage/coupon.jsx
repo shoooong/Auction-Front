@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import useUserCoupon from "hooks/useUserCoupon";
 import { useNavigate } from "react-router-dom";
 import jwtAxios from "pages/user/jwtUtil";
-import couponDownBtn from "assets/images/coupon_down.svg";
-import "styles/event.css";
+import "styles/coupon.css";
 import { getCookie } from "pages/user/cookieUtil";
 import { SERVER_URL } from "api/serverApi";
 
@@ -42,37 +41,33 @@ export default function Event() {
     };
 
     return (
-        <>
+        <div className="mypage-coupon-main-container">
             {coupons.map((item) => (
+                // <div key={item.coupon.couponId} className="">
                 <div
                     key={item.coupon.couponId}
-                    className="flex align-center column-direction justify-center"
+                    className="mypage-coupon-container"
                 >
-                    <div className="coupon-container">
-                        <div className="coupon-content1">
-                            <p className="text60">
-                                {item.coupon.amount.toLocaleString()}
-                            </p>
-                            <p className="text18">{item.coupon.content}</p>
-                            {/* <p className="text16">1인당 1장씩 발급 가능</p> */}
-                        </div>
-                        <div
-                            className="coupon-content2"
-                            onClick={() =>
-                                handleCouponIssue(item.coupon.couponId)
-                            }
-                        >
-                            <div className="coupon-downBtn">
-                                {/* <img src={couponDownBtn} alt="coupon" /> */}
-                            </div>
-                            <div className="issue">
-                                {/* <p className="issue-p"></p> */}
-                            </div>
-                        </div>
+                    <div className="mypage-coupon-content1">
+                        <p className="coupon-amount">
+                            {item.coupon.amount.toLocaleString()}
+                        </p>
+                        {/* <p className="coupon-title">
+                            {item.coupon.couponTitle}
+                        </p> */}
+                        <p className="coupon-content">{item.coupon.content}</p>
+                        {/* <p className="text16">1인당 1장씩 발급 가능</p> */}
                     </div>
-                    <p className="exp text16"></p>
+                    <div
+                        className="mypage-coupon-content2"
+                        onClick={() => handleCouponIssue(item.coupon.couponId)}
+                    >
+                        <p className="coupon-exp">D-1</p>
+                        <p className="coupon-endDate">{item.endDate}</p>
+                    </div>
+                    {/* </div> */}
                 </div>
             ))}
-        </>
+        </div>
     );
 }

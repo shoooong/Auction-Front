@@ -23,7 +23,7 @@ const refreshToken = async (refreshToken) => {
 
 
 // 요청 전에
-const beforeReq = (config) => {
+const beforeReq = async (config) => {
     console.log("before request...");
 
     const accessToken = getCookie("accessToken");
@@ -31,7 +31,7 @@ const beforeReq = (config) => {
 
     console.log("refreshToken : ", refreshToken);
     
-    if (refreshToken === null && accessToken === null) {
+    if (refreshToken === null) {
         console.log("User not found!");
         alert("로그인이 필요한 서비스 입니다.");
         window.location.href = 'http://www.sho0ong.com/user/login';
@@ -43,6 +43,26 @@ const beforeReq = (config) => {
             }
         });
     };
+
+    if (!accessToken) {
+        try {
+            const response = await axios.post(`${SERVER_URL}/refresh-token`, { refreshToken });
+            accessToken = response.data.accessToken;
+            document.cookie = `accessToken=${accessToken}; path=/;`;
+        } catch (error) {
+            console.log("Failed to refresh token!");
+            alert("로그인이 필요한 서비스 입니다.");
+            window.location.href = 'http://www.sho0ong.com/user/login';
+
+            return Promise.reject({
+                response: {
+                    status: 401,
+                    data: { error: "REQUIRE_LOGIN" }
+                }
+            });
+        }
+    }
+
 
     config.headers.Authorization = `Bearer ${accessToken}`;
 
@@ -76,35 +96,35 @@ const beforeRes = (res) => {
 const responseFail = async (err) => {
     console.log("response fail error...");
 
-    const { response } = err;
+    // const { response } = err;
 
-    if (response) {
-        if (response.status === 401 && response.message === "Expired") {
-            const refreshToken = getCookie("refreshToken");
+    // if (response) {
+    //     if (response.status === 401 && response.message === "ERROR_ACCESS_TOKEN") {
+    //         const refreshToken = getCookie("refreshToken");
             
-            try {
-                const result = await refreshToken(refreshToken);
-                console.log("refreshToken RESULT: ", result);
+    //         try {
+    //             const result = await refreshToken(refreshToken);
+    //             console.log("refreshToken RESULT: ", result);
 
-                const newAccessToken = result.accessToken;
-                // const newRefreshToken = result.refreshToken;
+    //             const newAccessToken = result.accessToken;
+    //             // const newRefreshToken = result.refreshToken;
 
-                // setCookie("user", JSON.stringify(userinfo), 1);
+    //             // setCookie("user", JSON.stringify(userinfo), 1);
 
-                // 원래 원했던 호출 재시도
-                const originalRequest = { ...response.config };
-                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+    //             // 원래 원했던 호출 재시도
+    //             const originalRequest = { ...response.config };
+    //             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-                return jwtAxios(originalRequest);
-            } catch (error) {
-                console.error("Failed to refresh token during response interception", error);
-                handleError(error);
-                return Promise.reject(error);
-            }
-        } else {
-            handleError(err);
-        }
-    }
+    //             return jwtAxios(originalRequest);
+    //         } catch (error) {
+    //             console.error("Failed to refresh token during response interception", error);
+    //             handleError(error);
+    //             return Promise.reject(error);
+    //         }
+    //     } else {
+    //         handleError(err);
+    //     }
+    // }
 
     return Promise.reject(err);
 };

@@ -9,22 +9,18 @@ const initState = {
     phoneNum: '',
     profileImg: '',
 
-    accessToken: null,
-    refreshToken: null,
+    isLogin: false,
 };
 
 const loadMemberCookie = () => {
     
-    const accessToken = getCookie("accessToken");
-    const refreshToken = getCookie("refreshToken");
+    const isLogin = getCookie("isLogin");
 
-    if (accessToken && refreshToken) {
-        return {
-            accessToken,
-            refreshToken,
-        };
+    if (isLogin === "true") {
+        return { isLogin: true };
     }
-    return null;
+
+    return { isLogin: false };
 }
 
 export const loginPostAsync = createAsyncThunk('loginPostAsync', (param) => {
@@ -38,38 +34,24 @@ const loginSlice = createSlice({
         login: (state, action) => {
             console.log("login...");
 
-            const { accessToken, refreshToken } = action.payload;
-
             console.log("Payload for cookie:", action.payload);
-
-            setCookie('accessToken', accessToken, 1); 
-            setCookie('refreshToken', refreshToken, 60 * 24);
         
-            return { ...state, accessToken, refreshToken };
+            return { ...state, isLogin: true };
         },
         logout: (state, action) => {
             console.log("logout...");
 
-            removeCookie('accessToken');
-            removeCookie('refreshToken');
+            removeCookie('isLogin');
 
-            return {...initState}
+            return { ...initState, isLogin: false };
         }
     },
     extraReducers: (builder) => {
         builder.addCase( loginPostAsync.fulfilled, (state, action) => {
             console.log("fulfilled");
-
-            const { accessToken, refreshToken } = action.payload;
-
-            
-            setCookie("accessToken", accessToken, 1);
-            setCookie("refreshToken", refreshToken, 1);
-            
-
             console.log("Payload for cookie:", action.payload);
 
-            return { ...state, accessToken, refreshToken };
+            return { ...state, isLogin: true };
         })
         .addCase(loginPostAsync.pending, (state,action) => {
             console.log("pending")

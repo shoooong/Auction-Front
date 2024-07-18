@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, createSearchParams } from "react-router-dom";
 import { loginPostAsync, logout } from "store/slices/loginSlice";
+import { getCookie } from "pages/user/cookieUtil";
 
 const useCustomLogin = () => {
 
@@ -9,7 +10,8 @@ const useCustomLogin = () => {
 
     const loginState = useSelector(state => state.loginSlice);
 
-    const isLogin = loginState.email ? true : false;
+    // const isLogin = loginState.email ? true : false;
+    const isLogin = getCookie('isLogin') === 'true';
 
     const doLogin = async (loginParam) => {
         try {

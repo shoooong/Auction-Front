@@ -11,8 +11,7 @@ const jwtAxios = axios.create({
 
 const refreshToken = async (refreshToken) => {
     try {
-        // const res = await axios.post(`${SERVER_URL}/user/refresh`, {refreshToken}, header);
-        const res = await jwtAxios.post('/user/refresh', refreshToken);
+        const res = await jwtAxios.post('/user/refresh', {refreshToken});
         console.log(res.data);
         return res.data;
     } catch (error) {
@@ -26,7 +25,7 @@ const refreshToken = async (refreshToken) => {
 const beforeReq = async (config) => {
     console.log("before request...");
 
-    const accessToken = getCookie("accessToken");
+    let accessToken = getCookie("accessToken");
     const refreshToken = getCookie("refreshToken");
 
     console.log("refreshToken : ", refreshToken);
@@ -46,9 +45,9 @@ const beforeReq = async (config) => {
 
     if (!accessToken) {
         try {
-            const response = await axios.post(`${SERVER_URL}/refresh-token`, { refreshToken });
-            accessToken = response.data.accessToken;
-            document.cookie = `accessToken=${accessToken}; path=/;`;
+            const data = await refreshToken(refreshToken);
+            accessToken = data.accessToken;
+            setCookie('accessToken', accessToken, 1/24);
         } catch (error) {
             console.log("Failed to refresh token!");
             alert("로그인이 필요한 서비스 입니다.");

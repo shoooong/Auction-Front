@@ -5,7 +5,6 @@ import {SERVER_URL} from "../../api/serverApi";
 const FeedRegistrationForm = () => {
   const [feedTitle, setFeedTitle] = useState('');
   const [feedImage, setFeedImage] = useState(null);
-  const [userId, setUserId] = useState('');
 
   const handleImageChange = (event) => {
     setFeedImage(event.target.files[0]);
@@ -15,8 +14,7 @@ const FeedRegistrationForm = () => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('feedTitle', feedTitle);
-    formData.append('feedImage', feedImage);
-    formData.append('userId', userId);
+    formData.append('files', feedImage);
 
     try {
       const response = await jwtAxios.post(`${SERVER_URL}/feed/user/feedRegistration`, formData, {
@@ -27,7 +25,6 @@ const FeedRegistrationForm = () => {
       console.log('Feed registered successfully:', response.data);
       setFeedTitle('');
       setFeedImage(null);
-      setUserId('');
     } catch (error) {
       if (error.response) {
         console.error('Error response:', error.response.data);
@@ -60,16 +57,6 @@ const FeedRegistrationForm = () => {
           id="feedImage"
           onChange={handleImageChange}
           accept="image/*"
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="userId">사용자 ID:</label>
-        <input
-          type="text"
-          id="userId"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
           required
         />
       </div>

@@ -36,7 +36,7 @@ const AdminRouter = () => {
     },
     {
       //판매상품관리 (대분류 + 소분류 조회)
-      path: "products/:mainDepartment",
+      path: "products/:main",
       element: <AdminProducts />,
     },
     {

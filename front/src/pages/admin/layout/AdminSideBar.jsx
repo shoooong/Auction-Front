@@ -21,7 +21,7 @@ const Nav = () => {
           </span>
           <ListItemText primary="요청 상품 관리" />
         </NavLink>
-        <NavLink to="/admin/products/의류">
+        <NavLink to="/admin/products/{main}">
           <span className="icon">
             <AppsOutlinedIcon />
           </span>

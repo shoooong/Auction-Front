@@ -2,22 +2,36 @@ import React from "react";
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
-const CommonList = ({ rows, columns, onRowClick }) => {
+const CommonList = ({ rows, columns, onRowClick, loading }) => {
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box className="align-center">
       <DataGrid
+        className="table"
         rows={rows}
         columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 10 },
+          },
+        }}
+        loading={loading}
+        slotProps={{
+          loadingOverlay: {
+            variant: "linear-progress",
+            noRowsVariant: "skeleton",
           },
         }}
         pageSizeOptions={[5, 10]}
         disableColumnMenu
         onRowClick={(params) => onRowClick(params.row)}
-        style={{ height: 600 }} // DataGrid의 높이를 고정
         sx={{
+          "& .MuiDataGrid-cell:hover": {
+            color: "borderBasic.main",
+          },
+          ".MuiDataGrid-columnSeparator": {
+            display: "none",
+          },
+          "--DataGrid-overlayHeight": "600px",
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: "#f2f2f2",
           },

@@ -1,15 +1,5 @@
-import axios from "axios";
-
-export const SERVER_URL = "http://localhost:80";
-export const ACCESS_TOKEN =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IiQyYSQxMCRydmIueUhxakJEaEFTd3IwaHFBNTV1R1VFQzZ5Z1JidkRWUzZUekVGaFZWaGZUT2ZjMGhxSyIsInJvbGUiOnRydWUsInNvY2lhbCI6ZmFsc2UsImdyYWRlIjowLCJ1c2VySWQiOjEsImVtYWlsIjoic3VlQG5hdmVyLmNvbSIsImlhdCI6MTcyMDU5NDE0NywiZXhwIjoxNzIwNTk1OTQ3fQ.JEu4qkxe4rWko1fq3Yu8Co5HWd63ExF1ipFF1PbmUac";
-
-const axiosInstance = axios.create({
-  baseURL: `${SERVER_URL}/admin`,
-  headers: {
-    Authorization: `Bearer ${ACCESS_TOKEN}`,
-  },
-});
+import { SERVER_URL } from "api/serverApi";
+import jwtAxios from "pages/user/jwtUtil";
 
 // 상품 대분류 및 소분류별 조회
 export const getProductsByDepartment = async (
@@ -17,18 +7,25 @@ export const getProductsByDepartment = async (
   subDepartment = null
 ) => {
   const params = subDepartment ? { subDepartment } : {};
-  const res = await axiosInstance.get(`/products/${mainDepartment}`, {
-    params,
-  });
+  console.log(mainDepartment, subDepartment);
+  const res = await jwtAxios.get(
+    `${SERVER_URL}/admin/products/${mainDepartment}`,
+    {
+      params,
+    }
+  );
   return res.data;
 };
 
 // 상품 상세 조회
 export const getProduct = async (modelNum, productSize = null) => {
   const params = productSize ? { productSize } : {};
-  const res = await axiosInstance.get(`/products/detailed/${modelNum}`, {
-    params,
-  });
+  const res = await jwtAxios.get(
+    `${SERVER_URL}/admin/products/detailed/${modelNum}`,
+    {
+      params,
+    }
+  );
   console.log(res.data);
 
   return res.data;
@@ -37,7 +34,9 @@ export const getProduct = async (modelNum, productSize = null) => {
 // 검수 상품 승인
 export const acceptProduct = async (salesBiddingId) => {
   try {
-    const res = await axiosInstance.post(`/sales/${salesBiddingId}/approve`);
+    const res = await jwtAxios.post(
+      `${SERVER_URL}/admin/sales/${salesBiddingId}/approve`
+    );
     return res.data;
   } catch (error) {
     console.error("Error approving product:", error);

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../../../styles/noticeList.css';
+import { SERVER_URL } from '../../../api/serverApi';
+import CommonList from '../../../pages/admin/layout/CommonList';
 
 const AdminNoticeList = () => {
   const [notices, setNotices] = useState([]);
   const [activeTab] = useState('all');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:80/notice/admin/noticeList')
+    axios.get(`${SERVER_URL}/notice/admin/noticeList`)
       .then(response => {
         setNotices(response.data);
       })
@@ -25,26 +28,27 @@ const AdminNoticeList = () => {
     }
   });
 
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 300 },
+    { field: 'noticeTitle', headerName: 'Title', width: 250 },
+    { field: 'noticeContent', headerName: 'Content', width: 400 },
+    { field: 'createDate', headerName: 'Create Date', width: 200 },
+  ];
+
+  const rows = filteredNotices.map(notice => ({
+    id: notice.noticeId,
+    noticeTitle: notice.noticeTitle,
+    noticeContent: notice.noticeContent,
+    createDate: new Date(notice.createDate).toLocaleString(),
+  }));
+
+  const handleRowClick = (row) => {
+    navigate(`/admin/notice/${row.id}`);
+  };
+
   return (
     <section className="notice-list">
-      <ul>
-        {filteredNotices.length === 0 ? (
-          <li>
-            <span className="title">No notices available</span>
-          </li>
-        ) : (
-          filteredNotices.map((notice, index) => (
-            <li key={index}>
-              <span className="title">{notice.noticeTitle}</span>
-              <span className="content">
-                <Link to={`/service/adminnotice/${notice.noticeId}`}>
-                  {notice.noticeContent}
-                </Link>
-              </span>
-            </li>
-          ))
-        )}
-      </ul>
+      <CommonList rows={rows} columns={columns} onRowClick={handleRowClick} />
     </section>
   );
 };

@@ -23,7 +23,7 @@ export default function ClothesCategory() {
                         </Link>
                     </Card>
                     <Card>
-                        <Link to="/life/kichen">
+                        <Link to="/life/kitchen">
                             <img src={Bottom} alt="" />
                             <span>키친</span>
                         </Link>

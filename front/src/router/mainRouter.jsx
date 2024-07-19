@@ -19,6 +19,10 @@ import FeedDetailTop from "pages/style/FeedDetailTop";
 import Event from "pages/event/Event";
 import Buy from "pages/ordres/Buy";
 import Sell from "pages/ordres/Sell";
+
+import TechMain from "pages/tech/TechMain";
+import clothesRouter from "./clothesRouter";
+
 const mainRouter = () => {
     return [
         {
@@ -39,7 +43,7 @@ const mainRouter = () => {
                 },
                 {
                     path: "/tech",
-                    element: <div>테크</div>,
+                    element: <TechMain />,
                 },
                 {
                     path: "/rank",
@@ -77,7 +81,7 @@ const mainRouter = () => {
             children: [],
         },
         {
-            path: "register",
+            path: "style/register",
             element: <StyleRegistration />,
         },
         {
@@ -105,6 +109,7 @@ const mainRouter = () => {
         {
             path: "clothes",
             element: <clothesMain />,
+            children: clothesRouter(),
         },
         {
             path: "buy",

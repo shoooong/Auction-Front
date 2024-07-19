@@ -6,7 +6,6 @@ const NoticeDetailContent = ({ notice, onEdit, onDelete }) => {
       <h2>{notice.noticeTitle}</h2>
       <p className="notice-info">
         <span>작성일: {notice.createdAt}</span>
-        <span>조회수: {notice.views}</span>
       </p>
       <div className="notice-content">{notice.noticeContent}</div>
       <div className="notice-actions">

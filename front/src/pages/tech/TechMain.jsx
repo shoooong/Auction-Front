@@ -5,7 +5,7 @@ import MainProductPopular from "pages/product/MainProductPopular";
 import MainNewSales from "pages/product/MainNewSales";
 
 
-export default function LifeMain() {
+export default function TechMain() {
     return (
         <>
             <div>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Feed from '../../pages/style/Feed';
 import { Link } from 'react-router-dom';
 import '../../styles/feedlist.css'
+import { SERVER_URL } from '../../api/serverApi';
 
 const StyleRankingList = () => {
   const [feeds, setFeeds] = useState([]);
@@ -10,7 +11,7 @@ const StyleRankingList = () => {
   useEffect(() => {
     const fetchFeeds = async () => {
       try {
-        const response = await axios.get('http://localhost:80/feed/feedRanking');
+        const response = await axios.get(`${SERVER_URL}/feed/feedRanking§`);
         const data = response.data.map(feed => ({
           id: feed.feedId,
           username: feed.userId ? `User ${feed.userId}` : 'Unknown',

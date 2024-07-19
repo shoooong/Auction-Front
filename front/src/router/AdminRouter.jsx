@@ -3,9 +3,13 @@ import AdminRequest from "pages/admin/AdminRequest";
 import AdminProductDetailed from "pages/admin/AdminProductDetailed";
 import AdminRequestDetailed from "pages/admin/AdminRequestDetailed";
 import AdminLuckdraws from "pages/admin/AdminLuckydraws";
-import AdminNoticeSample from "pages/admin/AdminNoticeSample";
 import AdminMain from "pages/admin/AdminMain";
 import AdminRegister from "pages/admin/AdminRegister";
+import AdminNotice from "pages/serviceCenter/notice/AdminNotice";
+import AdminNoticeDetail from "pages/serviceCenter/notice/AdminNoticeDetail";
+import AdminInquiry from "pages/serviceCenter/inquiry/AdminInquiryPage";
+import AdminInquiryDetail from "pages/serviceCenter/inquiry/AdminInquiryDetailTop";
+import NoticeRegistration from "pages/serviceCenter/notice/NoticeRegistration";
 
 const AdminRouter = () => {
   return [
@@ -32,7 +36,7 @@ const AdminRouter = () => {
     },
     {
       //판매상품관리 (대분류 + 소분류 조회)
-      path: "products/:mainDepartment",
+      path: "products/:main",
       element: <AdminProducts />,
     },
     {
@@ -48,7 +52,26 @@ const AdminRouter = () => {
     {
       // 공지사항
       path: "notice",
-      element: <AdminNoticeSample />, //정식님이 만드신 관리자 공지사항
+      element: <AdminNotice />, //정식님이 만드신 관리자 공지사항
+    },
+    // 공지사항 상세
+    {
+      path: "notice/:noticeId",
+      element: <AdminNoticeDetail />,
+    },
+    {
+      path: "notice/register",
+      element: <NoticeRegistration />,
+    },
+    {
+      // 1:1문의
+      path: "inquiry",
+      element: <AdminInquiry />,
+    },
+    // 1:1문의 상세
+    {
+      path: "inquiry/:inquiryId",
+      element: <AdminInquiryDetail />,
     },
   ];
 };

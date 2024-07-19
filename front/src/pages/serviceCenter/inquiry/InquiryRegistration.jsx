@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import jwtAxios from 'pages/user/jwtUtil'; // jwtAxios 모듈 import
+import jwtAxios from 'pages/user/jwtUtil';
+import { SERVER_URL } from '../../../api/serverApi';
 
 const InquiryRegistration = () => {
     const [title, setTitle] = useState('');
@@ -12,7 +13,7 @@ const InquiryRegistration = () => {
         e.preventDefault();
 
         try {
-            const response = await jwtAxios.post('http://localhost:80/inquiry/user/registration', {
+            const response = await jwtAxios.post(`${SERVER_URL}/inquiry/user/registration`, {
                 inquiryTitle: title,
                 inquiryContent: content,
             });

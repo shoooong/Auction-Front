@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../../styles/noticeList.css';
+import { SERVER_URL } from '../../../api/serverApi';
 
 const NoticeList = () => {
     const [notices, setNotices] = useState([]);
     const [activeTab] = useState('all');
 
     useEffect(() => {
-        axios.get('http://localhost:80/notice/noticeList')
+        axios.get(`${SERVER_URL}/notice/noticeList`)
             .then(response => {
                 setNotices(response.data);
             })

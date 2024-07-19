@@ -17,7 +17,8 @@ import FeedBookmark from "pages/style/FeedBookmark";
 import StyleRanking from "pages/Rank/StyleRanking";
 import FeedDetailTop from "pages/style/FeedDetailTop";
 import Event from "pages/event/Event";
-
+import Buy from "pages/ordres/Buy";
+import Sell from "pages/ordres/Sell";
 const mainRouter = () => {
     return [
         {
@@ -104,6 +105,14 @@ const mainRouter = () => {
         {
             path: "clothes",
             element: <clothesMain />,
+        },
+        {
+            path: "buy",
+            element: <Buy />,
+        },
+        {
+            path: "sell",
+            element: <Sell />,
         },
     ];
 };

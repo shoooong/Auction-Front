@@ -1,0 +1,214 @@
+/* 공통 */
+
+.info_area {
+    margin-top: 8px;
+    background-color: #fff;
+    padding: 32px;
+}
+.bold_title {
+    color: #181818;
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 54px;
+}
+.border_box {
+    border-radius: 10px;
+    border: 1px solid #ebebeb;
+}
+.sub_text {
+    font-size: 13px;
+    color: rgba(34, 34, 34, 0.5);
+}
+.flex_space {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.main_title {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin: 12px 0px;
+}
+
+.title_txt {
+    font-size: 18px;
+    font-weight: 600;
+    color: #181818;
+}
+.border_line {
+    border-top: 1px solid #ebebeb;
+    margin: 20px 0px;
+}
+
+.desc {
+    font-size: 14px;
+    color: #000;
+}
+
+.buy_bg {
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+}
+.buy_container {
+    width: 700px;
+}
+
+/* 상품 */
+
+/* .product_model_number {
+    color: #181818;
+    font-size: 14px;
+    font-weight: 600;
+} */
+.model_eng {
+    color: #181818;
+}
+.model_kor {
+    color: rgba(34, 34, 34, 0.5);
+}
+.size_txt {
+    color: #181818;
+    font-size: 14px;
+    font-weight: 800;
+}
+.product_detail {
+    text-indent: 16px;
+    height: 76px;
+    /* align-content: space-between; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product_info_area {
+}
+.product_info {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.buy_product img {
+    background: #f4f4f4;
+    border-radius: 10px;
+    width: 80px;
+    height: 80px;
+}
+
+/* 배송 */
+.way_img {
+    width: 40px;
+    margin: 0px 16px;
+}
+.way_info {
+    margin-top: 12px;
+    height: 65px;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
+}
+.way_desc {
+    height: 37px;
+}
+.post {
+    /* text-indent: 6px; */
+    display: flex;
+    flex-direction: row;
+    /* justify-content: sp; */
+}
+
+.delivery_info {
+    margin: 12px 0px;
+    width: 636px;
+    height: 63px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.delivery_title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.info_list {
+    height: 63px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* align-content: space-between; */
+}
+.info_box {
+    display: flex;
+    flex-direction: row;
+}
+.buy_title {
+    font-size: 13px;
+    min-width: 80px;
+    color: rgba(34, 34, 34, 0.5);
+}
+
+dt.title {
+    width: 80px;
+}
+dd.desc {
+    width: 476px;
+}
+.btn_box {
+    align-self: center;
+
+    /* width: 50px; */
+}
+.btn_edit {
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+    /* width: 50px; */
+    height: 34px;
+
+    color: rgba(34, 34, 34, 0.8);
+    font-size: 12px;
+    padding: 0 14px;
+}
+
+.btn_shipping_memo {
+    text-align: start;
+    text-indent: 16px;
+    width: 636px;
+    height: 48px;
+}
+
+.coupon_info_area {
+    height: 169px;
+}
+
+/* 쿠폰 */
+.coupon_info_area > .desc {
+    margin: 12px 0px 6px 0px;
+}
+.main_title > .sub_text {
+    margin-left: 6px;
+    font-size: 12px;
+}
+.payment_btn {
+    padding: 16px;
+    height: 60px;
+    width: 208px;
+    text-align: start;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+
+    margin-bottom: 10px;
+}
+/* .main_title; */
+.pay_img {
+    height: 40px;
+    width: 40px;
+}

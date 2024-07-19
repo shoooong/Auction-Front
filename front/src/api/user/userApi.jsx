@@ -13,7 +13,7 @@ export const loginPost = async (loginParam) => {
   form.append("password", loginParam.password);
 
   try {
-    const res = await axios.post("http://www.sho0ong.com/user/login", form, header);
+    const res = await axios.post(`${SERVER_URL}/user/login`, form, header);
 
     console.log("Login Response:", res.data);
 

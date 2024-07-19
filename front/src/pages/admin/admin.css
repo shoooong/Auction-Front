@@ -83,3 +83,77 @@
   border-color: var(--palegrey);
   border-radius: 10px !important;
 }
+
+/* detailed */
+.admin-detailed-container {
+  background-color: var(--white);
+  border-bottom: 1px solid var(--borderbox);
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  max-width: 80%;
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  margin: 20vh auto 0 auto; /* Adds margin to the top and centers horizontally */
+}
+
+.admin-detailed-content {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid var(--borderBasic);
+  padding: 20px 30px;
+}
+.admin-image {
+  border-radius: 10px;
+  background: #ddd;
+  height: 230px;
+  position: relative;
+  width: 230px;
+}
+.admin-close-btn {
+  background: url(../../assets/images/close-btn.svg) no-repeat center/contain;
+  width: 19px;
+  height: 10px;
+  display: inline-block;
+
+  top: 10px;
+  right: 0;
+}
+
+.admin-info {
+  margin-top: 5px;
+  padding-left: 15px;
+  gap: 5px;
+}
+.admin-info span {
+  display: block;
+  line-height: 1.2;
+  color: var(--black);
+}
+
+.admin-info span:nth-child(1),
+.admin-product-info span:nth-child(2) {
+  font-size: var(--ft14);
+  font-weight: var(--semibold);
+}
+.admin-info span:nth-child(2),
+.admin-info span:nth-child(3) {
+  font-weight: var(--regular);
+}
+.admin-info span:nth-child(3) {
+  font-size: var(--ft13);
+  color: var(--grey);
+}
+
+/* admin-button */
+.admin-container-bottom {
+  padding: 15px 0 20px;
+}
+.admin-container-botton button {
+  margin: 0 10px;
+}
+
+.admin-form-control {
+}

@@ -4,14 +4,14 @@ import { DataGrid } from "@mui/x-data-grid";
 
 const CommonList = ({ rows, columns, onRowClick, loading }) => {
   return (
-    <Box className="align-center h100p">
+    <Box className="align-center">
       <DataGrid
         className="table"
         rows={rows}
         columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 10 },
           },
         }}
         loading={loading}
@@ -25,9 +25,6 @@ const CommonList = ({ rows, columns, onRowClick, loading }) => {
         disableColumnMenu
         onRowClick={(params) => onRowClick(params.row)}
         sx={{
-          // boxShadow: 2,
-          // border: 2,
-          // borderColor: "borderBasic.light",
           "& .MuiDataGrid-cell:hover": {
             color: "borderBasic.main",
           },

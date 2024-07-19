@@ -1,229 +1,173 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState, useMemo } from "react";
+import { getProductsByDepartment } from "../../api/admin/productApi";
 import {
-  Box,
-  Typography,
-  CircularProgress,
-  MenuItem,
-  Select,
+  BottomNavigation,
+  BottomNavigationAction,
   FormControl,
   InputLabel,
-  Tabs,
-  Tab,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import { getProductsByDepartment } from "api/admin/productApi";
 import CommonList from "./layout/CommonList";
-import { getCookie } from "pages/user/cookieUtil";
+import { useNavigate } from "react-router-dom";
 
+import CheckroomOutlinedIcon from "@mui/icons-material/CheckroomOutlined";
+import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
+import LaptopMacOutlinedIcon from "@mui/icons-material/LaptopMacOutlined";
+import { useParams } from "react-router-dom";
 const departments = {
-  의류: ["상의", "하의", "아우터", "신발", "이너웨어"],
-  라이프: ["인테리어", "키친", "뷰티"],
-  TECH: [],
-};
-
-const DepartmentTabs = React.memo(({ mainDepartment, handleTabChange }) => (
-  <Tabs
-    value={Object.keys(departments).indexOf(mainDepartment)}
-    onChange={handleTabChange}
-    variant="fullWidth"
-    indicatorColor="primary"
-    textColor="primary"
-  >
-    {Object.keys(departments).map((dept, index) => (
-      <Tab key={dept} label={dept} value={index} />
-    ))}
-  </Tabs>
-));
-
-const SubDepartmentSelect = React.memo(
-  ({ mainDepartment, subDepartment, handleSubDepartmentChange }) => (
-    <FormControl sx={{ minWidth: 120, marginBottom: 3, height: 40 }}>
-      <InputLabel id="sub-department-label">소분류</InputLabel>
-      <Select
-        labelId="sub-department-label"
-        value={subDepartment}
-        onChange={handleSubDepartmentChange}
-        label="소분류"
-        sx={{ height: 40 }}
-      >
-        <MenuItem value="">
-          <em>전체</em>
-        </MenuItem>
-        {departments[mainDepartment]?.map((subDep, index) => (
-          <MenuItem key={`subDep-${index}`} value={subDep}>
-            {subDep}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-  )
-);
-
-const TabPanel = ({ children, value, index, ...other }) => {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`tabpanel-${index}`}
-      aria-labelledby={`tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
+  clothes: ["top", "bottom", "outer", "shoes", "inner"],
+  life: ["interior", "kitchen", "beauty"],
+  tech: ["tech"],
 };
 
 const AdminProducts = () => {
-  const { mainDepartment: initialMainDepartment } = useParams();
+  const [main, setMain] = useState("clothes");
+  const [sub, setSub] = useState("");
+  const [products, setProducts] = useState([]);
+  const params = useParams();
   const navigate = useNavigate();
-  const [mainDepartment, setMainDepartment] = useState(initialMainDepartment);
-  const [subDepartment, setSubDepartment] = useState("");
-  const [allProducts, setAllProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [tabValue, setTabValue] = useState(
-    Object.keys(departments).indexOf(initialMainDepartment)
-  );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const userInfo = getCookie("user");
+  console.log("파라미터", params);
 
-      if (!userInfo || !userInfo.accessToken) {
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/admin");
-        return;
-      }
-      try {
-      } catch (error) {}
-    };
-    fetchData();
-  }, [navigate]);
-
-  const fetchProducts = useCallback(async (department) => {
-    setLoading(true);
+  //상품 리스트 다운
+  const fetchData = async () => {
     try {
-      const data = await getProductsByDepartment(department);
-      setAllProducts(data.products || []);
-      setSubDepartment(""); // 대분류 변경 시 소분류를 초기화
+      const data = await getProductsByDepartment(main, sub);
+      const products = data.products;
+      setProducts(products); // 상태 업데이트
+      console.log(products);
     } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
+      console.error("Error fetching products:", error);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    fetchProducts(mainDepartment);
-  }, [mainDepartment, fetchProducts]);
+    fetchData();
+  }, [main, sub]);
 
-  useEffect(() => {
-    if (subDepartment) {
-      const filteredProducts = allProducts.filter(
-        (product) => product.subDepartment === subDepartment
-      );
-      setFilteredProducts(filteredProducts);
-    } else {
-      setFilteredProducts(allProducts);
-    }
-  }, [subDepartment, allProducts]);
+  const changeMain = (event, newValue) => {
+    setMain(newValue);
+    setSub(""); // 새로운 main을 선택할 때 sub를 기본값으로 설정
+  };
 
-  const handleTabChange = useCallback(
-    (event, newValue) => {
-      const selectedDepartment = Object.keys(departments)[newValue];
-      setMainDepartment(selectedDepartment);
-      setTabValue(newValue);
-      navigate(`/admin/products/${selectedDepartment}`, { replace: true });
+  const handleChange = (event) => {
+    setSub(event.target.value);
+  };
+
+  const columns = [
+    {
+      field: "indexId",
+      headerName: "ID",
+      width: 90,
+      headerAlign: "center",
+      align: "center",
     },
-    [navigate]
-  );
-
-  const handleRowClick = useCallback(
-    (row) => {
-      const modelNum = row.modelNum;
-      navigate(`/admin/product/${modelNum}`);
+    {
+      field: "productName",
+      headerName: "상품명",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
     },
-    [navigate]
-  );
+    {
+      field: "modelNum",
+      headerName: "모델번호",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "productBrand",
+      headerName: "브랜드",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "productSize",
+      headerName: "사이즈",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "mainDepartment",
+      headerName: "대분류",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "subDepartment",
+      headerName: "소분류",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+    },
+  ];
 
-  const handleSubDepartmentChange = useCallback((event) => {
-    setSubDepartment(event.target.value);
-  }, []);
+  // products 데이터를 rows 형식으로 변환
+  const rows = products.map((product, index) => ({
+    id: product.productId,
+    indexId: index,
+    productName: product.productName,
+    modelNum: product.modelNum,
+    productBrand: product.productBrand,
+    productSize: product.productSize,
+    mainDepartment: product.mainDepartment,
+    subDepartment: product.subDepartment,
+  }));
 
-  const columns = useMemo(
-    () => [
-      { field: "indexId", headerName: "ID", width: 90 },
-      { field: "productName", headerName: "상품명", width: 150 },
-      { field: "modelNum", headerName: "모델번호", width: 150 },
-      { field: "productBrand", headerName: "브랜드", width: 150 },
-      { field: "productSize", headerName: "사이즈", width: 150 },
-      { field: "mainDepartment", headerName: "대분류", width: 150 },
-      { field: "subDepartment", headerName: "소분류", width: 150 },
-    ],
-    []
-  );
-
-  const rows = useMemo(
-    () =>
-      filteredProducts.map((product, index) => ({
-        id: product.productId,
-        indexId: index + 1,
-        productName: product.productName,
-        modelNum: product.modelNum,
-        productBrand: product.productBrand,
-        productSize: product.productSize,
-        mainDepartment: product.mainDepartment,
-        subDepartment: product.subDepartment,
-      })),
-    [filteredProducts]
-  );
-
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ padding: "16px" }}>
-        <Typography variant="h6" color="error">
-          데이터를 불러오는 중 오류가 발생했습니다.
-        </Typography>
-      </Box>
-    );
-  }
+  //해당 row 의 모델 번호를 parameter로 AdminProductDetailed에 전달
+  const handleRowClick = (row) => {
+    alert("상품상세정보 페이지로 이동");
+    navigate(`/admin/product/${row.modelNum}`);
+    console.log(row.modelNum);
+  };
 
   return (
-    <Box sx={{ padding: "32px" }}>
-      <Typography variant="h6" gutterBottom>
-        {mainDepartment} {subDepartment && `> ${subDepartment}`} 상품 목록
-      </Typography>
-      <Box sx={{ marginBottom: "16px" }}>
-        <DepartmentTabs
-          mainDepartment={mainDepartment}
-          handleTabChange={handleTabChange}
+    <div className="column-direction h100p">
+      <BottomNavigation showLabels value={main} onChange={changeMain}>
+        <BottomNavigationAction
+          label="clothes"
+          icon={<CheckroomOutlinedIcon />}
+          value="clothes"
         />
-      </Box>
-      <SubDepartmentSelect
-        mainDepartment={mainDepartment}
-        subDepartment={subDepartment}
-        handleSubDepartmentChange={handleSubDepartmentChange}
-      />
-      <TabPanel value={tabValue} index={tabValue}>
-        <CommonList rows={rows} columns={columns} onRowClick={handleRowClick} />
-      </TabPanel>
-    </Box>
+        <BottomNavigationAction
+          label="life"
+          icon={<OtherHousesOutlinedIcon />}
+          value="life"
+        />
+        <BottomNavigationAction
+          label="tech"
+          icon={<LaptopMacOutlinedIcon />}
+          value="tech"
+        />
+      </BottomNavigation>
+      <div className="flex-start ">
+        <FormControl style={{ minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-label"></InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={sub}
+            label="소분류"
+            onChange={handleChange}
+          >
+            {/* <MenuItem key="default" value={main} disabled>
+              {main}
+            </MenuItem> */}
+            {departments[main].map((sub) => (
+              <MenuItem key={sub} value={sub}>
+                {sub}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+      <CommonList columns={columns} rows={rows} onRowClick={handleRowClick} />
+    </div>
   );
 };
 

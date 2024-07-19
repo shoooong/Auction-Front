@@ -17,6 +17,8 @@ import FeedBookmark from "pages/style/FeedBookmark";
 import StyleRanking from "pages/Rank/StyleRanking";
 import FeedDetailTop from "pages/style/FeedDetailTop";
 import Event from "pages/event/Event";
+import TechMain from "pages/tech/TechMain";
+import clothesRouter from "./clothesRouter";
 
 const mainRouter = () => {
     return [
@@ -28,6 +30,7 @@ const mainRouter = () => {
             path: "/",
             element: <MainCategory />,
             children: [
+                
                 {
                     path: "/",
                     element: <ClothesCategory />,
@@ -38,7 +41,7 @@ const mainRouter = () => {
                 },
                 {
                     path: "/tech",
-                    element: <div>테크</div>,
+                    element: <TechMain />,
                 },
                 {
                     path: "/rank",
@@ -103,8 +106,8 @@ const mainRouter = () => {
         },
         {
             path: "clothes",
-            element: <clothesMain />,
-        },
+            children: clothesRouter()
+        }
     ];
 };
 

@@ -10,6 +10,8 @@
     height: 0;
     padding-bottom: 100%; /* Aspect ratio 1:1 */
     position: relative;
+    border-radius: 10px;
+    background: #ddd;
 }
 
 .post-image {
@@ -19,15 +21,23 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px;
 }
 
 .icon-button {
     position: absolute;
-    top: 10px;
-    right: 10px;
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     padding: 5px;
+}
+
+.rank {
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
 }
 
 .product-wrap {
@@ -42,4 +52,84 @@
 
 .add-btn {
     margin-top: 20px;
+}
+
+.product-details {
+    padding-top: 10px;
+}
+
+.semibold-black {
+    font-weight: 600;
+    color: var(--black);
+}
+
+.light-black {
+    font-weight: 300;
+    color: var(--black);
+}
+
+.red-bullet {
+    color: var(--red);
+}
+
+.light-grey {
+    color: var(--grey);
+}
+
+.recommended-styles-container {
+    margin: 20px 0;
+}
+
+.recommended-styles-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.recommended-styles-grid {
+    display: flex; /* flexbox 사용 */
+    flex-wrap: wrap; /* 줄 바꿈을 허용 */
+    gap: 15px; /* 요소 간격 */
+}
+
+.recommended-style {
+    flex: 1 1 150px; /* 각 요소가 동일한 너비를 가지도록 설정 */
+    text-align: center;
+}
+
+.recommended-style-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.recommended-style-label {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.sidebar {
+    width: 206px;
+    height: 452px;
+    background-color: skyblue;
+    padding: 5px;
+}
+
+.alpha{
+    display: flex;
+    margin: 0 auto;
+    width: 1280px;
+}
+.beta {
+    width: 206px;
+    margin-top: 90px;
+}
+
+.omega{
+    width: 1255px;
+    height: 160px;
+}
+
+.product-content {
+    width: 1016px;
 }

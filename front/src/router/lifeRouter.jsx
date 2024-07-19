@@ -12,7 +12,7 @@ export default function lifeRouter() {
             ),
         },
         {
-            path: "kichen",
+            path: "kitchen",
             element: (
                 <>
                     <div className="container">

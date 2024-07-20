@@ -38,9 +38,15 @@ export const getBuyHistoryComplete = async () => {
         throw error;
     }
 };
-
-
-
+export const cancelBuyingBidding = async (buyingBiddingId) => {
+    try {
+        const res = await jwtAxios.put(`${SERVER_URL}/mypage/buyHistory/process?buyingBiddingId=${buyingBiddingId}`);
+        return res.data;
+    } catch (error) {
+        console.error('cancelBuyingBidding error...', error);
+        throw error;
+    }
+}
 
 
 

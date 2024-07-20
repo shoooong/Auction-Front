@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getBuyHistoryProcess } from "api/user/mypageApi";
+import { getBuyHistoryProcess, cancelBuyingBidding } from "api/user/mypageApi";
 import { formatPrice, getStatusText } from "pages/user/mypageUtil";
+import { Button } from "@mui/material";
 
 import photo from "assets/images/myson.jpg";
 
 export default function BuyHistoryProcess() {
     const [buyHistory, setBuyHistory] = useState(null);
+    const [snackbar, setSnackbar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -25,6 +27,18 @@ export default function BuyHistoryProcess() {
         };
         fetchData();
     }, [navigate]);
+
+    const cancelBidding = async (buyingBiddingId) => {
+        try {
+            await cancelBuyingBidding(buyingBiddingId);
+            setBuyHistory(buyHistory.filter(buy => buy.buyingBiddingId !== buyingBiddingId));
+            setSnackbar(true);
+            setTimeout(() => setSnackbar(false), 3000);
+        } catch (error) {
+            console.error('Failed to cancel bidding', error);
+            alert('입찰 취소에 실패했습니다.');
+        }
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
@@ -44,10 +58,22 @@ export default function BuyHistoryProcess() {
                         </div>
                         <p>{formatPrice(buy.buyingBiddingPrice)}원</p>
                         <p>{getStatusText(buy.biddingStatus)}</p>
+                        <button onClick={() => cancelBidding(buy.buyingBiddingId)}>입찰 취소</button>
                     </div>
                 ))
             ) : (
                 <p className="non-history">구매 내역이 없습니다.</p>
+            )}
+
+            {snackbar && (
+                <div className="snackbar">
+                    <div className="space-between">
+                        <div className="align-center">
+                            <span>구매 입찰이 취소되었습니다.</span>
+                        </div>
+                        <Button onClick={() => navigate('/mypage/buyingHistory')}>확인</Button>
+                    </div>
+                </div>
             )}
         </div>
     );

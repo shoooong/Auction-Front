@@ -11,7 +11,7 @@ export const getMypageData = async () => {
     }
 };
 
-export const getBuyHistory = async () => {
+export const getAllBuyHistory = async () => {
     try {
         const res = await jwtAxios.get(`${SERVER_URL}/mypage/buyHistory`);
         return res.data;
@@ -20,6 +20,29 @@ export const getBuyHistory = async () => {
         throw error;
     }
 };
+export const getBuyHistoryProcess = async () => {
+    try {
+        const res = await jwtAxios.get(`${SERVER_URL}/mypage/buyHistory/process`);
+        return res.data;
+    } catch (error) {
+        console.error('getBuyHistory error...', error);
+        throw error;
+    }
+};
+export const getBuyHistoryComplete = async () => {
+    try {
+        const res = await jwtAxios.get(`${SERVER_URL}/mypage/buyHistory/complete`);
+        return res.data;
+    } catch (error) {
+        console.error('getBuyHistory error...', error);
+        throw error;
+    }
+};
+
+
+
+
+
 
 export const getSaleHistory = async () => {
     try {

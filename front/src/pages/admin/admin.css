@@ -121,13 +121,12 @@
   top: 10px;
   right: 0;
 }
-
 .admin-info {
   margin-top: 5px;
-  padding-left: 15px;
+  padding-left: 20px;
   gap: 5px;
 }
-.admin-info span {
+.admin-info .admin-product-info span {
   display: block;
   line-height: 1.2;
   color: var(--black);
@@ -138,22 +137,94 @@
   font-size: var(--ft14);
   font-weight: var(--semibold);
 }
-.admin-info span:nth-child(2),
+.admin-info .admin-product-info span:nth-child(2),
 .admin-info span:nth-child(3) {
   font-weight: var(--regular);
 }
-.admin-info span:nth-child(3) {
+.admin-info .admin-product-info span:nth-child(3) {
   font-size: var(--ft13);
   color: var(--grey);
 }
 
-/* admin-button */
-.admin-container-bottom {
-  padding: 15px 0 20px;
-}
-.admin-container-botton button {
-  margin: 0 10px;
+.admin-product-info {
+  gap: 5px;
+  margin-bottom: 20px;
 }
 
-.admin-form-control {
+/* luckydraw form */
+.admin-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 40px;
+}
+
+.admin-image-preview {
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.admin-image-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.admin-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-form-container label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.admin-form-container input[type="text"],
+.admin-form-container input[type="number"],
+.admin-form-container input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-form-container .admin-file-input-label {
+  display: inline-block;
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.admin-form-container .admin-file-input-label:hover {
+  background-color: #3700b3;
+}
+
+.admin-form-container button[type="submit"] {
+  padding: 10px 15px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.admin-form-container button[type="submit"]:hover {
+  background-color: #c9302c;
 }

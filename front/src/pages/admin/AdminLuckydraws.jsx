@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { getCookie } from "pages/user/cookieUtil";
 import { useNavigate } from "react-router-dom";
+import { CLOUD_STORAGE_BASE_URL } from "api/admin/AdminLuckyApi";
 
 const AdminLuckdraws = () => {
   const [luckyProcessStatus, setLuckyProcessStatus] = useState(""); // default status
@@ -18,22 +19,6 @@ const AdminLuckdraws = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const userInfo = getCookie("user");
-
-      if (!userInfo || !userInfo.accessToken) {
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/admin");
-        return;
-      }
-      try {
-      } catch (error) {}
-    };
-    fetchData();
-  }, [navigate]);
-
-  //기존 럭키드로우 리스트 다운
   const fetchData = async (status) => {
     try {
       const data = await getLuckys(status);
@@ -45,8 +30,22 @@ const AdminLuckdraws = () => {
   };
 
   useEffect(() => {
-    fetchData(luckyProcessStatus);
-  }, [luckyProcessStatus]);
+    const checkUserAndFetchData = async () => {
+      const userInfo = getCookie("user");
+
+      if (!userInfo || !userInfo.accessToken) {
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/admin/login");
+        return;
+      }
+      try {
+        await fetchData(luckyProcessStatus);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+    checkUserAndFetchData();
+  }, [navigate, luckyProcessStatus]);
 
   // CommonList 컴포넌트에 필요한 columns 정의
   const columns = [
@@ -75,7 +74,7 @@ const AdminLuckdraws = () => {
 
   return (
     <>
-      <h1>럭키드로우 상품 리스트!!!!!!!!</h1>
+      <h1>럭키드로우 상품 리스트</h1>
       <div>
         <button onClick={() => setLuckyProcessStatus("READY")}>READY</button>
         <button onClick={() => setLuckyProcessStatus("PROCESS")}>
@@ -99,7 +98,10 @@ const AdminLuckdraws = () => {
       <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
         <DialogTitle>럭키드로우 상품 등록</DialogTitle>
         <DialogContent>
-          <LuckyDrawForm onSubmit={handleFormSubmit} />
+          <LuckyDrawForm
+            onSubmit={handleFormSubmit}
+            onClose={() => setIsDialogOpen(false)}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsDialogOpen(false)} color="secondary">

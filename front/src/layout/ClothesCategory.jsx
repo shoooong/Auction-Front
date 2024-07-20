@@ -49,9 +49,9 @@ export default function ClothesCategory() {
                         </Link>
                     </Card>
                 </Box>
-
-                <ClothesMain />
             </div>
+
+            <ClothesMain />
         </>
     );
 }

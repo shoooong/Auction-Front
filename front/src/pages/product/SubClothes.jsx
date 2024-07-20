@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { SERVER_URL } from "api/serverApi";
+
 import { Box, IconButton, Button } from "@mui/material";
-import { useLocation, useNavigate } from 'react-router-dom';
-import "../../styles/product.css";
-import { SERVER_URL } from '../../api/serverApi';
+
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
-import image1 from "../../assets/images/bumsu.svg"
+import image1 from "../../assets/images/bumsu.svg";
 
 const SubClothes = () => {
     const location = useLocation();
@@ -17,13 +18,16 @@ const SubClothes = () => {
     const loadMoreRef = useRef(null);
 
     useEffect(() => {
-        const category = location.pathname.split('/')[2] || 'clothes';
+        const category = location.pathname.split("/")[2] || "clothes";
         const fetchProducts = async (page) => {
             try {
                 const response = await axios.get(
                     `${SERVER_URL}/products/sub/${category}?page=${page}`
                 );
-                setProducts(prevProducts => [...prevProducts, ...response.data.content]);
+                setProducts((prevProducts) => [
+                    ...prevProducts,
+                    ...response.data.content,
+                ]);
                 setHasNext(response.data.hasNext);
             } catch (error) {
                 console.error("Error fetching products: ", error);
@@ -68,85 +72,75 @@ const SubClothes = () => {
     };
 
     return (
-        <div className="alpha">
-            <div className="beta">
-                <aside className="sidebar">
-                    <h2>필터</h2>
-                    <div>
-                        <input type="radio" id="top" name="category" onChange={() => handleCategoryChange('top')} defaultChecked={location.pathname.includes('top')} />
-                        <label htmlFor="top">상의</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="bottom" name="category" onChange={() => handleCategoryChange('bottom')} defaultChecked={location.pathname.includes('bottom')} />
-                        <label htmlFor="bottom">하의</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="outer" name="category" onChange={() => handleCategoryChange('outer')} defaultChecked={location.pathname.includes('outer')} />
-                        <label htmlFor="outer">아우터</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="shoes" name="category" onChange={() => handleCategoryChange('shoes')} defaultChecked={location.pathname.includes('shoes')} />
-                        <label htmlFor="shoes">신발</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="inner" name="category" onChange={() => handleCategoryChange('inner')} defaultChecked={location.pathname.includes('inner')} />
-                        <label htmlFor="inner">이너웨어</label>
-                    </div>
-                </aside>
-            </div>
-            
-            <div className="gamma">
-                <main className="product-content">
-                    <Box className="box">
-                        <Box className="product-title-box">
-                            <h2 className="product-title">Product</h2>
-                            <h3 className="product-sub-title">상품</h3>
-                        </Box>
-                        <Box className="product-wrap no-wrap">
-                            {products.map((product, index) => (
-                                <div className="product" key={index}>
-                                    <div className="image-container">
-                                        <img src={product.productImg} alt={product.productName} className="post-image" />
-                                        <span className="rank">{product.rank}</span> {/* 순위 표시 */}
-                                        <IconButton
-                                            onClick={() => handleLikeToggle(index)}
-                                            className="icon-button"
-                                        >
-                                            {product.liked ? (
-                                                <span>
-                                                    <img src={BookmarkOn} alt="BookmarkOn" />
-                                                </span>
-                                            ) : (
-                                                <span>
-                                                    <img src={BookmarkOff} alt="BookmarkOff" />
-                                                </span>
-                                            )}
-                                        </IconButton>
-                                    </div>
-                                    <div className="product-details">
-                                        <p className="semibold-black">{product.productBrand}</p>
-                                        <p className="light-black">{product.productName}</p>
-                                        <span className="red-bullet">{product.modelNum}</span>
-                                        <span className="semibold-black">
-                                            {product.biddingPrice}
-                                            <span className="light-black">원</span>
-                                        </span>
-                                        <span className="light-grey">즉시 구매가</span>
-                                    </div>
-                                </div>
-                            ))}
-                        </Box>
+        <div className="container">
+            <div className="sub-nav"></div>
 
-                        {hasNext && (
-                            <div className="text-center" ref={loadMoreRef}>
-                                <Button className="add-btn">
-                                    더보기
-                                </Button>
+            <h2 className="title">상의</h2>
+
+            <main className="product-content" style={{ marginBottom: "80px" }}>
+                <Box className="box">
+                    <Box className="product-wrap inline-flex">
+                        {products.map((product, index) => (
+                            <div className="product" key={index}>
+                                <div>
+                                    <div className="image-container">
+                                        <img
+                                            src={product.productImg}
+                                            alt={product.productName}
+                                            className="post-image"
+                                        />
+                                    </div>
+
+                                    <IconButton
+                                        onClick={() => handleLikeToggle(index)}
+                                        className="icon-button"
+                                    >
+                                        {product.liked ? (
+                                            <span>
+                                                <img
+                                                    src={BookmarkOn}
+                                                    alt="BookmarkOn"
+                                                />
+                                            </span>
+                                        ) : (
+                                            <span>
+                                                <img
+                                                    src={BookmarkOff}
+                                                    alt="BookmarkOff"
+                                                />
+                                            </span>
+                                        )}
+                                    </IconButton>
+                                </div>
+                                <div className="product-details">
+                                    <p className="semibold-black">
+                                        {product.productBrand}
+                                    </p>
+                                    <p className="light-black">
+                                        {product.productName}
+                                    </p>
+                                    <span className="red-bullet">
+                                        {product.modelNum}
+                                    </span>
+                                    <span className="semibold-black">
+                                        {product.biddingPrice}
+                                        <span className="light-black">원</span>
+                                    </span>
+                                    <span className="light-grey">
+                                        즉시 구매가
+                                    </span>
+                                </div>
                             </div>
-                        )}
+                        ))}
                     </Box>
-                </main>
-            </div>
+
+                    {hasNext && (
+                        <div className="text-center" ref={loadMoreRef}>
+                            <Button className="add-btn">더보기</Button>
+                        </div>
+                    )}
+                </Box>
+            </main>
         </div>
     );
 };

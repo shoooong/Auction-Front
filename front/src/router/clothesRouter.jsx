@@ -1,4 +1,4 @@
-import SubClothes from "../pages/product/SubClothes"
+import SubClothes from "pages/product/SubClothes";
 
 export default function clothesRouter() {
     return [

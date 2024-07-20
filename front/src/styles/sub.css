@@ -80,3 +80,44 @@
 .notice-detail-content > div:first-child {margin-bottom: 20px; border-bottom: 1px solid var(--black); height: 60px;}
 .notice-detail-content span {font-size: var(--ft11); font-weight: var(--light); color: var(--grey);}
 .notice-detail-content .content {background: #f5f5f5; font-size: var(--ft15);color: var(--black); font-weight: var(--regular); padding: 25px; margin-bottom: 80px;}
+
+.inquiry-registration h2 {font-size: var(--ft22); font-weight: var(--semibold); padding-bottom: 10px; border-bottom: 4px solid var(--borderBlack); color: var(--black);}
+.inquiry-registration p {font-size: var(--ft18); font-weight: var(--medium); padding: 20px 0; color: var(--grey);}
+.inquiry-registration form {margin: 30px 0 80px;}
+.inquiry-registration form label {font-size: var(--ft15); font-weight: var(--semibold); color: var(--black); display: block; width: 100%; display: flex; align-items: center; margin-bottom: 20px;}
+.inquiry-registration form label:last-of-type {align-items: flex-start;}
+.inquiry-registration form label input[type="text"] {border: 1px solid var(--borderBasic); border-radius: 4px; height: 32px; padding: 0 8px; width: calc(100% - 50px); margin-left: 10px;}
+.inquiry-registration form label textarea {outline: 0; border-radius: 4px; border: 1px solid var(--borderBasic); margin-left: 10px; width: calc(100% - 50px); height: 400px; padding: 10px;}
+.inquiry-registration .btn-box {margin-top: 40px;}
+.inquiry-registration .btn-box button {margin: 0 10px;}
+
+.inquiry-item {border-bottom: 1px solid var(--borderBasic); display: flex; align-items: center; color: var(--black); justify-content: space-between; width: 100%; flex-wrap: wrap; padding-bottom: 10px; margin-top: 30px;}
+.inquiry-item div h3 {font-size: var(--ft18); font-weight: var(--semibold);}
+.inquiry-item div h3 + p {font-size: var(--ft15); font-weight: var(--regular); color: var(--black);}
+.inquiry-item div > p {color: var(--grey); font-size: var(--ft14);}
+.inquiry-item div > p:last-child {margin-top: 5px;}
+
+.inquiry-list {color: var(--black);}
+
+
+/*  ----------------------------- feed -----------------------------------*/
+.feed-list {display: flex; flex-wrap: wrap;}
+.feed-list > a:not(:nth-child(4n)) {margin-right: 26px; margin-bottom: 30px;}
+
+.feed .feed-img-box {background-color: #fff;border: 1px solid #e0e0e0;border-radius: 8px;overflow: hidden;width: 300px;height: 300px; position: relative;}
+.feed .feed-img-box img {width: 100%;}
+.feed .feed-info {margin-top: 13px; display: flex; justify-content: space-between; flex-wrap: wrap;}
+.feed .feed-info > * {font-size: var(--ft15); font-weight: var(--medium); color: var(--black);}
+.feed .feed-info p {width: 100%; font-size: var(--ft15); margin-top: 5px; font-weight: var(--light);}
+
+.feed-registration-form h2 {font-size: var(--ft22); font-weight: var(--semibold); padding-bottom: 10px; border-bottom: 4px solid var(--borderBlack); color: var(--black);}
+.feed-registration-form .form-group {margin-top: 20px;}
+.feed-registration-form .form-group label {font-size: var(--ft15); color: var(--black); font-weight: var(--bold);}
+.feed-registration-form .form-group label + input[type="text"] {border: 1px solid var(--borderBasic); border-radius: 4px; padding: 0 10px; margin-left: 10px; width: 50%; height: 32px;}
+.feed-registration-form .form-group label + input[type="file"] {margin-left: 10px;}
+.feed-registration-form .form-group + .text-center button {margin: 0 10px;}
+
+
+/*  ----------------------------- shop -----------------------------------*/
+.product-wrap.product-4n .product:not(:nth-child(5n)) {margin-right: 0px;}
+.product-wrap.product-4n .product:not(:nth-child(4n)) {margin-right: 34px;}

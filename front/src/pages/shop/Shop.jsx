@@ -154,7 +154,7 @@ export default function Shop() {
                     </div>
                     <div className="w80p">
                         <Box className="box">
-                            <Box className="product-wrap no-wrap">
+                            <Box className="product-wrap inline-flex product-4n">
                                 {displayProducts.map((list) => (
                                     <div
                                         className="product"

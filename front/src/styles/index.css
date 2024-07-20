@@ -117,6 +117,8 @@
 .sell-btn > span > span {display: block; padding: 0 !important; font-size: 15px; font-weight: var(--bold); margin-bottom: 5px;}
 
 
+.small-btn {border-radius: 10px !important; border: 1px solid var(--borderBasic) !important; padding: 11px 0 !important; width: 85px !important; font-size: var(--ft12) !important; font-weight: var(--light) !important; color: var(--black) !important;}
+
 .black-label {font-size: var(--ft14); color: var(--black); display: block; line-height: 1.2;}
 .white-label {font-size: var(--ft14); color: var(--white); display: block; line-height: 1.2;}
 .grey-label {font-size: var(--ft14); color: var(--grey); display: block; line-height: 1.2;}
@@ -126,9 +128,7 @@
 
 .cancel-btn,
 .confirm-btn {border-radius: 15px !important; padding: 13px 0 !important; width: 120px !important; border: 1px solid var(--borderBasic) !important;}
-.confirm-btn {background-color: var(--greyblack) !important; border: none !important}
-
-.small-btn {border-radius: 10px !important; border: 1px solid var(--borderBasic) !important; padding: 11px 0 !important; width: 85px !important; font-size: var(--ft12) !important; font-weight: var(--light) !important; color: var(--black) !important;}
+.confirm-btn {background-color: var(--greyblack) !important; border: none !important; color: var(--white) !important;}
 
 .login-btn {background: var(--basic) !important; color: var(--whitegrey) !important; font-size: var(--ft16) !important; font-weight: var(--bold) !important;}
 .login-btn:hover {background: var(--hover) !important;}

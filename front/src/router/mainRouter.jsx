@@ -82,7 +82,6 @@ const mainRouter = () => {
         {
             path: "style",
             element: <Style />,
-            children: [],
         },
         {
             path: "style/register",
@@ -111,7 +110,7 @@ const mainRouter = () => {
             children: userRouter(),
         },
 
-        // 범수 팝업
+        // 종욱이거?
         {
             path: "buy",
             element: <Buy />,

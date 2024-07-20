@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
-import { getSaleHistory } from "api/user/mypageApi";
+import { Button } from "@mui/material";
+
+import { getSaleHistory, cancelSalesBidding } from "api/user/mypageApi";
 import { getCookie } from "pages/user/cookieUtil";
 import { formatPrice, getStatusText } from "pages/user/mypageUtil";
 
@@ -10,6 +12,7 @@ import photo from "assets/images/myson.jpg";
 
 export default function SaleHistory() {
     const [saleHistory, setSaleHistory] = useState(null);
+    const [snackbar, setSnackbar] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -36,6 +39,34 @@ export default function SaleHistory() {
         fetchData();
     }, [navigate]);
 
+    useEffect(() => {
+        let timer;
+        if (snackbar) {
+            timer = setTimeout(() => {
+                setSnackbar(false);
+                window.location.reload()
+            }, 3000);
+        }
+        return () => clearTimeout(timer);
+    }, [snackbar, navigate]);
+
+    const cancelBidding = async (salesBiddingId) => {
+        try {
+            await cancelSalesBidding(salesBiddingId);
+            setSaleHistory(prevHistory => ({
+                ...prevHistory,
+                saleDetails: prevHistory.saleDetails.map(sale => 
+                    sale.salesBiddingId === salesBiddingId ? { ...sale, salesStatus: 'CANCEL' } : sale
+                )
+            }));
+            setSnackbar(true);
+        } catch (error) {
+            console.error('Failed to cancel bidding', error);
+            alert('입찰 취소에 실패했습니다.');
+        }
+    };
+
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
@@ -50,7 +81,7 @@ export default function SaleHistory() {
         return saleHistory.saleDetails.filter(sale => sale.salesStatus === status);
     };
 
-    const renderSaleDetails = (saleDetails) => {
+    const renderSaleDetails = (saleDetails, showCancelButton = false) => {
         return saleDetails.length > 0 ? (
             saleDetails.map((sale, index) => (
                 <div className="sale-item" key={index}>
@@ -62,6 +93,9 @@ export default function SaleHistory() {
                     </div>
                     <p>{formatPrice(sale.saleBiddingPrice)}원</p>
                     <p>{getStatusText(sale.salesStatus)}</p>
+                    {showCancelButton && (
+                        <button onClick={() => cancelBidding(sale.salesBiddingId)}>입찰 취소</button>
+                    )}
                 </div>
             ))
         ) : (
@@ -101,10 +135,23 @@ export default function SaleHistory() {
                     </TabsList>
                     <TabPanel value={1}>{renderSaleDetails(saleHistory.saleDetails)}</TabPanel>
                     <TabPanel value={2}>{renderSaleDetails(filterSaleDetailsByStatus('INSPECTION'))}</TabPanel>
-                    <TabPanel value={3}>{renderSaleDetails(filterSaleDetailsByStatus('PROCESS'))}</TabPanel>
+                    <TabPanel value={3}>{renderSaleDetails(filterSaleDetailsByStatus('PROCESS'), true)}</TabPanel>
                     <TabPanel value={4}>{renderSaleDetails(filterSaleDetailsByStatus('COMPLETE'))}</TabPanel>
                 </Tabs>
             </div>
+
+            {snackbar && (
+                <div className="snackbar">
+                    <div className="space-between">
+                        <div className="align-center">
+                            <span>판매 입찰이 취소되었습니다.</span>
+                        </div>
+                        <Button onClick={() => {
+                           window.location.reload()
+                        }}>확인</Button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

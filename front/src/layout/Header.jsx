@@ -29,7 +29,7 @@ export default function Header() {
                     </h1>
                     <div className="flex column-direction h100p w70p align-end">
                         <Box className="aside flex align-center">
-                            <Link to="/service">고객센터</Link>
+                            <Link to="/service/notice">고객센터</Link>
                             <Link to="/mypage">마이페이지</Link>
                             <Link to="/mypage/bookmark">관심</Link>
                             <Button

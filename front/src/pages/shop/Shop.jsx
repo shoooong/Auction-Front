@@ -7,8 +7,6 @@ import { RichTreeView } from "@mui/x-tree-view";
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 
-import "styles/sub.css";
-
 const LABEL_DATA = [
     {
         id: "clothes",

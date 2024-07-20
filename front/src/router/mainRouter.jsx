@@ -45,19 +45,15 @@ const mainRouter = () => {
                     element: <LifeCategory />,
                 },
                 {
-                    path: "/tech",
+                    path: "tech",
                     element: <TechMain />,
                 },
                 {
-                    path: "/rank",
-                    element: <div>랭킹</div>,
-                },
-                {
-                    path: "/styleranking",
+                    path: "rank",
                     element: <StyleRanking />,
                 },
                 {
-                    path: "/luckydraw",
+                    path: "luckydraw",
                     element: <LuckyDraw />,
                 },
                 {

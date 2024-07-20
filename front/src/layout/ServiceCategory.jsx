@@ -7,7 +7,10 @@ export default function MypageCategory() {
 
             <div className="flex">
                 <div className="w20p">
-                    <div className="mypage-nav pos-sticky">
+                    <div
+                        className="mypage-nav pos-sticky"
+                        style={{ paddingBottom: "150px" }}
+                    >
                         <h2>고객센터</h2>
 
                         <div>
@@ -21,7 +24,7 @@ export default function MypageCategory() {
                     </div>
                 </div>
 
-                <div>
+                <div className="w80p">
                     <Outlet />
                 </div>
             </div>

@@ -1,11 +1,10 @@
-import React from 'react';
-import '../../../styles/noticetab.css'
+import React from "react";
 
-const Tabs = ({ activeTab, setActiveTab }) => {
+const NoticeTabs = ({ activeTab, setActiveTab }) => {
     const tabButtons = [
-        { label: '전체', value: 'all' },
-        { label: '공지', value: 'notice' },
-        { label: '이벤트', value: 'event' }
+        { label: "전체", value: "all" },
+        { label: "공지", value: "notice" },
+        { label: "이벤트", value: "event" },
     ];
 
     const handleClick = (value) => {
@@ -13,18 +12,26 @@ const Tabs = ({ activeTab, setActiveTab }) => {
     };
 
     return (
-        <div className="tabs">
-            {tabButtons.map((tab, index) => (
-                <button
-                    key={index}
-                    className={activeTab === tab.value ? 'active' : ''}
-                    onClick={() => handleClick(tab.value)}
-                >
-                    {tab.label}
-                </button>
-            ))}
+        <div className="service-tab">
+            <div className="tabs">
+                {tabButtons.map((tab, index) => (
+                    <div
+                        className={
+                            activeTab === tab.value ? "tab active" : "tab"
+                        }
+                        key={index}
+                    >
+                        <button
+                            className={activeTab === tab.value ? "active" : ""}
+                            onClick={() => handleClick(tab.value)}
+                        >
+                            {tab.label}
+                        </button>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
 
-export default Tabs;
+export default NoticeTabs;

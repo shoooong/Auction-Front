@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import CommonList from "./layout/CommonList";
 import { useNavigate } from "react-router-dom";
-
+import { getCookie } from "pages/user/cookieUtil";
 import CheckroomOutlinedIcon from "@mui/icons-material/CheckroomOutlined";
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import LaptopMacOutlinedIcon from "@mui/icons-material/LaptopMacOutlined";
@@ -28,8 +28,6 @@ const AdminProducts = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  console.log("파라미터", params);
-
   //상품 리스트 다운
   const fetchData = async () => {
     try {
@@ -41,10 +39,21 @@ const AdminProducts = () => {
       console.error("Error fetching products:", error);
     }
   };
-
   useEffect(() => {
-    fetchData();
-  }, [main, sub]);
+    const checkLoginAndFetchData = async () => {
+      const userInfo = getCookie("user");
+
+      if (!userInfo || !userInfo.accessToken) {
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/admin/login");
+        return;
+      }
+      await fetchData();
+    };
+    checkLoginAndFetchData();
+  }, [main, sub, navigate]);
+
+  // useEffect(() => {}, [main, sub]);
 
   const changeMain = (event, newValue) => {
     setMain(newValue);

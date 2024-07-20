@@ -37,7 +37,7 @@ const AdminRequest = () => {
 
       if (!userInfo || !userInfo.accessToken) {
         alert("로그인이 필요한 서비스입니다.");
-        navigate("/admin");
+        navigate("/admin/login");
         return;
       }
       fetchRequests();

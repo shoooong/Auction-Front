@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { getMypageData } from "api/user/mypageApi";
 import { getCookie } from "pages/user/cookieUtil";
+import { formatPrice, getStatusText, maskEmail } from "pages/user/mypageUtil";
 import { Button } from "@mui/material";
 // import { Button, IconButton } from "@mui/material";
 
@@ -44,7 +45,7 @@ export default function MypageMain() {
 
                 setProfile(response.profileDto);
                 setCouponCount(response.couponCount);
-                setBuyHistory(response.buyHistoryDto);
+                setBuyHistory(response.buyHistoryAllDto);
                 setSaleHistory(response.saleHistoryDto);
                 setBookmarkProducts(response.bookmarkProductsDto);
             } catch (error) {
@@ -59,23 +60,9 @@ export default function MypageMain() {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
-    const maskEmail = (email) => {
-        const [localPart, domainPart] = email.split("@");
-        const localPartLength = localPart.length;
+    
 
-        if (localPartLength <= 2) {
-            return "*".repeat(localPartLength) + "@" + domainPart;
-        }
-
-        const visiblePart = localPart.slice(0, 2);
-        const maskedPart = "*".repeat(localPartLength - 2);
-
-        return `${visiblePart}${maskedPart}@${domainPart}`;
-    };
-
-    const formatPrice = (price) => {
-        return new Intl.NumberFormat("ko-KR").format(price);
-    };
+    
 
     return (
         <div className="full-container">
@@ -165,17 +152,17 @@ export default function MypageMain() {
                                 종료 <span>{buyHistory.completeCount}</span>
                             </div>
                         </div>
-                        {buyHistory.orderDetails.length > 0 ? (
-                            buyHistory.orderDetails.map((order, index) => (
+                        {buyHistory.buyingDetails.length > 0 ? (
+                            buyHistory.buyingDetails.map((buy, index) => (
                                 <div className="buy-item" key={index}>
-                                    {/* <img src={order.productImg} alt={order.productName} /> */}
+                                    {/* <img src={buy.productImg} alt={buy.productName} /> */}
                                     <img src={photo} alt="이앤톤" />
                                     <div>
-                                        <p>{order.productName}</p>
-                                        <p>{order.productSize}</p>
+                                        <p>{buy.productName}</p>
+                                        <p>{buy.productSize}</p>
                                     </div>
-                                    <p>{formatPrice(order.orderPrice)}원</p>
-                                    <p>{order.orderStatus}</p>
+                                    <p>{formatPrice(buy.orderPrice)}원</p>
+                                    <p>{getStatusText(buy.orderStatus)}</p>
                                 </div>
                             ))
                         ) : (
@@ -197,7 +184,7 @@ export default function MypageMain() {
                                 전체 <span>{saleHistory.allCount}</span>
                             </div>
                             <div>
-                                검수 중{" "}
+                                검수 중
                                 <span>{saleHistory.inspectionCount}</span>
                             </div>
                             <div>
@@ -219,7 +206,7 @@ export default function MypageMain() {
                                     <p>
                                         {formatPrice(sale.saleBiddingPrice)}원
                                     </p>
-                                    <p>{sale.salesStatus}</p>
+                                    <p>{getStatusText(sale.salesStatus)}</p>
                                 </div>
                             ))
                         ) : (

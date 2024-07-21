@@ -108,6 +108,8 @@ const Address = () => {
                         <p>{address.addressName}</p>
                         <p>{address.roadAddress}</p>
                         <p>{address.detailAddress}</p>
+                        <p>{address.name}</p>
+                        <p>{address.addrPhone}</p>
 
                         <button type="button" onClick={() => setSelectedAddress(address)}>수정</button>
                         <button type="button" onClick={(e) => { e.stopPropagation(); handleDeleteAddress(address.addressId); }}>삭제</button>

@@ -10,6 +10,8 @@ const Postcode = ({ onSave, selectedAddress }) => {
 
     const [defaultAddress, setDefaultAddress] = useState(false);
     const [addressName, setAddressName] = useState('');
+    const [name, setName] = useState('');
+    const [addrPhone, setAddrPhone] = useState('');
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -31,6 +33,9 @@ const Postcode = ({ onSave, selectedAddress }) => {
             setDetailAddress(selectedAddress.detailAddress);
             setDefaultAddress(selectedAddress.defaultAddress);
             setAddressName(selectedAddress.addressName);
+            setName(selectedAddress.name);
+            setAddrPhone(selectedAddress.addrPhone);
+
         }
     }, [selectedAddress]);
 
@@ -80,7 +85,9 @@ const Postcode = ({ onSave, selectedAddress }) => {
             detailAddress,
             extraAddress,
             defaultAddress,
-            addressName
+            addressName,
+            name,
+            addrPhone
         };
 
         if (selectedAddress) {
@@ -105,6 +112,8 @@ const Postcode = ({ onSave, selectedAddress }) => {
                 기본 배송지로 설정
             </label>
             <input type="text" placeholder="배송지명" value={addressName} onChange={(e) => setAddressName(e.target.value)} />
+            <input type="text" placeholder="수령인 이름" value={name} onChange={(e) => setName(e.target.value)} />
+            <input type="text" placeholder="수령인 전화번호" value={addrPhone} onChange={(e) => setAddrPhone(e.target.value)} />
 
             <button type="button" onClick={handleSave}>저장</button>
         </div>

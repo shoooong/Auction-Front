@@ -24,13 +24,7 @@ const useUserCoupon = () => {
 
             try {
                 const response = await jwtAxios.get(
-                    `${SERVER_URL}/coupon/user`,
-                    {},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
+                    `${SERVER_URL}/coupon/user`
                 );
 
                 // const response = await axios.get(`${SERVER_URL}/coupon/user`);

@@ -5,7 +5,7 @@ import MypageBookmark from "components/mypage/MypageBookmark";
 import DrawHistory from "pages/user/mypage/DrawHistory";
 import Account from "pages/user/mypage/Account";
 import Address from "pages/user/mypage/Address";
-import Coupon from "pages/user/mypage/coupon";
+import Coupon from "pages/user/mypage/Coupon";
 
 import { Suspense, lazy } from "react";
 

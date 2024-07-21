@@ -1,1 +1,1 @@
-export const SERVER_URL = "http://175.45.200.47:8080";
+export const SERVER_URL = "https://api.sho0ong.com";

@@ -4,6 +4,8 @@
 .tree-view b::before {content: ""; position: absolute; background-color: var(--black); width: 3px; height: 15px; top: 0px; left: 0px;}
 .tree-view b > span {font-size: var(--ft13); font-weight: var(--light); color: var(--grey); cursor: pointer;}
 .tree-view .MuiTreeItem-iconContainer {display: none !important;}
+.tree-view .Mui-checked .MuiSvgIcon-root {color: black;}
+.tree-view .MuiTreeItem-label {font-size: var(--ft15) !important; font-weight: var(--light) !important; color: var(--black) !important;}
 
 
 /*  ----------------------------- luckydraw -----------------------------------*/

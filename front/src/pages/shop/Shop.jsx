@@ -15,17 +15,17 @@ const LABEL_DATA = [
             { id: "top", label: "상의" },
             { id: "bottom", label: "하의" },
             { id: "outer", label: "아우터" },
-            { id: "신발", label: "신발" },
-            { id: "이너웨어", label: "이너웨어" },
+            { id: "shoes", label: "신발" },
+            { id: "inner", label: "이너웨어" },
         ],
     },
     {
         id: "life",
         label: "라이프",
         children: [
-            { id: "인테리어", label: "인테리어" },
-            { id: "키친", label: "키친" },
-            { id: "뷰티", label: "뷰티" },
+            { id: "interior", label: "인테리어" },
+            { id: "kitcken", label: "키친" },
+            { id: "beauty", label: "뷰티" },
         ],
     },
     { id: "tech", label: "테크" },
@@ -105,13 +105,11 @@ export default function Shop() {
 
     // 필터링 적용
     const changeFilter = (e, items) => {
-        if (items[0] === LABEL_DATA[0].id) {
-            setMain(items);
-            setSub([]);
-        } else if (items[0] === LABEL_DATA[1].id) {
-            setMain(items);
-            setSub([]);
-        } else if (items[0] === LABEL_DATA[2].id) {
+        if (
+            items[0] === LABEL_DATA[0].id ||
+            items[0] === LABEL_DATA[1].id ||
+            items[0] === LABEL_DATA[2].id
+        ) {
             setMain(items);
             setSub([]);
         } else {
@@ -120,13 +118,10 @@ export default function Shop() {
         }
     };
 
-    const [click, setClick] = useState([]);
-
     // 초기화
     const resetFilters = () => {
         setSub([]);
         setMain([]);
-        setClick([]);
     };
 
     return (
@@ -147,7 +142,7 @@ export default function Shop() {
                                     multiSelect
                                     checkboxSelection
                                     onSelectedItemsChange={changeFilter}
-                                    selectedItems={sub}
+                                    selectedItems={main.length > 0 ? main : sub}
                                 ></RichTreeView>
                             </Box>
                         </div>

@@ -1,7 +1,7 @@
 import prImg from "assets/images/sample.png";
 import postImg from "assets/images/icon-post.png";
 import tossImg from "assets/images/icon-toss.png";
-import arrowImg from "assets/images/arrow.svg";
+import arrowImg from "assets/images/arrow2.svg";
 import "styles/order.css";
 import useOrder from "hooks/useOrder";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
@@ -140,12 +140,13 @@ export default function Buy() {
                                 </div>
                             </div>
                             <div className="">
-                                <div className="memo_box">
-                                    <button class="btn_shipping_memo border_box">
+                                <div className="memo_box border_box">
+                                    <button class="btn_shipping_memo ">
                                         <span className="shipping_memo">
                                             요청사항 없음
                                         </span>
                                     </button>
+                                    <img src={arrowImg} alt="" />
                                 </div>
                             </div>
                             <div class="border_line"></div>
@@ -183,15 +184,18 @@ export default function Buy() {
                 <div className="coupon_info_area info_area">
                     <h3 className="title_txt">할인 혜택</h3>
                     <p className="desc">쿠폰</p>
-                    <button className="coupon_box btn_shipping_memo border_box">
-                        <span>선착순 쿠폰1</span>
-                    </button>
+                    <div className="coupon_box border_box">
+                        <button className="btn_shipping_memo">
+                            <span>선착순 쿠폰1</span>
+                        </button>
+                        <img src={arrowImg} alt="" />
+                    </div>
                 </div>
                 <div className="pay-info-area info_area">
                     <h3 className="title_txt">결제 방법</h3>
                     <div className="main_title">
                         <p className="desc">일반 결제</p>
-                        <p className="sub_text">일시불-할부</p>
+                        <p className="sub_text">일시불·할부</p>
                     </div>
                     <button
                         className="payment_btn border_box"
@@ -206,8 +210,51 @@ export default function Buy() {
                         변경 시 수수료가 발생할 수 있습니다.
                     </p>
                 </div>
-                <div className="final-order-info-arae info_area"></div>
-                <div className="order-payment-area info_area"></div>
+                <div className="final_order_info_area info_area">
+                    <h3 className="title_txt">최종 주문 정보</h3>
+                    <div className="order_main_title">
+                        <div className="order_item">
+                            <p className="desc">즉시 구매가</p>
+                            <p className="desc bold">
+                                {buyingBidding?.buyingBiddingPrice.toLocaleString()}
+                                원
+                            </p>
+                        </div>
+                        <div className="order_item">
+                            <p className="sub_text">검수비</p>
+                            <p className="desc">무료</p>
+                        </div>
+                        <div className="order_item">
+                            <p className="sub_text">수수료</p>
+                            <p className="desc">8,000원</p>
+                        </div>
+                        <div className="order_item">
+                            <p className="sub_text">배송비</p>
+                            <p className="desc">3,000원</p>
+                        </div>
+                        <div className="order_item">
+                            <p className="sub_text">쿠폰 사용</p>
+                            <p className="desc">-</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="order_payment_area info_area">
+                    <div className="order_box">
+                        <p className="text16">총 결제금액</p>
+                        <p className="text20">
+                            {buyingBidding?.buyingBiddingPrice.toLocaleString()}
+                            원
+                        </p>
+                    </div>
+                </div>
+                <div className="final_payment_btn info_area">
+                    <div className="btn">
+                        <button className="pay_btn">
+                            {buyingBidding?.buyingBiddingPrice.toLocaleString()}
+                            원 • 일반배송 결제하기
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );

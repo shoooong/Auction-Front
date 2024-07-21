@@ -7,7 +7,7 @@ import useCouponEvent from "hooks/useCouponEvent";
 import { getCookie } from "pages/user/cookieUtil";
 
 import couponDownBtn from "assets/images/coupon_down.svg";
-
+import CouponCountdown from "components/CouponCountDown";
 export default function Event() {
     const { coupons } = useCouponEvent();
     const navigate = useNavigate();
@@ -53,10 +53,10 @@ export default function Event() {
                         </span>
                         <p>타임어택 Event!</p>
                     </div>
-
                     {coupons.map((item) => (
                         <div key={item.couponId} className="justify-center">
                             <div>
+                                <CouponCountdown startDate={item.startDate} />
                                 <div className="coupon-container">
                                     <div className="coupon-content1">
                                         <h3>
@@ -87,6 +87,7 @@ export default function Event() {
                                         <span className="issue">발급</span>
                                     </div>
                                 </div>
+
                                 <p className="exp">
                                     * 쿠폰은 발급일로부터 7일 이내에 사용
                                     가능합니다.

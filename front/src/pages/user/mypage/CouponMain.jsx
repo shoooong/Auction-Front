@@ -5,7 +5,7 @@ import jwtAxios from "pages/user/jwtUtil";
 import "styles/coupon.css";
 import { getCookie } from "pages/user/cookieUtil";
 import { SERVER_URL } from "api/serverApi";
-import CouponCountdown from "components/CountDown";
+import CouponDday from "components/CouponDday";
 export default function Event() {
     const { coupons } = useUserCoupon();
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function Event() {
                     </div>
                     <div className="mypage-coupon-content2">
                         <p className="coupon-exp">
-                            <CouponCountdown
+                            <CouponDday
                                 startDate={item.coupon.startDate}
                                 endDate={item.coupon.endDate}
                             />

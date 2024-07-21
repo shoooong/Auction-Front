@@ -4,6 +4,8 @@
 .tree-view b::before {content: ""; position: absolute; background-color: var(--black); width: 3px; height: 15px; top: 0px; left: 0px;}
 .tree-view b > span {font-size: var(--ft13); font-weight: var(--light); color: var(--grey); cursor: pointer;}
 .tree-view .MuiTreeItem-iconContainer {display: none !important;}
+.tree-view .Mui-checked .MuiSvgIcon-root {color: black;}
+.tree-view .MuiTreeItem-label {font-size: var(--ft15) !important; font-weight: var(--light) !important; color: var(--black) !important;}
 
 
 /*  ----------------------------- luckydraw -----------------------------------*/
@@ -17,7 +19,7 @@
 .lucky-main .img-box {border-radius: 8px; background: #eee;height: 300px;width: 300px;}
 
 .lucky-main .img-box + h2 {font-size: var(--ft25); font-weight: var(--bold); word-break: keep-all; width: 300px; text-align: left; padding: 20px 0 10px; color: var(--black);}
-.lucky-main h2 + p {font-size: var(--ft18); color: var(--grey); margin-bottom: 20px; font-weight: var(--light);}
+.lucky-main h2 + p {font-size: var(--ft18); color: var(--grey); margin-bottom: 20px; font-weight: var(--light); width: 230px; word-break: keep-all;}
 
 .lucky-detail .img-box p {background-color: #ddd; margin-right: 30px; height: 400px}
 .lucky-detail > div:nth-child(2) {border-left: 1px solid var(--borderBasic); padding-left: 30px; color: var(--black);}

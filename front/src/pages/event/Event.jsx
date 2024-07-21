@@ -59,7 +59,12 @@ export default function Event() {
                             <div>
                                 <div className="coupon-container">
                                     <div className="coupon-content1">
-                                        <h3>{item.amount.toLocaleString()}</h3>
+                                        <h3>
+                                            {item.amount.toLocaleString()}
+                                            {item.discountType === "PERCENT"
+                                                ? "%"
+                                                : "원"}
+                                        </h3>
                                         <h4 className="text18">
                                             {item.content}
                                         </h4>

@@ -13,7 +13,7 @@ import {
   DialogTitle,
   Zoom,
 } from "@mui/material";
-import { acceptRequest, getRequest } from "api/admin/requestApi";
+import { acceptRequest, getRequest, rejectRequest } from "api/admin/requestApi";
 
 const initialState = {
   productId: 0,
@@ -37,6 +37,7 @@ const AdminRequestDetailed = () => {
   const [open, setOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
+  const [approvalSuccess, setApprovalSuccess] = useState(false);
 
   const fetchProduct = async () => {
     try {
@@ -65,9 +66,11 @@ const AdminRequestDetailed = () => {
       await acceptRequest(productId);
       setProduct({ ...product, productStatus: "APPROVED" });
       setDialogMessage("승인이 정상적으로 처리되었습니다.");
+      setApprovalSuccess(true); // 승인 성공 시 상태 업데이트
     } catch (error) {
       console.error("Error approving request", error);
       setApprovalError(error);
+      setApprovalSuccess(false); // 승인 실패 시 상태 업데이트
       if (error.response && error.response.status === 400) {
         setDialogMessage(error.response.data);
       } else {
@@ -78,11 +81,28 @@ const AdminRequestDetailed = () => {
       setDialogOpen(true);
     }
   };
+  const handleReject = async () => {
+    try {
+      await rejectRequest(productId);
+      setDialogMessage("요청이 정상적으로 거절되었습니다.");
+      setApprovalSuccess(true);
+    } catch (error) {
+      console.error("Error rejecting request", error);
+      setApprovalError(error);
+      setApprovalSuccess(false);
+      setDialogMessage("거절 중 오류가 발생했습니다.");
+    } finally {
+      setDialogOpen(true);
+    }
+  };
 
   const handleDialogClose = async () => {
     setDialogOpen(false);
-    await fetchRequests(); // 리스트 데이터를 다시 로드합니다.
-    handleClose(); // 모달창을 닫습니다.
+    if (approvalSuccess) {
+      // 승인 성공 시에만 모달창을 닫음
+      await fetchRequests(); // 리스트 데이터를 다시 로드합니다.
+      handleClose(); // 모달창을 닫습니다.
+    }
   };
 
   if (loading) {
@@ -162,7 +182,7 @@ const AdminRequestDetailed = () => {
                   {approvalLoading ? <CircularProgress size={24} /> : "승인"}
                 </Button>
                 <Button
-                  onClick={handleClose}
+                  onClick={handleReject} // 거절 핸들러 연결
                   className="confirm-btn"
                   variant="contained"
                 >

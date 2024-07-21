@@ -3,11 +3,70 @@ import postImg from "assets/images/icon-post.png";
 import tossImg from "assets/images/icon-toss.png";
 import arrowImg from "assets/images/arrow.svg";
 import "styles/order.css";
-import useOrderPage from "hooks/useOrder";
+import useOrder from "hooks/useOrder";
+import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
+import { useEffect, useState } from "react";
+
+// ------  SDK 초기화 ------
+const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
+const customerKey = "HOytG9DDEHHgTxwNS0YWT";
+
 export default function Buy() {
-    const { buyingBidding, addressInfo } = useOrderPage();
-    console.log(buyingBidding);
-    console.log(addressInfo);
+    const [payment, setPayment] = useState(null);
+    const [amount] = useState({
+        currency: "KRW",
+        value: 50000,
+    });
+
+    const { buyingBidding, addressInfo } = useOrder();
+
+    // SDK 초기화 및 결제 객체 설정
+    useEffect(() => {
+        async function fetchPayment() {
+            try {
+                const tossPayments = await loadTossPayments(clientKey);
+                const payment = tossPayments.payment({
+                    customerKey,
+                });
+                setPayment(payment);
+            } catch (error) {
+                console.error("Error fetching payment:", error);
+            }
+        }
+
+        fetchPayment();
+    }, []);
+
+    // 결제 요청 함수
+    async function requestPayment() {
+        if (!payment) {
+            console.error("Payment object is not initialized.");
+            return;
+        }
+
+        try {
+            await payment.requestPayment({
+                method: "CARD",
+                amount: amount,
+                orderId: "Zi9UdirQdheViE-1c0oca",
+                orderName: "토스 티셔츠 외 2건",
+                successUrl: window.location.origin + "/success",
+                failUrl: window.location.origin + "/fail",
+                customerEmail: "customer123@gmail.com",
+                customerName: "김토스",
+                customerMobilePhone: "01012341234",
+                card: {
+                    useEscrow: false,
+                    flowMode: "DEFAULT",
+                    useCardPoint: false,
+                    useAppCardOnly: false,
+                },
+            });
+        } catch (error) {
+            console.error("Error requesting payment:", error);
+        }
+    }
+
     return (
         <div className="buy_bg">
             <div className="buy_container">
@@ -65,7 +124,8 @@ export default function Buy() {
                                                 배송 주소
                                             </dt>
                                             <dd className="desc">
-                                                ({addressInfo?.zonecode})&nbsp;
+                                                ({addressInfo?.zonecode}
+                                                )&nbsp;
                                                 {addressInfo?.roadAddress}
                                                 &nbsp;
                                                 {addressInfo?.detailAddress}
@@ -85,7 +145,6 @@ export default function Buy() {
                                         <span className="shipping_memo">
                                             요청사항 없음
                                         </span>
-                                        {/* <svg></svg> */}
                                     </button>
                                 </div>
                             </div>
@@ -134,14 +193,17 @@ export default function Buy() {
                         <p className="desc">일반 결제</p>
                         <p className="sub_text">일시불-할부</p>
                     </div>
-                    <button className="payment_btn border_box">
+                    <button
+                        className="payment_btn border_box"
+                        onClick={requestPayment}
+                    >
                         <span>토스페이</span>
                         <img src={tossImg} class="pay_img"></img>
                     </button>
                     <p className="sub_text">
                         체결 후 결제 정보 변경은 불가하며 분할 납부 변경은
                         카드사 문의 바랍니다. 단, 카드사별 정책에 따라 분할 납부
-                        변경 시 수수료 가 발생할 수 있습니다.
+                        변경 시 수수료가 발생할 수 있습니다.
                     </p>
                 </div>
                 <div className="final-order-info-arae info_area"></div>

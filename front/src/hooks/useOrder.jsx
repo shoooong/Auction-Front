@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import jwtAxios from "pages/user/jwtUtil";
 import { SERVER_URL } from "api/serverApi";
 

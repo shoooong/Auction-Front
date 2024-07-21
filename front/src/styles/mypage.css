@@ -3,6 +3,8 @@
 7) 이벤트 배너
 10) 판매자 등급 호버 효과..
 11) 쿠폰, 회원탈퇴 링크연결
+
+body에 line-height = 1 꼭 필요한가?
 */
 
 
@@ -209,7 +211,6 @@
 }
 
 .bookmark-item {
-    /* padding: 16px; */
     margin-bottom: 10px;
 }
 
@@ -259,7 +260,7 @@
 }
 
 .address-card {
-    padding: 10px 0;
+    padding: 20px 0;
     border-bottom: 1px solid #d6d6d6;
     display: flex;
     align-items: end;
@@ -325,6 +326,87 @@
 .address-actions button:first-of-type:hover {
     background-color: var(--black);
 }
+
+
+/* 계좌 관리 */
+.account-details, .no-account {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.account-details p, .no-account p {
+    margin: 20px 0;
+    color: var(--black);
+    display: flex;
+   align-items: center;
+}
+.account-details p strong {
+    flex-grow: 1;
+    max-width: 100px; /* 적당한 값으로 조절 */
+}
+
+.no-account button, .account-btn button, .account-details button{
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.account-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.account-btn button:nth-of-type(2) {
+    background-color: #f4f4f4; /* 다른 색상 설정 */
+    color: var(--black);
+}
+
+.account-btn button:nth-of-type(2):hover {
+    background-color: #999; /* 다른 색상 설정 */
+}
+
+button:hover {
+    background-color: var(--black);
+}
+
+.account-form {
+    color: var(--black);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.account-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.account-form label {
+    font-weight: bold;
+}
+
+.account-form input {
+    padding: 10px;
+    border-bottom: 1px solid #d9d9d9;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 300px;
+    box-sizing: border-box;
+}
+
+
 
 
 

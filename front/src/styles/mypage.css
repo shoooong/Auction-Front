@@ -1,14 +1,6 @@
 /* TODO:
-1) 최상단 줄 없애기
-2) footer 침범
-3) 불러온 데이터 없을경우 width 좁아짐
 4) 관심상품 이미지 - 북마크 아이콘버튼 넣기
-5) .draw-name:hover::after - data-full-text
-6) 탭 변경
-
 7) 이벤트 배너
-8) 아이콘 다시 넣기 
-9) enum명 한글로 변경
 10) 판매자 등급 호버 효과..
 11) 쿠폰, 회원탈퇴 링크연결
 */
@@ -253,6 +245,87 @@
     align-items: center;
     padding: 20px 20px;
 }
+
+
+/* 배송지 관리 */
+.address-management {
+    padding: 20px;
+}
+
+.addresses-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.address-card {
+    padding: 10px 0;
+    border-bottom: 1px solid #d6d6d6;
+    display: flex;
+    align-items: end;
+    gap: 10px;
+}
+
+.address-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.address-header {
+    display: flex;
+    align-items: center;
+}
+
+.address-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--black);
+}
+
+.default-badge {
+    background-color: #f4f4f4;
+    margin-left: 10px;
+    color: var(--black);
+    padding: 5px 5px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.address-phone,
+.address-zonecode,
+.address-detail {
+    font-size: 14px;
+    color: #181818;
+}
+
+.address-actions {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.address-actions button, .add-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
+
+.address-actions button:hover, .add-button:hover {
+    background-color: #e2e6ea;
+}
+
+.address-actions button:first-of-type {
+    background-color: #333;
+    color: white;
+}
+
+.address-actions button:first-of-type:hover {
+    background-color: var(--black);
+}
+
 
 
 

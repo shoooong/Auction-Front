@@ -13,6 +13,20 @@ export const maskEmail = (email) => {
     return `${visiblePart}${maskedPart}@${domainPart}`;
 };
 
+// 배송지 관리
+export const maskName = (name) => {
+    if (name.length > 1) {
+        return name[0] + '*'.repeat(name.length - 1);
+    }
+    return name;
+};
+
+export const formatPhoneNumber = (phoneNum) => {
+    if (phoneNum.length === 11) {
+        return `${phoneNum.slice(0, 3)}-${phoneNum.slice(3, 4)}***-*${phoneNum.slice(8)}`;
+    }
+    return phoneNum;
+};
 
 
 

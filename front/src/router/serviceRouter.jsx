@@ -1,12 +1,20 @@
 import { Suspense, lazy } from "react";
 
+const Notice = lazy(() => import("pages/serviceCenter/notice/Notice"));
+const NoticeDetail = lazy(() =>
+    import("pages/serviceCenter/notice/NoticeDetail")
+);
+const Inquiry = lazy(() => import("pages/serviceCenter/inquiry/InquiryPage"));
+const InquiryRegistration = lazy(() =>
+    import("pages/serviceCenter/inquiry/InquiryRegistration")
+);
+const InquiryDetail = lazy(() =>
+    import("pages/serviceCenter/inquiry/InquiryDetailTop")
+);
+const NoticeRegister = lazy(() =>
+    import("pages/serviceCenter/notice/NoticeRegistration")
+);
 const Loading = <div>Loading...</div>;
-const Notice = lazy(() => import("../pages/serviceCenter/notice/Notice"));
-const NoticeDetail = lazy(() => import("../pages/serviceCenter/notice/NoticeDetail"));
-const Inquiry = lazy(() => import("../pages/serviceCenter/inquiry/InquiryPage"));
-const InquiryRegistration = lazy(() => import("../pages/serviceCenter/inquiry/InquiryRegistration"));
-const InquiryDetail = lazy(() => import("../pages/serviceCenter/inquiry/InquiryDetailTop"));
-const NoticeRegister = lazy(() => import("../pages/serviceCenter/notice/NoticeRegistration"));
 
 export default function clothesRouter() {
     return [
@@ -14,17 +22,17 @@ export default function clothesRouter() {
             path: "notice",
             element: (
                 <Suspense fallback={Loading}>
-                <Notice />
+                    <Notice />
                 </Suspense>
-            )
+            ),
         },
         {
             path: "adminnotice/create",
             element: (
                 <Suspense fallback={Loading}>
-                <NoticeRegister />
+                    <NoticeRegister />
                 </Suspense>
-            )
+            ),
         },
         {
             path: "inquiry",
@@ -32,7 +40,7 @@ export default function clothesRouter() {
                 <Suspense fallback={Loading}>
                     <Inquiry />
                 </Suspense>
-            )
+            ),
         },
         {
             path: "request",
@@ -40,23 +48,27 @@ export default function clothesRouter() {
         },
         {
             path: "inquiryRegistration",
-            element: <Suspense fallback={Loading}>
-                <InquiryRegistration />
-            </Suspense>
+            element: (
+                <Suspense fallback={Loading}>
+                    <InquiryRegistration />
+                </Suspense>
+            ),
         },
         {
             path: "notice/:noticeId",
-            element: <Suspense fallback={Loading}>
-                <NoticeDetail />
-            </Suspense>
+            element: (
+                <Suspense fallback={Loading}>
+                    <NoticeDetail />
+                </Suspense>
+            ),
         },
         {
             path: "inquiry/:inquiryId",
             element: (
-              <Suspense fallback={Loading}>
-                <InquiryDetail />
-              </Suspense>
+                <Suspense fallback={Loading}>
+                    <InquiryDetail />
+                </Suspense>
             ),
-          },
+        },
     ];
 }

@@ -1,22 +1,30 @@
 import MainCategory from "layout/MainCategory";
-import Style from "pages/style/Style";
 import ClothesCategory from "layout/ClothesCategory";
 import LifeCategory from "layout/LifeCategory";
 import MypageCategory from "layout/MypageCategory";
 import ServiceCategory from "layout/ServiceCategory";
+
 import lifeRouter from "./lifeRouter";
 import userRouter from "./userRouter";
 import mypageRouter from "./mypageRouter";
 import serviceRouter from "./serviceRouter";
-import Sample from "pages/Sample";
+import clothesRouter from "./clothesRouter";
+import luckyDrawRouter from "./luckyDrawRouter";
+
+import Style from "pages/style/Style";
 import Shop from "pages/shop/Shop";
 import LuckyDraw from "pages/draw/LuckyDraw";
-import luckyDrawRouter from "./luckyDrawRouter";
 import StyleRegistration from "pages/style/StyleRegistration";
 import FeedBookmark from "pages/style/FeedBookmark";
 import StyleRanking from "pages/Rank/StyleRanking";
 import FeedDetailTop from "pages/style/FeedDetailTop";
 import Event from "pages/event/Event";
+import Buy from "pages/ordres/Buy";
+import Sell from "pages/ordres/Sell";
+
+import TechMain from "pages/tech/TechMain";
+
+import Sample from "pages/Sample";
 
 const mainRouter = () => {
     return [
@@ -37,19 +45,15 @@ const mainRouter = () => {
                     element: <LifeCategory />,
                 },
                 {
-                    path: "/tech",
-                    element: <div>테크</div>,
+                    path: "tech",
+                    element: <TechMain />,
                 },
                 {
-                    path: "/rank",
-                    element: <div>랭킹</div>,
-                },
-                {
-                    path: "/styleranking",
+                    path: "rank",
                     element: <StyleRanking />,
                 },
                 {
-                    path: "/luckydraw",
+                    path: "luckydraw",
                     element: <LuckyDraw />,
                 },
                 {
@@ -63,6 +67,10 @@ const mainRouter = () => {
             ],
         },
         {
+            path: "clothes",
+            children: clothesRouter(),
+        },
+        {
             path: "life",
             children: lifeRouter(),
         },
@@ -70,10 +78,10 @@ const mainRouter = () => {
             path: "shop",
             element: <Shop />,
         },
+        // 정식이 라우터
         {
             path: "style",
             element: <Style />,
-            children: [],
         },
         {
             path: "style/register",
@@ -101,9 +109,15 @@ const mainRouter = () => {
             path: "user",
             children: userRouter(),
         },
+
+        // 종욱이거?
         {
-            path: "clothes",
-            element: <clothesMain />,
+            path: "buy",
+            element: <Buy />,
+        },
+        {
+            path: "sell",
+            element: <Sell />,
         },
     ];
 };

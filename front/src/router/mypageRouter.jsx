@@ -1,5 +1,5 @@
 import MypageMain from "pages/user/mypage/MypageMain";
-import BuyHistory from "pages/user/mypage/BuyHistory";
+import BuyHistory from "pages/user/mypage/buyHistory/BuyHistory";
 import SaleHistory from "pages/user/mypage/SaleHistory";
 import MypageBookmark from "components/mypage/MypageBookmark";
 import DrawHistory from "pages/user/mypage/DrawHistory";

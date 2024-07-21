@@ -1,17 +1,17 @@
-import React from 'react';
-import '../../styles/feed.css'
-
+import React from "react";
 const Feed = ({ username, image, description, likes }) => {
-  return (
-    <div className="feed">
-      <img src={image} alt={description} className="feed-image" />
-      <div className="feed-info">
-        <span className="username">@{username}</span>
-        <span className="likes">❤️ {likes}</span>
-        <p className="description">{description}</p>
-      </div>
-    </div>
-  );
+    return (
+        <div className="feed">
+            <div className="feed-img-box">
+                <img src={image} alt={description} />
+            </div>
+            <div className="feed-info">
+                <span>@{username}</span>
+                <span>❤️ {likes}</span>
+                <p>{description}</p>
+            </div>
+        </div>
+    );
 };
 
 export default Feed;

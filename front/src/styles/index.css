@@ -53,21 +53,26 @@
 .red {color: var(--red);}
 
 /* -------------------------------------------- 컴포넌트 ---------------------------------------------------*/
-.box {border-bottom: 1px solid var(--borderbox); padding: 40px 0;}
+.box {padding-top: 40px;}
 .product-title-box {margin-bottom: 15px;}
+.line {border-bottom: 1px solid var(--borderbox);}
 
 .product {margin-bottom: 40px;}
 .product-wrap .product:not(:nth-child(5n)) {margin-right: 32px;}
 .product > div:first-child {border-radius: 10px; background: #ddd; height: 230px; position: relative; width: 230px;}
 .product > div:last-child {margin-top: 10px;}
-.product > div:last-child p:last-of-type {margin-bottom: 10px;}
+.product > div:last-child p:last-of-type {margin-bottom: 13px; width: 230px;}
 .product > div:last-child span:not(:first-of-type) {display: block; margin-top: 5px;}
+
+/* 상품 이미지 */
+.product .image-container {width: 230px; height: 230px;}
+.product .image-container img {width: 100%; height: 100%;}
 
 .title {font-size: var(--ft25); font-weight: var(--semibold); color: var(--black); text-align: center; margin-bottom: 20px;}
 .product-title {font-size: var(--ft16); font-weight: var(--semibold); color: var(--black); line-height: 1.2;}
 .product-sub-title {font-size: var(--ft16); font-weight: var(--medium); color: var(--palegrey); line-height: 1.2;}
 .semibold-black {font-size: var(--ft15); font-weight: var(--semibold); color: var(--black) !important; line-height: 1.3;}
-.light-black {font-size: var(--ft15); font-weight: var(--light); color: var(--black); }
+.light-black {font-size: var(--ft15); font-weight: var(--light); color: var(--black); word-break: keep-all;}
 .light-grey {font-size: 11px; font-weight: var(--light); color: var(--palegrey);}
 
 
@@ -75,10 +80,10 @@
 
 
 /* 버튼 */
-.add-btn {border: 1px solid var(--borderBasic) !important; color: var(--black) !important; border-radius: 10px !important; padding: 13px 32px; font-size: var(--ft13) !important; font-weight: var(--light) !important;}
+.add-btn {border: 1px solid var(--borderBasic) !important; color: var(--black) !important; border-radius: 10px !important; padding: 13px 32px; font-size: var(--ft13) !important; font-weight: var(--light) !important;margin-bottom: 30px !important;}
 
 /* 북마크,좋아요 & 랭킹 */
-.product > div:first-child .rank {background: var(--black); font-size: var(--ft25); color: #fff; width: 26px; text-align: center; display: inline-block; padding: 3px 0;}
+.product > div:first-child .rank {background: var(--black); font-size: var(--ft25); color: #fff; width: 26px; text-align: center; display: inline-block; padding: 3px 0; position: absolute;}
 .product > div:first-child .MuiButtonBase-root {position: absolute !important; bottom: 3px !important; right: 12px !important; padding: 0 !important;}
 
 
@@ -112,7 +117,7 @@
 .sell-btn > span > span {display: block; padding: 0 !important; font-size: 15px; font-weight: var(--bold); margin-bottom: 5px;}
 
 
-
+.small-btn {border-radius: 10px !important; border: 1px solid var(--borderBasic) !important; padding: 11px 0 !important; width: 85px !important; font-size: var(--ft12) !important; font-weight: var(--light) !important; color: var(--black) !important;}
 
 .black-label {font-size: var(--ft14); color: var(--black); display: block; line-height: 1.2;}
 .white-label {font-size: var(--ft14); color: var(--white); display: block; line-height: 1.2;}
@@ -123,9 +128,7 @@
 
 .cancel-btn,
 .confirm-btn {border-radius: 15px !important; padding: 13px 0 !important; width: 120px !important; border: 1px solid var(--borderBasic) !important;}
-.confirm-btn {background-color: var(--greyblack) !important; border: none !important}
-
-.small-btn {border-radius: 10px !important; border: 1px solid var(--borderBasic) !important; padding: 11px 0 !important; width: 85px !important; font-size: var(--ft12) !important; font-weight: var(--light) !important; color: var(--black) !important;}
+.confirm-btn {background-color: var(--greyblack) !important; border: none !important; color: var(--white) !important;}
 
 .login-btn {background: var(--basic) !important; color: var(--whitegrey) !important; font-size: var(--ft16) !important; font-weight: var(--bold) !important;}
 .login-btn:hover {background: var(--hover) !important;}
@@ -213,3 +216,11 @@
 .alarm-box {border-top: 1px solid var(--borderBasic); padding: 20px 20px;}
 .alarm-box .black-label {margin-bottom: 5px; font-weight: var(--bold); font-size: var(--ft16);}
 .alarm-box .alarm {padding-bottom: 10px; border-bottom: 1px solid var(--borderBasic); margin-bottom: 15px; padding: 0px 3px 10px; word-break: keep-all;}
+
+/* 메인페이지 추천 스타일 */
+.recommended-styles-container {margin: 20px 0;}
+.recommended-styles-title {font-size: 20px;margin-bottom: 10px;}
+.recommended-styles-grid {display: flex;flex-wrap: wrap;gap: 15px;}
+.recommended-style {flex: 1 1 150px; text-align: center;}
+.recommended-style-img {width: 100%;height: auto;border-radius: 10px;}
+.recommended-style-label {margin-top: 5px;font-size: 0.9em;color: #666;}

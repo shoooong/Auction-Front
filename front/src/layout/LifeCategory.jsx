@@ -23,7 +23,7 @@ export default function ClothesCategory() {
                         </Link>
                     </Card>
                     <Card>
-                        <Link to="/life/kichen">
+                        <Link to="/life/kitchen">
                             <img src={Bottom} alt="" />
                             <span>키친</span>
                         </Link>
@@ -35,9 +35,8 @@ export default function ClothesCategory() {
                         </Link>
                     </Card>
                 </Box>
-
-                <LifeMain />
             </div>
+            <LifeMain />
         </>
     );
 }

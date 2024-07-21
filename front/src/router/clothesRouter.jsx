@@ -1,13 +1,12 @@
+import SubClothes from "pages/product/SubClothes";
+
 export default function clothesRouter() {
     return [
         {
             path: "top",
             element: (
                 <>
-                    <div className="container">
-                        <div className="sub-nav"></div>
-                        <div>상의</div>
-                    </div>
+                    <SubClothes />
                 </>
             ),
         },
@@ -15,10 +14,7 @@ export default function clothesRouter() {
             path: "bottom",
             element: (
                 <>
-                    <div className="container">
-                        <div className="sub-nav"></div>
-                        <div>하의</div>
-                    </div>
+                    <SubClothes />
                 </>
             ),
         },
@@ -26,10 +22,7 @@ export default function clothesRouter() {
             path: "outer",
             element: (
                 <>
-                    <div className="container">
-                        <div className="sub-nav"></div>
-                        <div>아우터</div>
-                    </div>
+                    <SubClothes />
                 </>
             ),
         },
@@ -37,10 +30,7 @@ export default function clothesRouter() {
             path: "shoes",
             element: (
                 <>
-                    <div className="container">
-                        <div className="sub-nav"></div>
-                        <div>신발</div>
-                    </div>
+                    <SubClothes />
                 </>
             ),
         },
@@ -48,10 +38,7 @@ export default function clothesRouter() {
             path: "inner",
             element: (
                 <>
-                    <div className="container">
-                        <div className="sub-nav"></div>
-                        <div>이너웨어</div>
-                    </div>
+                    <SubClothes />
                 </>
             ),
         },

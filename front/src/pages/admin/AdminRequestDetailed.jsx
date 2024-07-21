@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Zoom,
 } from "@mui/material";
 import { acceptRequest, getRequest } from "api/admin/requestApi";
 
@@ -33,6 +34,7 @@ const AdminRequestDetailed = () => {
   const [error, setError] = useState(null);
   const [approvalLoading, setApprovalLoading] = useState(false);
   const [approvalError, setApprovalError] = useState(null);
+  const [open, setOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
 
@@ -118,64 +120,58 @@ const AdminRequestDetailed = () => {
   return (
     <>
       <Modal open={true} onClose={handleClose}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 500,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-            display: "flex",
-            alignItems: "center",
-          }}
+        <Zoom
+          in={true}
+          timeout={{ enter: 500, exit: 500 }}
+          easing="ease-in-out"
         >
-          <Box sx={{ width: "50%", pr: 2 }}>
-            <img
-              src={product.productImg}
-              alt={product.productName}
-              style={{ width: "100%", borderRadius: "8px" }}
-            />
+          <Box className="admin-detailed-container w33p">
+            <div className="column-direction">
+              <Button
+                className="admin-close-btn"
+                onClick={() => handleClose()}
+              ></Button>
+              <div className="admin-detailed-content">
+                <div>
+                  <div className="admin-image">
+                    <img
+                      src={product.productImg}
+                      alt={product.productName}
+                      style={{ width: "100%", borderRadius: "8px" }}
+                    />
+                  </div>
+                  <div className="column-direction admin-info">
+                    <span alt="모델번호">{product.modelNum}</span>
+                    <span alt="상품명">상품명: {product.productName}</span>
+                    <span alt="브랜드">{product.productBrand}</span>
+
+                    <span>원가: {product.originalPrice}</span>
+                    <span>{product.productSize}</span>
+                    <span>{product.productStatus}</span>
+                    {approvalError && <span>승인 중 오류가 발생했습니다.</span>}
+                  </div>
+                </div>
+              </div>
+              <div className="justify-center admin-container-bottom">
+                <Button
+                  onClick={handleApprove}
+                  className="confirm-btn"
+                  variant="contained"
+                  disabled={approvalLoading}
+                >
+                  {approvalLoading ? <CircularProgress size={24} /> : "승인"}
+                </Button>
+                <Button
+                  onClick={handleClose}
+                  className="confirm-btn"
+                  variant="contained"
+                >
+                  거절
+                </Button>
+              </div>
+            </div>
           </Box>
-          <Box sx={{ width: "50%", pl: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              {product.productName}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              {product.productBrand}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              모델 번호: {product.modelNum}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              원가: {product.originalPrice}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              사이즈: {product.productSize}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              상태: {product.productStatus}
-            </Typography>
-            {approvalError && (
-              <Typography variant="body2" color="error">
-                승인 중 오류가 발생했습니다.
-              </Typography>
-            )}
-            <Button
-              onClick={handleApprove}
-              sx={{ mt: 2 }}
-              variant="contained"
-              disabled={approvalLoading}
-            >
-              {approvalLoading ? <CircularProgress size={24} /> : "승인"}
-            </Button>
-            <Button onClick={handleClose} sx={{ mt: 2 }} variant="contained">
-              닫기
-            </Button>
-          </Box>
-        </Box>
+        </Zoom>
       </Modal>
       <Dialog
         open={dialogOpen}

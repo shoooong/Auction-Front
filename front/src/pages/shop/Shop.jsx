@@ -1,149 +1,133 @@
-import { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import { SERVER_URL } from "api/serverApi";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { getSub, getAll, getMain } from "api/shopApi";
 
 import { Box, IconButton } from "@mui/material";
-import { RichTreeView } from "@mui/x-tree-view/RichTreeView";
-import { useTreeViewApiRef } from "@mui/x-tree-view/hooks";
+import { RichTreeView } from "@mui/x-tree-view";
 
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
-import Sample from "assets/images/sample.png";
 
-import "styles/sub.css";
-
-function getItemDescendantsIds(item) {
-    const ids = [];
-    item.children?.forEach((child) => {
-        ids.push(child.id);
-        ids.push(...getItemDescendantsIds(child));
-    });
-
-    return ids;
-}
+const LABEL_DATA = [
+    {
+        id: "clothes",
+        label: "의류",
+        children: [
+            { id: "top", label: "상의" },
+            { id: "bottom", label: "하의" },
+            { id: "outer", label: "아우터" },
+            { id: "신발", label: "신발" },
+            { id: "이너웨어", label: "이너웨어" },
+        ],
+    },
+    {
+        id: "life",
+        label: "라이프",
+        children: [
+            { id: "인테리어", label: "인테리어" },
+            { id: "키친", label: "키친" },
+            { id: "뷰티", label: "뷰티" },
+        ],
+    },
+    { id: "tech", label: "테크" },
+];
 
 export default function Shop() {
+    // 북마크 훅
     const [like, setLike] = useState(false);
-    const [product, setProduct] = useState([]);
 
-    const [selectedItems, setSelectedItems] = useState([]);
-    const toggledItemRef = useRef({});
-    const apiRef = useTreeViewApiRef();
+    // 모든 상품
+    const [allProduct, setAllProduct] = useState([]);
+    const [mainProduct, setMainProduct] = useState([]);
+    const [subProduct, setSubProduct] = useState([]);
+    const [displayProducts, setDisplayProducts] = useState([]);
+
+    // 선택된 체크박스
+    const [main, setMain] = useState([]);
+    const [sub, setSub] = useState([]);
 
     // 무한스크롤
-    let num = 0;
-    let hasNext = true;
-    let isFetching = false;
+    const [pageNum, setPageNum] = useState(0);
+    const [hasNext, setHasNext] = useState(false);
 
-    // axios
+    // 모든 상품
+    const fetchAllData = async () => {
+        try {
+            const allProducts = await getAll(pageNum);
+            setAllProduct(allProducts);
+        } catch (error) {
+            console.error("Error fetching products: ", error);
+        }
+    };
     useEffect(() => {
-        const fetch = async () => {
-            try {
-                const response = await axios.get(
-                    `${SERVER_URL}/shop/all?pageNumber=${num}`
-                );
+        fetchAllData();
+    }, [pageNum]);
 
-                const data = response.data.content;
-                setProduct(data);
-                console.log(response);
+    // 서브 상품
+    const fetchSubData = async () => {
+        try {
+            const products = await getSub(pageNum, sub);
+            setSubProduct(products);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
+    useEffect(() => {
+        if (sub.length > 0) {
+            fetchSubData();
+        }
+    }, [pageNum, sub]);
 
-                // 다음페이지 유무
-                // if (response.data.content.length === 0) {
-                //     hasNext = false;
-                //     return;
-                // }
+    // 메인 상품
+    const fetchMainData = async () => {
+        try {
+            const mainProducts = await getMain(pageNum, main);
+            setMainProduct(mainProducts);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
+    useEffect(() => {
+        if (main.length > 0) {
+            fetchMainData();
+        }
+    }, [pageNum, main]);
 
-                num++;
-            } catch (error) {
-                console.error("Error fetching products: ", error);
-            }
-        };
+    // 필터 적용
+    useEffect(() => {
+        if (sub.length > 0) {
+            setDisplayProducts(subProduct);
+        } else if (main.length > 0) {
+            setDisplayProducts(mainProduct);
+        } else {
+            setDisplayProducts(allProduct);
+        }
+    }, [allProduct, subProduct, mainProduct, sub, main]);
 
-        fetch();
-    }, [num]);
-
-    // 트리뷰
-    const MUI_X_PRODUCTS = [
-        {
-            id: "grid",
-            label: "Data Grid",
-            children: [
-                { id: "grid-community", label: "@mui/x-data-grid" },
-                { id: "grid-pro", label: "@mui/x-data-grid-pro" },
-                { id: "grid-premium", label: "@mui/x-data-grid-premium" },
-            ],
-        },
-        {
-            id: "pickers",
-            label: "Date and Time Pickers",
-            children: [
-                { id: "pickers-community", label: "@mui/x-date-pickers" },
-                { id: "pickers-pro", label: "@mui/x-date-pickers-pro" },
-            ],
-        },
-        {
-            id: "charts",
-            label: "Charts",
-            children: [{ id: "charts-community", label: "@mui/x-charts" }],
-        },
-        {
-            id: "tree-view",
-            label: "Tree View",
-            children: [
-                { id: "tree-view-community", label: "@mui/x-tree-view" },
-            ],
-        },
-    ];
-
-    const handleItemSelectionToggle = (event, itemId, isSelected) => {
-        toggledItemRef.current[itemId] = isSelected;
+    // 필터링 적용
+    const changeFilter = (e, items) => {
+        if (items[0] === LABEL_DATA[0].id) {
+            setMain(items);
+            setSub([]);
+        } else if (items[0] === LABEL_DATA[1].id) {
+            setMain(items);
+            setSub([]);
+        } else if (items[0] === LABEL_DATA[2].id) {
+            setMain(items);
+            setSub([]);
+        } else {
+            setSub(items);
+            setMain([]);
+        }
     };
 
-    const handleSelectedItemsChange = (event, newSelectedItems) => {
-        setSelectedItems(newSelectedItems);
+    const [click, setClick] = useState([]);
 
-        // Select / unselect the children of the toggled item
-        const itemsToSelect = [];
-        const itemsToUnSelect = {};
-        Object.entries(toggledItemRef.current).forEach(
-            ([itemId, isSelected]) => {
-                const item = apiRef.current.getItem(itemId);
-                if (isSelected) {
-                    itemsToSelect.push(...getItemDescendantsIds(item));
-                } else {
-                    getItemDescendantsIds(item).forEach((descendantId) => {
-                        itemsToUnSelect[descendantId] = true;
-                    });
-                }
-            }
-        );
-
-        const newSelectedItemsWithChildren = Array.from(
-            new Set(
-                [...newSelectedItems, ...itemsToSelect].filter(
-                    (itemId) => !itemsToUnSelect[itemId]
-                )
-            )
-        );
-
-        setSelectedItems(newSelectedItemsWithChildren);
-
-        toggledItemRef.current = {};
+    // 초기화
+    const resetFilters = () => {
+        setSub([]);
+        setMain([]);
+        setClick([]);
     };
-
-    // 무한스크롤
-    // scroll.addEventListener("scroll", () => {
-    //     if (isFetching || !hasNext) {
-    //         return;
-    //     }
-
-    //     if (
-    //         scroll.scrollTop + scroll.clientHeight + 50 >=
-    //         scroll.scrollHeight
-    //     ) {
-    //         listService.myList();
-    //     }
-    // });
 
     return (
         <>
@@ -152,32 +136,26 @@ export default function Shop() {
 
                 <Box className="flex">
                     <div className="w20p">
-                        <div className="tree-view">
+                        <div className="tree-view pos-sticky">
                             <b>
                                 필터
-                                <span>초기화</span>
+                                <span onClick={resetFilters}>초기화</span>
                             </b>
                             <Box>
                                 <RichTreeView
+                                    items={LABEL_DATA}
                                     multiSelect
                                     checkboxSelection
-                                    apiRef={apiRef}
-                                    items={MUI_X_PRODUCTS}
-                                    selectedItems={selectedItems}
-                                    onSelectedItemsChange={
-                                        handleSelectedItemsChange
-                                    }
-                                    onItemSelectionToggle={
-                                        handleItemSelectionToggle
-                                    }
-                                />
+                                    onSelectedItemsChange={changeFilter}
+                                    selectedItems={sub}
+                                ></RichTreeView>
                             </Box>
                         </div>
                     </div>
                     <div className="w80p">
                         <Box className="box">
-                            <Box className="product-wrap no-wrap">
-                                {product.map((list) => (
+                            <Box className="product-wrap inline-flex product-4n">
+                                {displayProducts.map((list) => (
                                     <div
                                         className="product"
                                         key={list.productId}
@@ -185,7 +163,7 @@ export default function Shop() {
                                         <div>
                                             <div className="product-img">
                                                 <img
-                                                    src={Sample}
+                                                    src={list.productImg}
                                                     alt="이미지"
                                                 />
                                             </div>

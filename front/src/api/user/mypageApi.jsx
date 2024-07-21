@@ -11,7 +11,7 @@ export const getMypageData = async () => {
     }
 };
 
-export const getBuyHistory = async () => {
+export const getAllBuyHistory = async () => {
     try {
         const res = await jwtAxios.get(`${SERVER_URL}/mypage/buyHistory`);
         return res.data;
@@ -20,6 +20,33 @@ export const getBuyHistory = async () => {
         throw error;
     }
 };
+export const getBuyHistoryProcess = async () => {
+    try {
+        const res = await jwtAxios.get(`${SERVER_URL}/mypage/buyHistory/process`);
+        return res.data;
+    } catch (error) {
+        console.error('getBuyHistory error...', error);
+        throw error;
+    }
+};
+export const getBuyHistoryComplete = async () => {
+    try {
+        const res = await jwtAxios.get(`${SERVER_URL}/mypage/buyHistory/complete`);
+        return res.data;
+    } catch (error) {
+        console.error('getBuyHistory error...', error);
+        throw error;
+    }
+};
+export const cancelBuyingBidding = async (buyingBiddingId) => {
+    try {
+        const res = await jwtAxios.put(`${SERVER_URL}/mypage/buyHistory/process?buyingBiddingId=${buyingBiddingId}`);
+        return res.data;
+    } catch (error) {
+        console.error('cancelBuyingBidding error...', error);
+        throw error;
+    }
+}
 
 export const getSaleHistory = async () => {
     try {
@@ -30,6 +57,15 @@ export const getSaleHistory = async () => {
         throw error;
     }
 };
+export const cancelSalesBidding = async (salesBiddingId) => {
+    try {
+        const res = await jwtAxios.put(`${SERVER_URL}/mypage/saleHistory?salesBiddingId=${salesBiddingId}`);
+        return res.data;
+    } catch (error) {
+        console.error('cancelSalesBidding error...', error);
+        throw error;
+    }
+}
 
 export const getBookmarkProducts = async () => {
     try {

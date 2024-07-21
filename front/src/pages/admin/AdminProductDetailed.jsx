@@ -4,8 +4,6 @@ import {
   Typography,
   Select,
   MenuItem,
-  Tabs,
-  Tab,
   FormControl,
   InputLabel,
   Button,
@@ -21,7 +19,7 @@ import CommonList from "./layout/CommonList";
 const AdminProductDetailed = () => {
   const { modelNum } = useParams();
   const [productDetails, setProductDetails] = useState([]);
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedButton, setSelectedButton] = useState(0);
   const [selectedRow, setSelectedRow] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [filterStatus, setFilterStatus] = useState("");
@@ -52,13 +50,13 @@ const AdminProductDetailed = () => {
     }
   }, [selectedSize, productDetails]);
 
-  const handleTabChange = (event, newValue) => {
-    setSelectedTab(newValue);
+  const handleButtonClick = (index) => {
+    setSelectedButton(index);
   };
 
   const handleRowClick = (row) => {
     //판매탭, 검수중인 상품 row 클릭시 이벤트 발생
-    if (selectedTab === 1 && row.salesStatus === "INSPECTION") {
+    if (selectedButton === 1 && row.salesStatus === "INSPECTION") {
       setSelectedRow(row);
       setOpenDialog(true);
     }
@@ -115,7 +113,6 @@ const AdminProductDetailed = () => {
 
   const rowsBuying =
     selectedProductDetail.buyingBiddingDtoList?.map((bid, index) => ({
-      // id: `buying-${idx}`,
       id: index + 1,
       ...bid,
       buyingBiddingPrice: `${bid.buyingBiddingPrice}원`,
@@ -125,7 +122,6 @@ const AdminProductDetailed = () => {
   const rowsSelling = filteredSalesBidding(
     selectedProductDetail.salesBiddingDtoList || []
   ).map((bid, index) => ({
-    // id: `sales-${idx}`,
     id: index + 1,
     ...bid,
     salesBiddingPrice: `${bid.salesBiddingPrice}원`,
@@ -133,64 +129,89 @@ const AdminProductDetailed = () => {
   }));
 
   return (
-    <Box sx={{ display: "flex", padding: "20px" }}>
-      <Box sx={{ flex: 1, marginRight: "20px" }}>
+    <Box className="column-direction">
+      <div className="row-direction">
         {productDetails[0] && (
-          <>
-            <img
-              src={productDetails[0].adminProductDetailDto.productImg}
-              alt={productDetails[0].adminProductDetailDto.productName}
-              style={{ width: "100%", height: "auto", maxWidth: "400px" }}
-            />
-            <Typography variant="h5" gutterBottom>
-              {productDetails[0].adminProductDetailDto.productName}
-            </Typography>
-            <Typography variant="h6">
-              즉시 구매가:{" "}
-              {filteredProductDetail?.adminProductDetailDto.originalPrice}원
-            </Typography>
-            <Typography variant="body1">
-              재고:{" "}
-              {filteredProductDetail?.adminProductDetailDto.productQuantity}개
-            </Typography>
-            <FormControl fullWidth>
-              <InputLabel>사이즈</InputLabel>
-              <Select
-                value={selectedSize}
-                onChange={(e) => setSelectedSize(e.target.value)}
-                sx={{ width: "100px", marginTop: "10px" }}
-              >
-                {productDetails.map((detail, index) => (
-                  <MenuItem
-                    key={`size-${index}`}
-                    value={detail.adminProductDetailDto.productSize}
-                  >
-                    {detail.adminProductDetailDto.productSize}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </>
+          <div className="row-direction">
+            <div className="admin-image">
+              <img
+                src={productDetails[0].adminProductDetailDto.productImg}
+                alt={productDetails[0].adminProductDetailDto.productName}
+                style={{ width: "100%", borderRadius: "8px" }}
+              />
+            </div>
+            <div className="admin-info">
+              <div className="column-direction admin-product-info">
+                <span>
+                  {productDetails[0].adminProductDetailDto.productName}
+                </span>
+                <span>
+                  원가:{" "}
+                  {filteredProductDetail?.adminProductDetailDto.originalPrice}원
+                </span>
+                <span>
+                  재고:{" "}
+                  {filteredProductDetail?.adminProductDetailDto.productQuantity}
+                  개
+                </span>
+              </div>
+              <FormControl style={{ minWidth: 100 }}>
+                <InputLabel>사이즈</InputLabel>
+                <Select
+                  value={selectedSize}
+                  onChange={(e) => setSelectedSize(e.target.value)}
+                  sx={{ width: "100px", marginTop: "10px" }}
+                >
+                  {productDetails.map((detail, index) => (
+                    <MenuItem
+                      key={`size-${index}`}
+                      value={detail.adminProductDetailDto.productSize}
+                    >
+                      {detail.adminProductDetailDto.productSize}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+          </div>
         )}
-      </Box>
-      <Box sx={{ flex: 2 }}>
-        <Tabs value={selectedTab} onChange={handleTabChange}>
-          <Tab label="구매" />
-          <Tab label="판매" />
-        </Tabs>
-        {selectedTab === 0 && (
-          <>
-            <Typography variant="h6" gutterBottom>
-              구매 입찰 리스트
-            </Typography>
+
+        <div className="">
+          <Button
+            className={`button ${
+              selectedButton === 0 ? "button-selected" : ""
+            }`}
+            onClick={() => handleButtonClick(0)}
+          >
+            구매
+          </Button>
+          <Button
+            className={`button ${
+              selectedButton === 1 ? "button-selected" : ""
+            }`}
+            onClick={() => handleButtonClick(1)}
+          >
+            판매
+          </Button>
+        </div>
+      </div>
+      {selectedButton === 0 && (
+        <>
+          <Typography variant="h6" gutterBottom>
+            구매 입찰 리스트
+          </Typography>
+          <div className="" sx={{ height: "400px" }}>
             <CommonList
               rows={rowsBuying}
               columns={columnsBuying}
               onRowClick={() => {}}
             />
-          </>
-        )}
-        {selectedTab === 1 && (
+          </div>
+        </>
+      )}
+      <hr />
+      <Box sx={{ flex: 2 }}>
+        {selectedButton === 1 && (
           <>
             <Box
               sx={{

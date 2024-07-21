@@ -4,13 +4,12 @@ import FeedList from "./FeedList";
 
 const Style = () => {
     return (
-        <div className="style">
-            <header>
-                <h1>스타일 페이지</h1>
-                <Link to="/style/register">
-                    <button className="register-button">스타일 등록하기</button>
-                </Link>
-            </header>
+        <div className="container">
+            <div className="sub-nav">
+                <Link to="/style">피드</Link>
+                <Link to="/style/rank">랭킹</Link>
+                <Link to="/style/register">스타일 등록하기</Link>
+            </div>
             <FeedList />
         </div>
     );

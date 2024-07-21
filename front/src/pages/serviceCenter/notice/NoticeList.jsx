@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import '../../../styles/noticeList.css';
-import { SERVER_URL } from '../../../api/serverApi';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { SERVER_URL } from "api/serverApi";
 
 const NoticeList = () => {
     const [notices, setNotices] = useState([]);
-    const [activeTab] = useState('all');
+    const [activeTab] = useState("all");
 
     useEffect(() => {
-        axios.get(`${SERVER_URL}/notice/noticeList`)
-            .then(response => {
+        axios
+            .get(`${SERVER_URL}/notice/noticeList`)
+            .then((response) => {
                 setNotices(response.data);
             })
-            .catch(error => {
-                console.error('Error fetching notices:', error);
+            .catch((error) => {
+                console.error("Error fetching notices:", error);
             });
     }, []);
 
     const filteredNotices = notices.filter((notice) => {
-        if (activeTab === 'all') {
+        if (activeTab === "all") {
             return true;
         } else {
             return notice.type === activeTab;
@@ -37,11 +37,12 @@ const NoticeList = () => {
                     filteredNotices.map((notice, index) => (
                         <li key={index}>
                             <span className="title">{notice.noticeTitle}</span>
-                            <span className="content">
-                                <Link to={`/service/notice/${notice.noticeId}`}>
+
+                            <Link to={`/service/notice/${notice.noticeId}`}>
+                                <span className="content">
                                     {notice.noticeContent}
-                                </Link>
-                            </span>
+                                </span>
+                            </Link>
                         </li>
                     ))
                 )}

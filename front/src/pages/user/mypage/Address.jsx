@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Box, Dialog, DialogTitle, Button } from "@mui/material";
 import { getAddress, addAddress, modifyAddress, deleteAddress } from "api/user/mypageApi";
 import Postcode from "components/mypage/Postcode";
 import { getCookie } from 'pages/user/cookieUtil';
+import { maskName, formatPhoneNumber } from '../mypageUtil';
 
 
 const fetchData = async (setAddresses, setLoading, navigate) => {
@@ -29,6 +31,7 @@ const Address = () => {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -87,48 +90,80 @@ const Address = () => {
         }
         setIsAdding(false);
         setSelectedAddress(null);   
+        setOpen(false);
     };
 
     const handleCancel = () => {
         setIsAdding(false);
         setSelectedAddress(null);
+        setOpen(false);
     };
 
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div>
+        <div className="address-management">
             <div className="history-title">
                 <h2 className="title">배송지 관리</h2>
+                {!isAdding && (
+                    <button className="add-button" type="button" onClick={() => { setIsAdding(true); setOpen(true); }}>추가</button>
+                )}
             </div>
-            <div>
+            <div className="addresses-list">
                 {addresses.map((address) => (
-                    <div key={address.addressId} onClick={() => setSelectedAddress(address)}>
-                        <p>{address.zonecode}</p>
-                        <p>{address.addressName}</p>
-                        <p>{address.roadAddress}</p>
-                        <p>{address.detailAddress}</p>
-                        <p>{address.name}</p>
-                        <p>{address.addrPhone}</p>
-
-                        <button type="button" onClick={() => setSelectedAddress(address)}>수정</button>
-                        <button type="button" onClick={(e) => { e.stopPropagation(); handleDeleteAddress(address.addressId); }}>삭제</button>
+                    <div className="address-card" key={address.addressId} onClick={() => setSelectedAddress(address)}>
+                        <div className="address-info">
+                            <div className="address-header">
+                                <p className="address-name">{maskName(address.name)}</p>
+                                {address.defaultAddress && <span className="default-badge">기본 배송지</span>}
+                            </div>
+                       
+                            <p className="address-phone">{formatPhoneNumber(address.addrPhone)}</p>
+                            <p className="address-zonecode">({address.zonecode}) {address.roadAddress}</p>
+                            <p className="address-detail">{address.detailAddress}</p>
+                        </div>
+                        <div className="address-actions">
+                            <button type="button" onClick={() => { setSelectedAddress(address); setOpen(true); }}>수정</button>
+                            <button type="button" onClick={(e) => { e.stopPropagation(); handleDeleteAddress(address.addressId); }}>삭제</button>
+                        </div>
                     </div>
                 ))}
                 {addresses.length === 0 && <p>등록된 배송지가 없습니다.</p>}
             </div>
-            {!isAdding && (
-                <button type="button" onClick={() => setIsAdding(true)}>추가</button>
-            )}
-            {(isAdding || selectedAddress) && (
-                <Postcode
-                    onSave={handleSave}
-                    selectedAddress={selectedAddress}
-                />
-            )}
-            {(isAdding || selectedAddress) && (
-                <button type="button" onClick={handleCancel}>취소</button>
-            )}
+           
+            <Dialog
+                open={open}
+                onClose={handleCancel}
+                PaperProps={{
+                    style: {
+                        width: '100%',  
+                        maxWidth: '500px', 
+                        margin: 'auto'
+                    }
+                }}
+            >
+            <Box sx={{ p: 2}}>
+                    <div className="popup-title-box">
+                        <DialogTitle>
+                            배송지 관리
+                        </DialogTitle>
+                        <Button
+                            className="popup-close-btn"
+                            onClick={handleCancel}
+                        />
+                    </div>
+
+                    <div className="popup-content">
+                        {(isAdding || selectedAddress) && (
+                            <Postcode
+                                onSave={handleSave}
+                                selectedAddress={selectedAddress}
+                            />
+                        )}
+                    </div>
+
+                </Box>
+            </Dialog>
         </div>
     );
 };

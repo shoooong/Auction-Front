@@ -1,0 +1,54 @@
+.postcode-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    padding: 20px;
+}
+
+.postcode-container input[type="text"],
+.postcode-container input[type="button"],
+.postcode-container button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%; 
+    box-sizing: border-box;
+    line-height: normal;
+    margin-bottom: 10px;
+}
+
+.postcode-container input[type="button"],
+.postcode-container button {
+    background-color: #333333;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.postcode-container input[type="button"]:hover,
+.postcode-container button:hover {
+    background-color: #333333;
+}
+
+.postcode-container .guide {
+    color: #999;
+    display: block;
+}
+
+.default-address-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: var(--black);
+    margin-bottom: 10px;
+}
+
+.default-address-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--black); 
+}

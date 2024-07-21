@@ -53,6 +53,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://175.45.200.47"
+  "proxy": "http://175.45.200.47:80"
   
 }

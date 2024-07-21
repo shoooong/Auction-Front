@@ -51,8 +51,12 @@ const Address = () => {
                 setAddresses([...addresses, response]);
             }
         } catch (error) {
-            console.error('배송지 추가 중 오류가 발생했습니다.', error);
-            alert('배송지 추가 중 오류가 발생했습니다.');
+            if (error.response && error.response.status === 400) {
+                alert(Object.values(error.response.data).join('\n'));
+            } else {
+                console.error('배송지 추가 중 오류가 발생했습니다.', error);
+                alert('배송지 추가 중 오류가 발생했습니다.');
+            }
         }
     };
 
@@ -67,8 +71,12 @@ const Address = () => {
             }
             setSelectedAddress(null);
         } catch (error) {
-            console.error('배송지 수정 중 오류가 발생했습니다.', error);
-            alert('배송지 수정 중 오류가 발생했습니다.');
+            if (error.response && error.response.status === 400) {
+                alert(Object.values(error.response.data).join('\n'));
+            } else {
+                console.error('배송지 수정 중 오류가 발생했습니다.', error);
+                alert('배송지 수정 중 오류가 발생했습니다.');
+            }
         }
     };
 
@@ -142,26 +150,17 @@ const Address = () => {
                     }
                 }}
             >
-            <Box sx={{ p: 2}}>
+                <Box sx={{ p: 2}}>
                     <div className="popup-title-box">
-                        <DialogTitle>
-                            배송지 관리
-                        </DialogTitle>
-                        <Button
-                            className="popup-close-btn"
-                            onClick={handleCancel}
-                        />
+                        <DialogTitle>배송지 관리</DialogTitle>
+                        <Button className="popup-close-btn" onClick={handleCancel} />
                     </div>
 
                     <div className="popup-content">
                         {(isAdding || selectedAddress) && (
-                            <Postcode
-                                onSave={handleSave}
-                                selectedAddress={selectedAddress}
-                            />
+                            <Postcode onSave={handleSave} selectedAddress={selectedAddress} />
                         )}
                     </div>
-
                 </Box>
             </Dialog>
         </div>

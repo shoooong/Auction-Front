@@ -57,8 +57,8 @@
 .product-title-box {margin-bottom: 15px;}
 .line {border-bottom: 1px solid var(--borderbox);}
 
+.product-wrap {justify-content: space-between;}
 .product {margin-bottom: 40px;}
-.product-wrap .product:not(:nth-child(5n)) {margin-right: 32px;}
 .product > div:first-child {border-radius: 10px; background: #ddd; height: 230px; position: relative; width: 230px;}
 .product > div:last-child {margin-top: 10px;}
 .product > div:last-child p:last-of-type {margin-bottom: 13px; width: 230px;}

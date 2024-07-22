@@ -20,17 +20,12 @@ const useUserCoupon = () => {
                 return;
             }
 
-            const { accessToken } = userInfo;
-
             try {
                 const response = await jwtAxios.get(
                     `${SERVER_URL}/coupon/user`
                 );
 
-                // const response = await axios.get(`${SERVER_URL}/coupon/user`);
                 const data = response.data;
-
-                // console.log(data);
 
                 if (Array.isArray(data)) {
                     setCoupons(data);

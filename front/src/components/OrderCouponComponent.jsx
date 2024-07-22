@@ -1,0 +1,48 @@
+import React, { useState } from "react";
+import useUserCoupon from "hooks/useUserCoupon";
+import "styles/order.css";
+// import jwtAxios from "pages/user/jwtUtil";
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+} from "@mui/material";
+import "styles/order_coupon.css";
+import CouponDday from "components/CouponDday";
+const OrderCouponComponent = ({ onSelectCoupon }) => {
+    const { coupons } = useUserCoupon();
+
+    return (
+        <div className="order-coupon-main-container">
+            {coupons.map((item) => (
+                <div
+                    key={item.coupon.couponId}
+                    className="order-coupon-container"
+                    onClick={() => onSelectCoupon(item.coupon)}
+                >
+                    <div className="order-coupon-content1">
+                        <p className="coupon-amount">
+                            {item.coupon.amount.toLocaleString()}
+                            {item.discountType === "PERCENT" ? "%" : "원"}
+                        </p>
+                        <p className="coupon-content">{item.coupon.content}</p>
+                    </div>
+                    <div className="order-coupon-content2">
+                        <p className="coupon-exp">
+                            <CouponDday
+                                startDate={item.coupon.startDate}
+                                endDate={item.coupon.endDate}
+                            />
+                        </p>
+                        <p className="coupon-endDate">
+                            {item.coupon.endDate.replace(/T/, " ")} 까지
+                        </p>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+export default OrderCouponComponent;

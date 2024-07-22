@@ -273,7 +273,8 @@ dd.desc {
 .pay_btn_box {
     height: 52px;
     border-radius: 10px;
-    background: #d3d3d3;
+    /* background: #d3d3d3; */
+    background-color: #537fef;
     justify-content: center;
     text-align: center;
     display: flex;

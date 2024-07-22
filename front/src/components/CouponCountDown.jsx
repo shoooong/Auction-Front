@@ -54,15 +54,15 @@ const CouponCountdown = ({ startDate, onCountdownEnd }) => {
                     {timeLeft.total > 0 ? (
                         <>
                             {timeLeft.days > 0 && (
-                                <span>{timeLeft.days}일 </span>
+                                <span>{timeLeft.days}: </span>
                             )}
                             {timeLeft.hours > 0 && (
-                                <span>{timeLeft.hours}시간 </span>
+                                <span>{timeLeft.hours}: </span>
                             )}
                             {timeLeft.minutes > 0 && (
-                                <span>{timeLeft.minutes}분 </span>
+                                <span>{timeLeft.minutes}: </span>
                             )}
-                            <span>{timeLeft.seconds}초</span>{" "}
+                            <span>{timeLeft.seconds}</span>{" "}
                             {/* Always show seconds */}
                         </>
                     ) : (

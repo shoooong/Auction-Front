@@ -6,32 +6,41 @@ import "styles/order.css";
 import useOrder from "hooks/useOrder";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
-import {
-    ToggleButton,
-    IconButton,
-    Button,
-    Box,
-    Dialog,
-    DialogTitle,
-} from "@mui/material";
+import { Button, Box, Dialog, DialogTitle } from "@mui/material";
 import useUserCoupon from "hooks/useUserCoupon";
-import Event from "pages/user/mypage/CouponMain";
-
+// import Event from "pages/user/mypage/CouponMain";
+import OrderCouponComponent from "components/OrderCouponComponent";
+// import Postcode from "components/mypage/Postcode";
 // ------  SDK 초기화 ------
+
+// import useAddress from "hooks/useAddress";
+import { getCookie } from "pages/user/cookieUtil";
+
 const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 const customerKey = "HOytG9DDEHHgTxwNS0YWT";
 
 export default function Buy() {
     const { coupons } = useUserCoupon();
+    const [selectedCoupon, setSelectedCoupon] = useState(null);
+    const [couponAmount, setCouponAmount] = useState(0);
+    // const { handleCancel, isAdding, selectedAddress, handleSave } =
+    //     useAddress();
     const [payment, setPayment] = useState(null);
-    const [amount] = useState({
+    const [amount, setAmount] = useState({
         currency: "KRW",
         value: 50000,
     });
+
     const [open, setOpen] = useState(false);
+    // const [open2, setOpen2] = useState(false);
 
     const { buyingBidding, addressInfo } = useOrder();
 
+    const handleSelectCoupon = (coupon) => {
+        setSelectedCoupon(coupon);
+        setCouponAmount(coupon.amount);
+        setOpen(false); // 쿠폰 팝업 닫기
+    };
     // SDK 초기화 및 결제 객체 설정
     useEffect(() => {
         async function fetchPayment() {
@@ -48,6 +57,20 @@ export default function Buy() {
 
         fetchPayment();
     }, []);
+
+    const immediateBuyPrice = buyingBidding?.buyingBiddingPrice || 0;
+    const deliveryFee = 3000;
+    const fee = 8000;
+    const calculateTotalAmount = () => {
+        const total = immediateBuyPrice + deliveryFee + fee - couponAmount;
+        return total > 0 ? total : 0; // 총 결제 금액이 음수일 수 없으므로 0으로 설정
+    };
+    useEffect(() => {
+        setAmount({
+            currency: "KRW",
+            value: calculateTotalAmount(),
+        });
+    }, [couponAmount, buyingBidding?.buyingBiddingPrice]);
 
     // 결제 요청 함수
     async function requestPayment() {
@@ -146,9 +169,9 @@ export default function Buy() {
                                     </dl>
                                 </div>
                                 <div className="btn_box">
-                                    <a href="" className="btn_edit border_box">
+                                    <button className="btn_edit border_box">
                                         변경
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                             <div className="">
@@ -200,9 +223,15 @@ export default function Buy() {
                         className="coupon_box border_box"
                         onClick={() => setOpen(true)}
                     >
-                        <button className="btn_shipping_memo">
-                            <span>선착순 쿠폰1</span>
-                        </button>
+                        {selectedCoupon ? (
+                            <button className="btn_shipping_memo">
+                                <span>{selectedCoupon.content}</span>
+                            </button>
+                        ) : (
+                            <button className="btn_shipping_memo">
+                                <span>사용할 쿠폰을 선택해 주세요.</span>
+                            </button>
+                        )}
                         <img src={arrowImg} alt="" />
                     </div>
                 </div>
@@ -212,10 +241,7 @@ export default function Buy() {
                         <p className="desc">일반 결제</p>
                         <p className="sub_text">일시불·할부</p>
                     </div>
-                    <button
-                        className="payment_btn border_box"
-                        onClick={requestPayment}
-                    >
+                    <button className="payment_btn border_box">
                         <span>토스페이</span>
                         <img src={tossImg} class="pay_img"></img>
                     </button>
@@ -225,31 +251,6 @@ export default function Buy() {
                         변경 시 수수료가 발생할 수 있습니다.
                     </p>
                 </div>
-                <Dialog
-                    open={open}
-                    PaperProps={{
-                        style: {
-                            width: "520px", // 원하는 width 값 설정
-                            maxWidth: "90vw", // 화면 크기에 따라 최대 너비 조정
-                            maxHeight: "800px",
-                            borderRadius: "15px",
-                        },
-                    }}
-                >
-                    <div className="popup-title-box">
-                        <DialogTitle>쿠폰</DialogTitle>
-                        <Button
-                            className="popup-close-btn"
-                            onClick={() => setOpen(false)}
-                        ></Button>
-                    </div>
-
-                    <div className="popup-content">
-                        <Event />
-                    </div>
-                    <div className="scroll"></div>
-                    <div className="popup-bottom"></div>
-                </Dialog>
 
                 <div className="final_order_info_area info_area">
                     <h3 className="title_txt">최종 주문 정보</h3>
@@ -275,7 +276,11 @@ export default function Buy() {
                         </div>
                         <div className="order_item">
                             <p className="sub_text">쿠폰 사용</p>
-                            <p className="desc">-</p>
+                            <p className="coupon_use desc">
+                                {couponAmount > 0
+                                    ? `-${couponAmount.toLocaleString()}원`
+                                    : "-"}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -283,20 +288,98 @@ export default function Buy() {
                     <div className="order_box">
                         <p className="pay_text16">총 결제금액</p>
                         <p className="pay_text20">
-                            {buyingBidding?.buyingBiddingPrice.toLocaleString()}
-                            원
+                            {calculateTotalAmount().toLocaleString()}원
                         </p>
                     </div>
                 </div>
                 <div className="final_payment_btn info_area">
                     <div className="pay_btn_box">
-                        <button className="pay_btn">
-                            {buyingBidding?.buyingBiddingPrice.toLocaleString()}
-                            원 • 일반배송 결제하기
+                        <button className="pay_btn" onClick={requestPayment}>
+                            {calculateTotalAmount().toLocaleString()}원 •
+                            일반배송 결제하기
                         </button>
                     </div>
                 </div>
             </div>
+
+            {/* ----------------------- 쿠폰 팝업창 ------------------*/}
+            {/* <Dialog
+                open={open}
+                PaperProps={{
+                    style: {
+                        width: "520px", // 원하는 width 값 설정
+                        maxWidth: "90vw", // 화면 크기에 따라 최대 너비 조정
+                        maxHeight: "800px",
+                        borderRadius: "15px",
+                    },
+                }}
+            >
+                <div className="popup-title-box">
+                    <DialogTitle>쿠폰</DialogTitle>
+                    <Button
+                        className="popup-close-btn"
+                        onClick={() => setOpen(false)}
+                    ></Button>
+                </div>
+
+                <div className="popup-content">
+                    <OrderCouponComponent />
+                </div>
+                <div className="scroll"></div>
+                <div className="popup-bottom"></div>
+            </Dialog> */}
+
+            {/* 쿠폰 팝업 */}
+            {/* 쿠폰 팝업 */}
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                PaperProps={{
+                    style: {
+                        textAlign: "center",
+                        width: "520px",
+                        maxWidth: "unset",
+                        height: "600px",
+                        maxHeight: "unset",
+                        // borderRadius: "15px",
+                    },
+                }}
+            >
+                <DialogTitle>쿠폰 선택</DialogTitle>
+                <OrderCouponComponent onSelectCoupon={handleSelectCoupon} />
+            </Dialog>
+
+            {/* ----------------------- 배송지 팝업창 ------------------*/}
+            {/* <Dialog
+                open={open2}
+                onClose={handleCancel}
+                PaperProps={{
+                    style: {
+                        width: "100%",
+                        maxWidth: "500px",
+                        margin: "auto",
+                    },
+                }}
+            >
+                <Box sx={{ p: 2 }}>
+                    <div className="popup-title-box">
+                        <DialogTitle>배송지 관리</DialogTitle>
+                        <Button
+                            className="popup-close-btn"
+                            onClick={() => setOpen2(false)}
+                        />
+                    </div>
+
+                    <div className="popup-content">
+                        {(isAdding || selectedAddress) && (
+                            <Postcode
+                                onSave={handleSave}
+                                selectedAddress={selectedAddress}
+                            />
+                        )}
+                    </div>
+                </Box>
+            </Dialog> */}
         </div>
     );
 }

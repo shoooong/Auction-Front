@@ -2,12 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "api/serverApi";
-
 import { Box, IconButton, Button } from "@mui/material";
-
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
-import image1 from "../../assets/images/bumsu.svg";
+import '../../styles/product.css';
 
 const SubClothes = () => {
     const location = useLocation();
@@ -58,30 +56,27 @@ const SubClothes = () => {
         };
     }, [hasNext]);
 
-    const handleLikeToggle = (index) => {
+    const handleLikeToggle = (index, e) => {
+        e.stopPropagation(); // 아이콘 버튼 클릭 시 부모 div의 클릭 이벤트가 발생하지 않도록 방지합니다
         const newProducts = [...products];
         newProducts[index].liked = !newProducts[index].liked;
         setProducts(newProducts);
     };
 
-    const handleCategoryChange = (category) => {
-        setProducts([]);
-        setPage(0);
-        setHasNext(true);
-        navigate(`/clothes/${category}`);
+    const handleCategoryChange = (modelNum) => {
+        const category = location.pathname.split("/")[1] || "clothes"; // 현재 카테고리를 가져옵니다
+        navigate(`/${category}/details/${modelNum}`); // 현재 카테고리와 모델 번호를 사용하여 상세 페이지 경로를 설정합니다
     };
 
     return (
         <div className="container">
             <div className="sub-nav"></div>
-
             <h2 className="title">상의</h2>
-
             <main className="product-content" style={{ marginBottom: "80px" }}>
                 <Box className="box">
                     <Box className="product-wrap inline-flex">
                         {products.map((product, index) => (
-                            <div className="product" key={index}>
+                            <div className="product" key={index} onClick={() => handleCategoryChange(product.modelNum)}>
                                 <div>
                                     <div className="image-container">
                                         <img
@@ -90,9 +85,8 @@ const SubClothes = () => {
                                             className="post-image"
                                         />
                                     </div>
-
                                     <IconButton
-                                        onClick={() => handleLikeToggle(index)}
+                                        onClick={(e) => handleLikeToggle(index, e)}
                                         className="icon-button"
                                     >
                                         {product.liked ? (
@@ -133,7 +127,6 @@ const SubClothes = () => {
                             </div>
                         ))}
                     </Box>
-
                     {hasNext && (
                         <div className="text-center" ref={loadMoreRef}>
                             <Button className="add-btn">더보기</Button>

@@ -1,43 +1,62 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Button, Box, IconButton } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom"; // useNavigate 훅을 import 합니다
-import tempImg from "assets/images/feed4.png";
 import { SERVER_URL } from "api/serverApi";
+
+import { Box, IconButton, Button } from "@mui/material";
+
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
+import '../../styles/product.css'
 
-const MainNewSales = () => {
-    const location = useLocation(); // 현재 경로를 가져옵니다
-    const navigate = useNavigate(); // 네비게이트 훅을 가져옵니다
+const SubLife = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
-    const [visibleProducts, setVisibleProducts] = useState(5);
+    const [page, setPage] = useState(0);
+    const [hasNext, setHasNext] = useState(true);
+    const loadMoreRef = useRef(null);
 
     useEffect(() => {
-        const category = location.pathname.split("/")[1] || "clothes"; // 경로의 첫 번째 부분을 카테고리로 사용하고, 기본값은 'clothes'로 설정합니다
-        const fetchProducts = async () => {
+        const category = location.pathname.split("/")[2] || "clothes";
+        const fetchProducts = async (page) => {
             try {
                 const response = await axios.get(
-                    `${SERVER_URL}/products/${category}/all_product_newSalesBid`
+                    `${SERVER_URL}/products/sub/${category}?page=${page}`
                 );
-                const data = response.data.map((product, index) => ({
-                    productId: product.productId,
-                    productImg: tempImg,
-                    productBrand: product.productBrand,
-                    productName: product.productName,
-                    modelNum: product.modelNum,
-                    biddingPrice: product.biddingPrice,
-                    liked: false, // 초기 좋아요 상태
-                    rank: index + 1, // 순위 추가
-                }));
-                setProducts(data);
+                setProducts((prevProducts) => [
+                    ...prevProducts,
+                    ...response.data.content,
+                ]);
+                setHasNext(response.data.hasNext);
             } catch (error) {
                 console.error("Error fetching products: ", error);
             }
         };
 
-        fetchProducts();
-    }, [location]); // 경로가 변경될 때마다 데이터를 다시 가져옵니다
+        fetchProducts(page);
+    }, [location, page]);
+
+    useEffect(() => {
+        if (!loadMoreRef.current) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasNext) {
+                    setPage((prevPage) => prevPage + 1);
+                }
+            },
+            { threshold: 1 }
+        );
+
+        observer.observe(loadMoreRef.current);
+
+        return () => {
+            if (loadMoreRef.current) {
+                observer.unobserve(loadMoreRef.current);
+            }
+        };
+    }, [hasNext]);
 
     const handleLikeToggle = (index) => {
         const newProducts = [...products];
@@ -45,28 +64,26 @@ const MainNewSales = () => {
         setProducts(newProducts);
     };
 
-    const loadMoreProducts = () => {
-        setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 5);
-    };
-
-    const handleProductClick = (modelNum) => {
-        navigate(`products/details/${modelNum}`); // 클릭된 상품의 상세 페이지로 이동합니다
+    const handleCategoryChange = (category) => {
+        setProducts([]);
+        setPage(0);
+        setHasNext(true);
+        navigate(`/clothes/details/${category}`);
     };
 
     return (
-        <div>
-            <Box className="box line">
-                <Box className="product-title-box">
-                    <h2 className="product-title">New Highest Bids</h2>
-                    <h3 className="product-sub-title">새로운 즉시 판매가</h3>
-                </Box>
-                <Box className="product-wrap inline-flex">
-                    {products
-                        .slice(0, visibleProducts)
-                        .map((product, index) => (
-                            <div className="product" key={index} onClick={() => handleProductClick(product.modelNum)}>
+        <div className="container">
+            <div className="sub-nav"></div>
+
+            <h2 className="title">인테리어</h2>
+
+            <main className="product-content" style={{ marginBottom: "80px" }}>
+                <Box className="box">
+                    <Box className="product-wrap inline-flex">
+                        {products.map((product, index) => (
+                            <div className="product" key={index}
+                                onClick={() => handleCategoryChange(product.modelNum)}>
                                 <div>
-                                    <span className="rank">{product.rank}</span>{" "}
                                     <div className="image-container">
                                         <img
                                             src={product.productImg}
@@ -74,11 +91,9 @@ const MainNewSales = () => {
                                             className="post-image"
                                         />
                                     </div>
+
                                     <IconButton
-                                        onClick={(e) => {
-                                            e.stopPropagation(); // 아이콘 버튼 클릭 시 부모 div의 클릭 이벤트가 발생하지 않도록 방지합니다
-                                            handleLikeToggle(index);
-                                        }}
+                                        onClick={() => handleLikeToggle(index)}
                                         className="icon-button"
                                     >
                                         {product.liked ? (
@@ -118,18 +133,17 @@ const MainNewSales = () => {
                                 </div>
                             </div>
                         ))}
-                </Box>
+                    </Box>
 
-                {visibleProducts < products.length && (
-                    <div className="text-center">
-                        <Button className="add-btn" onClick={loadMoreProducts}>
-                            더보기
-                        </Button>
-                    </div>
-                )}
-            </Box>
+                    {hasNext && (
+                        <div className="text-center" ref={loadMoreRef}>
+                            <Button className="add-btn">더보기</Button>
+                        </div>
+                    )}
+                </Box>
+            </main>
         </div>
     );
 };
 
-export default MainNewSales;
+export default SubLife;

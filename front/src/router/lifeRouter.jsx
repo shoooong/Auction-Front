@@ -1,13 +1,13 @@
+import SubLife from "pages/product/SubLife";
+import ProductDetail from "../pages/product/ProductDetail";
+
 export default function lifeRouter() {
     return [
         {
             path: "interior",
             element: (
                 <>
-                    <div className="container">
-                        <div className="sub-nav"></div>
-                        <div>인테리어</div>
-                    </div>
+                    <SubLife />
                 </>
             ),
         },
@@ -15,10 +15,7 @@ export default function lifeRouter() {
             path: "kitchen",
             element: (
                 <>
-                    <div className="container">
-                        <div className="sub-nav"></div>
-                        <div>키친</div>
-                    </div>
+                    <SubLife />
                 </>
             ),
         },
@@ -26,10 +23,15 @@ export default function lifeRouter() {
             path: "beauty",
             element: (
                 <>
-                    <div className="container">
-                        <div className="sub-nav"></div>
-                        <div>뷰티</div>
-                    </div>
+                    <SubLife />
+                </>
+            ),
+        },
+        {
+            path: "details/:modelNum", // 상세 페이지 경로 추가
+            element: (
+                <>
+                    <ProductDetail />
                 </>
             ),
         },

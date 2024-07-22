@@ -46,19 +46,52 @@
     --thick: 900;
 }
 
-* {margin: 0;padding: 0;box-sizing: border-box;font-family: "Pretendard", sans-serif !important;letter-spacing: -0.25px;}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Pretendard", sans-serif !important;
+    letter-spacing: -0.25px;
+}
 
-ol,ul,li {list-style: none;}
-a {text-decoration: none;}
-a:link {color: var(--primary);text-decoration: none;}
-a:hover {color: var(--primary);text-decoration: none;}
-a:active {color: var(--primary);text-decoration: none;}
+ol,
+ul,
+li {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+}
+a:link {
+    color: var(--primary);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--primary);
+    text-decoration: none;
+}
+a:active {
+    color: var(--primary);
+    text-decoration: none;
+}
 
-input {line-height: 1;border: none;outline: none;}
+input {
+    line-height: 1;
+    border: none;
+    outline: none;
+}
 img,
-fieldset {border: none;}
+fieldset {
+    border: none;
+}
 
-body {font-family: "Pretendard", sans-serif !important;font-size: 16px;font-weight: 400;color: var(--primary);line-height: 1;}
+body {
+    font-family: "Pretendard", sans-serif !important;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--primary);
+    line-height: 1;
+}
 em {
     font-style: normal;
 }
@@ -181,16 +214,36 @@ hr {
 }
 
 /* width */
-.w100p {width: 100% !important;}
-.w80p {width: 80% !important;}
-.w70p {width: 70% !important;}
-.w66p {width: 66.66% !important;}
-.w50p {width: 50% !important;}
-.w33p {width: 33.33% !important;}
-.w30p {width: 30% !important;}
-.w25p {width: 25% !important;}
-.w20p {width: 20% !important;}
-.w10p {width: 10% !important;}
+.w100p {
+    width: 100% !important;
+}
+.w80p {
+    width: 80% !important;
+}
+.w70p {
+    width: 70% !important;
+}
+.w66p {
+    width: 66.66% !important;
+}
+.w50p {
+    width: 50% !important;
+}
+.w33p {
+    width: 33.33% !important;
+}
+.w30p {
+    width: 30% !important;
+}
+.w25p {
+    width: 25% !important;
+}
+.w20p {
+    width: 20% !important;
+}
+.w10p {
+    width: 10% !important;
+}
 
 /* height */
 .h100p {
@@ -204,6 +257,7 @@ hr {
 
 /* scroll */
 .scroll {
+    margin-top: 40px;
     max-height: 400px;
     overflow-y: auto;
 }

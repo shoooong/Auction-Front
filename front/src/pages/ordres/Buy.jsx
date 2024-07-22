@@ -6,17 +6,29 @@ import "styles/order.css";
 import useOrder from "hooks/useOrder";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
+import {
+    ToggleButton,
+    IconButton,
+    Button,
+    Box,
+    Dialog,
+    DialogTitle,
+} from "@mui/material";
+import useUserCoupon from "hooks/useUserCoupon";
+import Event from "pages/user/mypage/CouponMain";
 
 // ------  SDK 초기화 ------
 const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 const customerKey = "HOytG9DDEHHgTxwNS0YWT";
 
 export default function Buy() {
+    const { coupons } = useUserCoupon();
     const [payment, setPayment] = useState(null);
     const [amount] = useState({
         currency: "KRW",
         value: 50000,
     });
+    const [open, setOpen] = useState(false);
 
     const { buyingBidding, addressInfo } = useOrder();
 
@@ -184,7 +196,10 @@ export default function Buy() {
                 <div className="coupon_info_area info_area">
                     <h3 className="title_txt">할인 혜택</h3>
                     <p className="desc">쿠폰</p>
-                    <div className="coupon_box border_box">
+                    <div
+                        className="coupon_box border_box"
+                        onClick={() => setOpen(true)}
+                    >
                         <button className="btn_shipping_memo">
                             <span>선착순 쿠폰1</span>
                         </button>
@@ -210,6 +225,32 @@ export default function Buy() {
                         변경 시 수수료가 발생할 수 있습니다.
                     </p>
                 </div>
+                <Dialog
+                    open={open}
+                    PaperProps={{
+                        style: {
+                            width: "520px", // 원하는 width 값 설정
+                            maxWidth: "90vw", // 화면 크기에 따라 최대 너비 조정
+                            maxHeight: "800px",
+                            borderRadius: "15px",
+                        },
+                    }}
+                >
+                    <div className="popup-title-box">
+                        <DialogTitle>쿠폰</DialogTitle>
+                        <Button
+                            className="popup-close-btn"
+                            onClick={() => setOpen(false)}
+                        ></Button>
+                    </div>
+
+                    <div className="popup-content">
+                        <Event />
+                    </div>
+                    <div className="scroll"></div>
+                    <div className="popup-bottom"></div>
+                </Dialog>
+
                 <div className="final_order_info_area info_area">
                     <h3 className="title_txt">최종 주문 정보</h3>
                     <div className="order_main_title">
@@ -240,15 +281,15 @@ export default function Buy() {
                 </div>
                 <div className="order_payment_area info_area">
                     <div className="order_box">
-                        <p className="text16">총 결제금액</p>
-                        <p className="text20">
+                        <p className="pay_text16">총 결제금액</p>
+                        <p className="pay_text20">
                             {buyingBidding?.buyingBiddingPrice.toLocaleString()}
                             원
                         </p>
                     </div>
                 </div>
                 <div className="final_payment_btn info_area">
-                    <div className="btn">
+                    <div className="pay_btn_box">
                         <button className="pay_btn">
                             {buyingBidding?.buyingBiddingPrice.toLocaleString()}
                             원 • 일반배송 결제하기

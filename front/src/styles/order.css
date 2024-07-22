@@ -259,23 +259,24 @@ dd.desc {
     padding: 22px 32px 22px 32px;
     /* display: flex; */
 }
-.text16 {
+.pay_text16 {
     font-size: 16px;
     color: black;
 }
-.text20 {
+.pay_text20 {
     margin-top: 13px;
     font-size: 20px;
     font-weight: 700;
     color: black;
     text-align: end;
 }
-.btn {
+.pay_btn_box {
     height: 52px;
     border-radius: 10px;
     background: #d3d3d3;
     justify-content: center;
     text-align: center;
+    display: flex;
 }
 .pay_btn {
     font-size: 16px;

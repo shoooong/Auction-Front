@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { getCookie } from "pages/user/cookieUtil";
 import { getUser, modifyUser } from "api/user/userApi";
+import { formatPhoneNumber } from "../mypageUtil";
 
 const initState = {
     email: '',
@@ -83,17 +84,17 @@ const ModifyPage = () => {
     };
 
     return (
-        <div>
-            <div className="history-title">
+        <div className="profile-modify-container">
+            <div className="detail-history-title">
                 <h2 className="title">프로필 수정</h2>
             </div>
 
-            <div className="top-container">
-                <div className="modify-img-container">
+            <div className="profile-top-container">
+                <div className="profileImg-modify-container">
                     <img className="modify-img" src={user.profileImg} alt="프로필 이미지" />
-                    <div className="file-input-container">
+                    <div className="profile-input-container">
                         <input type="file" id="file-input" accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
-                        <label htmlFor="file-input" className="file-input-label">파일 선택</label>
+                        <label htmlFor="file-input" className="profile-input-label">파일 선택</label>
                     </div>
                 </div>
                 <div>
@@ -107,16 +108,16 @@ const ModifyPage = () => {
                 </div>
             </div>
 
-            <div>
+            <div className="profile-bottom-container">
                 <div className="modify-phone">
-                    <input name="phoneNum" type={'text'} value={user.phoneNum} onChange={handleChange} />
+                    <input name="phoneNum" type={'text'} value={formatPhoneNumber(user.phoneNum)} onChange={handleChange} />
                 </div>
                 <div className="modify-password">
                     <input name="password" type={'password'} value={user.password} onChange={handleChange} />
                 </div>
             </div>
 
-            <div>
+            <div className="profile-button">
                 <button type="button" onClick={handleClickModify}>수정</button>
                 <button type="button" onClick={() => navigate('/mypage')}>취소</button>
             </div>

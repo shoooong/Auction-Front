@@ -15,6 +15,7 @@ import icon4 from "assets/images/icon4.svg";
 import icon5 from "assets/images/icon5.svg";
 import icon6 from "assets/images/icon6.svg";
 import photo from "assets/images/myson.jpg";
+import banner from "assets/images/toss_banner.webp";
 // import BookmarkOff from "assets/images/bookmark-off.svg";
 // import BookmarkOn from "assets/images/bookmark-on.svg";
 
@@ -29,6 +30,9 @@ export default function MypageMain() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+    const CLOUD_STORAGE_BASE_URL =
+        "https://kr.object.ncloudstorage.com/push/shooong/";
 
     useEffect(() => {
         const fetchData = async () => {
@@ -69,8 +73,8 @@ export default function MypageMain() {
             {profile && (
                 <div className="profile-container">
                     <div className="profile">
-                        {/* <img src={profile.profileImg} alt="프로필사진" /> */}
-                        <img src={photo} alt="이앤톤" />
+                    <img src={`${CLOUD_STORAGE_BASE_URL}${profile.profileImg}`} alt="프로필사진" />
+                        {/* <img src={photo} alt="이앤톤" /> */}
                         <div>
                             <p>{profile.nickname}</p>
                             <p>{maskEmail(profile.email)}</p>
@@ -216,8 +220,8 @@ export default function MypageMain() {
                 )}
             </div>
 
-            <div className="mypage-banner">
-                <img src="" alt="이벤트 배너" />
+            <div>
+                <img className="mypage-banner" src={banner} alt="이벤트 배너" />
             </div>
 
             <div className="bookmark">

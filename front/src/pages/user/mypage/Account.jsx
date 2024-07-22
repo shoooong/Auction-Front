@@ -70,7 +70,7 @@ const Account = () => {
 
     return (
         <div>
-            <div className="history-title">
+            <div className="detail-history-title">
                 <h2 className='title'>계좌 관리</h2>
             </div>
             {account.depositor && !isAdding && !isEditing && (

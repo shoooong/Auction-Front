@@ -111,7 +111,7 @@ const Address = () => {
 
     return (
         <div className="address-management">
-            <div className="history-title">
+            <div className="detail-history-title">
                 <h2 className="title">배송지 관리</h2>
                 {!isAdding && (
                     <button className="add-button" type="button" onClick={() => { setIsAdding(true); setOpen(true); }}>추가</button>

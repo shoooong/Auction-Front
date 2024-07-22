@@ -148,11 +148,11 @@ export default function Shop() {
                                     <div
                                         className="product"
                                         key={list.productId}
-                                        ref={
-                                            displayProducts.length === index + 1
-                                                ? lastElementRef
-                                                : null
-                                        }
+                                        // ref={
+                                        //     displayProducts.length === index + 1
+                                        //         ? lastElementRef
+                                        //         : null
+                                        // }
                                         // onClick={detail(list.modelNum)}
                                     >
                                         <div>

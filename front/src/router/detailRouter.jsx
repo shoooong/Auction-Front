@@ -1,5 +1,5 @@
 
-import ProductDetail from "../pages/product/ProductDetail";
+import ProductDetail from "pages/product/ProductDetail";
 export default function detailRouter() {
     return [
         {

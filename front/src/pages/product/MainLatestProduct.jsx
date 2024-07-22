@@ -60,7 +60,7 @@ const MainLatestProduct = () => {
                     <h2 className="product-title">New In</h2>
                     <h3 className="product-sub-title">신규 등록 상품</h3>
                 </Box>
-                <Box className="product-wrap inline-flex">
+                <Box className="product-wrap grid grid-column-5 grid-gap-x30">
                     {products
                         .slice(0, visibleProducts)
                         .map((product, index) => (

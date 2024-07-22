@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { getSub, getAll, getMain } from "api/shopApi";
+import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getSub, getAll } from "api/shopApi";
 
 import { Box, IconButton } from "@mui/material";
 import { RichTreeView } from "@mui/x-tree-view";
@@ -8,26 +9,14 @@ import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 
 const LABEL_DATA = [
-    {
-        id: "clothes",
-        label: "의류",
-        children: [
-            { id: "top", label: "상의" },
-            { id: "bottom", label: "하의" },
-            { id: "outer", label: "아우터" },
-            { id: "shoes", label: "신발" },
-            { id: "inner", label: "이너웨어" },
-        ],
-    },
-    {
-        id: "life",
-        label: "라이프",
-        children: [
-            { id: "interior", label: "인테리어" },
-            { id: "kitcken", label: "키친" },
-            { id: "beauty", label: "뷰티" },
-        ],
-    },
+    { id: "top", label: "상의" },
+    { id: "bottom", label: "하의" },
+    { id: "outer", label: "아우터" },
+    { id: "shoes", label: "신발" },
+    { id: "inner", label: "이너웨어" },
+    { id: "interior", label: "인테리어" },
+    { id: "kitcken", label: "키친" },
+    { id: "beauty", label: "뷰티" },
     { id: "tech", label: "테크" },
 ];
 
@@ -37,92 +26,94 @@ export default function Shop() {
 
     // 모든 상품
     const [allProduct, setAllProduct] = useState([]);
-    const [mainProduct, setMainProduct] = useState([]);
     const [subProduct, setSubProduct] = useState([]);
     const [displayProducts, setDisplayProducts] = useState([]);
 
     // 선택된 체크박스
-    const [main, setMain] = useState([]);
-    const [sub, setSub] = useState([]);
+    const [selected, setSelected] = useState([]);
 
     // 무한스크롤
     const [pageNum, setPageNum] = useState(0);
-    const [hasNext, setHasNext] = useState(false);
+    const [hasNext, setHasNext] = useState(true);
+    const observerRef = useRef(null);
+    const lastElementRef = useRef(null);
+
+    // 디테일 상품 이동
+    const navigate = useNavigate();
 
     // 모든 상품
-    const fetchAllData = async () => {
-        try {
-            const allProducts = await getAll(pageNum);
-            setAllProduct(allProducts);
-        } catch (error) {
-            console.error("Error fetching products: ", error);
-        }
-    };
     useEffect(() => {
+        const fetchAllData = async () => {
+            try {
+                const allProducts = await getAll(pageNum);
+                setAllProduct(allProducts);
+                setHasNext(allProducts.data.hasNext);
+            } catch (error) {
+                console.error("Error fetching products: ", error);
+            }
+        };
+
         fetchAllData();
     }, [pageNum]);
 
     // 서브 상품
-    const fetchSubData = async () => {
-        try {
-            const products = await getSub(pageNum, sub);
-            setSubProduct(products);
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        }
-    };
     useEffect(() => {
-        if (sub.length > 0) {
+        const fetchSubData = async () => {
+            try {
+                const products = await getSub(pageNum, selected);
+                setSubProduct(products);
+                setHasNext(products.data.hasNext);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        if (selected.length > 0) {
             fetchSubData();
         }
-    }, [pageNum, sub]);
-
-    // 메인 상품
-    const fetchMainData = async () => {
-        try {
-            const mainProducts = await getMain(pageNum, main);
-            setMainProduct(mainProducts);
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        }
-    };
-    useEffect(() => {
-        if (main.length > 0) {
-            fetchMainData();
-        }
-    }, [pageNum, main]);
+    }, [pageNum, selected]);
 
     // 필터 적용
     useEffect(() => {
-        if (sub.length > 0) {
+        if (selected.length > 0) {
             setDisplayProducts(subProduct);
-        } else if (main.length > 0) {
-            setDisplayProducts(mainProduct);
         } else {
             setDisplayProducts(allProduct);
         }
-    }, [allProduct, subProduct, mainProduct, sub, main]);
+    }, [allProduct, subProduct, selected]);
 
     // 필터링 적용
     const changeFilter = (e, items) => {
-        if (
-            items[0] === LABEL_DATA[0].id ||
-            items[0] === LABEL_DATA[1].id ||
-            items[0] === LABEL_DATA[2].id
-        ) {
-            setMain(items);
-            setSub([]);
-        } else {
-            setSub(items);
-            setMain([]);
-        }
+        setSelected(items);
     };
 
     // 초기화
     const resetFilters = () => {
-        setSub([]);
-        setMain([]);
+        setSelected([]);
+        setPageNum(0);
     };
+
+    // 무한 스크롤
+    useEffect(() => {
+        observerRef.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasNext) {
+                setPageNum((prev) => prev + 1);
+            }
+        });
+        if (lastElementRef.current) {
+            observerRef.current.observe(lastElementRef.current);
+        }
+        return () => {
+            if (lastElementRef.current) {
+                observerRef.current.unobserve(lastElementRef.current);
+            }
+        };
+    }, [lastElementRef.current, hasNext]);
+
+    // 상품 상세 이동
+    // const detail = (category) => {
+    //     navigate(`/clothes/details/${category}`);
+    // };
 
     return (
         <>
@@ -142,18 +133,27 @@ export default function Shop() {
                                     multiSelect
                                     checkboxSelection
                                     onSelectedItemsChange={changeFilter}
-                                    selectedItems={main.length > 0 ? main : sub}
+                                    selectedItems={selected}
                                 ></RichTreeView>
                             </Box>
                         </div>
                     </div>
                     <div className="w80p">
                         <Box className="box">
-                            <Box className="product-wrap inline-flex product-4n">
-                                {displayProducts.map((list) => (
+                            <Box
+                                className="product-wrap grid grid-gap-x30 grid-column-4"
+                                style={{ marginBottom: "80px" }}
+                            >
+                                {displayProducts.map((list, index) => (
                                     <div
                                         className="product"
                                         key={list.productId}
+                                        ref={
+                                            displayProducts.length === index + 1
+                                                ? lastElementRef
+                                                : null
+                                        }
+                                        // onClick={detail(list.modelNum)}
                                     >
                                         <div>
                                             <div className="product-img">

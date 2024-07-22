@@ -3,17 +3,25 @@
 7) 이벤트 배너
 10) 판매자 등급 호버 효과..
 11) 쿠폰, 회원탈퇴 링크연결
+
+body에 line-height = 1 꼭 필요한가?
 */
 
 
 .full-container {
-    /* width: 100vw; */
     margin-bottom: 50px;
+    color: var(--black);
 }
 
 .data-container {
-    /* width: 100vw; */
     margin-bottom: 80px;
+}
+
+.detail-history-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
 }
 
 /* 1. 프로필 */
@@ -80,6 +88,8 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
+    margin-top: 40px;
+
 }
 
 .history-title p {
@@ -195,9 +205,13 @@
 
 /* 4. 이벤트 배너 */
 .mypage-banner {
-    border: 1px solid #000;
-    height: 110px;
+    /* border: 1px solid #000; */
+    /* height: 110px; */
     margin-top: 30px;
+    /* object-fit: cover; */
+    width: 100%;
+    height: 150px;
+
 }
 
 
@@ -209,7 +223,6 @@
 }
 
 .bookmark-item {
-    /* padding: 16px; */
     margin-bottom: 10px;
 }
 
@@ -238,20 +251,94 @@
 
 
 /* 프로필 관리 */
-.top-container {
+.profile-top-container {
     display: flex;
-    /* justify-content: flex-start;
-    gap: 50%; */
+    justify-content: center;
+    gap: 80px;
     align-items: center;
-    padding: 20px 20px;
+    padding: 20px;
+    margin-top: 80px;
 }
+
+.profileImg-modify-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.profile-input-label {
+    color: var(--white);
+    background-color: #333;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: var(--ft14);
+    font-weight: var(--semibold);
+    padding: 8px 10px;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+#file-input {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.modify-nickname, .modify-email, .modify-phone, .modify-password {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 10px 0;
+}
+.modify-nickname, .modify-email {
+    width: 270px;
+}
+.modify-phone, .modify-password {
+    width: 500px;
+}
+
+.profile-bottom-container {
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;  
+   margin-top: 30px;
+}
+
+.profile-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+.profile-button button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.profile-button button[type="button"]:first-of-type {
+    background-color: #333;
+    color: white;
+}
+
+.profile-button button[type="button"]:last-of-type {
+    background-color: #f4f4f4;
+}
+
+
+
+
+
 
 
 /* 배송지 관리 */
-.address-management {
-    padding: 20px;
-}
-
 .addresses-list {
     display: flex;
     flex-direction: column;
@@ -259,7 +346,7 @@
 }
 
 .address-card {
-    padding: 10px 0;
+    padding: 20px 0;
     border-bottom: 1px solid #d6d6d6;
     display: flex;
     align-items: end;
@@ -327,6 +414,88 @@
 }
 
 
+/* 계좌 관리 */
+.account-details, .no-account {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.account-details p, .no-account p {
+    margin: 20px 0;
+    color: var(--black);
+    display: flex;
+   align-items: center;
+}
+.account-details p strong {
+    flex-grow: 1;
+    max-width: 100px; 
+}
+
+.no-account button, .account-btn button, .account-details button{
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.account-details button:hover,
+.account-btn button:hover {
+    background-color: var(--black);
+}
+
+.account-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.account-btn button:nth-of-type(2) {
+    background-color: #f4f4f4;
+    color: var(--black);
+}
+
+.account-btn button:nth-of-type(2):hover {
+    background-color: #999; 
+}
+
+.account-form {
+    color: var(--black);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.account-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.account-form label {
+    font-weight: bold;
+}
+
+.account-form input {
+    padding: 10px;
+    border-bottom: 1px solid #d9d9d9;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 300px;
+    box-sizing: border-box;
+}
+
+
+
+
 
 
 /* img 관련 */
@@ -374,10 +543,8 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
     margin-bottom: 10px;
-    border: 1px solid #000;
   }
 
   .file-input-container {
@@ -387,15 +554,6 @@
     margin-top: 10px;
     position: relative;
   }
-  
-  /* input[type="file"] {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  } */
   
   .file-input-label {
     font-size: 15px;

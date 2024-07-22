@@ -10,8 +10,8 @@
 .postcode-container input[type="button"],
 .postcode-container button {
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border-bottom: 1px solid #ddd;
+    /* border-radius: 4px; */
     font-size: 14px;
     width: 100%; 
     box-sizing: border-box;

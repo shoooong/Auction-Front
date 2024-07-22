@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { Button } from "@mui/material";
-
 import { getCookie } from "pages/user/cookieUtil";
 import { getLuckyDrawDetail, enterLuckyDraw } from "api/luckydrawApi";
+
+import banner from "assets/images/toss_banner.webp";
 
 const LuckyDrawDetail = () => {
     const { luckyId } = useParams();
@@ -138,8 +139,8 @@ const LuckyDrawDetail = () => {
                         응모하기
                     </Button>
 
-                    <div className="lucky-banner">
-                        <img src="" alt="이벤트 배너" />
+                    <div >
+                        <img className="lucky-banner" src={banner} alt="이벤트 배너" />
                     </div>
 
                     <div className="data-container">

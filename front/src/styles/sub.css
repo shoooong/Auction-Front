@@ -28,7 +28,7 @@
 
 .lucky-detail > div:nth-child(2) .time {margin: 30px 0; font-size: 50px; color: var(--black); font-weight: var(--bold); letter-spacing: 0.5rem;}
 
-.lucky-detail .lucky-banner {background: #ddd; height: 100px; margin-top: 30px;}
+.lucky-detail .lucky-banner {background: #ddd; height: 120px; width: 100%; margin-top: 30px; object-fit: cover;}
 
 .lucky-detail .data-container {margin-top: 30px; border-top: 1px solid var(--borderBasic); padding-top: 30px;}
 .lucky-detail .data-container h5 {font-size: var(--ft18); font-weight: var(--semibold); margin-bottom: 8px;}

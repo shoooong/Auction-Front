@@ -5,6 +5,8 @@ import { getCookie } from "pages/user/cookieUtil";
 import { getUser, modifyUser } from "api/user/userApi";
 import { formatPhoneNumber } from "../mypageUtil";
 
+import photo from "assets/images/myson.jpg";
+
 const initState = {
     email: '',
     password: '',
@@ -15,8 +17,8 @@ const initState = {
 
 const ModifyPage = () => {
     const [user, setUser] = useState(initState);
-
     const navigate = useNavigate();
+    
 
     useEffect(() => {
         const userInfo = getCookie("user");
@@ -91,7 +93,8 @@ const ModifyPage = () => {
 
             <div className="profile-top-container">
                 <div className="profileImg-modify-container">
-                    <img className="modify-img" src={user.profileImg} alt="프로필 이미지" />
+                    {/* <img className="modify-img" src={user.profileImg} alt="프로필 이미지" /> */}
+                    <img className="modify-img" src={photo} alt="이앤톤" />
                     <div className="profile-input-container">
                         <input type="file" id="file-input" accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
                         <label htmlFor="file-input" className="profile-input-label">파일 선택</label>

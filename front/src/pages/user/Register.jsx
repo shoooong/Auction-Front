@@ -11,7 +11,7 @@ import { getKaKaoLoginLink } from "../../api/user/kakaoApi";
 const initState = {
     email: "",
     password: "",
-    name: "",
+    nickname: "",
     phoneNum: "",
 };
 
@@ -86,11 +86,11 @@ const RegisterPage = () => {
                                 value={registerParam.password}
                                 onChange={handleChange}
                             />
-                            <p>이름</p>
+                            <p>닉네임</p>
                             <TextField
                                 variant="standard"
-                                name="name"
-                                value={registerParam.name}
+                                name="nickname"
+                                value={registerParam.nickname}
                                 onChange={handleChange}
                             />
                             <p>휴대폰번호</p>

@@ -17,6 +17,9 @@
 
 .lucky-main .justify-center {margin-bottom: 50px;}
 .lucky-main .img-box {border-radius: 8px; background: #eee;height: 300px;width: 300px;}
+.lucky-main .img-box img {max-width: 100%;
+    height: auto;
+    border-radius: 8px;}
 
 .lucky-main .img-box + h2 {font-size: var(--ft25); font-weight: var(--bold); word-break: keep-all; width: 300px; text-align: left; padding: 20px 0 10px; color: var(--black);}
 .lucky-main h2 + p {font-size: var(--ft18); color: var(--grey); margin-bottom: 20px; font-weight: var(--light); width: 230px; word-break: keep-all;}

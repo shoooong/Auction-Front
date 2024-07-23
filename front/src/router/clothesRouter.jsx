@@ -1,5 +1,4 @@
 import SubClothes from "pages/product/SubClothes";
-
 import detailRouter from "router/detailRouter";
 
 export default function clothesRouter() {
@@ -11,10 +10,6 @@ export default function clothesRouter() {
                     <SubClothes />
                 </>
             )
-        },
-        {
-            path: ":modelNum",
-            children: detailRouter(),
         },
         {
             path: "bottom",
@@ -47,6 +42,10 @@ export default function clothesRouter() {
                     <SubClothes />
                 </>
             ),
+        },
+        {
+            path: ":modelNum",
+            children: detailRouter(),
         },
         
     ];

@@ -50,7 +50,7 @@ const MainNewSales = () => {
     };
 
     const handleProductClick = (modelNum) => {
-        navigate(`products/details/${modelNum}`); // 클릭된 상품의 상세 페이지로 이동합니다
+        navigate(`clothes/details/${modelNum}`); // 클릭된 상품의 상세 페이지로 이동합니다
     };
 
     return (
@@ -60,7 +60,7 @@ const MainNewSales = () => {
                     <h2 className="product-title">New Highest Bids</h2>
                     <h3 className="product-sub-title">새로운 즉시 판매가</h3>
                 </Box>
-                <Box className="product-wrap inline-flex">
+                <Box className="product-wrap grid grid-column-5 grid-gap-x30">
                     {products
                         .slice(0, visibleProducts)
                         .map((product, index) => (

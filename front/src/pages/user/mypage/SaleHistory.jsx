@@ -94,7 +94,7 @@ export default function SaleHistory() {
                     <p>{formatPrice(sale.saleBiddingPrice)}원</p>
                     <p>{getStatusText(sale.salesStatus)}</p>
                     {showCancelButton && (
-                        <button onClick={() => cancelBidding(sale.salesBiddingId)}>입찰 취소</button>
+                        <button className="bidding-cancel-btn" onClick={() => cancelBidding(sale.salesBiddingId)}>입찰 취소</button>
                     )}
                 </div>
             ))

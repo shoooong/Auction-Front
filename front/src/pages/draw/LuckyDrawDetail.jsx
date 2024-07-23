@@ -15,6 +15,9 @@ const LuckyDrawDetail = () => {
     const [remainingTime, setRemainingTime] = useState("");
     const navigate = useNavigate();
 
+    const CLOUD_STORAGE_BASE_URL =
+        "https://kr.object.ncloudstorage.com/push/shooong/luckydraw";
+
     useEffect(() => {
         const fetchLuckyDraw = async () => {
             try {
@@ -117,7 +120,7 @@ const LuckyDrawDetail = () => {
             <div className="lucky-detail flex row-direction">
                 <div className="img-box w50p">
                     <div className="pos-sticky">
-                        <p>{luckyDraw.luckyImage}</p>
+                        <p><img src={CLOUD_STORAGE_BASE_URL + luckyDraw.luckyImage}  alt="왜 안나와"/></p>
                     </div>
                 </div>
 

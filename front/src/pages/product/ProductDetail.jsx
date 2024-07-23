@@ -20,18 +20,27 @@ const ProductDetails = () => {
     const [currentTab, setCurrentTab] = useState("all");
     const [popupContent, setPopupContent] = useState('contract');
 
+    const fetchProductDetails = async () => {
+        try {
+            const response = await axios.get(`${SERVER_URL}/products/detailInfo/${modelNum}`);
+            setProduct(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.error("Error fetching product details: ", error);
+        }
+    };
     useEffect(() => {
-        const fetchProductDetails = async () => {
-            try {
-                const response = await axios.get(`${SERVER_URL}/products/detailInfo/${modelNum}`);
-                setProduct(response.data);
-            } catch (error) {
-                console.error("Error fetching product details: ", error);
-            }
-        };
-
         fetchProductDetails();
     }, [modelNum]);
+
+// export const getLuckyDrawDetail = async (luckyId) => {
+//     try {
+//         const response = await axios.get(`${SERVER_URL}/luckydraw/${luckyId}`);
+//         return response.data;
+//     } catch (error) {
+//         throw new Error(`Failed to fetch lucky draw detail: ${error.message}`);
+//     }
+// };
 
     if (!product) {
         return <div>Loading...</div>;
@@ -139,7 +148,7 @@ const ProductDetails = () => {
         if (product.subDepartment === 'top' || product.subDepartment === 'outer' || product.subDepartment === 'bottom' || product.subDepartment === 'inner' || product.subDepartment === 'beauty' || product.subDepartment === 'tech') {
             return ['S', 'M', 'L', 'XL', 'XXL'];
         } else if (product.subDepartment === 'shoes') {
-            return ['230', '240', '250', '260', '270', '280', '290'];
+            return ['230', '235', '240', '245', '250', '255', '260', '270', '275'];
         } else if (product.subDepartment === 'kitchen' || product.subDepartment === 'interior') {
             return ['oneSize'];
         } else {

@@ -83,6 +83,18 @@ body에 line-height = 1 꼭 필요한가?
 
 
 /* 3. 구매내역, 판매내역, 응모내역 */
+.bidding-cancel-btn {
+    background-color: #333;
+    color: white;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 10px;
+}
+.bidding-cancel-btn:hover {
+    background-color: #000;
+}
+
+
 .history-title {
     display: flex;
     justify-content: space-between;

@@ -58,7 +58,7 @@ export default function BuyHistoryProcess() {
                         </div>
                         <p>{formatPrice(buy.buyingBiddingPrice)}원</p>
                         <p>{getStatusText(buy.biddingStatus)}</p>
-                        <button onClick={() => cancelBidding(buy.buyingBiddingId)}>입찰 취소</button>
+                        <button className="bidding-cancel-btn" onClick={() => cancelBidding(buy.buyingBiddingId)}>입찰 취소</button>
                     </div>
                 ))
             ) : (

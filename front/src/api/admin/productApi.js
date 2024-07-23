@@ -1,6 +1,9 @@
 import { SERVER_URL } from "api/serverApi";
 import jwtAxios from "pages/user/jwtUtil";
 
+export const CLOUD_STORAGE_BASE_URL =
+  "https://kr.object.ncloudstorage.com/push/shooong/dummy/products";
+
 // 상품 대분류 및 소분류별 조회
 export const getProductsByDepartment = async (
   mainDepartment,

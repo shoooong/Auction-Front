@@ -15,6 +15,7 @@ import {
 import { useParams } from "react-router-dom";
 import { getProduct, acceptProduct } from "api/admin/productApi";
 import CommonList from "./layout/CommonList";
+import { CLOUD_STORAGE_BASE_URL } from "api/admin/productApi";
 
 const AdminProductDetailed = () => {
   const { modelNum } = useParams();
@@ -135,7 +136,11 @@ const AdminProductDetailed = () => {
           <div className="row-direction">
             <div className="admin-image">
               <img
-                src={productDetails[0].adminProductDetailDto.productImg}
+                // src={productDetails[0].adminProductDetailDto.productImg}
+                src={
+                  CLOUD_STORAGE_BASE_URL +
+                  productDetails[0].adminProductDetailDto.productImg
+                }
                 alt={productDetails[0].adminProductDetailDto.productName}
                 style={{ width: "100%", borderRadius: "8px" }}
               />
@@ -160,7 +165,15 @@ const AdminProductDetailed = () => {
                 <Select
                   value={selectedSize}
                   onChange={(e) => setSelectedSize(e.target.value)}
-                  sx={{ width: "100px", marginTop: "10px" }}
+                  sx={{
+                    width: "80px",
+                    height: "40px",
+                    fontSize: "0.75rem",
+                    marginTop: "10px",
+                    "& .MuiSelect-select": {
+                      padding: "8px", // Select 내부 padding 조정
+                    },
+                  }}
                 >
                   {productDetails.map((detail, index) => (
                     <MenuItem
@@ -176,41 +189,43 @@ const AdminProductDetailed = () => {
           </div>
         )}
 
-        <div className="">
-          <Button
-            className={`button ${
-              selectedButton === 0 ? "button-selected" : ""
-            }`}
-            onClick={() => handleButtonClick(0)}
-          >
-            구매
-          </Button>
-          <Button
-            className={`button ${
-              selectedButton === 1 ? "button-selected" : ""
-            }`}
-            onClick={() => handleButtonClick(1)}
-          >
-            판매
-          </Button>
+        <div className="column-direction admin-btn-container">
+          <div className="">
+            <Button
+              variant="outlined"
+              className={`button ${
+                selectedButton === 0 ? "button-selected" : ""
+              }`}
+              onClick={() => handleButtonClick(0)}
+            >
+              구매
+            </Button>
+            <Button
+              variant="outlined"
+              className={`button ${
+                selectedButton === 1 ? "button-selected" : ""
+              }`}
+              onClick={() => handleButtonClick(1)}
+            >
+              판매
+            </Button>
+          </div>
         </div>
       </div>
       {selectedButton === 0 && (
-        <>
-          <Typography variant="h6" gutterBottom>
-            구매 입찰 리스트
-          </Typography>
-          <div className="" sx={{ height: "400px" }}>
+        <div style={{ marginTop: "20px" }}>
+          <p className="admin-main-title">구매 입찰</p>
+          <div style={{ height: "400px" }}>
             <CommonList
               rows={rowsBuying}
               columns={columnsBuying}
               onRowClick={() => {}}
             />
           </div>
-        </>
+        </div>
       )}
       <hr />
-      <Box sx={{ flex: 2 }}>
+      <Box sx={{ flex: 2, marginTop: "20px" }}>
         {selectedButton === 1 && (
           <>
             <Box
@@ -220,15 +235,21 @@ const AdminProductDetailed = () => {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h6" gutterBottom>
-                판매 입찰 리스트
-              </Typography>
+              <p className="admin-main-title">판매 입찰</p>
               <FormControl sx={{ width: "150px" }}>
-                <InputLabel>상태 필터</InputLabel>
+                <InputLabel>상품 상태</InputLabel>
                 <Select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  label="상태 필터"
+                  sx={{
+                    width: "100px",
+                    height: "px",
+                    fontSize: "0.75rem",
+                    marginTop: "10px",
+                    "& .MuiSelect-select": {
+                      padding: "8px", // Select 내부 padding 조정
+                    },
+                  }}
                 >
                   <MenuItem value="">
                     <em>전체</em>
@@ -238,11 +259,13 @@ const AdminProductDetailed = () => {
                 </Select>
               </FormControl>
             </Box>
-            <CommonList
-              rows={rowsSelling}
-              columns={columnsSelling}
-              onRowClick={handleRowClick}
-            />
+            <div style={{ height: "400px" }}>
+              <CommonList
+                rows={rowsSelling}
+                columns={columnsSelling}
+                onRowClick={handleRowClick}
+              />
+            </div>
           </>
         )}
         <Dialog open={openDialog} onClose={handleDialogClose}>

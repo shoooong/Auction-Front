@@ -18,6 +18,11 @@ const AdminLuckdraws = () => {
   const [luckyDraws, setLuckyDraws] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
+  const tabButtons = [
+    { label: "READY", value: "READY" },
+    { label: "PROCESS", value: "PROCESS" },
+    { label: "END", value: "END" },
+  ];
 
   const fetchData = async (status) => {
     try {
@@ -49,9 +54,31 @@ const AdminLuckdraws = () => {
 
   // CommonList 컴포넌트에 필요한 columns 정의
   const columns = [
-    { field: "luckyId", headerName: "ID", width: 90 },
-    { field: "luckyName", headerName: "Name", width: 150 },
-    { field: "luckyProcessStatus", headerName: "Status", width: 150 },
+    {
+      field: "luckyId",
+      headerName: "ID",
+      width: 90,
+      headerAlign: "center",
+      align: "center",
+      // flex: 1, // flex 추가
+    },
+    {
+      field: "luckyName",
+      headerName: "Name",
+      headerAlign: "center", // 헤더 텍스트 가운데 정렬
+      width: 150,
+      align: "center",
+      flex: 2,
+    },
+    {
+      field: "luckyProcessStatus",
+      headerName: "Status",
+      width: 150,
+      headerAlign: "center", // 헤더 텍스트 가운데 정렬
+
+      align: "center",
+      flex: 1,
+    },
   ];
 
   // rows 데이터 생성
@@ -73,14 +100,26 @@ const AdminLuckdraws = () => {
   };
 
   return (
-    <>
-      <h1>럭키드로우 상품 리스트</h1>
-      <div>
-        <button onClick={() => setLuckyProcessStatus("READY")}>READY</button>
-        <button onClick={() => setLuckyProcessStatus("PROCESS")}>
-          PROCESS
-        </button>
-        <button onClick={() => setLuckyProcessStatus("END")}>END</button>
+    <div className="column-direction h100p">
+      <p className="admin-main-title">럭키 드로우 상품</p>
+      <div className="service-tab">
+        <div className="tabs">
+          {tabButtons.map((tab, index) => (
+            <div
+              className={
+                luckyProcessStatus === tab.value ? "tab active" : "tab"
+              }
+              key={index}
+            >
+              <button
+                className={luckyProcessStatus === tab.value ? "active" : ""}
+                onClick={() => setLuckyProcessStatus(tab.value)}
+              >
+                {tab.label}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
       <CommonList
         rows={rows}
@@ -109,7 +148,7 @@ const AdminLuckdraws = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
 

@@ -14,6 +14,7 @@ import {
   Zoom,
 } from "@mui/material";
 import { acceptRequest, getRequest, rejectRequest } from "api/admin/requestApi";
+import { CLOUD_STORAGE_BASE_URL } from "api/admin/productApi";
 
 const initialState = {
   productId: 0,
@@ -89,6 +90,11 @@ const AdminRequestDetailed = () => {
     } catch (error) {
       console.error("Error rejecting request", error);
       setApprovalError(error);
+      console.error("Failed to approve product:", error.message);
+      console.error(
+        "Error details:",
+        error.response ? error.response.data : error
+      );
       setApprovalSuccess(false);
       setDialogMessage("거절 중 오류가 발생했습니다.");
     } finally {
@@ -145,17 +151,18 @@ const AdminRequestDetailed = () => {
           timeout={{ enter: 500, exit: 500 }}
           easing="ease-in-out"
         >
-          <Box className="admin-detailed-container w33p">
+          <Box className="admin-detailed-container">
             <div className="column-direction">
               <Button
                 className="admin-close-btn"
                 onClick={() => handleClose()}
               ></Button>
               <div className="admin-detailed-content">
-                <div>
+                <div className="flex-grow">
                   <div className="admin-image">
                     <img
-                      src={product.productImg}
+                      // src={product.productImg}
+                      src={CLOUD_STORAGE_BASE_URL + product.productImg}
                       alt={product.productName}
                       style={{ width: "100%", borderRadius: "8px" }}
                     />
@@ -172,10 +179,10 @@ const AdminRequestDetailed = () => {
                   </div>
                 </div>
               </div>
-              <div className="justify-center admin-container-bottom">
+              <div className="admin-container-bottom">
                 <Button
                   onClick={handleApprove}
-                  className="confirm-btn"
+                  className="admin-small-btn"
                   variant="contained"
                   disabled={approvalLoading}
                 >
@@ -183,7 +190,7 @@ const AdminRequestDetailed = () => {
                 </Button>
                 <Button
                   onClick={handleReject} // 거절 핸들러 연결
-                  className="confirm-btn"
+                  className="admin-small-btn"
                   variant="contained"
                 >
                   거절

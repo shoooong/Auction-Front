@@ -206,7 +206,7 @@
 
 
 /* 알림 */
-.alarm-popup {background: rgba(0,0,0,0.4); width: 100%; height: 100%; z-index: 9999999999; position: absolute; top: 0;}
+.alarm-popup {background: rgba(0,0,0,0.4); width: 100%; height: 100%; z-index: 9999999999; position: fixed; top: 0; left: 0;}
 .alarm-wrap {background: #fff; width: 400px; height: 100%; position: fixed; top: 0; right: 0;}
 
 .alarm-wrap .title-box {padding: 25px 20px;}

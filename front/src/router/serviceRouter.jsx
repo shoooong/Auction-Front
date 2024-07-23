@@ -64,7 +64,7 @@ export default function clothesRouter() {
             ),
         },
         {
-            path: "request/productId",
+            path: "request/:productId",
             element: (
                 <Suspense fallback={Loading}>
                 <RequestProductDetail />

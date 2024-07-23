@@ -11,6 +11,7 @@ import AdminInquiry from "pages/serviceCenter/inquiry/AdminInquiryPage";
 import AdminInquiryDetail from "pages/serviceCenter/inquiry/AdminInquiryDetailTop";
 import NoticeRegistration from "pages/serviceCenter/notice/NoticeRegistration";
 import AdminLuckyDetail from "pages/serviceCenter/notice/AdminLuckyDrawDetailPage";
+import LuckyDrawRegister from "pages/serviceCenter/notice/LuckyDrawRegister";
 
 const AdminRouter = () => {
   return [
@@ -75,9 +76,15 @@ const AdminRouter = () => {
       path: "notice/notice/:noticeId",
       element: <AdminLuckdraws />,
     },
+    // 일반 공지사항 등록
     {
       path: "notice/register",
       element: <NoticeRegistration />,
+    },
+    // 이벤트 공지사항 등록
+    {
+      path: "notice/eventregister",
+      element: <LuckyDrawRegister />,
     },
     {
       // 1:1문의

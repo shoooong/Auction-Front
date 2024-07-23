@@ -51,10 +51,6 @@ const mainRouter = () => {
                     element: <TechMain />,
                 },
                 {
-                    path: "rank",
-                    element: <StyleRanking />,
-                },
-                {
                     path: "luckydraw",
                     element: <LuckyDraw />,
                 },
@@ -84,6 +80,10 @@ const mainRouter = () => {
         {
             path: "style",
             element: <Style />,
+        },
+        {
+            path: "style/rank",
+            element: <StyleRanking />,
         },
         {
             path: "style/register",

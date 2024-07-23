@@ -12,7 +12,7 @@ const StyleRankingList = () => {
         const fetchFeeds = async () => {
             try {
                 const response = await axios.get(
-                    `${SERVER_URL}/feed/feedRanking§`
+                    `${SERVER_URL}/feed/feedRanking`
                 );
                 const data = response.data.map((feed) => ({
                     id: feed.feedId,

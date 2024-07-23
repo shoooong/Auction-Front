@@ -45,9 +45,15 @@ export const modifyUser = async (user) => {
   }
 };
 
-export const registerUser = async (userData) => {
+export const registerUser = async (userData, file) => {
+  const header = { headers: { "Content-Type": "multipart/form-data" } };
+
+  const formData = new FormData();
+  formData.append('userRegisterDTO', new Blob([JSON.stringify(userData)], {type: "application/json"}));
+  formData.append('file', file);
+
   try {
-    const res = await axios.post(`${SERVER_URL}/user/register`, userData);
+    const res = await axios.post(`${SERVER_URL}/user/register`, formData, header);
     return res.data;
   } catch (error) {
     console.error("axios register error...", error);

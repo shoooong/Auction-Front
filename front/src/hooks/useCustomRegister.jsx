@@ -6,13 +6,13 @@ import { setCookie } from "pages/user/cookieUtil";
 const useCustomRegister = () => {
   const navigate = useNavigate();
 
-  const doRegister = async (registerParam) => {
+  const doRegister = async (registerParam, file) => {
     try {
       // const registerData = await registerUser(registerParam);
       // isAdmin 플래그에 따라 registerUser 또는 registerAdmin 호출
       const registerData = registerParam.isAdmin
         ? await registerAdmin(registerParam)
-        : await registerUser(registerParam);
+        : await registerUser(registerParam, file);
 
       if (!registerData.error) {
         const loginParam = {

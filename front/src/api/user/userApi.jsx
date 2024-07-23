@@ -33,14 +33,18 @@ export const getUser = async () => {
   }
 };
 
-export const modifyUser = async (user) => {
-  try {
-    const res = await jwtAxios.put(`${SERVER_URL}/mypage/modify`, user);
+export const modifyUser = async (user, file) => {
+  const header = { headers: { "Content-Type": "multipart/form-data" } };
 
+  const formData = new FormData();
+  formData.append('userModifyDTO', new Blob([JSON.stringify(user)], {type: "application/json"}));
+  formData.append('file', file);
+
+  try {
+    const res = await jwtAxios.put(`${SERVER_URL}/mypage/modify`, formData, header);
     return res.data;
   } catch (error) {
-    console.error("jwtAxios modify error...", error);
-
+    console.error("jwtAxios modify error…", error);
     throw error;
   }
 };

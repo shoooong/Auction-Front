@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { getCookie } from "pages/user/cookieUtil";
 import { getUser, modifyUser } from "api/user/userApi";
-import { formatPhoneNumber } from "../mypageUtil";
-
-import photo from "assets/images/myson.jpg";
+import { formatPhoneNumber, maskEmail } from "../mypageUtil";
 
 const initState = {
     email: '',
@@ -17,9 +15,11 @@ const initState = {
 
 const ModifyPage = () => {
     const [user, setUser] = useState(initState);
+    const [file, setFile] = useState(null);
     const navigate = useNavigate();
-    
 
+    const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
+    
     useEffect(() => {
         const userInfo = getCookie("user");
 
@@ -48,8 +48,8 @@ const ModifyPage = () => {
     }
 
     const handleClickModify = async () => {
-        try {
-            await modifyUser(user);
+        try {   
+            await modifyUser(user, file);
             alert('회원 정보가 성공적으로 수정되었습니다.');
             navigate('/mypage');
         } catch (error) {
@@ -59,31 +59,20 @@ const ModifyPage = () => {
     };
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
 
+        const reader = new FileReader();
         reader.onloadend = () => {
             setUser(prevState => ({ ...prevState, profileImg: reader.result }));
         };
 
-        if (file) {
-            reader.readAsDataURL(file);
+        if (selectedFile) {
+            reader.readAsDataURL(selectedFile);
         }
     };
 
-    const maskEmail = (email) => {
-        const [localPart, domainPart] = email.split('@');
-        const localPartLength = localPart.length;
-
-        if (localPartLength <= 2) {
-            return '*'.repeat(localPartLength) + '@' + domainPart;
-        }
-
-        const visiblePart = localPart.slice(0, 2);
-        const maskedPart = '*'.repeat(localPartLength - 2);
-
-         return `${visiblePart}${maskedPart}@${domainPart}`;
-    };
+    
 
     return (
         <div className="profile-modify-container">
@@ -93,8 +82,7 @@ const ModifyPage = () => {
 
             <div className="profile-top-container">
                 <div className="profileImg-modify-container">
-                    {/* <img className="modify-img" src={user.profileImg} alt="프로필 이미지" /> */}
-                    <img className="modify-img" src={photo} alt="이앤톤" />
+                    <img className="modify-img" src={user.profileImg.startsWith('data:') ? user.profileImg : `${CLOUD_STORAGE_BASE_URL}/mypage/${user.profileImg}`} alt="프로필 이미지" />
                     <div className="profile-input-container">
                         <input type="file" id="file-input" accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
                         <label htmlFor="file-input" className="profile-input-label">파일 선택</label>

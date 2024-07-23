@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import useCouponEvent from "hooks/useCouponEvent";
 import { useNavigate } from "react-router-dom";
-import jwtAxios from "pages/user/jwtUtil";
-import couponDownBtn from "assets/images/coupon_down.svg";
-import "styles/event.css";
-import { getCookie } from "pages/user/cookieUtil";
 import { SERVER_URL } from "api/serverApi";
+import jwtAxios from "pages/user/jwtUtil";
+
+import useCouponEvent from "hooks/useCouponEvent";
+import { getCookie } from "pages/user/cookieUtil";
+
+import couponDownBtn from "assets/images/coupon_down.svg";
 
 export default function Event() {
     const { coupons } = useCouponEvent();
@@ -24,7 +25,13 @@ export default function Event() {
             const { accessToken } = userInfo;
 
             const response = await jwtAxios.post(
-                `${SERVER_URL}/coupon/${couponId}/issue`
+                `${SERVER_URL}/coupon/${couponId}/issue`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
             );
 
             console.log(response.data);
@@ -37,55 +44,54 @@ export default function Event() {
 
     return (
         <>
-            <div className="bg bg-gray">
+            <div className="coupon-event bg-gray">
                 <div className="event-banner"></div>
-                <div className="container fle column-direction justify-center align-center">
-                    <div></div>
-                    <div className="text-center">
-                        <div className="text-box">
-                            <span className="text40 fc-blue">
-                                매일매일{" "}
-                                <span className="fc-black">진행되는</span>
-                            </span>
-                            <p className="text40 fc-black">타임어택 Event!</p>
-                        </div>
+                <div className="container">
+                    <div className="text-box text-center">
+                        <span>
+                            <span>매일매일</span> 진행되는
+                        </span>
+                        <p>타임어택 Event!</p>
                     </div>
 
                     {coupons.map((item) => (
-                        <div
-                            key={item.couponId}
-                            className="flex align-center column-direction justify-center"
-                        >
-                            <div className="coupon-container">
-                                <div className="coupon-content1">
-                                    <p className="text60">
-                                        {item.amount.toLocaleString()}
-                                        {item.discountType === "PERCENT"
-                                            ? "%"
-                                            : "원"}
-                                    </p>
-                                    <p className="text18">{item.content}</p>
-                                    <p className="text16">
-                                        1인당 1장씩 발급 가능
-                                    </p>
-                                </div>
-                                <div
-                                    className="coupon-content2"
-                                    onClick={() =>
-                                        handleCouponIssue(item.couponId)
-                                    }
-                                >
-                                    <div className="coupon-downBtn">
-                                        <img src={couponDownBtn} alt="coupon" />
+                        <div key={item.couponId} className="justify-center">
+                            <div>
+                                <div className="coupon-container">
+                                    <div className="coupon-content1">
+                                        <h3>
+                                            {item.amount.toLocaleString()}
+                                            {item.discountType === "PERCENT"
+                                                ? "%"
+                                                : "원"}
+                                        </h3>
+                                        <h4 className="text18">
+                                            {item.content}
+                                        </h4>
+                                        <p className="text16">
+                                            1인당 1장씩 발급 가능
+                                        </p>
                                     </div>
-                                    <div className="issue">
-                                        <p className="issue-p">발급</p>
+                                    <div
+                                        className="coupon-content2 w20p"
+                                        onClick={() =>
+                                            handleCouponIssue(item.couponId)
+                                        }
+                                    >
+                                        <div className="coupon-downBtn">
+                                            <img
+                                                src={couponDownBtn}
+                                                alt="coupon"
+                                            />
+                                        </div>
+                                        <span className="issue">발급</span>
                                     </div>
                                 </div>
+                                <p className="exp">
+                                    * 쿠폰은 발급일로부터 7일 이내에 사용
+                                    가능합니다.
+                                </p>
                             </div>
-                            <p className="exp text16">
-                                쿠폰은 발급일로부터 7일 이내에 사용 가능합니다.
-                            </p>
                         </div>
                     ))}
                 </div>

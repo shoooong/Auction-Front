@@ -5,7 +5,7 @@ import { SERVER_URL } from "api/serverApi";
 // TODO: JWT를 사용해야 하는 api에서는 기존의 axios 대신 jwtAxios를 사용할 것
 const jwtAxios = axios.create({
     withCredentials: true,
-    baseURL: SERVER_URL
+    baseURL: SERVER_URL,
 });
 
 

@@ -16,6 +16,7 @@ const initState = {
 const ModifyPage = () => {
     const [user, setUser] = useState(initState);
     const [file, setFile] = useState(null);
+
     const navigate = useNavigate();
 
     const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
@@ -41,10 +42,9 @@ const ModifyPage = () => {
         fetchData();
     }, [navigate]);
 
-    const handleChange = (e) => {
-        user[e.target.name] = e.target.value;
-
-        setUser({...user});
+    const handleChange = ({ target: { name, value } }) => {
+        setUser((prev) => ({ ...prev,
+            [name]: name === "password" ? (value ? value : null) : value  }));
     }
 
     const handleClickModify = async () => {
@@ -104,7 +104,7 @@ const ModifyPage = () => {
                     <input name="phoneNum" type={'text'} value={formatPhoneNumber(user.phoneNum)} onChange={handleChange} />
                 </div>
                 <div className="modify-password">
-                    <input name="password" type={'password'} value={user.password} onChange={handleChange} />
+                    <input name="password" type={'password'} placeholder="비밀번호는 영문, 숫자, 특수문자를 포함하여 10자 이상이어야 합니다." onChange={handleChange} />
                 </div>
             </div>
 

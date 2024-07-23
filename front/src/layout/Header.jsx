@@ -32,12 +32,23 @@ export default function Header() {
                             <Link to="/service/notice">고객센터</Link>
                             <Link to="/mypage">마이페이지</Link>
                             <Link to="/mypage/bookmark">관심</Link>
+                            {/* {loginState ? (
+                                <Button
+                                    className="alarm-btn"
+                                    onClick={() => setAlarmOpen(true)}
+                                >
+                                    알림
+                                </Button>
+                            ) : (
+                                navigator("/user/login")
+                            )} */}
                             <Button
                                 className="alarm-btn"
                                 onClick={() => setAlarmOpen(true)}
                             >
                                 알림
                             </Button>
+
                             {!loginState.email ? (
                                 <Link to="/user/login">로그인</Link>
                             ) : (

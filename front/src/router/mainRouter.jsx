@@ -11,6 +11,7 @@ import serviceRouter from "./serviceRouter";
 import clothesRouter from "./clothesRouter";
 import luckyDrawRouter from "./luckyDrawRouter";
 
+
 import Style from "pages/style/Style";
 import Shop from "pages/shop/Shop";
 import LuckyDraw from "pages/draw/LuckyDraw";
@@ -25,6 +26,7 @@ import Sell from "pages/ordres/Sell";
 import TechMain from "pages/tech/TechMain";
 
 import Sample from "pages/Sample";
+import SuccessPage from "pages/payment/Success";
 
 const mainRouter = () => {
     return [
@@ -118,6 +120,10 @@ const mainRouter = () => {
         {
             path: "sell",
             element: <Sell />,
+        },
+        {
+            path: "success",
+            element: <SuccessPage />,
         },
     ];
 };

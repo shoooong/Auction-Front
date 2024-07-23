@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Box, IconButton } from "@mui/material";
-import { useLocation } from "react-router-dom"; // useLocation 훅을 import 합니다
+import { useLocation, useNavigate } from "react-router-dom"; // useNavigate 훅을 import 합니다
 import tempImg from "assets/images/feed4.png";
 import { SERVER_URL } from "api/serverApi";
 import BookmarkOff from "assets/images/bookmark-off.svg";
@@ -9,6 +9,7 @@ import BookmarkOn from "assets/images/bookmark-on.svg";
 
 const MainNewBuy = () => {
     const location = useLocation(); // 현재 경로를 가져옵니다
+    const navigate = useNavigate(); // 네비게이트 훅을 가져옵니다
     const [products, setProducts] = useState([]);
     const [visibleProducts, setVisibleProducts] = useState(5);
 
@@ -48,6 +49,11 @@ const MainNewBuy = () => {
         setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 5);
     };
 
+    const handleProductClick = (modelNum) => {
+        navigate(`clothes/details/${modelNum}`);  // 클릭된 상품의 상세 페이지로 이동합니다
+        return modelNum;
+    };
+
     return (
         <div>
             <Box className="box line">
@@ -57,11 +63,11 @@ const MainNewBuy = () => {
                     </h2>
                     <h3 className="product-sub-title">픽미픽미픽미 업</h3>
                 </Box>
-                <Box className="product-wrap inline-flex">
+                <Box className="product-wrap grid grid-column-5 grid-gap-x30">
                     {products
                         .slice(0, visibleProducts)
                         .map((product, index) => (
-                            <div className="product" key={index}>
+                            <div className="product" key={index} onClick={() => handleProductClick(product.modelNum)}>
                                 <div>
                                     <span className="rank">{product.rank}</span>
                                     <div className="image-container">
@@ -71,9 +77,11 @@ const MainNewBuy = () => {
                                             className="post-image"
                                         />
                                     </div>
-                                    {/* 순위 표시 */}
                                     <IconButton
-                                        onClick={() => handleLikeToggle(index)}
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // 아이콘 버튼 클릭 시 부모 div의 클릭 이벤트가 발생하지 않도록 방지합니다
+                                            handleLikeToggle(index);
+                                        }}
                                         className="icon-button"
                                     >
                                         {product.liked ? (

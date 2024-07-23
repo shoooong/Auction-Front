@@ -15,6 +15,11 @@
     border-radius: 10px;
     border: 1px solid #ebebeb;
 }
+.delivery_title > a,
+.btn_box > a {
+    color: rgba(34, 34, 34, 0.5);
+}
+
 .sub_text {
     font-size: 13px;
     color: rgba(34, 34, 34, 0.5);
@@ -45,7 +50,9 @@
     font-size: 14px;
     color: #000;
 }
-
+.bold {
+    font-weight: 600;
+}
 .buy_bg {
     padding: 20px;
     width: 100%;
@@ -121,6 +128,16 @@
     flex-direction: row;
     /* justify-content: sp; */
 }
+.btn_shipping_memo > img {
+    width: 4px;
+    height: 8px;
+}
+.memo_box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 15px 0px 15px;
+}
 
 .delivery_info {
     margin: 12px 0px;
@@ -172,14 +189,13 @@ dd.desc {
     /* width: 50px; */
     height: 34px;
 
-    color: rgba(34, 34, 34, 0.8);
+    color: rgba(34, 34, 34, 0.5);
     font-size: 12px;
     padding: 0 14px;
 }
 
 .btn_shipping_memo {
     text-align: start;
-    text-indent: 16px;
     width: 636px;
     height: 48px;
 }
@@ -191,6 +207,12 @@ dd.desc {
 /* 쿠폰 */
 .coupon_info_area > .desc {
     margin: 12px 0px 6px 0px;
+}
+.coupon_box {
+    padding: 0px 15px 0px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .main_title > .sub_text {
     margin-left: 6px;
@@ -211,4 +233,68 @@ dd.desc {
 .pay_img {
     height: 40px;
     width: 40px;
+}
+/* 주문 */
+.final_order_info_area {
+    height: 230px;
+    padding: 32px 32px 6px 32px;
+}
+.order_main_title > .order_item {
+    display: flex;
+    justify-content: space-between;
+    margin: 14px 0px;
+}
+.order_main_title div:first-child > .desc {
+    margin-top: 2px;
+}
+.order_item > .sub_text {
+    font-size: 14px;
+}
+
+/* order_payment */
+.order_payment_area {
+    background-color: #fafafa;
+    margin: 2px 0px -6px 0px;
+    height: 90px;
+    padding: 22px 32px 22px 32px;
+    /* display: flex; */
+}
+.pay_text16 {
+    font-size: 16px;
+    color: black;
+}
+.pay_text20 {
+    margin-top: 13px;
+    font-size: 20px;
+    font-weight: 700;
+    color: black;
+    text-align: end;
+}
+.pay_btn_box {
+    height: 52px;
+    border-radius: 10px;
+    /* background: #d3d3d3; */
+    background-color: #537fef;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+}
+.pay_btn {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+}
+.result_wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.order_box_section {
+    width: 440px;
+    height: 708px;
+    background-image: url("../assets/images/order.svg"); /* 배경 이미지 경로 */
+    background-size: cover; /* 배경 이미지 크기 */
+    background-position: center; /* 배경 이미지 위치 */
+    background-repeat: no-repeat; /* 배경 이미지 반복 여부 */
 }

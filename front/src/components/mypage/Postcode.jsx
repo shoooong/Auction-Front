@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import "styles/postcode.css";
+
 const Postcode = ({ onSave, selectedAddress }) => {
     const [zonecode, setZonecode] = useState('');
     const [roadAddress, setRoadAddress] = useState('');
@@ -9,7 +11,8 @@ const Postcode = ({ onSave, selectedAddress }) => {
     const [guide, setGuide] = useState('');
 
     const [defaultAddress, setDefaultAddress] = useState(false);
-    const [addressName, setAddressName] = useState('');
+    const [name, setName] = useState('');
+    const [addrPhone, setAddrPhone] = useState('');
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -30,7 +33,9 @@ const Postcode = ({ onSave, selectedAddress }) => {
             setExtraAddress(selectedAddress.extraAddress);
             setDetailAddress(selectedAddress.detailAddress);
             setDefaultAddress(selectedAddress.defaultAddress);
-            setAddressName(selectedAddress.addressName);
+            setName(selectedAddress.name);
+            setAddrPhone(selectedAddress.addrPhone);
+
         }
     }, [selectedAddress]);
 
@@ -80,7 +85,8 @@ const Postcode = ({ onSave, selectedAddress }) => {
             detailAddress,
             extraAddress,
             defaultAddress,
-            addressName
+            name,
+            addrPhone
         };
 
         if (selectedAddress) {
@@ -91,21 +97,22 @@ const Postcode = ({ onSave, selectedAddress }) => {
     };
 
     return (
-        <div>
+        <div className="postcode-container">
             <input type="text" id="sample4_postcode" placeholder="우편번호" value={zonecode} readOnly />
-            <input type="button" onClick={openPostcode} value="우편번호 찾기" /><br />
+            <input type="button" onClick={openPostcode} value="우편번호 찾기" />
             <input type="text" id="sample4_roadAddress" placeholder="도로명주소" value={roadAddress} readOnly />
             <input type="text" id="sample4_jibunAddress" placeholder="지번주소" value={jibunAddress} readOnly />
             <span id="guide" style={{ color: '#999', display: guide ? 'block' : 'none' }}>{guide}</span>
             <input type="text" id="sample4_detailAddress" placeholder="상세주소" value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
             <input type="text" id="sample4_extraAddress" placeholder="참고항목" value={extraAddress} readOnly />
 
-            <label>
-                <input type="checkbox" checked={defaultAddress} onChange={(e) => setDefaultAddress(e.target.checked)} />
+            <input type="text" placeholder="수령인 이름" value={name} onChange={(e) => setName(e.target.value)} />
+            <input type="text" placeholder="예) 01012345678" value={addrPhone} onChange={(e) => setAddrPhone(e.target.value)} />
+            
+            <label className="default-address-label">
+                <input type="checkbox" checked={defaultAddress} onChange={(e) => setDefaultAddress(e.target.checked)} className="default-address-checkbox" />
                 기본 배송지로 설정
             </label>
-            <input type="text" placeholder="배송지명" value={addressName} onChange={(e) => setAddressName(e.target.value)} />
-
             <button type="button" onClick={handleSave}>저장</button>
         </div>
     );

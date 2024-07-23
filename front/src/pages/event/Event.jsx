@@ -78,7 +78,7 @@ export default function Event() {
                                             handleCouponIssue(item.couponId)
                                         }
                                     >
-                                        <div className="coupon-downBtn ">
+                                        <div className="coupon-downBtn">
                                             <img
                                                 src={couponDownBtn}
                                                 alt="coupon"

@@ -94,7 +94,7 @@ export default function SaleHistory() {
                     <p>{formatPrice(sale.saleBiddingPrice)}원</p>
                     <p>{getStatusText(sale.salesStatus)}</p>
                     {showCancelButton && (
-                        <button onClick={() => cancelBidding(sale.salesBiddingId)}>입찰 취소</button>
+                        <button className="bidding-cancel-btn" onClick={() => cancelBidding(sale.salesBiddingId)}>입찰 취소</button>
                     )}
                 </div>
             ))
@@ -108,8 +108,8 @@ export default function SaleHistory() {
 
 
     return (
-        <div>
-            <div className="history-title">
+        <div className="full-container">
+            <div className="detail-history-title">
                 <h2 className="title">판매 내역</h2>
             </div>
 

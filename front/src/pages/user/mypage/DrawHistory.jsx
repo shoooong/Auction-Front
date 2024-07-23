@@ -45,8 +45,8 @@ const DrawHistory = () => {
     };
 
     return (
-        <div>
-            <div className="history-title">
+        <div className="full-container">
+            <div className="detail-history-title">
             <h2 className="title">응모 내역</h2>
             </div>
             <div className="draw-summary">

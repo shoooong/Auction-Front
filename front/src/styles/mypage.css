@@ -271,6 +271,9 @@ body에 line-height = 1 꼭 필요한가?
     padding: 20px;
     margin-top: 80px;
 }
+.profile-top-container input {
+    width: 100%;
+}
 
 .profileImg-modify-container {
     display: flex;
@@ -320,7 +323,7 @@ body에 line-height = 1 꼭 필요한가?
    margin-top: 30px;
 }
 
-.profile-bottom-container input[type="password"] {
+.profile-bottom-container input {
     width: 100%;
 }
 

@@ -1,0 +1,26 @@
+/* ProductRequestList.css */
+.request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .request-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .request-card h3 {
+    margin-top: 0;
+  }
+  
+  .request-card p {
+    margin: 8px 0;
+  }
+  

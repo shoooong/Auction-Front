@@ -14,6 +14,15 @@ const InquiryDetail = lazy(() =>
 const NoticeRegister = lazy(() =>
     import("pages/serviceCenter/notice/NoticeRegistration")
 );
+const RequestProductList = lazy(() =>
+    import("pages/requestproduct/RequestProductList")
+);
+const RequestProductDetail = lazy(() =>
+    import("pages/requestproduct/productRequestDetail")
+);
+const RequestProductRegister = lazy(() =>
+    import("pages/requestproduct/RequestProduct")
+);
 const Loading = <div>Loading...</div>;
 
 export default function clothesRouter() {
@@ -44,7 +53,30 @@ export default function clothesRouter() {
         },
         {
             path: "request",
-            element: <div>미등록 상품 등록요청</div>,
+            element: (
+                <Suspense fallback={Loading}>
+                <RequestProductList />
+                </Suspense>
+
+            ),
+        },
+        {
+            path: "request/:productId",
+            element: (
+                <Suspense fallback={Loading}>
+                <RequestProductDetail />
+                </Suspense>
+
+            ),
+        },
+        {
+            path: "request/register",
+            element: (
+                <Suspense fallback={Loading}>
+                <RequestProductRegister />
+                </Suspense>
+
+            ),
         },
         {
             path: "inquiryRegistration",

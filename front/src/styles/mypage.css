@@ -320,6 +320,10 @@ body에 line-height = 1 꼭 필요한가?
    margin-top: 30px;
 }
 
+.profile-bottom-container input[type="password"] {
+    width: 100%;
+}
+
 .profile-button {
     display: flex;
     justify-content: center;
@@ -343,6 +347,8 @@ body에 line-height = 1 꼭 필요한가?
 .profile-button button[type="button"]:last-of-type {
     background-color: #f4f4f4;
 }
+
+
 
 
 

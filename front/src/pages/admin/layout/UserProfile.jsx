@@ -2,8 +2,6 @@ import { Box, Typography, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import selkiAvatar from "assets/images/selkiAvatar.svg";
-import bumsu from "assets/images/bumsu.svg"; // 기본 아바타 이미지
 import useCustomLogin from "hooks/useCustomLogin";
 
 const UserProfile = () => {
@@ -12,11 +10,13 @@ const UserProfile = () => {
 
   const isLoggedIn = !!loginState.email;
 
+  const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
+
   return (
     <Box className="row-direction admin-profile-container">
       <Avatar
         alt={isLoggedIn ? loginState.nickname : "not defined"}
-        src={isLoggedIn ? selkiAvatar : bumsu}
+        src={`${CLOUD_STORAGE_BASE_URL}/mypage/${loginState.profileImg}`}
         sx={{ width: 48, height: 48, marginRight: "16px" }}
       />
       <Box>

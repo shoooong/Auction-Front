@@ -33,21 +33,31 @@ export const getUser = async () => {
   }
 };
 
-export const modifyUser = async (user) => {
-  try {
-    const res = await jwtAxios.put(`${SERVER_URL}/mypage/modify`, user);
+export const modifyUser = async (user, file) => {
+  const header = { headers: { "Content-Type": "multipart/form-data" } };
 
+  const formData = new FormData();
+  formData.append('userModifyDTO', new Blob([JSON.stringify(user)], {type: "application/json"}));
+  formData.append('file', file);
+
+  try {
+    const res = await jwtAxios.put(`${SERVER_URL}/mypage/modify`, formData, header);
     return res.data;
   } catch (error) {
-    console.error("jwtAxios modify error...", error);
-
+    console.error("jwtAxios modify error…", error);
     throw error;
   }
 };
 
-export const registerUser = async (userData) => {
+export const registerUser = async (userData, file) => {
+  const header = { headers: { "Content-Type": "multipart/form-data" } };
+
+  const formData = new FormData();
+  formData.append('userRegisterDTO', new Blob([JSON.stringify(userData)], {type: "application/json"}));
+  formData.append('file', file);
+
   try {
-    const res = await axios.post(`${SERVER_URL}/user/register`, userData);
+    const res = await axios.post(`${SERVER_URL}/user/register`, formData, header);
     return res.data;
   } catch (error) {
     console.error("axios register error...", error);
@@ -55,9 +65,15 @@ export const registerUser = async (userData) => {
   }
 };
 
-export const registerAdmin = async (userData) => {
+export const registerAdmin = async (userData, file) => {
+  const header = { headers: { "Content-Type": "multipart/form-data" } };
+
+  const formData = new FormData();
+  formData.append('userRegisterDTO', new Blob([JSON.stringify(userData)], {type: "application/json"}));
+  formData.append('file', file);
+
   try {
-    const res = await axios.post(`${SERVER_URL}/user/register/admin`, userData);
+    const res = await axios.post(`${SERVER_URL}/user/register/admin`, formData, header);
     return res.data;
   } catch (error) {
     console.error("axios register error...", error);

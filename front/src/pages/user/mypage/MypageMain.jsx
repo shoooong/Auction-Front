@@ -31,8 +31,7 @@ export default function MypageMain() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    // const CLOUD_STORAGE_BASE_URL =
-    //     "https://kr.object.ncloudstorage.com/push/shooong";
+    const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,8 +72,7 @@ export default function MypageMain() {
             {profile && (
                 <div className="profile-container">
                     <div className="profile">
-                    {/* <img src={`${CLOUD_STORAGE_BASE_URL}/mypage${profile.profileImg}`} alt="프로필사진" /> */}
-                        <img src={photo} alt="이앤톤" />
+                    <img src={`${CLOUD_STORAGE_BASE_URL}/mypage/${profile.profileImg}`} alt="프로필사진" />
                         <div>
                             <p>{profile.nickname}</p>
                             <p>{maskEmail(profile.email)}</p>

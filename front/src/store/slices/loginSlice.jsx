@@ -1,26 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginPost } from "api/user/userApi";
-import { getCookie, setCookie, removeCookie } from "pages/user/cookieUtil";
+import { loginPost } from "../../api/user/userApi";
+import { getCookie, setCookie, removeCookie } from "../../pages/user/cookieUtil";
 
 const initState = {
     email:'',
     password:'',
     nickname:'',
     phoneNum: '',
-    profileImg: '',
-
-    isLogin: false,
+    profileImg: ''
 };
 
 const loadMemberCookie = () => {
     
-    const isLogin = getCookie("isLogin");
+    const userInfo = getCookie("user");
 
-    if (isLogin === "true") {
-        return { isLogin: true };
-    }
+    if (userInfo && userInfo.nickname) {
+        userInfo.nickname = decodeURIComponent(userInfo.nickname);
 
-    return { isLogin: false };
+        console.log("userInfo: " + userInfo);
+
+    };
+
+    return userInfo;
 }
 
 export const loginPostAsync = createAsyncThunk('loginPostAsync', (param) => {
@@ -34,24 +35,36 @@ const loginSlice = createSlice({
         login: (state, action) => {
             console.log("login...");
 
-            console.log("Payload for cookie:", action.payload);
+            const payload = action.payload;
+
+            console.log("Payload for cookie:", payload);
+
+            setCookie("user", JSON.stringify(payload), 1);
         
-            return { ...state, isLogin: true };
+
+            return { ...state, ...payload };
         },
         logout: (state, action) => {
             console.log("logout...");
 
-            removeCookie('isLogin');
+            removeCookie("user");
 
-            return { ...initState, isLogin: false };
+            return {...initState}
         }
     },
     extraReducers: (builder) => {
         builder.addCase( loginPostAsync.fulfilled, (state, action) => {
             console.log("fulfilled");
-            console.log("Payload for cookie:", action.payload);
 
-            return { ...state, isLogin: true };
+            const payload = action.payload;
+
+            if (!payload.error) {
+                setCookie("user", JSON.stringify(payload), 1)         // 1일
+            }
+
+            console.log("Payload for cookie:", payload);
+
+            return { ...state, ...payload };
         })
         .addCase(loginPostAsync.pending, (state,action) => {
             console.log("pending")

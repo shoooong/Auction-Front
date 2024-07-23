@@ -50,7 +50,7 @@ const AdminNoticeDetailContainer = () => {
       try {
         await jwtAxios.delete(`${SERVER_URL}/notice/user/deleteNotice/${noticeId}`);
         console.log('Notice deleted successfully');
-        navigate('/admin/notices');
+        navigate('/admin/notice');
       } catch (err) {
         console.error('공지사항 삭제 실패:', err);
       }

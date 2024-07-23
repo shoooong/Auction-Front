@@ -1,7 +1,7 @@
 import React from "react";
 import "./NoticeItem.css";
 
-const NoticeItem = ({ type, title }) => {
+const AdminNoticeItem = ({ type, title }) => {
     return (
         <li className="notice-item">
             <span className="notice-type">{type}</span>
@@ -10,4 +10,4 @@ const NoticeItem = ({ type, title }) => {
     );
 };
 
-export default NoticeItem;
+export default AdminNoticeItem;

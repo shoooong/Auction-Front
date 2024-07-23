@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import NoticeTabs from "./NoitceTab";
 import NoticeList from "./NoticeList";
-import NoticeTab from "./NoitceTab";
 
 const Notice = () => {
+    const [activeTab, setActiveTab] = useState("all");
+
     return (
         <div>
-            <NoticeTab />
-            <NoticeList />
+            <NoticeTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <NoticeList activeTab={activeTab} />
         </div>
     );
 };

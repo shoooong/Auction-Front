@@ -1,6 +1,6 @@
 import React from "react";
 
-const NoticeTabs = ({ activeTab, setActiveTab }) => {
+const AdminNoticeTabs = ({ activeTab, setActiveTab }) => {
     const tabButtons = [
         { label: "전체", value: "all" },
         { label: "공지", value: "notice" },
@@ -32,4 +32,4 @@ const NoticeTabs = ({ activeTab, setActiveTab }) => {
     );
 };
 
-export default NoticeTabs;
+export default AdminNoticeTabs;

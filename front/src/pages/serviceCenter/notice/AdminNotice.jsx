@@ -1,20 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import AdminNoticeList from './AdminNoticeList';
-import NoticeTab from './NoitceTab';
+import React, { useState } from "react";
+import AdminNoticeTabs from "./AdminNoticeTabs";
+import AdminNoticeList from "./AdminNoticeList";
 
 const AdminNotice = () => {
-  return (
-    <div className="app-container">
-      <div className="content-container">
-        <NoticeTab />
-        <Link to="/admin/notice/register" className="create-notice-btn">
-          공지사항 등록하기
-        </Link>
-        <AdminNoticeList />
-      </div>
-    </div>
-  );
+    const [activeTab, setActiveTab] = useState("all");
+
+    return (
+        <div>
+            <AdminNoticeTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <AdminNoticeList activeTab={activeTab} />
+        </div>
+    );
 };
 
 export default AdminNotice;

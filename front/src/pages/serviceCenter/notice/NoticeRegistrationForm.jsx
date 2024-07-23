@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const NoticeRegistrationForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [type, setType] = useState('notice'); // 공지사항 유형 상태
+  const [type, setType] = useState('notice');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ const NoticeRegistrationForm = () => {
         setTitle('');
         setContent('');
         setType('notice');
-        navigate('/admin/notice'); // 등록 완료 후 이동할 페이지 경로
+        navigate('/admin/notice');
       }
     } catch (error) {
       console.error('Error registering notice:', error);

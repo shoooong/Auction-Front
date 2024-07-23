@@ -10,6 +10,7 @@ import AdminNoticeDetail from "pages/serviceCenter/notice/AdminNoticeDetail";
 import AdminInquiry from "pages/serviceCenter/inquiry/AdminInquiryPage";
 import AdminInquiryDetail from "pages/serviceCenter/inquiry/AdminInquiryDetailTop";
 import NoticeRegistration from "pages/serviceCenter/notice/NoticeRegistration";
+import AdminLuckyDetail from "pages/serviceCenter/notice/AdminLuckyDrawDetailPage";
 
 const AdminRouter = () => {
   return [
@@ -46,18 +47,33 @@ const AdminRouter = () => {
     },
     {
       //관리자 럭키드로우 상품 조회
-      path: "luckydraw",
-      element: <AdminLuckdraws />,
+      path: "notice/event/:luckyAnnouncementId",
+      element: <AdminLuckyDetail />,
     },
     {
       // 공지사항
       path: "notice",
       element: <AdminNotice />, //정식님이 만드신 관리자 공지사항
     },
-    // 공지사항 상세
+    // 일반 공지사항 상세
     {
-      path: "notice/:noticeId",
+      path: "notice/notice/:noticeId",
       element: <AdminNoticeDetail />,
+    },
+        // 공지사항 상세
+    {
+      path: "notice/notice/:noticeId",
+      element: <AdminNoticeDetail />,
+    },
+       // 일반 공지사항 상세
+    {
+      path: "notice/notice/:noticeId",
+      element: <AdminNoticeDetail />,
+    },
+    // 이벤트 공지사항 상세
+    {
+      path: "notice/notice/:noticeId",
+      element: <AdminLuckdraws />,
     },
     {
       path: "notice/register",

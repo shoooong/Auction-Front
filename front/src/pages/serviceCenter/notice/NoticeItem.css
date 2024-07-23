@@ -1,0 +1,17 @@
+/* NoticeItem.css */
+
+.notice-item {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.notice-type {
+    font-weight: bold; 
+    margin-right: 50px; 
+    color: #333;
+}
+
+.notice-title {
+    font-size: 16px; 
+    color: #000;
+}

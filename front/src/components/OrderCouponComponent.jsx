@@ -25,9 +25,15 @@ const OrderCouponComponent = ({ onSelectCoupon }) => {
                     <div className="order-coupon-content1">
                         <p className="coupon-amount">
                             {item.coupon.amount.toLocaleString()}
-                            {item.discountType === "PERCENT" ? "%" : "원"}
+                            {item.coupon.discountType === "PERCENT"
+                                ? "%"
+                                : "원"}
                         </p>
                         <p className="coupon-content">{item.coupon.content}</p>
+                        <div className="event_label">사용가능</div>
+                        <div className="coupon_condition">
+                            • 모든 상품에 사용 가능
+                        </div>
                     </div>
                     <div className="order-coupon-content2">
                         <p className="coupon-exp">

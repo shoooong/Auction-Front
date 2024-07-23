@@ -42,9 +42,41 @@
     font-weight: 700;
 }
 .coupon-content {
+    margin: 10px 0px 6px 0px;
     font-size: var(--ft14);
     font-weight: 500;
     color: #333;
+}
+.coupon_main_titleBox {
+    width: 1000px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.coupon_main_title {
+    text-align: start;
+    font-size: 28px;
+    color: #000;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.event_label {
+    width: 34px;
+    height: 14px;
+    background-color: #ff8a00;
+    border-radius: 1.5px;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 200;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.coupon_condition {
+    font-size: 13px;
+    margin: 10px 0px 10px 0px;
+    color: rgba(34, 34, 34, 0.5);
 }
 
 .coupon-exp {

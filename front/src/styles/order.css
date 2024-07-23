@@ -284,3 +284,17 @@ dd.desc {
     color: #fff;
     font-weight: 500;
 }
+.result_wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.order_box_section {
+    width: 440px;
+    height: 708px;
+    background-image: url("../assets/images/order.svg"); /* 배경 이미지 경로 */
+    background-size: cover; /* 배경 이미지 크기 */
+    background-position: center; /* 배경 이미지 위치 */
+    background-repeat: no-repeat; /* 배경 이미지 반복 여부 */
+}

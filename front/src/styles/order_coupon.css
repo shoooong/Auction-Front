@@ -60,3 +60,22 @@
     font-size: var(--ft13);
     color: rgba(51, 51, 51, 0.8);
 }
+
+.event_label {
+    width: 34px;
+    height: 14px;
+    background-color: #ff8a00;
+    border-radius: 1.5px;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 200;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.coupon_condition {
+    font-size: 13px;
+    margin: 10px 0px 10px 0px;
+    color: rgba(34, 34, 34, 0.5);
+}

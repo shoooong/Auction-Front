@@ -1,5 +1,6 @@
-
 import ProductDetail from "pages/product/ProductDetail";
+import bidRouter from "./bidRouter";
+
 export default function detailRouter() {
     return [
         {
@@ -10,5 +11,9 @@ export default function detailRouter() {
                 </>
             ),
         },
-    ]
+        {
+            path: ":modelNum/bid",
+            children: bidRouter()
+        }
+    ];
 }

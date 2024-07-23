@@ -39,7 +39,7 @@ const LuckyDrawForm = ({ onSubmit, onClose }) => {
 
   return (
     <div className="admin-form-wrapper">
-      <div className="admin-image-preview" onClick={triggerFileInput}>
+      <div className="admin-image" onClick={triggerFileInput}>
         {preview ? (
           <img src={preview} alt="이미지 미리보기" />
         ) : (

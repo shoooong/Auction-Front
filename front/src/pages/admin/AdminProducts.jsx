@@ -37,8 +37,10 @@ const AdminProducts = () => {
       console.log(products);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setProducts([]); // 에러 발생 시 빈 배열로 설정
     }
   };
+
   useEffect(() => {
     const checkLoginAndFetchData = async () => {
       const userInfo = getCookie("user");
@@ -52,7 +54,6 @@ const AdminProducts = () => {
     };
     checkLoginAndFetchData();
   }, [main, sub, navigate]);
-
   // useEffect(() => {}, [main, sub]);
 
   const changeMain = (event, newValue) => {
@@ -77,35 +78,33 @@ const AdminProducts = () => {
       headerName: "상품명",
       width: 150,
       headerAlign: "center",
-      align: "center",
+      align: "left",
+      flex: 1,
     },
     {
       field: "modelNum",
       headerName: "모델번호",
       width: 150,
       headerAlign: "center",
-      align: "center",
+      align: "left",
+      flex: 1,
     },
     {
       field: "productBrand",
       headerName: "브랜드",
       width: 150,
       headerAlign: "center",
-      align: "center",
+      align: "left",
+      flex: 1,
     },
-    {
-      field: "productSize",
-      headerName: "사이즈",
-      width: 150,
-      headerAlign: "center",
-      align: "center",
-    },
+
     {
       field: "mainDepartment",
       headerName: "대분류",
       width: 150,
       headerAlign: "center",
       align: "center",
+      flex: 1,
     },
     {
       field: "subDepartment",
@@ -119,11 +118,11 @@ const AdminProducts = () => {
   // products 데이터를 rows 형식으로 변환
   const rows = products.map((product, index) => ({
     id: product.productId,
-    indexId: index,
+    indexId: index + 1,
     productName: product.productName,
     modelNum: product.modelNum,
     productBrand: product.productBrand,
-    productSize: product.productSize,
+
     mainDepartment: product.mainDepartment,
     subDepartment: product.subDepartment,
   }));
@@ -163,6 +162,15 @@ const AdminProducts = () => {
             value={sub}
             label="소분류"
             onChange={handleChange}
+            sx={{
+              width: "80px",
+              height: "40px",
+              fontSize: "0.75rem",
+              marginTop: "10px",
+              "& .MuiSelect-select": {
+                padding: "8px", // Select 내부 padding 조정
+              },
+            }}
           >
             {/* <MenuItem key="default" value={main} disabled>
               {main}

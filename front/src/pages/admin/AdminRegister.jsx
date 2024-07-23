@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { TextField, Button } from "@mui/material";
 
 import useCustomRegister from "hooks/useCustomRegister";
+
+import defaultProfileImg from "assets/images/WelshCorgi.jpeg";
 
 const initState = {
   email: "",
@@ -14,8 +16,20 @@ const initState = {
 
 const AdminRegister = () => {
   const [registerParam, setRegisterParam] = useState({ ...initState });
+  const [file, setFile] = useState(null);
 
   const { doRegister, moveToPath } = useCustomRegister();
+
+  useEffect(() => {
+    fetch(defaultProfileImg)
+        .then(response => response.blob())
+        .then(blob => {
+            const defaultFile = new File([blob], "WelshCorgi.jpeg", { type: "image/jpeg" });
+            setFile(defaultFile);
+            setRegisterParam(prev => ({ ...prev, profileImg: URL.createObjectURL(defaultFile) }));
+        })
+        .catch(error => console.error('Error fetching default profile image:', error));
+  }, []);
 
   const handleChange = ({ target: { name, value } }) => {
     setRegisterParam((prev) => ({ ...prev, [name]: value }));
@@ -23,7 +37,7 @@ const AdminRegister = () => {
 
   const handleClickRegister = async (e) => {
     try {
-      const { registerData } = await doRegister(registerParam);
+      const { registerData } = await doRegister(registerParam, file);
 
       if (registerData.error) {
         alert("회원 가입에 실패했습니다. 다시 시도해주세요.");

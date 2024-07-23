@@ -18,7 +18,7 @@ const SubLife = () => {
     const loadMoreRef = useRef(null);
 
     useEffect(() => {
-        const category = location.pathname.split("/")[2] || "clothes";
+        const category = location.pathname.split("/")[2] || "life";
         const fetchProducts = async (page) => {
             try {
                 const response = await axios.get(
@@ -68,7 +68,7 @@ const SubLife = () => {
         setProducts([]);
         setPage(0);
         setHasNext(true);
-        navigate(`/clothes/details/${category}`);
+        navigate(`/life/details/${category}`);
     };
 
     return (

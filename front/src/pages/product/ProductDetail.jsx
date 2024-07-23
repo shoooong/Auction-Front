@@ -170,7 +170,7 @@ const ProductDetails = () => {
         if (currentTab === 'buy' || currentTab === 'all') {
             const sizeInfo = product.groupByBuyingList.find(item => item.productSize === String(size));
             return sizeInfo ? <span className="red-label">{sizeInfo.buyingBiddingPrice.toLocaleString()} 원</span> : "-";
-        } else if (currentTab === 'sell') {
+        } else if (currentTab === 'sales') {
             const sizeInfo = product.groupBySalesList.find(item => item.productSize === String(size));
             return sizeInfo ? <span className="green-label">{sizeInfo.productMaxPrice.toLocaleString()} 원 </span> : "-";
         }
@@ -247,38 +247,42 @@ const ProductDetails = () => {
             return;
         }
     
-        // 사이즈 값을 직접 비교합니다.
+        const simplifiedSize = selectedSize.replace('size-', ''); // 'size-' 부분 제거
+        console.log("Simplified Size:", simplifiedSize);
+    
         const selectedProduct = currentTab === 'buy'
-            ? product.groupByBuyingList.find(item => item.productSize === selectedSize)
-            : product.groupBySalesList.find(item => item.productSize === selectedSize);
+            ? product.groupByBuyingList.find(item => item.productSize === simplifiedSize)
+            : product.groupBySalesList.find(item => item.productSize === simplifiedSize);
+    
+        console.log("Selected Product:", selectedProduct);
     
         if (!selectedProduct) {
             alert("선택한 사이즈에 해당하는 상품이 없습니다.");
             return;
         }
     
-        console.log(modelNum);
-        console.log(selectedProduct.buyingBiddingPrice);
-        console.log(selectedProduct.salesBiddingPrice);
-    
         const size = selectedProduct.productSize;
         const type = currentTab === 'buy' ? 'buy' : 'sales';
+        const biddingPrice = currentTab === 'buy' ? selectedProduct.buyingBiddingPrice : selectedProduct.productMaxPrice; // 올바른 필드명 사용
     
-        navigate(`/products/details/${modelNum}/bid?size=${size}&type=${type}`, {
+        console.log("Model Number:", modelNum);
+        console.log("Bidding Price:", biddingPrice);
+        console.log("상품 ID:", selectedProduct.productId);
+    
+        navigate(`/clothes/details/${modelNum}/bid?size=${size}&type=${type}`, {
             state: {
                 productImg: product.productImg,
                 productName: product.productName,
                 modelNum: product.modelNum,
                 productSize: size,
-                biddingPrice: currentTab === 'buy' ? selectedProduct.buyingBiddingPrice : selectedProduct.salesBiddingPrice,
+                biddingPrice: biddingPrice, // 수정된 부분
                 productId: selectedProduct.productId,
                 userId: userInfo.userId,
                 currentTab: currentTab
             }
         });
+        console.log("전송");
     };
-    
-    
 
     return (
         <Box className="product-page">
@@ -336,7 +340,7 @@ const ProductDetails = () => {
                                 즉시 구매가
                             </span>
                         </button>
-                        <button className="flex-grow align-center inline-flex flex-start sell-btn btn btn-text" onClick={() => handleBuySellClick('sell')}>
+                        <button className="flex-grow align-center inline-flex flex-start sell-btn btn btn-text" onClick={() => handleBuySellClick('sales')}>
                             판매
                             <span>
                                 <span>

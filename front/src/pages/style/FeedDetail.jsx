@@ -6,7 +6,7 @@ import { SERVER_URL } from "api/serverApi";
 const FeedDetail = () => {
   const [feed, setFeed] = useState(null);
   const [error, setError] = useState(null);
-  const [isSaved, setIsSaved] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const { id } = useParams();
 
   const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
@@ -26,12 +26,18 @@ const FeedDetail = () => {
     fetchFeedDetail();
   }, [id]);
 
-  const handleSave = async () => {
+  const handleLikeClick = async () => {
     try {
-      await jwtAxios.post(`${SERVER_URL}/feed/user/saveFeedBookmark`, { feedId: id });
-      setIsSaved(!isSaved);
+      const response = await jwtAxios.post(`${SERVER_URL}/feed/user/likeFeed/${id}`);
+      if (response.status === 200) {
+        setIsLiked(true);
+        setFeed(prevFeed => ({
+          ...prevFeed,
+          likeCount: (prevFeed.likeCount || 0) + 1
+        }));
+      }
     } catch (error) {
-      console.error('Error saving feed:', error);
+      console.error('Error liking feed:', error);
     }
   };
 
@@ -46,13 +52,8 @@ const FeedDetail = () => {
         <p className="username">@{feed.userId ? `User ${feed.userId}` : 'Unknown'}</p>
         <p className="likes">❤️ {feed.likeCount}</p>
         <p className="description">{feed.feedContent}</p>
-        <button onClick={handleSave} className="save-button">
-          {isSaved ? (
-            <i className="fa-solid fa-bookmark"></i>
-          ) : (
-            <i className="fa-regular fa-bookmark"></i>
-          )}
-          {isSaved ? ' Saved' : ' Save'}
+        <button onClick={handleLikeClick} className="like-button">
+          ❤️ {isLiked ? 'Liked' : 'Like'}
         </button>
       </div>
     </div>

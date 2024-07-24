@@ -1,3 +1,13 @@
+.sales-summary-container {
+  padding: 20px;
+  height: 600px; /* 고정된 높이 설정 */
+  display: flex;
+  flex-direction: column;
+}
+.sales-list-container {
+  flex-grow: 1;
+  overflow-y: auto; /* 스크롤 가능하도록 설정 */
+}
 .purchase-head {
   align-items: center;
   border-bottom: 1px solid #ebebeb;
@@ -7,6 +17,31 @@
 .purchase-content {
   display: flex;
   max-height: 100px;
-  padding: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ebebeb;
   /* align-items: center; */
+}
+.purchase-img-container {
+  width: 80px;
+  height: 80px;
+}
+
+.purchase-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 부모 div에 맞추어 이미지 크기 조정 */
+  border-radius: 8px;
+}
+
+.purchase-info-container {
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  width: calc(100% - 70px);
+  padding-left: 30px;
+}
+.purchase-date-container {
+  flex-grow: 1;
+
+  padding-left: 10px;
 }

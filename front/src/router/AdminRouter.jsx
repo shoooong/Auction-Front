@@ -52,11 +52,6 @@ const AdminRouter = () => {
       element: <AdminLuckdraws />,
     },
     {
-      //관리자 럭키드로우 상품 상세 조회
-      path: "luckydraws/:luckyId",
-      element: <AdminLuckdraws />,
-    },
-    {
       //관리자 럭키드로우 공지 조회
       path: "notice/event/:luckyAnnouncementId",
       element: <AdminLuckyDetail />,

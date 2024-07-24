@@ -1,12 +1,14 @@
 import { getSales } from "api/admin/aMypageApi";
 import { useEffect, useState } from "react";
 import "styles/sales.css";
+import { CLOUD_STORAGE_BASE_URL } from "api/admin/productApi";
+import { Pagination } from "@mui/material";
 
 const SalesSummary = () => {
   const [sales, setSales] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1); // 페이지 번호를 1로 초기화
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -14,7 +16,7 @@ const SalesSummary = () => {
   const fetchData = async (page) => {
     setLoading(true);
     try {
-      const data = await getSales(page);
+      const data = await getSales(page - 1); // 페이지 번호를 0부터 시작하는 것으로 맞춤
       const newSales = data.salesSummaryList.content;
       const totalPrice = data.totalSalesPrice;
       const totalCount = data.totalSalesCount;
@@ -33,57 +35,50 @@ const SalesSummary = () => {
     fetchData(page);
   }, [page]);
 
-  const handlePrevPage = () => {
-    if (page > 0) {
-      setPage(page - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (page < totalPages - 1) {
-      setPage(page + 1);
-    }
+  const handlePageChange = (event, value) => {
+    setPage(value); // 페이지 번호 업데이트
   };
 
   return (
-    <div className="column-direction">
-      <div>
+    <div>
+      <div className="sales-summary-container">
         <div className="purchase-head">
           <div className="head-product">
-            <div>Total Sales Price: {totalPrice}</div>
-            <div>Total Sales Count: {totalCount}</div>
+            <div>총 판매 금액: {totalPrice.toLocaleString()}원</div>
+            <div>총 판매 수량: {totalCount}개</div>
           </div>
         </div>
 
-        <div className="column-direction">
+        <ol className="sales-list-container">
           {sales.map((item, index) => (
-            <div key={index} className="purchase-content">
-              <div>{item.productImg}</div>
-              <div>
+            <li key={index} className="purchase-content">
+              <div className="purchase-img-container">
+                <img src={CLOUD_STORAGE_BASE_URL + item.productImg} />
+              </div>
+              <div className="purchase-info-container">
                 <div>{item.productName}</div>
                 <div>{item.orderPrice}</div>
               </div>
-              <div>{new Date(item.orderDate).toLocaleDateString()}</div>
-            </div>
+              <div className="purchase-date-container">
+                {new Date(item.orderDate).toLocaleDateString()}
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
         {loading && (
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             Loading...
           </div>
         )}
       </div>
-      <div style={{ textAlign: "center", margin: "20px 0" }}>
-        <button onClick={handlePrevPage} disabled={page === 0}>
-          Previous
-        </button>
-        <button onClick={handleNextPage} disabled={page === totalPages - 1}>
-          Next
-        </button>
-      </div>
       {totalPages > 1 && (
-        <div style={{ textAlign: "center", margin: "20px 0" }}>
-          Page {page + 1} of {totalPages}
+        <div style={{ textAlign: "center", margin: "0 20px 30px" }}>
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            shape="rounded"
+          />
         </div>
       )}
     </div>

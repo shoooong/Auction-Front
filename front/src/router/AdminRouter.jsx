@@ -48,6 +48,16 @@ const AdminRouter = () => {
     },
     {
       //관리자 럭키드로우 상품 조회
+      path: "luckydraws",
+      element: <AdminLuckdraws />,
+    },
+    {
+      //관리자 럭키드로우 상품 상세 조회
+      path: "luckydraws/:luckyId",
+      element: <AdminLuckdraws />,
+    },
+    {
+      //관리자 럭키드로우 공지 조회
       path: "notice/event/:luckyAnnouncementId",
       element: <AdminLuckyDetail />,
     },
@@ -61,12 +71,12 @@ const AdminRouter = () => {
       path: "notice/notice/:noticeId",
       element: <AdminNoticeDetail />,
     },
-        // 공지사항 상세
+    // 공지사항 상세
     {
       path: "notice/notice/:noticeId",
       element: <AdminNoticeDetail />,
     },
-       // 일반 공지사항 상세
+    // 일반 공지사항 상세
     {
       path: "notice/notice/:noticeId",
       element: <AdminNoticeDetail />,

@@ -1,3 +1,4 @@
+import { PanoramaSharp } from "@mui/icons-material";
 import { SERVER_URL } from "api/serverApi";
 import axios from "axios";
 import jwtAxios from "pages/user/jwtUtil";
@@ -16,9 +17,25 @@ export const getRequest = async (productId) => {
 
 //관리자 페이지 요청상품 판매 승인으로 변경
 //요청상품 판매상품으로 등록
-export const acceptRequest = async (productId) => {
-  const res = await jwtAxios.put(`${SERVER_URL}/admin/requests/${productId}`);
-  return res.data;
+export const acceptRequest = async (productId, formData) => {
+  try {
+    const res = await jwtAxios.put(
+      `${SERVER_URL}/admin/requests/${productId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(
+      "Error modifying request:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
+  }
 };
 
 // 요청상품 기존상품에 등록되어 있을시 삭제

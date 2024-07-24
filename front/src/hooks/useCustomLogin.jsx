@@ -1,6 +1,7 @@
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, createSearchParams } from "react-router-dom";
-import { loginPostAsync, logout } from "../store/slices/loginSlice";
+import { loginPostAsync, logoutPostAsync } from "../store/slices/loginSlice";
 
 const useCustomLogin = () => {
 
@@ -21,8 +22,13 @@ const useCustomLogin = () => {
         }
     };
 
-    const doLogout = () => {
-        dispatch(logout());
+    const doLogout = async () => {
+        try {
+            await dispatch(logoutPostAsync());
+        } catch (error) {
+            console.error('Logout failed:', error);
+            throw error;
+        }
     };
 
     const moveToPath = (path) => {
@@ -37,7 +43,7 @@ const useCustomLogin = () => {
         return <Navigate replace to="/user/login" />;
     };
 
-    const exceptionHandler = (ex) => {
+    const exceptionHandler = useCallback((ex) => {
         console.log("----------Exception---------");
         console.log(ex);
 
@@ -46,7 +52,7 @@ const useCustomLogin = () => {
         const errorStr = createSearchParams({error: errorMsg}).toString();
 
         if (errorMsg === 'REQUIRE_LOGIN') {
-            alert("로그인 이후에 이용 가능합니다.");
+            alert("%로그인이 필요한 서비스 입니다.%");
             
             navigate({pathname:'/user/login', search: errorStr});
 
@@ -60,7 +66,7 @@ const useCustomLogin = () => {
 
             return;
         };
-    }
+    }, [navigate]);
 
     return {loginState, isLogin, doLogin, doLogout, moveToPath, moveToLogin, moveToLoginReturn, exceptionHandler};
 }

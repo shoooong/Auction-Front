@@ -1,6 +1,8 @@
 import axios from "axios";
 import { SERVER_URL } from "../serverApi";
 import jwtAxios from "pages/user/jwtUtil";
+import { getCookie } from "pages/user/cookieUtil";
+
 
 export const loginPost = async (loginParam) => {
   const header = { headers: { "Content-Type": "x-www-form-urlencoded" } };
@@ -11,13 +13,23 @@ export const loginPost = async (loginParam) => {
 
   try {
     const res = await axios.post(`${SERVER_URL}/user/login`, form, header);
-
-    console.log("Login Response:", res.data);
-
     return res.data;
   } catch (error) {
     console.error("axios login error...", error);
+    throw error;
+  }
+};
 
+export const logoutPost = async () => {
+  const userInfo = getCookie("user");
+  const header = { headers: { "Authorization": `Bearer ${userInfo.accessToken}` } };
+
+  try {
+    const res = await axios.post(`${SERVER_URL}/user/logout`, null, header);
+    console.log("Logout Response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("axios logout error...", error);
     throw error;
   }
 };
@@ -28,7 +40,6 @@ export const getUser = async () => {
     return res.data;
   } catch (error) {
     console.error("axios getUser error...", error);
-
     throw error;
   }
 };

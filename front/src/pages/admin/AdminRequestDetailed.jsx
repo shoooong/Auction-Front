@@ -31,14 +31,14 @@ const AdminRequestDetailed = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [approvalLoading, setApprovalLoading] = useState(false);
-  const [preview, setPreview] = useState(null); // 추가된 부분: 미리보기 상태 추가
+  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     const fetchRequest = async () => {
       try {
         const data = await getRequest(productId);
         setProduct(data);
-        setPreview(`${CLOUD_STORAGE_BASE_URL}${data.productImg}`); // 추가된 부분: 이미지 미리보기 설정
+        setPreview(`${CLOUD_STORAGE_BASE_URL}${data.productImg}`);
       } catch (error) {
         console.log("요청 상품 상세정보 로딩중 오류", error);
         setError(error);
@@ -65,10 +65,14 @@ const AdminRequestDetailed = () => {
     try {
       await acceptRequest(productId, formData);
       fetchRequests();
-      navigate("/admin/request"); // 승인 후 요청 목록으로 이동
+      navigate("/admin/request");
     } catch (error) {
       if (error.response) {
-        console.log("요청 상품 승인중 오류", error.response.data);
+        if (error.response.status === 409) {
+          alert(error.response.data); // 409 Conflict 에러 메시지 표시
+        } else {
+          console.log("요청 상품 승인중 오류", error.response.data);
+        }
       } else if (error.request) {
         console.log("요청 상품 승인중 네트워크 오류", error.request);
       } else {
@@ -83,7 +87,7 @@ const AdminRequestDetailed = () => {
     try {
       await rejectRequest(productId);
       fetchRequests();
-      navigate("/admin/request"); // 거절 후 요청 목록으로 이동
+      navigate("/admin/request");
     } catch (error) {
       console.log("상품 거절중 오류", error);
     }
@@ -98,9 +102,8 @@ const AdminRequestDetailed = () => {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0]; // 추가된 부분: 파일 선택 시 파일 객체 가져오기
-    setSelectedFile(file); // 추가된 부분: 파일 객체 상태 업데이트
-    setPreview(URL.createObjectURL(file)); // 추가된 부분: 이미지 미리보기 설정
+    const file = e.target.files[0];
+    setPreview(URL.createObjectURL(file));
   };
 
   const handleApprove = () => {
@@ -111,7 +114,7 @@ const AdminRequestDetailed = () => {
     navigate(-1);
   };
   const triggerFileInput = () => {
-    document.getElementById("file-input").click(); // 추가된 부분: 파일 입력 요소 클릭 트리거
+    document.getElementById("file-input").click();
   };
 
   if (loading) {
@@ -150,13 +153,13 @@ const AdminRequestDetailed = () => {
     <Modal open={true} onClose={handleClose}>
       <Box className="admin-detailed-container">
         <div className="admin-image" onClick={triggerFileInput}>
-          {preview ? ( // 추가된 부분: 미리보기 이미지가 있으면 해당 이미지 표시
+          {preview ? (
             <img src={preview} alt="이미지 미리보기" />
           ) : (
-            <img src="/path/to/default/image.png" alt="파일 선택" /> // 추가된 부분: 기본 이미지 표시
+            <img src="/path/to/default/image.png" alt="파일 선택" />
           )}
         </div>
-        {/* 추가된 부분: 숨겨진 파일 입력 요소 */}
+
         <input
           type="file"
           id="file-input"

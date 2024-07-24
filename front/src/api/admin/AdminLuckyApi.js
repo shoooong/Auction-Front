@@ -8,7 +8,9 @@ export const CLOUD_STORAGE_BASE_URL =
 export const getLuckys = async (luckyProcessStatus) => {
   const params = luckyProcessStatus ? { luckyProcessStatus } : {};
 
-  const res = await jwtAxios.get(`${SERVER_URL}/admin/luckyList`, { params });
+  const res = await jwtAxios.get(`${SERVER_URL}/api/admin/luckyList`, {
+    params,
+  });
   return res.data;
 };
 
@@ -21,7 +23,7 @@ export const getLucky = async (luckyId) => {
 // 관리자 페이지 럭키 드로우 상품폼등록
 export const createLucky = async (newLuckyDraw) => {
   const response = await jwtAxios.post(
-    `${SERVER_URL}/admin/luckydraw/insert`,
+    `${SERVER_URL}/api/admin/luckydraw/insert`,
     newLuckyDraw,
     {
       headers: {

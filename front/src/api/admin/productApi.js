@@ -12,7 +12,7 @@ export const getProductsByDepartment = async (
   const params = subDepartment ? { subDepartment } : {};
   console.log(mainDepartment, subDepartment);
   const res = await jwtAxios.get(
-    `${SERVER_URL}/admin/products/${mainDepartment}`,
+    `${SERVER_URL}/api/admin/products/${mainDepartment}`,
     {
       params,
     }
@@ -24,7 +24,7 @@ export const getProductsByDepartment = async (
 export const getProduct = async (modelNum, productSize = null) => {
   const params = productSize ? { productSize } : {};
   const res = await jwtAxios.get(
-    `${SERVER_URL}/admin/products/detailed/${modelNum}`,
+    `${SERVER_URL}/api/admin/products/detailed/${modelNum}`,
     {
       params,
     }
@@ -38,7 +38,7 @@ export const getProduct = async (modelNum, productSize = null) => {
 export const acceptProduct = async (salesBiddingId) => {
   try {
     const res = await jwtAxios.post(
-      `${SERVER_URL}/admin/sales/${salesBiddingId}/approve`
+      `${SERVER_URL}/api/admin/sales/${salesBiddingId}/approve`
     );
     return res.data;
   } catch (error) {

@@ -55,7 +55,7 @@ const AdminLuckdraws = () => {
   // CommonList 컴포넌트에 필요한 columns 정의
   const columns = [
     {
-      field: "luckyId",
+      field: "id",
       headerName: "ID",
       width: 90,
       headerAlign: "center",
@@ -83,7 +83,7 @@ const AdminLuckdraws = () => {
 
   // rows 데이터 생성
   const rows = luckyDraws.map((draw, index) => ({
-    id: index, // DataGrid에서 필요한 ID 필드
+    id: index + 1, // DataGrid에서 필요한 ID 필드
     luckyId: draw.luckyId,
     luckyName: draw.luckyName,
     luckyProcessStatus: draw.luckyProcessStatus,
@@ -98,6 +98,8 @@ const AdminLuckdraws = () => {
       console.error("Error creating lucky draw:", error);
     }
   };
+
+  const handleRowClick = async (luckyId) => {};
 
   return (
     <div className="column-direction h100p">
@@ -124,7 +126,7 @@ const AdminLuckdraws = () => {
       <CommonList
         rows={rows}
         columns={columns}
-        onRowClick={(row) => console.log("Row clicked:", row)}
+        onRowClick={(luckyId) => handleRowClick(luckyId)}
       />
 
       <Button

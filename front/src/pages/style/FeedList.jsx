@@ -18,7 +18,7 @@ const FeedList = () => {
                 const data = response.data.map((feed) => ({
                     id: feed.feedId,
                     username: feed.userId ? `User ${feed.userId}` : "Unknown",
-                    image: `${CLOUD_STORAGE_BASE_URL}${feed.feedImage}`, // 이미지 URL 조합
+                    image: `${CLOUD_STORAGE_BASE_URL}${feed.feedImage}`,
                     description: feed.feedTitle,
                     likes: feed.likeCount,
                 }));

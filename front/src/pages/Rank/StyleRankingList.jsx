@@ -1,51 +1,88 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { SERVER_URL } from "api/serverApi";
+import React, { useState } from 'react';
+import jwtAxios from 'pages/user/jwtUtil';
+import { SERVER_URL } from '../../api/serverApi';
 
-import Feed from "pages/style/Feed";
+const RequestProductForm = ({ onSuccess }) => {
+  const [formData, setFormData] = useState({
+    productImg: null,
+    productBrand: '',
+    productName: '',
+    originalPrice: '',
+    mainDepartment: '',
+    subDepartment: '',
+    productSize: '',
+    modelNum: '',
+  });
 
-const StyleRankingList = () => {
-    const [feeds, setFeeds] = useState([]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    useEffect(() => {
-        const fetchFeeds = async () => {
-            try {
-                const response = await axios.get(
-                    `${SERVER_URL}/feed/feedRanking`
-                );
-                const data = response.data.map((feed) => ({
-                    id: feed.feedId,
-                    username: feed.userId ? `User ${feed.userId}` : "Unknown",
-                    image: feed.feedImage,
-                    description: feed.feedTitle,
-                    likes: feed.likeCount,
-                }));
-                setFeeds(data);
-            } catch (error) {
-                console.error("Error fetching posts:", error);
-            }
-        };
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, productImg: e.target.files });
+  };
 
-        fetchFeeds();
-    }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === 'productImg') {
+        for (let i = 0; i < formData[key].length; i++) {
+          formDataToSend.append(key, formData[key][i]);
+        }
+      } else {
+        formDataToSend.append(key, formData[key]);
+      }
+    });
 
-    return (
-        <div className="feed-list">
-            {feeds.map((feed) => (
-                <Link key={feed.id} to={`/style/styledetail/${feed.id}`}>
-                    {" "}
-                    {}
-                    <Feed
-                        username={feed.username}
-                        image={feed.image}
-                        description={feed.description}
-                        likes={feed.likes}
-                    />
-                </Link>
-            ))}
-        </div>
-    );
+    try {
+      await jwtAxios.post(`${SERVER_URL}/product/request`, formDataToSend, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      onSuccess();
+    } catch (error) {
+      console.error('등록 오류:', error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="request-product-form">
+      <label>
+        Product Image:
+        <input type="file" name="productImg" onChange={handleFileChange} multiple required />
+      </label>
+      <label>
+        Product Brand:
+        <input type="text" name="productBrand" value={formData.productBrand} onChange={handleChange} required />
+      </label>
+      <label>
+        Product Name:
+        <input type="text" name="productName" value={formData.productName} onChange={handleChange} required />
+      </label>
+      <label>
+        Original Price:
+        <input type="number" name="originalPrice" value={formData.originalPrice} onChange={handleChange} required />
+      </label>
+      <label>
+        Main Department:
+        <input type="text" name="mainDepartment" value={formData.mainDepartment} onChange={handleChange} required />
+      </label>
+      <label>
+        Sub Department:
+        <input type="text" name="subDepartment" value={formData.subDepartment} onChange={handleChange} required />
+      </label>
+      <label>
+        Product Size:
+        <input type="text" name="productSize" value={formData.productSize} onChange={handleChange} required />
+      </label>
+      <label>
+        Model Number:
+        <input type="text" name="modelNum" value={formData.modelNum} onChange={handleChange} required />
+      </label>
+      <button type="submit">Register Product</button>
+    </form>
+  );
 };
 
-export default StyleRankingList;
+export default RequestProductForm;

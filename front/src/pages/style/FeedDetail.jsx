@@ -9,11 +9,15 @@ const FeedDetail = () => {
   const [isSaved, setIsSaved] = useState(false);
   const { id } = useParams();
 
+  const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
+
   useEffect(() => {
     const fetchFeedDetail = async () => {
       try {
         const response = await jwtAxios.get(`${SERVER_URL}/feed/styleFeed/${id}`);
-        setFeed(response.data);
+        const feedData = response.data;
+        feedData.feedImage = `${CLOUD_STORAGE_BASE_URL}${feedData.feedImage}`;
+        setFeed(feedData);
       } catch (error) {
         console.error('Error fetching feed details:', error);
         setError(error.response?.status === 404 ? 'Feed not found' : 'An error occurred');

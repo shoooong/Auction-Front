@@ -7,6 +7,8 @@ const ProductRequestDetail = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
 
+  const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
+
   useEffect(() => {
     const fetchProduct = async () => {
       if (!productId) {
@@ -29,6 +31,8 @@ const ProductRequestDetail = () => {
     return <div>Loading...</div>;
   }
 
+  const imageUrl = product.productImg ? `${CLOUD_STORAGE_BASE_URL}${product.productImg}` : '';
+
   return (
     <div className="product-detail">
       <h2>{product.productName}</h2>
@@ -39,7 +43,7 @@ const ProductRequestDetail = () => {
       <p><strong>Model Number:</strong> {product.modelNum}</p>
       <p><strong>Main Department:</strong> {product.mainDepartment}</p>
       <p><strong>Sub Department:</strong> {product.subDepartment}</p>
-      <img src={product.productImg} alt={product.productName} />
+      {imageUrl && <img src={imageUrl} alt={product.productName} />}
     </div>
   );
 };

@@ -62,19 +62,9 @@ const AdminRouter = () => {
       element: <AdminLuckyDetail />,
     },
     {
-      // 공지사항
+      // 일반 공지사항
       path: "notice",
       element: <AdminNotice />, //정식님이 만드신 관리자 공지사항
-    },
-    // 일반 공지사항 상세
-    {
-      path: "notice/notice/:noticeId",
-      element: <AdminNoticeDetail />,
-    },
-    // 공지사항 상세
-    {
-      path: "notice/notice/:noticeId",
-      element: <AdminNoticeDetail />,
     },
     // 일반 공지사항 상세
     {

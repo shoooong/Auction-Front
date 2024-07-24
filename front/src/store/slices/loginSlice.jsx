@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginPost } from "../../api/user/userApi";
+import { loginPost, logoutPost } from "../../api/user/userApi";
 import { getCookie, setCookie, removeCookie } from "../../pages/user/cookieUtil";
 
 const initState = {
@@ -16,14 +16,6 @@ const loadMemberCookie = () => {
 
     if (userInfo && userInfo.nickname) {
         userInfo.nickname = decodeURIComponent(userInfo.nickname);
-
-        console.log("userInfo: " + userInfo);
-        console.log(userInfo.nickname);
-        console.log(userInfo.email);
-        console.log(userInfo.password);
-        console.log(userInfo.phoneNum);
-        console.log(userInfo.profileImg);
-
     };
 
     return userInfo;
@@ -31,6 +23,10 @@ const loadMemberCookie = () => {
 
 export const loginPostAsync = createAsyncThunk('loginPostAsync', (param) => {
     return loginPost(param);
+});
+
+export const logoutPostAsync = createAsyncThunk('logoutPostAsync', async () => {
+    return await logoutPost();
 });
 
 const loginSlice = createSlice({
@@ -49,7 +45,7 @@ const loginSlice = createSlice({
 
             return { ...state, ...payload };
         },
-        logout: (state, action) => {
+        logout: () => {
             console.log("logout...");
 
             removeCookie("user");
@@ -71,12 +67,24 @@ const loginSlice = createSlice({
 
             return { ...state, ...payload };
         })
-        .addCase(loginPostAsync.pending, (state,action) => {
+        .addCase(loginPostAsync.pending, () => {
             console.log("pending")
         })
-        .addCase(loginPostAsync.rejected, (state,action) => {
+        .addCase(loginPostAsync.rejected, () => {
             console.log("rejected")
         })
+        .addCase(logoutPostAsync.fulfilled, () => {
+            console.log("logout fulfilled");
+
+            removeCookie("user");
+            return { ...initState };
+        })
+        .addCase(logoutPostAsync.pending, () => {
+            console.log("logout pending");
+        })
+        .addCase(logoutPostAsync.rejected, () => {
+            console.log("logout rejected");
+        });
     }
 });
 

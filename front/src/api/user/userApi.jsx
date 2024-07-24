@@ -34,6 +34,17 @@ export const logoutPost = async () => {
   }
 };
 
+export const unregisterUser = async () => {
+  try {
+    const res = await jwtAxios.post(`${SERVER_URL}/user/unregister`);
+    console.log("Unregister Response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("axios unregister error...", error);
+    throw error;
+  }
+};
+
 export const getUser = async () => {
   try {
     const res = await jwtAxios.get(`${SERVER_URL}/mypage/modify`);

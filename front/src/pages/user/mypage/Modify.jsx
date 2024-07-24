@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "pages/user/cookieUtil";
 import { getUser, modifyUser } from "api/user/userApi";
 import { formatPhoneNumber, maskEmail } from "../mypageUtil";
+import useCustomLogin from "hooks/useCustomLogin";
 
 const initState = {
     email: '',
@@ -21,6 +22,7 @@ const ModifyPage = () => {
     const [nicknameError, setNicknameError] = useState(false);
 
     const navigate = useNavigate();
+    const { doUnregister } = useCustomLogin();
 
     const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
     const phoneNumRegExp = /^\d{11}$/;
@@ -93,6 +95,12 @@ const ModifyPage = () => {
         }
     };
 
+    const handleUnregister = async () => {
+        if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+            doUnregister();
+        }
+    };
+
     
 
     return (
@@ -132,6 +140,10 @@ const ModifyPage = () => {
             <div className="profile-button">
                 <button type="button" onClick={handleClickModify}>수정</button>
                 <button type="button" onClick={() => navigate('/mypage')}>취소</button>
+            </div>
+
+            <div className="unregister-container">
+                <button type="button" className="unregister-button" onClick={handleUnregister}>회원 탈퇴</button>
             </div>
         </div>
     );

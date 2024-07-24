@@ -14,7 +14,6 @@ import OrderCouponComponent from "components/OrderCouponComponent";
 // ------  SDK 초기화 ------
 
 // import useAddress from "hooks/useAddress";
-import { getCookie } from "pages/user/cookieUtil";
 
 const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 const customerKey = "HOytG9DDEHHgTxwNS0YWT";

@@ -1,1 +1,230 @@
-export default function Sell() {}
+import prImg from "assets/images/sample.png";
+import postImg from "assets/images/icon-post.png";
+import tossImg from "assets/images/icon-toss.png";
+import arrowImg from "assets/images/arrow2.svg";
+import "styles/order.css";
+import useSell from "hooks/useSell";
+import { useEffect, useState } from "react";
+import { Button, Box, Dialog, DialogTitle } from "@mui/material";
+// import Event from "pages/user/mypage/CouponMain";
+// import Postcode from "components/mypage/Postcode";
+// ------  SDK 초기화 ------
+
+// import useAddress from "hooks/useAddress";
+
+export default function Sell() {
+    const [open, setOpen] = useState(false);
+    // const [open2, setOpen2] = useState(false);
+
+    const { salesBidding, addressInfo } = useSell();
+    console.log(salesBidding);
+
+    return (
+        <div className="buy_bg">
+            <div className="buy_container">
+                <div className="product_info_area info_area">
+                    <div className="product_info">
+                        <div className="buy_product">
+                            <img src={prImg} alt="상품 이미지"></img>
+                        </div>
+                        <div className="product_detail">
+                            <p className="product_model_number bold_title">
+                                {salesBidding?.product.modelNum}
+                            </p>
+                            <p className="model_eng">
+                                {salesBidding?.product.productName}
+                            </p>
+                            <p className="model_kor">
+                                {salesBidding?.product.productName}
+                            </p>
+                            <p className="size_txt">
+                                {salesBidding?.product.productSize}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="delivery_info_area info_area">
+                    <div className="delivery_address_info">
+                        <div className="delivery_title">
+                            <h3 className="title_txt">반송 주소</h3>
+                            <a href="#" className="add_more_btn sub_text">
+                                + 새 주소 추가
+                            </a>
+                        </div>
+                        <div className="delivery_content">
+                            <div className="delivery_info">
+                                <div className="address-info">
+                                    <dl className="info_list">
+                                        <div className="info_box">
+                                            <dt className="buy_title">
+                                                받는 분
+                                            </dt>
+                                            <dd className="desc">
+                                                {addressInfo?.name}
+                                            </dd>
+                                        </div>
+                                        <div className="info_box">
+                                            <dt className="buy_title">
+                                                연락처
+                                            </dt>
+                                            <dd className="desc">
+                                                {addressInfo?.addrPhone}
+                                            </dd>
+                                        </div>
+                                        <div className="info_box">
+                                            <dt className="buy_title">
+                                                배송 주소
+                                            </dt>
+                                            <dd className="desc">
+                                                ({addressInfo?.zonecode}
+                                                )&nbsp;
+                                                {addressInfo?.roadAddress}
+                                                &nbsp;
+                                                {addressInfo?.detailAddress}
+                                            </dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                                <div className="btn_box">
+                                    <button className="btn_edit border_box">
+                                        변경
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="">
+                                <div className="memo_box border_box">
+                                    <button class="btn_shipping_memo ">
+                                        <span className="shipping_memo">
+                                            요청사항 없음
+                                        </span>
+                                    </button>
+                                    <img src={arrowImg} alt="" />
+                                </div>
+                            </div>
+                            <div class="border_line"></div>
+                        </div>
+                    </div>
+                    <div className="delivery_delivery_type_info">
+                        <h3 className="title_txt">발송 방법</h3>
+                        <div className="delivery_option">
+                            <div className="delivery_way">
+                                <div className="way_info border_box">
+                                    <div className="way_icon">
+                                        <img
+                                            src={postImg}
+                                            class="way_img"
+                                        ></img>
+                                    </div>
+                                    <div className="way_desc flex_space">
+                                        <div className="post">
+                                            <span className="bold_title">
+                                                택배발송
+                                            </span>
+                                            <span className="desc">선불</span>
+                                        </div>
+                                        <p className="sub_text">
+                                            착불 발송 시 정산금액에서 차감
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="coupon_info_area info_area">
+                    <h3 className="title_txt">할인 혜택</h3>
+                    <p className="desc">쿠폰</p>
+                </div>
+                <div className="pay-info-area info_area">
+                    <h3 className="title_txt">결제 방법</h3>
+                    <div className="main_title">
+                        <p className="desc">일반 결제</p>
+                        <p className="sub_text">일시불·할부</p>
+                    </div>
+                    <button className="payment_btn border_box">
+                        <span>토스페이</span>
+                        <img src={tossImg} class="pay_img"></img>
+                    </button>
+                    <p className="sub_text">
+                        체결 후 결제 정보 변경은 불가하며 분할 납부 변경은
+                        카드사 문의 바랍니다. 단, 카드사별 정책에 따라 분할 납부
+                        변경 시 수수료가 발생할 수 있습니다.
+                    </p>
+                </div>
+
+                <div className="final_order_info_area info_area">
+                    <h3 className="title_txt">최종 주문 정보</h3>
+                    <div className="order_main_title">
+                        <div className="order_item">
+                            <p className="desc">판매 희망가</p>
+                            <p className="desc bold">
+                                {salesBidding?.salesBiddingPrice.toLocaleString()}
+                                원
+                            </p>
+                        </div>
+                        <div className="order_item">
+                            <p className="sub_text">검수비</p>
+                            <p className="desc">무료</p>
+                        </div>
+                        <div className="order_item">
+                            <p className="sub_text">수수료</p>
+                            <p className="desc">8,000원</p>
+                        </div>
+                        <div className="order_item">
+                            <p className="sub_text">배송비</p>
+                            <p className="desc">선불 · 판매자 부담</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="order_payment_area info_area">
+                    <div className="order_box">
+                        <p className="pay_text16">총 결제금액</p>
+                        <p className="pay_text20">
+                            {salesBidding?.salesBiddingPrice.toLocaleString()}원
+                        </p>
+                    </div>
+                </div>
+                <div className="final_payment_btn info_area">
+                    <div className="pay_btn_box">
+                        <button className="pay_btn">
+                            {salesBidding?.salesBiddingPrice.toLocaleString()}원
+                            • 입찰하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* ----------------------- 배송지 팝업창 ------------------*/}
+            {/* <Dialog
+                open={open2}
+                onClose={handleCancel}
+                PaperProps={{
+                    style: {
+                        width: "100%",
+                        maxWidth: "500px",
+                        margin: "auto",
+                    },
+                }}
+            >
+                <Box sx={{ p: 2 }}>
+                    <div className="popup-title-box">
+                        <DialogTitle>배송지 관리</DialogTitle>
+                        <Button
+                            className="popup-close-btn"
+                            onClick={() => setOpen2(false)}
+                        />
+                    </div>
+
+                    <div className="popup-content">
+                        {(isAdding || selectedAddress) && (
+                            <Postcode
+                                onSave={handleSave}
+                                selectedAddress={selectedAddress}
+                            />
+                        )}
+                    </div>
+                </Box>
+            </Dialog> */}
+        </div>
+    );
+}

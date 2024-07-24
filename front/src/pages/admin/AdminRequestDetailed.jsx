@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { acceptRequest, getRequest, rejectRequest } from "api/admin/requestApi";
+import { CLOUD_STORAGE_BASE_URL } from "api/admin/productApi";
 import {
   Box,
   Modal,
-  Typography,
-  CircularProgress,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Zoom,
+  TextField,
+  CircularProgress,
+  Typography,
 } from "@mui/material";
-import { acceptRequest, getRequest, rejectRequest } from "api/admin/requestApi";
-import { CLOUD_STORAGE_BASE_URL } from "api/admin/productApi";
+import "styles/admin.css";
 
 const initialState = {
   productId: 0,
@@ -31,84 +27,91 @@ const AdminRequestDetailed = () => {
   const navigate = useNavigate();
   const { fetchRequests } = useOutletContext();
   const [product, setProduct] = useState(initialState);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [approvalLoading, setApprovalLoading] = useState(false);
-  const [approvalError, setApprovalError] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState("");
-  const [approvalSuccess, setApprovalSuccess] = useState(false);
+  const [preview, setPreview] = useState(null); // 추가된 부분: 미리보기 상태 추가
 
-  const fetchProduct = async () => {
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const data = await getRequest(productId);
+        setProduct(data);
+        setPreview(`${CLOUD_STORAGE_BASE_URL}${data.productImg}`); // 추가된 부분: 이미지 미리보기 설정
+      } catch (error) {
+        console.log("요청 상품 상세정보 로딩중 오류", error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRequest();
+  }, [productId]);
+
+  const approveRequest = async () => {
+    const formData = new FormData();
+    formData.append(
+      "productReqDto",
+      new Blob([JSON.stringify(product)], { type: "application/json" })
+    );
+
+    if (selectedFile) {
+      formData.append("productPhoto", selectedFile);
+    }
+
+    setApprovalLoading(true);
     try {
-      const data = await getRequest(productId);
-      setProduct(data);
+      await acceptRequest(productId, formData);
+      fetchRequests();
+      navigate("/admin/request"); // 승인 후 요청 목록으로 이동
     } catch (error) {
-      console.error("Error fetching product details", error);
-      setError(error);
+      if (error.response) {
+        console.log("요청 상품 승인중 오류", error.response.data);
+      } else if (error.request) {
+        console.log("요청 상품 승인중 네트워크 오류", error.request);
+      } else {
+        console.log("요청 상품 승인중 오류", error.message);
+      }
     } finally {
-      setLoading(false);
+      setApprovalLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchProduct();
-  }, [productId]);
+  const deleteRequest = async () => {
+    try {
+      await rejectRequest(productId);
+      fetchRequests();
+      navigate("/admin/request"); // 거절 후 요청 목록으로 이동
+    } catch (error) {
+      console.log("상품 거절중 오류", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; // 추가된 부분: 파일 선택 시 파일 객체 가져오기
+    setSelectedFile(file); // 추가된 부분: 파일 객체 상태 업데이트
+    setPreview(URL.createObjectURL(file)); // 추가된 부분: 이미지 미리보기 설정
+  };
+
+  const handleApprove = () => {
+    approveRequest();
+  };
 
   const handleClose = () => {
     navigate(-1);
   };
-
-  const handleApprove = async () => {
-    setApprovalLoading(true);
-    setApprovalError(null);
-    try {
-      await acceptRequest(productId);
-      setProduct({ ...product, productStatus: "APPROVED" });
-      setDialogMessage("승인이 정상적으로 처리되었습니다.");
-      setApprovalSuccess(true); // 승인 성공 시 상태 업데이트
-    } catch (error) {
-      console.error("Error approving request", error);
-      setApprovalError(error);
-      setApprovalSuccess(false); // 승인 실패 시 상태 업데이트
-      if (error.response && error.response.status === 400) {
-        setDialogMessage(error.response.data);
-      } else {
-        setDialogMessage("승인 중 오류가 발생했습니다.");
-      }
-    } finally {
-      setApprovalLoading(false);
-      setDialogOpen(true);
-    }
-  };
-  const handleReject = async () => {
-    try {
-      await rejectRequest(productId);
-      setDialogMessage("요청이 정상적으로 거절되었습니다.");
-      setApprovalSuccess(true);
-    } catch (error) {
-      console.error("Error rejecting request", error);
-      setApprovalError(error);
-      console.error("Failed to approve product:", error.message);
-      console.error(
-        "Error details:",
-        error.response ? error.response.data : error
-      );
-      setApprovalSuccess(false);
-      setDialogMessage("거절 중 오류가 발생했습니다.");
-    } finally {
-      setDialogOpen(true);
-    }
-  };
-
-  const handleDialogClose = async () => {
-    setDialogOpen(false);
-    if (approvalSuccess) {
-      // 승인 성공 시에만 모달창을 닫음
-      await fetchRequests(); // 리스트 데이터를 다시 로드합니다.
-      handleClose(); // 모달창을 닫습니다.
-    }
+  const triggerFileInput = () => {
+    document.getElementById("file-input").click(); // 추가된 부분: 파일 입력 요소 클릭 트리거
   };
 
   if (loading) {
@@ -144,81 +147,95 @@ const AdminRequestDetailed = () => {
   }
 
   return (
-    <>
-      <Modal open={true} onClose={handleClose}>
-        <Zoom
-          in={true}
-          timeout={{ enter: 500, exit: 500 }}
-          easing="ease-in-out"
-        >
-          <Box className="admin-detailed-container">
-            <div className="column-direction">
-              <Button
-                className="admin-close-btn"
-                onClick={() => handleClose()}
-              ></Button>
-              <div className="admin-detailed-content">
-                <div className="flex-grow">
-                  <div className="admin-image">
-                    <img
-                      // src={product.productImg}
-                      src={CLOUD_STORAGE_BASE_URL + product.productImg}
-                      alt={product.productName}
-                      style={{ width: "100%", borderRadius: "8px" }}
-                    />
-                  </div>
-                  <div className="column-direction admin-info">
-                    <span alt="모델번호">{product.modelNum}</span>
-                    <span alt="상품명">상품명: {product.productName}</span>
-                    <span alt="브랜드">{product.productBrand}</span>
-
-                    <span>원가: {product.originalPrice}</span>
-                    <span>{product.productSize}</span>
-                    <span>{product.productStatus}</span>
-                    {approvalError && <span>승인 중 오류가 발생했습니다.</span>}
-                  </div>
-                </div>
-              </div>
-              <div className="admin-container-bottom">
-                <Button
-                  onClick={handleApprove}
-                  className="admin-small-btn"
-                  variant="contained"
-                  disabled={approvalLoading}
-                >
-                  {approvalLoading ? <CircularProgress size={24} /> : "승인"}
-                </Button>
-                <Button
-                  onClick={handleReject} // 거절 핸들러 연결
-                  className="admin-small-btn"
-                  variant="contained"
-                >
-                  거절
-                </Button>
-              </div>
-            </div>
-          </Box>
-        </Zoom>
-      </Modal>
-      <Dialog
-        open={dialogOpen}
-        onClose={handleDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">알림</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {dialogMessage}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary" autoFocus>
-            확인
+    <Modal open={true} onClose={handleClose}>
+      <Box className="admin-detailed-container">
+        <div className="admin-image" onClick={triggerFileInput}>
+          {preview ? ( // 추가된 부분: 미리보기 이미지가 있으면 해당 이미지 표시
+            <img src={preview} alt="이미지 미리보기" />
+          ) : (
+            <img src="/path/to/default/image.png" alt="파일 선택" /> // 추가된 부분: 기본 이미지 표시
+          )}
+        </div>
+        {/* 추가된 부분: 숨겨진 파일 입력 요소 */}
+        <input
+          type="file"
+          id="file-input"
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
+        <div>
+          <div>
+            <label>Model Number</label>
+            <TextField
+              name="modelNum"
+              type="text"
+              value={product.modelNum}
+              onChange={handleChange}
+              fullWidth
+            />
+          </div>
+          <div>
+            <label>Product Name</label>
+            <TextField
+              name="productName"
+              type="text"
+              value={product.productName}
+              onChange={handleChange}
+              fullWidth
+            />
+          </div>
+          <div>
+            <label>Product Brand</label>
+            <TextField
+              name="productBrand"
+              type="text"
+              value={product.productBrand}
+              onChange={handleChange}
+              fullWidth
+            />
+          </div>
+          <div>
+            <label>Product Size</label>
+            <TextField
+              name="productSize"
+              type="text"
+              value={product.productSize}
+              onChange={handleChange}
+              fullWidth
+            />
+          </div>
+          <div>
+            <label>Original Price</label>
+            <TextField
+              name="originalPrice"
+              type="number"
+              value={product.originalPrice}
+              onChange={handleChange}
+              fullWidth
+            />
+          </div>
+          <div>
+            <input
+              type="file"
+              name="productPhoto"
+              onChange={handleFileChange}
+            />
+          </div>
+        </div>
+        <div>
+          <Button
+            onClick={handleApprove}
+            variant="contained"
+            disabled={approvalLoading}
+          >
+            {approvalLoading ? <CircularProgress size={24} /> : "승인"}
           </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+          <Button onClick={deleteRequest} variant="contained">
+            거절
+          </Button>
+        </div>
+      </Box>
+    </Modal>
   );
 };
 

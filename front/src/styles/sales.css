@@ -1,0 +1,12 @@
+.purchase-head {
+  align-items: center;
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  padding: 20px;
+}
+.purchase-content {
+  display: flex;
+  max-height: 100px;
+  padding: 20px;
+  /* align-items: center; */
+}

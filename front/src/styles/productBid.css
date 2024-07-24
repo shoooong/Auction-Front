@@ -106,64 +106,45 @@
     position: relative;
 }
 
-.tab_area.buy_tab .tab_list {
+.tab_area.buy_tab .tab_list,
+.tab_area.sell_tab .tab_list {
     border: 1px solid #ebebeb;
     border-radius: 80px;
     margin-bottom: 27px;
     display: flex;
-    justify-content: center; /* 중앙 정렬 */
+    justify-content: center;
 }
 
-.tab_area.buy_tab .item {
+.tab_area.buy_tab .item,
+.tab_area.sell_tab .item {
     flex: 1;
     display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    border-radius: 80px; /* 추가 */
+    justify-content: center;
+    border-radius: 80px;
 }
 
-.tab_area.buy_tab .item.on {
+.tab_area.buy_tab .item.on,
+.tab_area.sell_tab .item.on {
     background-color: #ef6253;
     color: #fff;
     font-weight: 700;
-    border-radius: 80px; /* 추가 */
+    border-radius: 80px;
 }
 
-.tab_area.buy_tab .item.on.sales {
-    background-color: green; /* 판매 버튼 색상 변경 */
+.tab_area.sell_tab .item.on {
+    background-color: green;
+}
+
+.tab_area.buy_tab .item.on .item_link,
+.tab_area.sell_tab .item.on .item_link {
+    background-color: inherit;
     color: #fff;
     font-weight: 700;
     border-radius: 80px;
 }
 
-.tab_area.buy_tab .item.on .item_link {
-    background-color: #ef6253;
-    color: #fff;
-    font-weight: 700;
-    border-radius: 80px; /* 추가 */
-}
-
-.tab_area.buy_tab .item.on.sales .item_link {
-    background-color: green; /* 판매 버튼 색상 변경 */
-    color: #fff;
-    font-weight: 700;
-    border-radius: 80px;
-}
-
-/* 판매 경로에서 구매 입찰 계속 버튼 색상 변경 */
-.sell_form .bid_confirm .btn.full.solid {
-    background-color: green; /* 변경된 색상 */
-    color: #fff;
-}
-
-/* 판매 경로일 때 버튼 색상 적용 */
-.item.sales .item_link {
-    background-color: green; /* 판매 버튼 색상 변경 */
-    color: #fff;
-    font-weight: 700;
-    border-radius: 80px;
-}
-
-.tab_area.buy_tab .item .item_link {
+.tab_area.buy_tab .item .item_link,
+.tab_area.sell_tab .item .item_link {
     border-radius: 80px;
     color: rgba(34, 34, 34, .8);
     font-size: 14px;
@@ -202,6 +183,7 @@
 input.input_amount {
     font-size: 20px;
     font-style: normal;
+    margin-right: 10px;
 }
 
 .input_amount {
@@ -415,7 +397,7 @@ textarea {
 }
 
 /* 판매 경로에서의 스타일 */
-.sell_form .bid_confirm .btn.full.solid.sales {
-    background-color: green; /* 변경된 색상 */
+.sell_form .bid_confirm .btn.full.solid {
+    background-color: green;
     color: #fff;
 }

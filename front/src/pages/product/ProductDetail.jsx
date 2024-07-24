@@ -189,14 +189,15 @@ const ProductDetails = () => {
         const userInfo = getCookie("user");
         if (!userInfo || !userInfo.accessToken) {
             alert("로그인이 필요합니다.");
+            navigate("/user/login");
             console.log(modelNum)
             return;
         }
-    
+
         try {
             // 임의의 작은 문자열로 대체하여 테스트
             const smallImgData = "temp_image_data";
-    
+
             await axios.post(`${SERVER_URL}/products/details/${modelNum}/review`, {
                 userId: userInfo.userId,
                 reviewImg: smallImgData,
@@ -223,7 +224,7 @@ const ProductDetails = () => {
             }
         }
     };
-    
+
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -239,6 +240,7 @@ const ProductDetails = () => {
         const userInfo = getCookie("user");
         if (!userInfo || !userInfo.accessToken) {
             alert("로그인이 필요합니다.");
+            navigate("/user/login");
             return;
         }
     
@@ -256,18 +258,16 @@ const ProductDetails = () => {
     
         console.log("Selected Product:", selectedProduct);
     
-        if (!selectedProduct) {
-            alert("선택한 사이즈에 해당하는 상품이 없습니다.");
-            return;
-        }
-    
-        const size = selectedProduct.productSize;
+        const size = simplifiedSize;
         const type = currentTab === 'buy' ? 'buy' : 'sales';
-        const biddingPrice = currentTab === 'buy' ? selectedProduct.buyingBiddingPrice : selectedProduct.productMaxPrice; // 올바른 필드명 사용
+        const biddingPrice = selectedProduct ? (currentTab === 'buy' ? selectedProduct.buyingBiddingPrice : selectedProduct.productMaxPrice).toLocaleString() : null;
+        const productId = selectedProduct ? selectedProduct.productId : generateProductIdForSize(simplifiedSize);
     
         console.log("Model Number:", modelNum);
         console.log("Bidding Price:", biddingPrice);
-        console.log("상품 ID:", selectedProduct.productId);
+        console.log("상품 ID:", productId);
+    
+        alert(`상품 ID: ${productId}\n모델 번호: ${modelNum}\n입찰 가격: ${biddingPrice}`);
     
         navigate(`/clothes/details/${modelNum}/bid?size=${size}&type=${type}`, {
             state: {
@@ -275,14 +275,33 @@ const ProductDetails = () => {
                 productName: product.productName,
                 modelNum: product.modelNum,
                 productSize: size,
-                biddingPrice: biddingPrice, // 수정된 부분
-                productId: selectedProduct.productId,
+                biddingPrice: biddingPrice,
+                productId: productId,
                 userId: userInfo.userId,
                 currentTab: currentTab
             }
         });
         console.log("전송");
     };
+    
+    // 각 사이즈에 대한 고유한 productId를 생성하는 함수
+    const generateProductIdForSize = (size) => {
+        // 예시로 각 사이즈에 대해 고유한 숫자를 반환하는 로직
+        const sizeMap = {
+            '230': 1,
+            '235': 2,
+            '240': 3,
+            '245': 4,
+            '250': 5,
+            '255': 6,
+            '260': 7,
+            '270': 8,
+            '275': 9,
+        };
+        return sizeMap[size] || null;
+    };
+
+
 
     return (
         <Box className="product-page">
@@ -298,7 +317,7 @@ const ProductDetails = () => {
                     <div className="price-container">
                         <h4>즉시 구매가</h4>
                         <div className="now-price">
-                            <p className="wonSize">{product.buyingBiddingPrice} 원</p>
+                            <p className="wonSize">{product.buyingBiddingPrice.toLocaleString()} 원</p>
                             <p>{product.productName}</p>
                         </div>
                     </div>
@@ -309,9 +328,9 @@ const ProductDetails = () => {
                     <div className="product-summary">
                         <div className="item">
                             <p>최근 거래가</p>
-                            <p>{product.latestPrice ? product.latestPrice : "-"}원</p>
+                            <p>{product.latestPrice ? product.latestPrice.toLocaleString() : "-"}원</p>
                             <p className={`price ${product.differenceContract < 0 ? "negative" : product.differenceContract > 0 ? "positive" : ""}`}>
-                                {product.differenceContract !== null && product.differenceContract !== undefined ? product.differenceContract : "-"}
+                                {product.differenceContract !== null && product.differenceContract !== undefined ? product.differenceContract.toLocaleString() : "-"}
                             </p>
                             <p className={`price ${product.changePercentage < 0 ? "negative" : product.changePercentage > 0 ? "positive" : ""}`}>
                                 ({product.changePercentage !== null && product.changePercentage !== undefined ? product.changePercentage : "-"})%
@@ -319,7 +338,7 @@ const ProductDetails = () => {
                         </div>
                         <div className="item">
                             <p>발매가</p>
-                            <p>{product.originalPrice ? product.originalPrice : "-"}₩</p>
+                            <p>{product.originalPrice ? product.originalPrice.toLocaleString() : "-"}원</p>
                         </div>
                         <div className="item">
                             <p>모델 번호</p>
@@ -335,7 +354,7 @@ const ProductDetails = () => {
                             구매
                             <span>
                                 <span>
-                                    <p>{product.buyingBiddingPrice ? product.buyingBiddingPrice : "-"}원</p>
+                                    <p>{product.buyingBiddingPrice.toLocaleString() ? product.buyingBiddingPrice.toLocaleString() : "-"}원</p>
                                 </span>
                                 즉시 구매가
                             </span>
@@ -344,7 +363,7 @@ const ProductDetails = () => {
                             판매
                             <span>
                                 <span>
-                                    <p>{product.salesBiddingPrice ? product.salesBiddingPrice : "-"}원</p>
+                                    <p>{product.salesBiddingPrice.toLocaleString() ? product.salesBiddingPrice.toLocaleString() : "-"}원</p>
                                 </span>
                                 즉시 판매가
                             </span>
@@ -411,7 +430,7 @@ const ProductDetails = () => {
                                             {product.contractInfoList.slice(0, visibleItems).map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.productContractPrice}원</td>
+                                                    <td>{info.productContractPrice.toLocaleString()}원</td>
                                                     <td>{info.productContractDate}</td>
                                                 </tr>
                                             ))}
@@ -436,7 +455,7 @@ const ProductDetails = () => {
                                             {product.salesHopeList.slice(0, visibleItems).map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.salesBiddingPrice}원</td>
+                                                    <td>{info.salesBiddingPrice.toLocaleString()}원</td>
                                                     <td>{info.salesQuantity}</td>
                                                 </tr>
                                             ))}
@@ -461,7 +480,7 @@ const ProductDetails = () => {
                                             {product.buyingHopeList.slice(0, visibleItems).map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.buyingBiddingPrice}원</td>
+                                                    <td>{info.buyingBiddingPrice.toLocaleString()}원</td>
                                                     <td>{info.buyingQuantity}</td>
                                                 </tr>
                                             ))}
@@ -572,7 +591,7 @@ const ProductDetails = () => {
                                             {product.contractInfoList.map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.productContractPrice}원</td>
+                                                    <td>{info.productContractPrice.toLocaleString()}원</td>
                                                     <td>{info.productContractDate}</td>
                                                 </tr>
                                             ))}
@@ -616,7 +635,7 @@ const ProductDetails = () => {
                                             {product.buyingHopeList.map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.buyingBiddingPrice}원</td>
+                                                    <td>{info.buyingBiddingPrice.toLocaleString()}원</td>
                                                     <td>{info.buyingQuantity}</td>
                                                 </tr>
                                             ))}

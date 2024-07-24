@@ -74,7 +74,7 @@ const AdminRouter = () => {
     // 이벤트 공지사항 상세
     {
       path: "notice/notice/:noticeId",
-      element: <AdminLuckdraws />,
+      element: <AdminLuckyDetail />,
     },
     // 일반 공지사항 등록
     {

@@ -25,7 +25,7 @@ export default function Event() {
             const { accessToken } = userInfo;
 
             const response = await jwtAxios.post(
-                `${SERVER_URL}/api/coupon/${couponId}/issue`,
+                `${SERVER_URL}/coupon/api/${couponId}/issue`,
                 {},
                 {
                     headers: {

@@ -22,7 +22,7 @@ const useUserCoupon = () => {
 
             try {
                 const response = await jwtAxios.get(
-                    `${SERVER_URL}/api/coupon/user`
+                    `${SERVER_URL}/coupon/api/user`
                 );
 
                 const data = response.data;

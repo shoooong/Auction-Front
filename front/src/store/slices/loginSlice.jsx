@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginPost, logoutPost } from "../../api/user/userApi";
+import { loginPost, logoutPost, unregisterUser } from "../../api/user/userApi";
 import { getCookie, setCookie, removeCookie } from "../../pages/user/cookieUtil";
 
 const initState = {
@@ -27,6 +27,10 @@ export const loginPostAsync = createAsyncThunk('loginPostAsync', (param) => {
 
 export const logoutPostAsync = createAsyncThunk('logoutPostAsync', async () => {
     return await logoutPost();
+});
+
+export const unregisterUserAsync = createAsyncThunk('unregisterUserAsync', async () => {
+    return await unregisterUser();
 });
 
 const loginSlice = createSlice({
@@ -84,6 +88,18 @@ const loginSlice = createSlice({
         })
         .addCase(logoutPostAsync.rejected, () => {
             console.log("logout rejected");
+        })
+        .addCase(unregisterUserAsync.fulfilled, () => {
+            console.log("unregister fulfilled");
+
+            removeCookie("user");
+            return { ...initState };
+        })
+        .addCase(unregisterUserAsync.pending, () => {
+            console.log("unregister pending");
+        })
+        .addCase(unregisterUserAsync.rejected, () => {
+            console.log("unregister rejected");
         });
     }
 });

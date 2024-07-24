@@ -3,8 +3,6 @@
 7) 이벤트 배너
 10) 판매자 등급 호버 효과..
 11) 쿠폰, 회원탈퇴 링크연결
-
-body에 line-height = 1 꼭 필요한가?
 */
 
 
@@ -349,6 +347,21 @@ body에 line-height = 1 꼭 필요한가?
 
 .profile-button button[type="button"]:last-of-type {
     background-color: #f4f4f4;
+}
+
+.unregister-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+    margin-right: 5px;
+}
+
+.unregister-button {
+    color: #bebebe;
+}
+
+.unregister-button:hover {
+    color: #ababab;
 }
 
 

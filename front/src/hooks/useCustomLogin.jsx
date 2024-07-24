@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, createSearchParams } from "react-router-dom";
-import { loginPostAsync, logoutPostAsync } from "../store/slices/loginSlice";
+import { loginPostAsync, logoutPostAsync, unregisterUserAsync } from "../store/slices/loginSlice";
 
 const useCustomLogin = () => {
 
@@ -28,6 +28,16 @@ const useCustomLogin = () => {
         } catch (error) {
             console.error('Logout failed:', error);
             throw error;
+        }
+    };
+
+    const doUnregister = async () => {
+        try {
+            await dispatch(unregisterUserAsync()).unwrap();
+            moveToPath('/');
+        } catch (error) {
+            console.error("Unregister failed:", error);
+            alert("회원 탈퇴 중 오류가 발생했습니다.");
         }
     };
 
@@ -68,7 +78,7 @@ const useCustomLogin = () => {
         };
     }, [navigate]);
 
-    return {loginState, isLogin, doLogin, doLogout, moveToPath, moveToLogin, moveToLoginReturn, exceptionHandler};
+    return {loginState, isLogin, doLogin, doLogout, doUnregister, moveToPath, moveToLogin, moveToLoginReturn, exceptionHandler};
 }
 
 export default useCustomLogin;

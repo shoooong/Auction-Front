@@ -1,9 +1,6 @@
-* {
-    color: black;
-}
-
 .product_bid_page {
     margin: 0 auto;
+    color: black;
     max-width: 780px;
     padding: 20px 40px 160px;
 }

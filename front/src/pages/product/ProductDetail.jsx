@@ -252,56 +252,57 @@ const ProductDetails = () => {
         const simplifiedSize = selectedSize.replace('size-', ''); // 'size-' 부분 제거
         console.log("Simplified Size:", simplifiedSize);
     
-        const selectedProduct = currentTab === 'buy'
-            ? product.groupByBuyingList.find(item => item.productSize === simplifiedSize)
-            : product.groupBySalesList.find(item => item.productSize === simplifiedSize);
+        const buyingProduct = product.groupByBuyingList.find(item => item.productSize === simplifiedSize);
+        const salesProduct = product.groupBySalesList.find(item => item.productSize === simplifiedSize);
     
-        console.log("Selected Product:", selectedProduct);
+        console.log("Selected Buying Product:", buyingProduct);
+        console.log("Selected Sales Product:", salesProduct);
     
         const size = simplifiedSize;
         const type = currentTab === 'buy' ? 'buy' : 'sales';
-        const biddingPrice = selectedProduct ? (currentTab === 'buy' ? selectedProduct.buyingBiddingPrice : selectedProduct.productMaxPrice).toLocaleString() : null;
-        const productId = selectedProduct ? selectedProduct.productId : generateProductIdForSize(simplifiedSize);
+        const buyingBiddingPrice = buyingProduct ? buyingProduct.buyingBiddingPrice : null;
+        const buyingProductId = buyingProduct ? buyingProduct.buyProductId : null;
+        const salesBiddingPrice = salesProduct ? salesProduct.productMaxPrice : null;
+        const salesProductId = salesProduct ? salesProduct.salesProductId : null;
     
         console.log("Model Number:", modelNum);
-        console.log("Bidding Price:", biddingPrice);
-        console.log("상품 ID:", productId);
+        console.log("Buying Bidding Price:", buyingBiddingPrice);
+        console.log("Sales Bidding Price:", salesBiddingPrice);
+        console.log("Buying Product ID:", buyingProductId);
+        console.log("Sales Product ID:", salesProductId);
     
-        alert(`상품 ID: ${productId}\n모델 번호: ${modelNum}\n입찰 가격: ${biddingPrice}`);
+        // Alert to show the prices and IDs
+        alert(`
+            구매 가격: ${buyingBiddingPrice ? buyingBiddingPrice.toLocaleString() : 'N/A'}\n
+            구매 ID: ${buyingProductId ? buyingProductId : 'N/A'}\n
+            판매 가격: ${salesBiddingPrice ? salesBiddingPrice.toLocaleString() : 'N/A'}\n
+            판매 ID: ${salesProductId ? salesProductId : 'N/A'}
+        `);
     
-        navigate(`/clothes/details/${modelNum}/bid?size=${size}&type=${type}`, {
-            state: {
-                productImg: product.productImg,
-                productName: product.productName,
-                modelNum: product.modelNum,
-                productSize: size,
-                biddingPrice: biddingPrice,
-                productId: productId,
-                userId: userInfo.userId,
-                currentTab: currentTab
-            }
-        });
+        const state = {
+            productImg: product.productImg,
+            productName: product.productName,
+            modelNum: product.modelNum,
+            productSize: size,
+            buyingBiddingPrice: buyingBiddingPrice ? buyingBiddingPrice.toLocaleString() : null,
+            buyingProductId: buyingProductId,
+            salesBiddingPrice: salesBiddingPrice ? salesBiddingPrice.toLocaleString() : null,
+            salesProductId: salesProductId,
+            userId: userInfo.userId,
+            currentTab: currentTab,
+            biddingPrice: currentTab === 'buy' ? buyingBiddingPrice : salesBiddingPrice
+        };
+    
+        if (currentTab === 'buy') {
+            state.productId = buyingProductId;
+        } else {
+            state.productId = salesProductId;
+        }
+    
+        navigate(`/clothes/details/${modelNum}/bid?size=${size}&type=${type}`, { state });
         console.log("전송");
     };
     
-    // 각 사이즈에 대한 고유한 productId를 생성하는 함수
-    const generateProductIdForSize = (size) => {
-        // 예시로 각 사이즈에 대해 고유한 숫자를 반환하는 로직
-        const sizeMap = {
-            '230': 1,
-            '235': 2,
-            '240': 3,
-            '245': 4,
-            '250': 5,
-            '255': 6,
-            '260': 7,
-            '270': 8,
-            '275': 9,
-        };
-        return sizeMap[size] || null;
-    };
-
-
 
     return (
         <Box className="product-page">

@@ -48,15 +48,18 @@ export default function ProductBid() {
     };
 
     const handleSubmit = () => {
-        alert(`희망가: ${bidPrice.toLocaleString()}\n입찰 마감기한: ${endDate}\n제품 ID: ${data.modelNum}\n상품 고유 ID : ${data.productId}`);
+        const productId = currentForm === 'buy' ? data.buyingProductId : data.salesProductId;
+        alert(`희망가: ${bidPrice.toLocaleString()}\n입찰 마감기한: ${selectedDays}일\n제품 ID: ${data.modelNum}\n상품 고유 ID : ${productId}`);
     };
 
     const handleInstantSubmit = () => {
-        alert(`희망가: ${data.biddingPrice.toLocaleString()}\n제품 ID: ${data.modelNum}\n상품 고유 ID : ${data.productId}`);
+        const productId = currentForm === 'buy_now' ? data.salesProductId : data.buyingProductId;
+        const biddingPrice = currentForm === 'buy_now' ? data.buyingBiddingPrice : data.salesBiddingPrice;
+        alert(`희망가: ${biddingPrice.toLocaleString()}\n상품 고유 ID : ${productId}`);
     };
 
-    const isBuyNowDisabled = !data.biddingPrice && !isSales;
-    const isSellNowDisabled = !data.biddingPrice && isSales;
+    const isBuyNowDisabled = currentForm === 'buy_now' && !data.salesBiddingPrice;
+    const isSellNowDisabled = currentForm === 'sell_now' && !data.buyingBiddingPrice;
 
     return (
         <Box className="product_bid_page">
@@ -85,12 +88,12 @@ export default function ProductBid() {
                         <ul className='price_list'>
                             <li className='list_item'>
                                 <p className='title'>즉시 구매가</p>
-                                <span className='price'>{data.biddingPrice}</span>
+                                <span className='price'>{data.buyingBiddingPrice}</span>
                                 <span className='unit'>원</span>
                             </li>
                             <li className='list_item'>
                                 <p className='title'>즉시 판매가</p>
-                                <span className='price'>{data.biddingPrice}</span>
+                                <span className='price'>{data.salesBiddingPrice}</span>
                                 <span className='unit'>원</span>
                             </li>
                         </ul>
@@ -145,13 +148,13 @@ export default function ProductBid() {
                                 <div className="bid_deadline">
                                     <p className='deadline_txt'>{selectedDays}일 ({endDate} 마감)</p>
                                     <div className="deadline_tab">
-                                        <button onClick={() => handleDaysChange(1)} className={`btn outlinegrey medium ${selectedDays === 1 ? 'is_active' : ''}`}>1일</button>
-                                        <button onClick={() => handleDaysChange(3)} className={`btn outlinegrey medium ${selectedDays === 3 ? 'is_active' : ''}`}>3일</button>
-                                        <button onClick={() => handleDaysChange(7)} className={`btn outlinegrey medium ${selectedDays === 7 ? 'is_active' : ''}`}>7일</button>
-                                        <button onClick={() => handleDaysChange(30)} className={`btn outlinegrey medium ${selectedDays === 30 ? 'is_active' : ''}`}>30일</button>
-                                        <button onClick={() => handleDaysChange(60)} className={`btn outlinegrey medium ${selectedDays === 60 ? 'is_active' : ''}`}>60일</button>
-                                        <button onClick={() => handleDaysChange(90)} className={`btn outlinegrey medium ${selectedDays === 90 ? 'is_active' : ''}`}>90일</button>
-                                        <button onClick={() => handleDaysChange(180)} className={`btn outlinegrey medium ${selectedDays === 180 ? 'is_active' : ''}`}>180일</button>
+                                        <button onClick={() => handleDaysChange(1)} className={`btn outlinegrey medium ${selectedDays === 1 ? 'is_active' : ''}`}>1</button>
+                                        <button onClick={() => handleDaysChange(3)} className={`btn outlinegrey medium ${selectedDays === 3 ? 'is_active' : ''}`}>3</button>
+                                        <button onClick={() => handleDaysChange(7)} className={`btn outlinegrey medium ${selectedDays === 7 ? 'is_active' : ''}`}>7</button>
+                                        <button onClick={() => handleDaysChange(30)} className={`btn outlinegrey medium ${selectedDays === 30 ? 'is_active' : ''}`}>30</button>
+                                        <button onClick={() => handleDaysChange(60)} className={`btn outlinegrey medium ${selectedDays === 60 ? 'is_active' : ''}`}>60</button>
+                                        <button onClick={() => handleDaysChange(90)} className={`btn outlinegrey medium ${selectedDays === 90 ? 'is_active' : ''}`}>90</button>
+                                        <button onClick={() => handleDaysChange(180)} className={`btn outlinegrey medium ${selectedDays === 180 ? 'is_active' : ''}`}>180</button>
                                     </div>
                                 </div>
                             </div>
@@ -196,13 +199,13 @@ export default function ProductBid() {
                                 <div className="bid_deadline">
                                     <p className='deadline_txt'>{selectedDays}일 ({endDate} 마감)</p>
                                     <div className="deadline_tab">
-                                        <button onClick={() => handleDaysChange(1)} className={`btn outlinegrey medium ${selectedDays === 1 ? 'is_active' : ''}`}>1일</button>
-                                        <button onClick={() => handleDaysChange(3)} className={`btn outlinegrey medium ${selectedDays === 3 ? 'is_active' : ''}`}>3일</button>
-                                        <button onClick={() => handleDaysChange(7)} className={`btn outlinegrey medium ${selectedDays === 7 ? 'is_active' : ''}`}>7일</button>
-                                        <button onClick={() => handleDaysChange(30)} className={`btn outlinegrey medium ${selectedDays === 30 ? 'is_active' : ''}`}>30일</button>
-                                        <button onClick={() => handleDaysChange(60)} className={`btn outlinegrey medium ${selectedDays === 60 ? 'is_active' : ''}`}>60일</button>
-                                        <button onClick={() => handleDaysChange(90)} className={`btn outlinegrey medium ${selectedDays === 90 ? 'is_active' : ''}`}>90일</button>
-                                        <button onClick={() => handleDaysChange(180)} className={`btn outlinegrey medium ${selectedDays === 180 ? 'is_active' : ''}`}>180일</button>
+                                        <button onClick={() => handleDaysChange(1)} className={`btn outlinegrey medium ${selectedDays === 1 ? 'is_active' : ''}`}>1</button>
+                                        <button onClick={() => handleDaysChange(3)} className={`btn outlinegrey medium ${selectedDays === 3 ? 'is_active' : ''}`}>3</button>
+                                        <button onClick={() => handleDaysChange(7)} className={`btn outlinegrey medium ${selectedDays === 7 ? 'is_active' : ''}`}>7</button>
+                                        <button onClick={() => handleDaysChange(30)} className={`btn outlinegrey medium ${selectedDays === 30 ? 'is_active' : ''}`}>30</button>
+                                        <button onClick={() => handleDaysChange(60)} className={`btn outlinegrey medium ${selectedDays === 60 ? 'is_active' : ''}`}>60</button>
+                                        <button onClick={() => handleDaysChange(90)} className={`btn outlinegrey medium ${selectedDays === 90 ? 'is_active' : ''}`}>90</button>
+                                        <button onClick={() => handleDaysChange(180)} className={`btn outlinegrey medium ${selectedDays === 180 ? 'is_active' : ''}`}>180</button>
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +232,7 @@ export default function ProductBid() {
                             <dl className="price_now_box">
                                 <dt className='price_now_title'>즉시 구매가</dt>
                                 <dd className='price'>
-                                    <span className='price'>{data.biddingPrice}</span>
+                                    <span className='price'>{data.buyingBiddingPrice}</span>
                                     <span className='unit'>원</span>
                                 </dd>
                             </dl>
@@ -267,7 +270,7 @@ export default function ProductBid() {
                             <dl className="price_now_box">
                                 <dt className='price_now_title'>즉시 판매가</dt>
                                 <dd className='price'>
-                                    <span className='price'>{data.biddingPrice}</span>
+                                    <span className='price'>{data.salesBiddingPrice}</span>
                                     <span className='unit'>원</span>
                                 </dd>
                             </dl>

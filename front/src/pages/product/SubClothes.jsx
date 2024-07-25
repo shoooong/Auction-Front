@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "api/serverApi";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 import { Box, IconButton, Button } from "@mui/material";
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
@@ -71,7 +72,7 @@ const SubClothes = () => {
     return (
         <div className="container">
             <div className="sub-nav"></div>
-            <h2 className="title">상의</h2>
+            <h2 className="title">하의</h2>
             <main className="product-content" style={{ marginBottom: "80px" }}>
                 <Box className="box">
                     <Box className="product-wrap inline-flex">
@@ -80,7 +81,7 @@ const SubClothes = () => {
                                 <div>
                                     <div className="image-container">
                                         <img
-                                            src={product.productImg}
+                                            src={`${CLOUD_STORAGE_BASE_URL}/products/${product.productImg}`}
                                             alt={product.productName}
                                             className="post-image"
                                         />

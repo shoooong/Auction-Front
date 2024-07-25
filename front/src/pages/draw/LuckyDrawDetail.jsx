@@ -44,7 +44,6 @@ const LuckyDrawDetail = () => {
         } catch (error) {
             exceptionHandler(error);
             setError("응모 중 오류가 발생했습니다.");
-            alert(error.message);
             navigate(0);
         }
     };

@@ -55,8 +55,8 @@ const useCustomLogin = () => {
     };
 
     const exceptionHandler = useCallback((ex) => {
-        console.log("----------Exception---------");
-        console.log(ex);
+        console.log("----------Exception---------@@@");
+        console.log(ex.error);
 
         const errorMsg = ex.response?.data?.error;
         
@@ -84,7 +84,7 @@ const useCustomLogin = () => {
             return;
         };
 
-        alert("오류가 발생했습니다. 다시 시도해 주세요.");
+        alert(errorStr);
     }, [navigate, isAdmin]);
 
     return {loginState, isLogin, doLogin, doLogout, doUnregister, moveToPath, moveToLogin, moveToLoginReturn, exceptionHandler};

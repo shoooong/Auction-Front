@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Box } from "@mui/material";
@@ -47,16 +48,56 @@ export default function ProductBid() {
         setBidPrice(e.target.value);
     };
 
-    const handleSubmit = () => {
-        const productId = currentForm === 'buy' ? data.buyingProductId : data.salesProductId;
-        alert(`희망가: ${bidPrice.toLocaleString()}\n입찰 마감기한: ${selectedDays}일\n제품 ID: ${data.modelNum}\n상품 고유 ID : ${productId}`);
+    const handleSubmit = async () => {
+        const productId = data.productId; // 입찰일 경우 productId 사용
+        const url = currentForm === 'buy' ? '/buy' : '/sell';
+
+        try {
+            // const response = await axios.post(url, {
+            //     bidPrice,
+            //     selectedDays,
+            //     bidProductId
+            // });
+
+            alert(`희망가: ${bidPrice.toLocaleString()}\n입찰 마감기한: ${selectedDays}\n해당 입찰 상품 ID: ${productId}`);
+            // console.log('응답 데이터:', response.data);
+
+            // 성공적으로 요청이 완료되었을 때 추가적인 로직을 작성할 수 있습니다.
+        } catch (error) {
+            console.error('에러 발생:', error);
+            alert('요청을 처리하는 중 오류가 발생했습니다.');
+        }
     };
 
-    const handleInstantSubmit = () => {
-        const productId = currentForm === 'buy_now' ? data.salesProductId : data.buyingProductId;
-        const biddingPrice = currentForm === 'buy_now' ? data.buyingBiddingPrice : data.salesBiddingPrice;
-        alert(`희망가: ${biddingPrice.toLocaleString()}\n상품 고유 ID : ${productId}`);
+    const handleInstantSubmit = async () => {
+        let productId, biddingPrice, url;
+    
+        if (currentForm === 'buy_now') {
+            productId = data.salesProductId; // 즉시 구매가의 ID
+            biddingPrice = data.salesBiddingPrice; // 즉시 구매가
+            url = '/buy_now';
+        } else if (currentForm === 'sell_now') {
+            productId = data.salesProductId; // 즉시 판매가의 ID
+            biddingPrice = data.buyingBiddingPrice; // 즉시 판매가
+            url = '/sell_now';
+        }
+    
+        try {
+            // const response = await axios.post(url, {
+            //     biddingPrice,
+            //     productId
+            // });
+    
+            alert(`희망가: ${biddingPrice ? biddingPrice.toLocaleString() : 'N/A'}\n상품 고유 ID: ${productId}`);
+            // console.log('응답 데이터:', response.data);
+    
+            // 성공적으로 요청이 완료되었을 때 추가적인 로직을 작성할 수 있습니다.
+        } catch (error) {
+            console.error('에러 발생:', error);
+            alert('요청을 처리하는 중 오류가 발생했습니다.');
+        }
     };
+    
 
     const isBuyNowDisabled = currentForm === 'buy_now' && !data.salesBiddingPrice;
     const isSellNowDisabled = currentForm === 'sell_now' && !data.buyingBiddingPrice;
@@ -88,12 +129,12 @@ export default function ProductBid() {
                         <ul className='price_list'>
                             <li className='list_item'>
                                 <p className='title'>즉시 구매가</p>
-                                <span className='price'>{data.buyingBiddingPrice}</span>
+                                <span className='price'>{data.salesBiddingPrice.toLocaleString()}</span>
                                 <span className='unit'>원</span>
                             </li>
                             <li className='list_item'>
                                 <p className='title'>즉시 판매가</p>
-                                <span className='price'>{data.salesBiddingPrice}</span>
+                                <span className='price'>{data.buyingBiddingPrice.toLocaleString()}</span>
                                 <span className='unit'>원</span>
                             </li>
                         </ul>
@@ -232,7 +273,7 @@ export default function ProductBid() {
                             <dl className="price_now_box">
                                 <dt className='price_now_title'>즉시 구매가</dt>
                                 <dd className='price'>
-                                    <span className='price'>{data.buyingBiddingPrice}</span>
+                                    <span className='price'>{data.salesBiddingPrice.toLocaleString()}</span>
                                     <span className='unit'>원</span>
                                 </dd>
                             </dl>
@@ -270,7 +311,7 @@ export default function ProductBid() {
                             <dl className="price_now_box">
                                 <dt className='price_now_title'>즉시 판매가</dt>
                                 <dd className='price'>
-                                    <span className='price'>{data.salesBiddingPrice}</span>
+                                    <span className='price'>{data.buyingBiddingPrice.toLocaleString()}</span>
                                     <span className='unit'>원</span>
                                 </dd>
                             </dl>

@@ -200,7 +200,7 @@ const ProductDetails = () => {
         try {
             const smallImgData = "temp_image_data"; // 임시 데이터로 대체
 
-            await axios.post(`${SERVER_URL}/products/details/${modelNum}/review`, {
+            await axios.post(`${SERVER_URL}/api/products/details/${modelNum}/review`, {
                 userId: userInfo.userId,
                 reviewImg: smallImgData,
                 reviewContent,
@@ -230,7 +230,7 @@ const ProductDetails = () => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setReviewImg(reader.result);
+                setReviewImg(reader.result); // Base64 문자열로 설정
             };
             reader.readAsDataURL(file);
         }
@@ -243,52 +243,56 @@ const ProductDetails = () => {
             navigate("/user/login");
             return;
         }
-
+    
         if (!selectedSize) {
             alert("사이즈를 선택해주세요.");
             return;
         }
-
-        const simplifiedSize = selectedSize.replace('size-', '');
-        const selectedProduct = currentTab === 'buy'
-            ? product.groupByBuyingList.find(item => item.productSize === simplifiedSize)
-            : product.groupBySalesList.find(item => item.productSize === simplifiedSize);
-
+    
+        const simplifiedSize = selectedSize.replace('size-', ''); // 'size-' 부분 제거
+        console.log("Simplified Size:", simplifiedSize);
+    
+        const buyingProduct = product.groupByBuyingList.find(item => item.productSize === simplifiedSize);
+        const salesProduct = product.groupBySalesList.find(item => item.productSize === simplifiedSize);
+    
+        console.log("Selected Buying Product:", buyingProduct);
+        console.log("Selected Sales Product:", salesProduct);
+    
         const size = simplifiedSize;
         const type = currentTab === 'buy' ? 'buy' : 'sales';
-        const biddingPrice = selectedProduct ? (currentTab === 'buy' ? selectedProduct.buyingBiddingPrice : selectedProduct.productMaxPrice).toLocaleString() : null;
-        const productId = selectedProduct ? selectedProduct.productId : generateProductIdForSize(simplifiedSize);
-
-        alert(`상품 ID: ${productId}\n모델 번호: ${modelNum}\n입찰 가격: ${biddingPrice}`);
-
-        navigate(`/clothes/details/${modelNum}/bid?size=${size}&type=${type}`, {
-            state: {
-                productImg: product.productImg,
-                productName: product.productName,
-                modelNum: product.modelNum,
-                productSize: size,
-                biddingPrice: biddingPrice,
-                productId: productId,
-                userId: userInfo.userId,
-                currentTab: currentTab
-            }
-        });
-    };
-
-    const generateProductIdForSize = (size) => {
-        const sizeMap = {
-            '230': 1,
-            '235': 2,
-            '240': 3,
-            '245': 4,
-            '250': 5,
-            '255': 6,
-            '260': 7,
-            '270': 8,
-            '275': 9,
+        const buyingBiddingPrice = buyingProduct ? buyingProduct.buyingBiddingPrice : null;
+        const buyProductId = buyingProduct ? buyingProduct.buyProductId : null; // 올바르게 참조
+        const salesBiddingPrice = salesProduct ? salesProduct.productMaxPrice : null;
+        const salesProductId = salesProduct ? salesProduct.salesProductId : null; // 올바르게 참조
+    
+        const selectedProductId = currentTab === 'buy' ? (buyingProduct ? buyingProduct.productId : null) : (salesProduct ? salesProduct.productId : null);
+    
+        console.log("ProductID 상품 고유 :", selectedProductId);
+        console.log("Model Number:", modelNum);
+        console.log("Buying Bidding Price:", buyingBiddingPrice);
+        console.log("Sales Bidding Price:", salesBiddingPrice);
+        console.log("Buying Product ID:", buyProductId);
+        console.log("Sales Product ID:", salesProductId);
+    
+        const state = {
+            productId: selectedProductId,
+            productImg: product.productImg,
+            productName: product.productName,
+            modelNum: product.modelNum,
+            productSize: size,
+            buyingBiddingPrice: buyingBiddingPrice ? buyingBiddingPrice.toLocaleString() : null,
+            buyingProductId: buyProductId, 
+            salesProductId: salesProductId,
+            salesBiddingPrice: salesBiddingPrice ? salesBiddingPrice.toLocaleString() : null,
+            userId: userInfo.userId,
+            currentTab: currentTab,
+            biddingPrice: currentTab === 'buy' ? buyingBiddingPrice : salesBiddingPrice,
         };
-        return sizeMap[size] || null;
+    
+        navigate(`/clothes/details/${modelNum}/bid?size=${size}&type=${type}`, { state });
+        console.log("전송");
     };
+    
 
     const handleLikeClick = async () => {
         try {
@@ -695,7 +699,7 @@ const ProductDetails = () => {
                                             {product.salesHopeList.map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.salesBiddingPrice}원</td>
+                                                    <td>{info.salesBiddingPrice.toLocaleString()}원</td>
                                                     <td>{info.salesQuantity}</td>
                                                 </tr>
                                             ))}

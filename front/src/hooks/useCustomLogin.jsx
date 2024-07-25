@@ -11,6 +11,7 @@ const useCustomLogin = () => {
     const loginState = useSelector(state => state.loginSlice);
 
     const isLogin = loginState.email ? true : false;
+    const isAdmin = window.location.pathname.startsWith('/admin');
 
     const doLogin = async (loginParam) => {
         try {
@@ -64,7 +65,10 @@ const useCustomLogin = () => {
         if (errorMsg === 'REQUIRE_LOGIN') {
             alert("%로그인이 필요한 서비스 입니다.%");
             
-            navigate({pathname:'/user/login', search: errorStr});
+            navigate({
+                pathname: isAdmin ? '/admin/login' : '/user/login',
+                search: errorStr
+            });
 
             return;
         };
@@ -72,13 +76,16 @@ const useCustomLogin = () => {
         if (ex.response.data.error === 'ERROR_ACCESSDENIED') {
             alert("해당 페이지를 이용할 수 있는 권한이 없습니다.");
 
-            navigate({pathname:'/user/login', search: errorStr});
+            navigate({
+                pathname: isAdmin ? '/admin/login' : '/user/login',
+                search: errorStr
+            });
 
             return;
         };
 
         alert("오류가 발생했습니다. 다시 시도해 주세요.");
-    }, [navigate]);
+    }, [navigate, isAdmin]);
 
     return {loginState, isLogin, doLogin, doLogout, doUnregister, moveToPath, moveToLogin, moveToLoginReturn, exceptionHandler};
 }

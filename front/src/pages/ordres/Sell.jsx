@@ -9,6 +9,7 @@ import { Button, Box, Dialog, DialogTitle } from "@mui/material";
 import OrderAddressComponent from "components/OrderAddressComponent";
 import jwtAxios from "pages/user/jwtUtil";
 import { SERVER_URL } from "../../api/serverApi";
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import Event from "pages/user/mypage/CouponMain";
 // import Postcode from "components/mypage/Postcode";
@@ -17,6 +18,10 @@ import { useNavigate } from "react-router-dom";
 // import useAddress from "hooks/useAddress";
 
 export default function Sell() {
+
+    const location = useLocation();
+    const data = location.state || {};
+
     const navigate = useNavigate();
     const [open2, setOpen2] = useState(false);
     const [fee, setFee] = useState(0);
@@ -31,6 +36,10 @@ export default function Sell() {
         exp: 90,
         addressId: null,
     });
+
+    useEffect(() => {
+        console.log("Received data in Sell component:", data);
+    }, [data]);
 
     useEffect(() => {
         if (addressInfo && salesBidding) {

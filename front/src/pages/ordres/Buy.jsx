@@ -7,6 +7,7 @@ import useOrder from "hooks/useOrder";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
 import { Button, Box, Dialog, DialogTitle } from "@mui/material";
+import { useLocation } from "react-router-dom";
 import useUserCoupon from "hooks/useUserCoupon";
 // import Event from "pages/user/mypage/CouponMain";
 import OrderCouponComponent from "components/OrderCouponComponent";
@@ -21,6 +22,10 @@ const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 const customerKey = "HOytG9DDEHHgTxwNS0YWT";
 
 export default function Buy() {
+
+    const location = useLocation();
+    const data = location.state || {};
+
     const [orderData, setOrderData] = useState({
         productId: null,
         couponId: null,
@@ -54,6 +59,11 @@ export default function Buy() {
         setOpen(false); // 쿠폰 팝업 닫기
         console.log(coupon);
     };
+
+    useEffect(() => {
+        console.log("Received data in Buy component:", data);
+    }, [data]);
+
     useEffect(() => {
         if (addressInfo && buyingBidding) {
             const calculatedFee = buyingBidding.buyingBiddingPrice * 0.04;

@@ -3,14 +3,13 @@ import postImg from "assets/images/icon-post.png";
 
 import arrowImg from "assets/images/arrow2.svg";
 import "styles/order.css";
-import useSell from "hooks/useSell";
 import { useEffect, useState } from "react";
 import { Button, Box, Dialog, DialogTitle } from "@mui/material";
 import OrderAddressComponent from "components/OrderAddressComponent";
 import jwtAxios from "pages/user/jwtUtil";
-import { SERVER_URL } from "../../api/serverApi";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import useBid from "hooks/useBid";
 // import Event from "pages/user/mypage/CouponMain";
 // import Postcode from "components/mypage/Postcode";
 // ------  SDK 초기화 ------
@@ -19,16 +18,17 @@ import { useNavigate } from "react-router-dom";
 
 export default function Sell() {
     const location = useLocation();
-    const data = location.state || {};
+    const bidData2 = location.state || {};
+    console.log("data====" + bidData2);
+    console.log("jasn===" + JSON.stringify(bidData2, null, 2));
+
+    const { product, addressInfo } = useBid(bidData2);
+    console.log("product====" + product);
 
     const navigate = useNavigate();
     const [open2, setOpen2] = useState(false);
     const [fee, setFee] = useState(0);
-    // const [totalPrice, setTotalPrice] = useState(0);
-
-    // const [open2, setOpen2] = useState(false);
-    const { salesBidding, addressInfo } = useSell();
-
+    console.log("bidData2====" + bidData2);
     const [orderData, setOrderData] = useState({
         productId: null,
         price: null,
@@ -36,28 +36,29 @@ export default function Sell() {
         addressId: null,
     });
 
-    useEffect(() => {
-        console.log("Received data in Sell component:", data);
-    }, [data]);
+    // useEffect(() => {
+    //     console.log("Received data in Sell component:", bidData2);
+    // }, [bidData2]);
 
     useEffect(() => {
-        if (addressInfo && salesBidding) {
-            const calculatedFee = salesBidding.salesBiddingPrice * 0.04;
-            setFee(calculatedFee);
+        if (addressInfo && product) {
+            const calculatedFee = bidData2?.bidPrice * 0.04;
+            console.log("calculatedFee=" + calculatedFee);
+            setFee(Math.floor(calculatedFee / 10) * 10);
             setOrderData((prevData) => ({
                 ...prevData,
-                addressId: addressInfo.addressId,
-                productId: salesBidding.product.productId,
-                price: salesBidding.salesBiddingPrice - calculatedFee,
-                exp: 90,
+                addressId: addressInfo?.addressId,
+                productId: bidData2?.productId,
+                price: bidData2?.bidPrice - fee,
+                exp: bidData2?.selectedDays,
             }));
         }
-    }, [addressInfo, salesBidding]);
+    }, [addressInfo, product]);
     // console.log(salesBidding);
     // console.log(addressInfo);
     // console.log(salesBidding?.product.productId);
 
-    console.log(orderData);
+    // console.log(orderData);
 
     const handleSell = async () => {
         try {
@@ -86,17 +87,11 @@ export default function Sell() {
                         </div>
                         <div className="product_detail">
                             <p className="product_model_number bold_title">
-                                {salesBidding?.product.modelNum}
+                                {product?.modelNum}
                             </p>
-                            <p className="model_eng">
-                                {salesBidding?.product.productName}
-                            </p>
-                            <p className="model_kor">
-                                {salesBidding?.product.productName}
-                            </p>
-                            <p className="size_txt">
-                                {salesBidding?.product.productSize}
-                            </p>
+                            <p className="model_eng">{product?.productName}</p>
+                            <p className="model_kor">{product?.productName}</p>
+                            <p className="size_txt">{product?.productSize}</p>
                         </div>
                     </div>
                 </div>
@@ -234,8 +229,7 @@ export default function Sell() {
                         <div className="order_item">
                             <p className="desc">판매 희망가</p>
                             <p className="desc bold">
-                                {salesBidding?.salesBiddingPrice.toLocaleString()}
-                                원
+                                {bidData2?.bidPrice?.toLocaleString()}원
                             </p>
                         </div>
                         <div className="order_item">
@@ -257,7 +251,7 @@ export default function Sell() {
                     <div className="order_box">
                         <p className="pay_text16">정산금액</p>
                         <p className="pay_text20">
-                            {orderData?.price?.toLocaleString()}원
+                            {bidData2?.bidPrice?.toLocaleString()}원
                         </p>
                     </div>
                 </div>
@@ -272,7 +266,7 @@ export default function Sell() {
                                 !orderData.price
                             }
                         >
-                            {orderData?.price?.toLocaleString()}원 • 판매하기
+                            {bidData2?.bidPrice?.toLocaleString()}원 • 판매하기
                         </button>
                     </div>
                 </div>

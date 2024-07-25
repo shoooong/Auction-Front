@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import jwtAxios from "pages/user/jwtUtil";
-import { SERVER_URL } from "api/serverApi";
 
+// 입찰 등록
 // 입찰 -> 주문페이지(productId,)
 export default function useBid(data) {
     // 상태 정의
@@ -41,8 +41,9 @@ export default function useBid(data) {
                 setLoading(false);
             }
         };
-
-        fetchData();
+        if (data?.productId) {
+            fetchData();
+        }
     }, []);
     // 로딩 상태 처리
     if (loading) {

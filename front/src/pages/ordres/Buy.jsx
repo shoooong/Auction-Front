@@ -3,15 +3,12 @@ import postImg from "assets/images/icon-post.png";
 import tossImg from "assets/images/icon-toss.png";
 import arrowImg from "assets/images/arrow2.svg";
 import "styles/order.css";
-import useOrder from "hooks/useOrder";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
 import { Button, Box, Dialog, DialogTitle } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import useUserCoupon from "hooks/useUserCoupon";
 // import Event from "pages/user/mypage/CouponMain";
 import OrderCouponComponent from "components/OrderCouponComponent";
-import { SERVER_URL } from "../../api/serverApi";
 import jwtAxios from "pages/user/jwtUtil";
 import useBid from "hooks/useBid";
 // import Postcode from "components/mypage/Postcode";
@@ -29,6 +26,7 @@ export default function Buy() {
     console.log("jasn===" + JSON.stringify(bidData, null, 2));
 
     const { product, addressInfo } = useBid(bidData);
+    console.log("product===" + product);
     const [orderData, setOrderData] = useState({
         productId: null,
         couponId: null,
@@ -122,9 +120,6 @@ export default function Buy() {
     const deliveryFee = 3000;
 
     const calculateTotalAmount = () => {
-        console.log(typeof immediateBuyPrice);
-        console.log(typeof deliveryFee);
-        console.log(typeof fee);
         let total = immediateBuyPrice + deliveryFee + fee;
 
         // 쿠폰 타입이 PERCENT인 경우
@@ -345,7 +340,7 @@ export default function Buy() {
                         <div className="order_item">
                             <p className="desc">즉시 구매가</p>
                             <p className="desc bold">
-                                {Number(bidData.bidPrice).toLocaleString()}원
+                                {Number(bidData?.bidPrice).toLocaleString()}원
                             </p>
                         </div>
                         <div className="order_item">

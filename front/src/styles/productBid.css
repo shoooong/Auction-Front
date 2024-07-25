@@ -18,7 +18,17 @@
     display: flex;
     width: 100%;
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+/* Firefox  */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
 .product_info .product {
     border-radius: 10px;
     flex-shrink: 0;
@@ -80,9 +90,9 @@
 }
 
 .price_list .title {
-    color: rgba(34, 34, 34, .5);
+    color: rgba(34, 34, 34, 0.5);
     font-size: 12px;
-    letter-spacing: -.06px;
+    letter-spacing: -0.06px;
     line-height: 14px;
 }
 
@@ -143,9 +153,9 @@
 .tab_area.buy_tab .item .item_link,
 .tab_area.sell_tab .item .item_link {
     border-radius: 80px;
-    color: rgba(34, 34, 34, .8);
+    color: rgba(34, 34, 34, 0.8);
     font-size: 14px;
-    letter-spacing: .15px;
+    letter-spacing: 0.15px;
     padding: 14px 0;
     display: block;
     text-align: center;
@@ -166,7 +176,7 @@
 .price_now_title {
     font-size: 14px;
     font-weight: 700;
-    letter-spacing: -.21px;
+    letter-spacing: -0.21px;
     min-width: 63px;
     padding-left: 35px;
 }
@@ -204,16 +214,16 @@ textarea {
     resize: none;
 }
 
-.price>.unit {
+.price > .unit {
     font: 20px;
     font-weight: 700;
-    letter-spacing: -.3px;
+    letter-spacing: -0.3px;
     line-height: 26px;
     padding-left: 2px;
 }
 
-.price_bind>.price_bind_empty {
-    color: rgba(34, 34, 34, .5);
+.price_bind > .price_bind_empty {
+    color: rgba(34, 34, 34, 0.5);
     font-size: 14px;
     padding-top: 10px;
     padding-left: 35px;
@@ -229,9 +239,9 @@ textarea {
     padding-bottom: 16px;
 }
 
-.section-title>.title_text {
+.section-title > .title_text {
     font-size: 14px;
-    letter-spacing: -.21px;
+    letter-spacing: -0.21px;
 }
 
 .section-content {
@@ -245,7 +255,7 @@ textarea {
 
 .deadline_txt {
     font-size: 15px;
-    letter-spacing: -.15px;
+    letter-spacing: -0.15px;
 }
 
 .deadline_info_area .deadline_tab {
@@ -273,15 +283,15 @@ textarea {
     border-radius: 12px;
     font-size: 14px;
     height: 42px;
-    letter-spacing: -.14px;
+    letter-spacing: -0.14px;
     padding: 0 18px;
 }
 
-.deadline_tab .btn+.btn {
+.deadline_tab .btn + .btn {
     margin-left: 4px;
 }
 
-.deadline_tab>.btn {
+.deadline_tab > .btn {
     align-items: center;
     background-color: #fff;
     cursor: pointer;
@@ -309,11 +319,11 @@ textarea {
 
 .price_box > .price_title {
     font-size: 13px;
-    letter-spacing: -.07px;
+    letter-spacing: -0.07px;
 }
 
 .price_box.price_empty .price_empty_desc {
-    color: rgba(34, 34, 34, .5);
+    color: rgba(34, 34, 34, 0.5);
 }
 
 .blind,
@@ -341,7 +351,7 @@ textarea {
     font-size: 16px;
     font-weight: 700;
     height: 52px;
-    letter-spacing: -.16px;
+    letter-spacing: -0.16px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -351,7 +361,7 @@ textarea {
 .btn_confirm.btn {
     align-items: center;
     background-color: #fff;
-    color: rgba(34, 34, 34, .8);
+    color: rgba(34, 34, 34, 0.8);
     cursor: pointer;
     display: inline-flex;
     justify-content: center;
@@ -389,7 +399,7 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-    letter-spacing: -.16px;
+    letter-spacing: -0.16px;
     border-radius: 80px;
 }
 

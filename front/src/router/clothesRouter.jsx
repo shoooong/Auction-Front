@@ -1,8 +1,6 @@
 import SubClothes from "pages/product/SubClothes";
 import ProductDetail from "pages/product/ProductDetail";
 import ProductBid from "pages/product/ProductBid";
-import { Children } from "react";
-import bidRouter from "./bidRouter";
 
 export default function clothesRouter() {
     return [

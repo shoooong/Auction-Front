@@ -51,8 +51,8 @@ const MainNewBuy = () => {
     };
 
     const handleProductClick = (modelNum) => {
-        navigate(`clothes/details/${modelNum}`);  // 클릭된 상품의 상세 페이지로 이동합니다
-        return modelNum;
+        const category = location.pathname.split("/")[1] || "clothes"; // 현재 카테고리를 추출합니다
+        navigate(`/${category}/details/${modelNum}`); // 클릭된 상품의 상세 페이지로 이동합니다
     };
 
     return (

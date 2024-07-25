@@ -25,10 +25,6 @@ export default function ProductBid() {
         calculateEndDate(selectedDays);
     }, [selectedDays]);
 
-    if (!data.productImg) {
-        return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>;
-    }
-
     const handleTabChange = (tab) => {
         setCurrentForm(tab);
     };
@@ -51,7 +47,7 @@ export default function ProductBid() {
     };
 
     const handleSubmit = async () => {
-        const productId = data.productId; // 입찰일 경우 productId 사용
+        const productId = currentForm === 'buy' ? (data.buyingProductId || data.productId) : (data.salesProductId || data.productId); // 입찰일 경우 적절한 productId 사용
         const url = currentForm === 'buy' ? '/buy' : '/sell';
         const postData = {
             bidPrice,
@@ -75,12 +71,12 @@ export default function ProductBid() {
         let productId, biddingPrice, url;
 
         if (currentForm === 'buy_now') {
-            productId = data.salesProductId; // 즉시 구매가의 ID
-            biddingPrice = data.salesBiddingPrice; // 즉시 구매가
+            productId = data.salesProductId || data.productId; // 즉시 구매가의 ID가 없으면 상품 고유 ID 사용
+            biddingPrice = data.salesBiddingPrice || 0; // 즉시 구매가가 없으면 기본값 사용
             url = '/buy';
         } else if (currentForm === 'sell_now') {
-            productId = data.salesProductId; // 즉시 판매가의 ID
-            biddingPrice = data.buyingBiddingPrice; // 즉시 판매가
+            productId = data.buyingProductId || data.productId; // 즉시 판매가의 ID가 없으면 상품 고유 ID 사용
+            biddingPrice = data.buyingBiddingPrice || 0; // 즉시 판매가가 없으면 기본값 사용
             url = '/sell';
         }
 
@@ -103,8 +99,6 @@ export default function ProductBid() {
 
     const isBuyNowDisabled = currentForm === 'buy_now' && !data.salesBiddingPrice;
     const isSellNowDisabled = currentForm === 'sell_now' && !data.buyingBiddingPrice;
-
-
 
     return (
         <Box className="product_bid_page">
@@ -133,12 +127,12 @@ export default function ProductBid() {
                         <ul className='price_list'>
                             <li className='list_item'>
                                 <p className='title'>즉시 구매가</p>
-                                <span className='price'>{data.salesBiddingPrice.toLocaleString()}</span>
+                                <span className='price'>{data.salesBiddingPrice ? data.salesBiddingPrice.toLocaleString() : "-"}</span>
                                 <span className='unit'>원</span>
                             </li>
                             <li className='list_item'>
                                 <p className='title'>즉시 판매가</p>
-                                <span className='price'>{data.buyingBiddingPrice.toLocaleString()}</span>
+                                <span className='price'>{data.buyingBiddingPrice ? data.buyingBiddingPrice.toLocaleString() : "-"}</span>
                                 <span className='unit'>원</span>
                             </li>
                         </ul>
@@ -277,7 +271,7 @@ export default function ProductBid() {
                             <dl className="price_now_box">
                                 <dt className='price_now_title'>즉시 구매가</dt>
                                 <dd className='price'>
-                                    <span className='price'>{data.salesBiddingPrice.toLocaleString()}</span>
+                                    <span className='price'>{data.salesBiddingPrice ? data.salesBiddingPrice.toLocaleString() : "-"}</span>
                                     <span className='unit'>원</span>
                                 </dd>
                             </dl>
@@ -315,7 +309,7 @@ export default function ProductBid() {
                             <dl className="price_now_box">
                                 <dt className='price_now_title'>즉시 판매가</dt>
                                 <dd className='price'>
-                                    <span className='price'>{data.buyingBiddingPrice.toLocaleString()}</span>
+                                    <span className='price'>{data.buyingBiddingPrice ? data.buyingBiddingPrice.toLocaleString() : "-"}</span>
                                     <span className='unit'>원</span>
                                 </dd>
                             </dl>

@@ -2,12 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "api/serverApi";
-
 import { Box, IconButton, Button } from "@mui/material";
-
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
-import '../../styles/product.css'
+import '../../styles/product.css';
 
 const SubLife = () => {
     const location = useLocation();
@@ -64,11 +62,9 @@ const SubLife = () => {
         setProducts(newProducts);
     };
 
-    const handleCategoryChange = (category) => {
-        setProducts([]);
-        setPage(0);
-        setHasNext(true);
-        navigate(`/life/details/${category}`);
+    const handleProductClick = (modelNum) => {
+        const category = location.pathname.split("/")[1] || "life";
+        navigate(`/${category}/details/${modelNum}`);
     };
 
     return (
@@ -82,7 +78,7 @@ const SubLife = () => {
                     <Box className="product-wrap inline-flex">
                         {products.map((product, index) => (
                             <div className="product" key={index}
-                                onClick={() => handleCategoryChange(product.modelNum)}>
+                                onClick={() => handleProductClick(product.modelNum)}>
                                 <div>
                                     <div className="image-container">
                                         <img
@@ -93,7 +89,10 @@ const SubLife = () => {
                                     </div>
 
                                     <IconButton
-                                        onClick={() => handleLikeToggle(index)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleLikeToggle(index);
+                                        }}
                                         className="icon-button"
                                     >
                                         {product.liked ? (

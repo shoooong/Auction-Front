@@ -9,6 +9,7 @@ import img1 from "../../assets/images/feed6.png";
 import 'chart.js/auto';
 import { getCookie } from "../../pages/user/cookieUtil";
 import jwtAxios from "pages/user/jwtUtil";
+import useCustomLogin from "hooks/useCustomLogin";
 
 const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/dummy/";
 
@@ -32,6 +33,8 @@ const ProductDetails = () => {
     const [bookmarkModalOpen, setBookmarkModalOpen] = useState(false);
     const [bookmarkSize, setBookmarkSize] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
+
+    const {exceptionHandler} = useCustomLogin();
 
     useEffect(() => {
         const checkUser = () => {
@@ -192,26 +195,15 @@ const ProductDetails = () => {
     };
 
     const handleReviewSubmit = async () => {
-        const userInfo = getCookie("user");
-        if (!userInfo || !userInfo.accessToken) {
-            alert("로그인이 필요합니다.");
-            navigate("/user/login");
-            return;
-        }
+        
 
         try {
             const smallImgData = "temp_image_data"; // 임시 데이터로 대체
 
-            await axios.post(`${SERVER_URL}/api/products/details/${modelNum}/review`, {
-                userId: userInfo.userId,
+            await jwtAxios.post(`/products/details/${modelNum}/review`, {
                 reviewImg: smallImgData,
                 reviewContent,
                 productId: product.productId,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${userInfo.accessToken}`,
-                    'Content-Type': 'application/json'
-                }
             });
             setReviewImg(null);
             setReviewContent("");
@@ -219,6 +211,7 @@ const ProductDetails = () => {
             fetchProductDetails(); // 리뷰 제출 후 상품 정보를 다시 불러옵니다.
         } catch (error) {
             console.error("Error submitting review: ", error);
+            exceptionHandler(error);
             if (error.response && error.response.status === 409) {
                 alert('리소스 충돌이 발생했습니다.');
             } else if (error.response && error.response.status === 401) {
@@ -239,61 +232,65 @@ const ProductDetails = () => {
     };
 
     const handleConfirmClick = () => {
-        const userInfo = getCookie("user");
-        if (!userInfo || !userInfo.accessToken) {
-            alert("로그인이 필요합니다.");
-            navigate("/user/login");
-            return;
-        }
-    
-        if (!selectedSize) {
-            alert("사이즈를 선택해주세요.");
-            return;
-        }
-    
-        const simplifiedSize = selectedSize.replace('size-', ''); // 'size-' 부분 제거
-        console.log("Simplified Size:", simplifiedSize);
-    
-        const buyingProduct = product.groupByBuyingList.find(item => item.productSize === simplifiedSize);
-        const salesProduct = product.groupBySalesList.find(item => item.productSize === simplifiedSize);
-    
-        console.log("Selected Buying Product:", buyingProduct);
-        console.log("Selected Sales Product:", salesProduct);
-    
-        const size = simplifiedSize;
-        const type = currentTab === 'buy' ? 'buy' : 'sales';
-        const buyingBiddingPrice = buyingProduct ? buyingProduct.buyingBiddingPrice : null;
-        const buyProductId = buyingProduct ? buyingProduct.buyProductId : null; // 올바르게 참조
-        const salesBiddingPrice = salesProduct ? salesProduct.productMaxPrice : null;
-        const salesProductId = salesProduct ? salesProduct.salesProductId : null; // 올바르게 참조
-    
-        const selectedProductId = currentTab === 'buy' ? (buyingProduct ? buyingProduct.productId : null) : (salesProduct ? salesProduct.productId : null);
-    
-        console.log("ProductID 상품 고유 :", selectedProductId);
-        console.log("Model Number:", modelNum);
-        console.log("Buying Bidding Price:", buyingBiddingPrice);
-        console.log("Sales Bidding Price:", salesBiddingPrice);
-        console.log("Buying Product ID:", buyProductId);
-        console.log("Sales Product ID:", salesProductId);
-    
-        const state = {
-            productId: selectedProductId,
-            productImg: product.productImg,
-            productName: product.productName,
-            modelNum: product.modelNum,
-            productSize: size,
-            buyingBiddingPrice: buyingBiddingPrice ? buyingBiddingPrice.toLocaleString() : null,
-            buyingProductId: buyProductId, 
-            salesProductId: salesProductId,
-            salesBiddingPrice: salesBiddingPrice ? salesBiddingPrice.toLocaleString() : null,
-            userId: userInfo.userId,
-            currentTab: currentTab,
-            biddingPrice: currentTab === 'buy' ? buyingBiddingPrice : salesBiddingPrice,
-        };
-    
-        navigate(`/clothes/details/${modelNum}/bid?size=${size}&type=${type}`, { state });
-        console.log("전송");
+    const userInfo = getCookie("user");
+    if (!userInfo || !userInfo.accessToken) {
+        alert("로그인이 필요합니다.");
+        navigate("/user/login");
+        return;
+    }
+
+    if (!selectedSize) {
+        alert("사이즈를 선택해주세요.");
+        return;
+    }
+
+    const simplifiedSize = selectedSize.replace('size-', ''); // 'size-' 부분 제거
+    console.log("Simplified Size:", simplifiedSize);
+
+    const buyingProduct = product.groupByBuyingList.find(item => item.productSize === simplifiedSize);
+    const salesProduct = product.groupBySalesList.find(item => item.productSize === simplifiedSize);
+
+    console.log("Selected Buying Product:", buyingProduct);
+    console.log("Selected Sales Product:", salesProduct);
+
+    const size = simplifiedSize;
+    const type = currentTab === 'buy' ? 'buy' : 'sales';
+    const buyingBiddingPrice = buyingProduct ? buyingProduct.buyingBiddingPrice : null;
+    const buyProductId = buyingProduct ? buyingProduct.buyProductId : null; // 올바르게 참조
+    const salesBiddingPrice = salesProduct ? salesProduct.productMaxPrice : null;
+    const salesProductId = salesProduct ? salesProduct.salesProductId : null; // 올바르게 참조
+
+    const selectedProductId = currentTab === 'buy' ? (buyingProduct ? buyingProduct.productId : product.productId) : (salesProduct ? salesProduct.productId : product.productId);
+
+    console.log("ProductID 상품 고유 :", selectedProductId);
+    console.log("Model Number:", modelNum);
+    console.log("Buying Bidding Price:", buyingBiddingPrice);
+    console.log("Sales Bidding Price:", salesBiddingPrice);
+    console.log("Buying Product ID:", buyProductId);
+    console.log("Sales Product ID:", salesProductId);
+
+    const state = {
+        productId: selectedProductId,
+        productImg: product.productImg,
+        productName: product.productName,
+        modelNum: product.modelNum,
+        productSize: size,
+        buyingBiddingPrice: buyingBiddingPrice ? buyingBiddingPrice.toLocaleString() : null,
+        buyingProductId: buyProductId,
+        salesProductId: salesProductId,
+        salesBiddingPrice: salesBiddingPrice ? salesBiddingPrice.toLocaleString() : null,
+        userId: userInfo.userId,
+        currentTab: currentTab,
+        biddingPrice: currentTab === 'buy' ? buyingBiddingPrice : salesBiddingPrice,
     };
+
+    // mainDepartment를 사용하여 동적으로 경로 설정
+    const mainDepartmentPath = product.mainDepartment ? product.mainDepartment : 'clothes'; // mainDepartment가 없으면 기본값을 'clothes'로 설정
+    navigate(`/${mainDepartmentPath}/details/${modelNum}/bid?size=${size}&type=${type}`, { state });
+    console.log("전송");
+};
+
+    
     
 
     const handleLikeClick = async () => {

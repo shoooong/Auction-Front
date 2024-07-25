@@ -18,7 +18,7 @@ const LuckyDrawDetailPage = () => {
     useEffect(() => {
         const fetchLuckyDraw = async () => {
             try {
-                const response = await jwtAxios.get(`${SERVER_URL}/admin/luckyDrawAnnouncement/${luckyAnnouncementId}`);
+                const response = await jwtAxios.get(`/api/admin/luckyDrawAnnouncement/${luckyAnnouncementId}`);
                 setLuckyDraw(response.data);
                 setFormData({
                     luckyTitle: response.data.luckyTitle,
@@ -48,7 +48,7 @@ const LuckyDrawDetailPage = () => {
 
     const handleSave = async () => {
         try {
-            await jwtAxios.put(`${SERVER_URL}/modifyAnnouncement/${luckyAnnouncementId}`, formData);
+            await jwtAxios.put(`/api/modifyAnnouncement/${luckyAnnouncementId}`, formData);
             setLuckyDraw(formData);
             setIsEditing(false);
         } catch (error) {
@@ -59,7 +59,7 @@ const LuckyDrawDetailPage = () => {
     const handleDelete = async () => {
         if (window.confirm("정말로 이 이벤트 공지사항을 삭제하시겠습니까?")) {
             try {
-                await jwtAxios.delete(`${SERVER_URL}/deleteAnnouncement/${luckyAnnouncementId}`);
+                await jwtAxios.delete(`/api/deleteAnnouncement/${luckyAnnouncementId}`);
                 navigate("/admin/notice"); 
             } catch (error) {
                 setError("이벤트 공지사항을 삭제하는 데 실패했습니다.");

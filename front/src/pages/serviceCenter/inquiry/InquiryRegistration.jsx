@@ -14,7 +14,7 @@ const InquiryRegistration = () => {
 
         try {
             const response = await jwtAxios.post(
-                `${SERVER_URL}/inquiry/user/registration`,
+                `/api/user/registration`,
                 {
                     inquiryTitle: title,
                     inquiryContent: content,

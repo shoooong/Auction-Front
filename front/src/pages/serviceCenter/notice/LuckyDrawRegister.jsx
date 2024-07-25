@@ -13,7 +13,7 @@ const LuckyDrawRegister = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await jwtAxios.post(`${SERVER_URL}/announcementRegistration`, {
+            const response = await jwtAxios.post(`/api/announcementRegistration`, {
                 luckyTitle,
                 luckyContent,
                 luckyId,

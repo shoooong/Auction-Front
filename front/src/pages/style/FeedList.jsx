@@ -14,7 +14,7 @@ const FeedList = () => {
     useEffect(() => {
         const fetchFeeds = async () => {
             try {
-                const response = await axios.get(`${SERVER_URL}/feed/feedList`);
+                const response = await axios.get(`${SERVER_URL}/feedList`);
                 const data = response.data.map((feed) => ({
                     id: feed.feedId,
                     username: feed.userId ? `User ${feed.userId}` : "Unknown",

@@ -9,7 +9,7 @@ const FeedBookmarkContainer = () => {
   useEffect(() => {
     const fetchFeedBookmarks = async () => {
       try {
-        const response = await jwtAxios.get(`${SERVER_URL}/feed/feedBookmark`);
+        const response = await jwtAxios.get(`/api/feedBookmark`);
         console.log('Response data:', response.data);
         if (Array.isArray(response.data)) {
           setFeedBookmarks(response.data);

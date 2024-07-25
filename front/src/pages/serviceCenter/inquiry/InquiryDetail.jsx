@@ -11,8 +11,8 @@ const InquiryDetail = ({ inquiryId }) => {
     const fetchInquiry = async () => {
       try {
         setLoading(true);
-        const response = await jwtAxios.get(`${SERVER_URL}/inquiry/${inquiryId}`);
-        console.log('API Response:', response.data); // 전체 응답 데이터 로깅
+        const response = await jwtAxios.get(`/api/${inquiryId}`);
+        console.log('API Response:', response.data);
         setInquiry(response.data);
         setError(null);
       } catch (error) {

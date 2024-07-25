@@ -13,7 +13,7 @@ const NoticeRegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await jwtAxios.post(`${SERVER_URL}/notice/user/noticeRegistration`, {
+      const response = await jwtAxios.post(`/api/user/noticeRegistration`, {
         noticeTitle: title,
         noticeContent: content,
         noticeType: type

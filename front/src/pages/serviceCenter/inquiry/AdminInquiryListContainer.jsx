@@ -9,7 +9,7 @@ const AdminInquiryListContainer = () => {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await jwtAxios.get(`${SERVER_URL}/inquiry/admin/inquiryList`);
+        const response = await jwtAxios.get(`/api/admin/inquiryList`);
         setInquiries(response.data);
       } catch (error) {
         console.error('Error fetching inquiries:', error);

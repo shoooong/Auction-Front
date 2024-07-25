@@ -10,7 +10,7 @@ const AdminNoticeList = ({ activeTab }) => {
     useEffect(() => {
         const fetchNoticesAndLuckyDraws = async () => {
             try {
-                const response = await jwtAxios.get(`${SERVER_URL}/notice/admin/user/combinedNoticeList`);
+                const response = await jwtAxios.get(`/api/admin/user/combinedNoticeList`);
                 const { notices, luckyDrawAnnouncements } = response.data;
                 setNotices(notices);
                 setLuckyDraws(luckyDrawAnnouncements);

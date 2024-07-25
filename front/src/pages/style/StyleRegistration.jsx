@@ -19,7 +19,7 @@ const FeedRegistrationForm = () => {
 
         try {
             const response = await jwtAxios.post(
-                `${SERVER_URL}/feed/user/feedRegistration`,
+                `/api/user/feedRegistration`,
                 formData,
                 {
                     headers: {

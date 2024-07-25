@@ -6,7 +6,7 @@ import { SERVER_URL } from "api/serverApi";
 const FeedDetail = () => {
   const [feed, setFeed] = useState(null);
   const [error, setError] = useState(null);
-  const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
+  const [isLiked, setIsLiked] = useState(false);
   const { id } = useParams();
 
   const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
@@ -14,7 +14,7 @@ const FeedDetail = () => {
   useEffect(() => {
     const fetchFeedDetail = async () => {
       try {
-        const response = await jwtAxios.get(`${SERVER_URL}/feed/styleFeed/${id}`);
+        const response = await jwtAxios.get(`${SERVER_URL}/styleFeed/${id}`);
         const feedData = response.data;
         feedData.feedImage = `${CLOUD_STORAGE_BASE_URL}${feedData.feedImage}`;
         setFeed(feedData);
@@ -28,7 +28,7 @@ const FeedDetail = () => {
 
   const handleLikeClick = async () => {
     try {
-      const response = await jwtAxios.post(`${SERVER_URL}/feed/user/likeFeed/${id}`);
+      const response = await jwtAxios.post(`/api/user/likeFeed/${id}`);
       if (response.status === 200) {
         setIsLiked(true);
         setFeed(prevFeed => ({

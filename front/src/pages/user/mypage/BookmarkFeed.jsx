@@ -24,7 +24,7 @@ const FeedBookmarks = () => {
     return (
         <div className="feed-bookmarks">
             {feedBookmarks.length === 0 ? (
-                <p>로딩 중...</p>
+                <p className="non-history">관심 스타일이 없습니다.</p>
             ) : (
                 feedBookmarks.map(feed => (
                     <Link 

@@ -22,16 +22,9 @@ export default function Event() {
                 return;
             }
 
-            const { accessToken } = userInfo;
-
             const response = await jwtAxios.post(
-                `/${couponId}/issue`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
+                `/coupon/${couponId}/issue`,
+                {}
             );
 
             console.log(response.data);

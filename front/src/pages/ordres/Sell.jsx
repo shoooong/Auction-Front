@@ -25,15 +25,17 @@ export default function Sell() {
     const { product, addressInfo } = useBid(bidData2);
     console.log("product====" + product);
 
+    console.log(typeof bidData2.bidPrice);
+
     const navigate = useNavigate();
     const [open2, setOpen2] = useState(false);
     const [fee, setFee] = useState(0);
     console.log("bidData2====" + bidData2);
     const [orderData, setOrderData] = useState({
-        productId: null,
-        price: null,
-        exp: 90,
-        addressId: null,
+        productId: 0,
+        price: 0,
+        exp: 0,
+        addressId: 0,
     });
 
     // useEffect(() => {

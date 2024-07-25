@@ -45,7 +45,10 @@ export default function ProductBid() {
     };
 
     const handleBidPriceChange = (e) => {
-        setBidPrice(e.target.value);
+        const value = e.target.value;
+        if (!isNaN(value)) {
+            setBidPrice(Number(value));
+        }
     };
 
     const handleSubmit = async () => {

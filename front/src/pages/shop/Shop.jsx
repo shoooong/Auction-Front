@@ -179,15 +179,21 @@ export default function Shop() {
                                         <span className="red-bullet">
                                             {list.modelNum}
                                         </span>
-                                        <span className="semibold-black">
-                                            {list.buyingBiddingPrice}
-                                            <span className="light-black">
-                                                원
-                                            </span>
-                                        </span>
-                                        <span className="light-grey">
-                                            즉시 구매가
-                                        </span>
+                                        {list.buyingBiddingPrice === null ? (
+                                            <></>
+                                        ) : (
+                                            <>
+                                                <span className="semibold-black">
+                                                    {list.buyingBiddingPrice}
+                                                    <span className="light-black">
+                                                        원
+                                                    </span>
+                                                </span>
+                                                <span className="light-grey">
+                                                    즉시 구매가
+                                                </span>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             ))}

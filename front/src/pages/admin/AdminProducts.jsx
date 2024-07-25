@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { getProductsByDepartment } from "../../api/admin/productApi";
 import {
   BottomNavigation,
@@ -10,11 +10,12 @@ import {
 } from "@mui/material";
 import CommonList from "./layout/CommonList";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "pages/user/cookieUtil";
+
 import CheckroomOutlinedIcon from "@mui/icons-material/CheckroomOutlined";
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import LaptopMacOutlinedIcon from "@mui/icons-material/LaptopMacOutlined";
-import { useParams } from "react-router-dom";
+import useCustomLogin from "hooks/useCustomLogin";
+
 const departments = {
   clothes: ["top", "bottom", "outer", "shoes", "inner"],
   life: ["interior", "kitchen", "beauty"],
@@ -25,8 +26,8 @@ const AdminProducts = () => {
   const [main, setMain] = useState("clothes");
   const [sub, setSub] = useState("");
   const [products, setProducts] = useState([]);
-  const params = useParams();
   const navigate = useNavigate();
+  const { exceptionHandler } = useCustomLogin();
 
   //상품 리스트 다운
   const fetchData = async () => {
@@ -36,6 +37,7 @@ const AdminProducts = () => {
       setProducts(products); // 상태 업데이트
       console.log(products);
     } catch (error) {
+      exceptionHandler(error);
       console.error("Error fetching products:", error);
       setProducts([]); // 에러 발생 시 빈 배열로 설정
     }
@@ -43,13 +45,6 @@ const AdminProducts = () => {
 
   useEffect(() => {
     const checkLoginAndFetchData = async () => {
-      const userInfo = getCookie("user");
-
-      if (!userInfo || !userInfo.accessToken) {
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/admin/login");
-        return;
-      }
       await fetchData();
     };
     checkLoginAndFetchData();

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Box, Typography, CircularProgress, Button } from "@mui/material";
+import { Box, CircularProgress, Button } from "@mui/material";
 import { getRequests } from "api/admin/requestApi";
 import { Outlet, useNavigate } from "react-router-dom";
-import { getCookie } from "pages/user/cookieUtil";
+import useCustomLogin from "hooks/useCustomLogin";
 import CommonList from "./layout/CommonList";
 
 const ApproveCell = ({ productStatus }) => (
@@ -16,6 +16,7 @@ const AdminRequest = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { exceptionHandler } = useCustomLogin();
 
   const fetchRequests = useCallback(async () => {
     setLoading(true);
@@ -24,6 +25,8 @@ const AdminRequest = () => {
       setProducts(data.products || []);
       console.log("API Response:", data.products);
     } catch (error) {
+      exceptionHandler(error);
+
       console.error("Error fetching data", error);
       setError(error);
     } finally {
@@ -33,13 +36,6 @@ const AdminRequest = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const userInfo = getCookie("user");
-
-      if (!userInfo || !userInfo.accessToken) {
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/admin/login");
-        return;
-      }
       fetchRequests();
     };
     fetchData();

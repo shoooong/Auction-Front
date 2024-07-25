@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "pages/user/cookieUtil";
 import { getDrawHistory } from "api/user/mypageApi";
-import photo from "assets/images/myson.jpg";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 
 const DrawHistory = () => {
     const [drawHistory, setDrawHistory] = useState(null);
@@ -57,8 +57,7 @@ const DrawHistory = () => {
                 {drawHistory.drawDetails.length > 0 ? (
                     drawHistory.drawDetails.map((draw, index) => (
                         <div className="draw-item" key={index}>
-                            {/* <img src={draw.luckyImg} alt={draw.luckyName} /> */}
-                            <img src={photo} alt="이앤톤" />
+                            <img src={`${CLOUD_STORAGE_BASE_URL}/luckydraw${draw.luckyImg}`} alt={draw.luckyName} />
                             <div>
                                 <p className="draw-name" data-full-text={draw.luckyName}>{draw.luckyName}</p>
                                 <p>{draw.luckySize}</p>

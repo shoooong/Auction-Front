@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 import { getBookmarkProducts } from "api/user/mypageApi";
 
 const BookmarkProduct = () => {
@@ -8,8 +9,6 @@ const BookmarkProduct = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-
-    const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,7 +37,7 @@ const BookmarkProduct = () => {
                 <div className="bookmark-grid">
                     {bookmarkProducts.map((bookmark, index) => (
                         <div className="bookmark-item" key={index}>
-                            <img src={`${CLOUD_STORAGE_BASE_URL}/dummy/products{bookmark.productDetailsDto.productImg}`} alt={bookmark.productDetailsDto.productName} />
+                            <img src={`${CLOUD_STORAGE_BASE_URL}/dummy/products${bookmark.productDetailsDto.productImg}`} alt={bookmark.productDetailsDto.productName} />
                             <p className="bookmark-text1">{bookmark.productDetailsDto.productBrand}</p>
                             <p className="bookmark-text2">{bookmark.productDetailsDto.productName}</p>
                             <p className="bookmark-text3">{bookmark.productDetailsDto.modelNum}</p>

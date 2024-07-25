@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { getCookie } from "pages/user/cookieUtil";
 import { getUser, modifyUser } from "api/user/userApi";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 import { formatPhoneNumber, maskEmail } from "../mypageUtil";
 import useCustomLogin from "hooks/useCustomLogin";
 
@@ -27,8 +28,6 @@ const ModifyPage = () => {
     const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
     const phoneNumRegExp = /^\d{11}$/;
 
-    const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
-    
     useEffect(() => {
         const userInfo = getCookie("user");
 

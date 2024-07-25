@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import useCustomLogin from "hooks/useCustomLogin";
 import { getMypageData } from "api/user/mypageApi";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 import { formatPrice, getStatusText, maskEmail } from "pages/user/mypageUtil";
 import { Button } from "@mui/material";
 // import { Button, IconButton } from "@mui/material";
@@ -14,7 +15,7 @@ import icon3 from "assets/images/icon3.svg";
 import icon4 from "assets/images/icon4.svg";
 import icon5 from "assets/images/icon5.svg";
 import icon6 from "assets/images/icon6.svg";
-import photo from "assets/images/myson.jpg";
+// import photo from "assets/images/myson.jpg";
 import banner from "assets/images/toss_banner.webp";
 // import BookmarkOff from "assets/images/bookmark-off.svg";
 // import BookmarkOn from "assets/images/bookmark-on.svg";
@@ -32,8 +33,6 @@ export default function MypageMain() {
     const {exceptionHandler} = useCustomLogin();
 
     const navigate = useNavigate();
-
-    const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
 
     useEffect(() => {
         const fetchData = async () => {
@@ -152,8 +151,7 @@ export default function MypageMain() {
                         {buyHistory.buyingDetails.length > 0 ? (
                             buyHistory.buyingDetails.map((buy, index) => (
                                 <div className="buy-item" key={index}>
-                                    {/* <img src={buy.productImg} alt={buy.productName} /> */}
-                                    <img src={photo} alt="이앤톤" />
+                                    <img src={`${CLOUD_STORAGE_BASE_URL}/dummy/products${buy.productImg}`} alt={buy.productName} />
                                     <div>
                                         <p>{buy.productName}</p>
                                         <p>{buy.productSize}</p>
@@ -194,8 +192,7 @@ export default function MypageMain() {
                         {saleHistory.saleDetails.length > 0 ? (
                             saleHistory.saleDetails.map((sale, index) => (
                                 <div className="sale-item" key={index}>
-                                    {/* <img src={sale.productImg} alt={sale.productName} /> */}
-                                    <img src={photo} alt="이앤톤" />
+                                    <img src={`${CLOUD_STORAGE_BASE_URL}/dummy/products${sale.productImg}`} alt={sale.productName} />
                                     <div>
                                         <p>{sale.productName}</p>
                                         <p>{sale.productSize}</p>
@@ -226,11 +223,11 @@ export default function MypageMain() {
                     <div className="bookmark-grid">
                         {bookmarkProducts.map((bookmark, index) => (
                             <div className="bookmark-item product" key={index}>
-                                {/* <img src={bookmark.productDetailsDto.productImg} alt={bookmark.productDetailsDto.name} /> */}
+                                <img src={`${CLOUD_STORAGE_BASE_URL}/dummy/products${bookmark.productDetailsDto.productImg}`} alt={bookmark.productDetailsDto.name} />
                                 {/* <img src={photo} alt="이앤톤" /> */}
 
                                 {/* <div className="product"> */}
-                                <img src={photo} alt="이앤톤" />
+                                {/* <img src={photo} alt="이앤톤" /> */}
                                 {/* <div className="icon-container">
                                         <IconButton
                                             onClick={() => setLike((like) => !like)}

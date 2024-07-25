@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Box, IconButton } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom"; // useNavigate 훅을 import 합니다
-import tempImg from "assets/images/feed4.png";
 import { SERVER_URL } from "api/serverApi";
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
+
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/dummy/";
 
 const MainNewBuy = () => {
     const location = useLocation(); // 현재 경로를 가져옵니다
@@ -22,7 +23,7 @@ const MainNewBuy = () => {
                 );
                 const data = response.data.map((product, index) => ({
                     productId: product.productId,
-                    productImg: tempImg,
+                    productImg: `${CLOUD_STORAGE_BASE_URL}products${product.productImg}`,
                     productBrand: product.productBrand,
                     productName: product.productName,
                     modelNum: product.modelNum,

@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { SERVER_URL } from "../../api/serverApi";
 import { Box } from "@mui/material";
 import '../../styles/productBid.css';
 
 export default function ProductBid() {
     const location = useLocation();
+    const navigate = useNavigate();
     const data = location.state || {}; // 데이터가 없을 경우 기본값 설정
     const params = new URLSearchParams(location.search);
     const type = params.get('type');
@@ -51,18 +53,18 @@ export default function ProductBid() {
     const handleSubmit = async () => {
         const productId = data.productId; // 입찰일 경우 productId 사용
         const url = currentForm === 'buy' ? '/buy' : '/sell';
+        const postData = {
+            bidPrice,
+            selectedDays,
+            productId
+        };
+
+        console.log(`Submitting to URL: ${SERVER_URL}${url}`);
+        console.log('Post Data:', postData);
 
         try {
-            // const response = await axios.post(url, {
-            //     bidPrice,
-            //     selectedDays,
-            //     bidProductId
-            // });
-
-            alert(`희망가: ${bidPrice.toLocaleString()}\n입찰 마감기한: ${selectedDays}\n해당 입찰 상품 ID: ${productId}`);
-            // console.log('응답 데이터:', response.data);
-
-            // 성공적으로 요청이 완료되었을 때 추가적인 로직을 작성할 수 있습니다.
+            // 요청이 성공적으로 완료되면 페이지를 이동
+            navigate(url, { state: postData });
         } catch (error) {
             console.error('에러 발생:', error);
             alert('요청을 처리하는 중 오류가 발생했습니다.');
@@ -71,36 +73,38 @@ export default function ProductBid() {
 
     const handleInstantSubmit = async () => {
         let productId, biddingPrice, url;
-    
+
         if (currentForm === 'buy_now') {
             productId = data.salesProductId; // 즉시 구매가의 ID
             biddingPrice = data.salesBiddingPrice; // 즉시 구매가
-            url = '/buy_now';
+            url = '/buy';
         } else if (currentForm === 'sell_now') {
             productId = data.salesProductId; // 즉시 판매가의 ID
             biddingPrice = data.buyingBiddingPrice; // 즉시 판매가
-            url = '/sell_now';
+            url = '/sell';
         }
-    
+
+        const postData = {
+            biddingPrice,
+            productId
+        };
+
+        console.log(`Submitting to URL: ${SERVER_URL}${url}`);
+        console.log('Post Data:', postData);
+
         try {
-            // const response = await axios.post(url, {
-            //     biddingPrice,
-            //     productId
-            // });
-    
-            alert(`희망가: ${biddingPrice ? biddingPrice.toLocaleString() : 'N/A'}\n상품 고유 ID: ${productId}`);
-            // console.log('응답 데이터:', response.data);
-    
-            // 성공적으로 요청이 완료되었을 때 추가적인 로직을 작성할 수 있습니다.
+            // 요청이 성공적으로 완료되면 페이지를 이동
+            navigate(url, { state: postData });
         } catch (error) {
             console.error('에러 발생:', error);
             alert('요청을 처리하는 중 오류가 발생했습니다.');
         }
     };
-    
 
     const isBuyNowDisabled = currentForm === 'buy_now' && !data.salesBiddingPrice;
     const isSellNowDisabled = currentForm === 'sell_now' && !data.buyingBiddingPrice;
+
+
 
     return (
         <Box className="product_bid_page">

@@ -7,9 +7,12 @@ import useOrder from "hooks/useOrder";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
 import { Button, Box, Dialog, DialogTitle } from "@mui/material";
+import { useLocation } from "react-router-dom";
 import useUserCoupon from "hooks/useUserCoupon";
 // import Event from "pages/user/mypage/CouponMain";
 import OrderCouponComponent from "components/OrderCouponComponent";
+import { SERVER_URL } from "../../api/serverApi";
+import jwtAxios from "pages/user/jwtUtil";
 // import Postcode from "components/mypage/Postcode";
 // ------  SDK 초기화 ------
 
@@ -19,18 +22,32 @@ const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 const customerKey = "HOytG9DDEHHgTxwNS0YWT";
 
 export default function Buy() {
-    const { coupons } = useUserCoupon();
+
+    const location = useLocation();
+    const data = location.state || {};
+
+    const [orderData, setOrderData] = useState({
+        productId: null,
+        couponId: null,
+        addressId: null,
+        price: null,
+        exp: 90,
+    });
+    // const { coupons } = useUserCoupon();
     const [selectedCoupon, setSelectedCoupon] = useState(null);
     const [couponAmount, setCouponAmount] = useState(0);
+    const [couponDiscount, setCouponDiscount] = useState(0);
+    const [couponDiscountType, setCouponDiscountType] = useState(null);
     // const { handleCancel, isAdding, selectedAddress, handleSave } =
     //     useAddress();
     const [payment, setPayment] = useState(null);
     const [amount, setAmount] = useState({
         currency: "KRW",
-        value: 50000,
+        value: 0,
     });
 
     const [open, setOpen] = useState(false);
+    const [fee, setFee] = useState(0);
     // const [open2, setOpen2] = useState(false);
 
     const { buyingBidding, addressInfo } = useOrder();
@@ -38,8 +55,30 @@ export default function Buy() {
     const handleSelectCoupon = (coupon) => {
         setSelectedCoupon(coupon);
         setCouponAmount(coupon.amount);
+        setCouponDiscountType(coupon.discountType);
         setOpen(false); // 쿠폰 팝업 닫기
+        console.log(coupon);
     };
+
+    useEffect(() => {
+        console.log("Received data in Buy component:", data);
+    }, [data]);
+
+    useEffect(() => {
+        if (addressInfo && buyingBidding) {
+            const calculatedFee = buyingBidding.buyingBiddingPrice * 0.04;
+            setFee(calculatedFee);
+            setOrderData((prevData) => ({
+                ...prevData,
+                addressId: addressInfo?.addressId,
+                productId: buyingBidding?.product.productId,
+                couponId: selectedCoupon?.coupon.couponId,
+                price: buyingBidding?.buyingBiddingPrice - fee,
+                exp: 90,
+            }));
+        }
+    }, [addressInfo, buyingBidding]);
+    console.log(orderData);
     // SDK 초기화 및 결제 객체 설정
     useEffect(() => {
         async function fetchPayment() {
@@ -59,18 +98,44 @@ export default function Buy() {
 
     const immediateBuyPrice = buyingBidding?.buyingBiddingPrice || 0;
     const deliveryFee = 3000;
-    const fee = 8000;
+
     const calculateTotalAmount = () => {
-        const total = immediateBuyPrice + deliveryFee + fee - couponAmount;
-        return total > 0 ? total : 0; // 총 결제 금액이 음수일 수 없으므로 0으로 설정
+        let total = immediateBuyPrice + deliveryFee + fee;
+
+        // 쿠폰 타입이 PERCENT인 경우
+        if (couponDiscountType === "PERCENT") {
+            // 쿠폰 금액을 퍼센트로 적용
+            const discount = (total * couponAmount) / 100;
+            total -= discount;
+        } else {
+            // 쿠폰 타입이 FIXED인 경우 (예: 고정 금액 할인)
+            const discount = couponAmount;
+            total -= discount;
+        }
+
+        // 총 금액이 0보다 작으면 0으로 설정
+        return total > 0 ? total : 0;
     };
     useEffect(() => {
         setAmount({
             currency: "KRW",
             value: calculateTotalAmount(),
         });
-    }, [couponAmount, buyingBidding?.buyingBiddingPrice]);
+    }, [couponDiscountType, couponAmount, buyingBidding?.buyingBiddingPrice]);
 
+    async function saveOrderData() {
+        try {
+            const response = await jwtAxios.post(
+                `${SERVER_URL}/api/bid/buyingBidding/register`, // 주문 정보를 저장하는 API 엔드포인트
+                orderData
+            );
+            return response.data.orderId; // 서버에서 반환한 주문 ID
+        } catch (error) {
+            console.error("Error saving order data:", error);
+            throw error; // 오류가 발생하면 결제 요청을 진행하지 않음
+        }
+    }
+    // console.log(couponDiscountType?.discountType);
     // 결제 요청 함수
     async function requestPayment() {
         if (!payment) {
@@ -79,6 +144,8 @@ export default function Buy() {
         }
 
         try {
+            console.log("111" + orderData);
+            const orderId = await saveOrderData();
             await payment.requestPayment({
                 method: "CARD",
                 amount: amount,
@@ -275,9 +342,14 @@ export default function Buy() {
                         </div>
                         <div className="order_item">
                             <p className="sub_text">쿠폰 사용</p>
-                            <p className="coupon_use desc">
+                            {/* <p className="coupon_use desc">
                                 {couponAmount > 0
                                     ? `-${couponAmount.toLocaleString()}원`
+                                    : "-"}
+                            </p> */}
+                            <p className="coupon_use desc">
+                                {couponDiscount > 0
+                                    ? `-${couponDiscount.toLocaleString()}원`
                                     : "-"}
                             </p>
                         </div>

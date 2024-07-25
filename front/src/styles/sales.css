@@ -4,44 +4,67 @@
   display: flex;
   flex-direction: column;
 }
-.sales-list-container {
-  flex-grow: 1;
-  overflow-y: auto; /* 스크롤 가능하도록 설정 */
-}
-.purchase-head {
+.sales-head {
   align-items: center;
   border-bottom: 1px solid #ebebeb;
   display: flex;
   padding: 20px;
 }
-.purchase-content {
+.head-content {
+  color: var(--palegrey);
+  font-size: var(--ft14);
+  font-weight: var(--semibold);
+  gap: 10px;
+  line-height: 1.5;
+}
+.sales-list-container {
+  flex-grow: 1;
+  overflow-y: auto; /* 스크롤 가능하도록 설정 */
+  color: var(--black);
+  white-space: nowrap; /* 추가된 스타일 */
+}
+
+.sales-content {
   display: flex;
   max-height: 100px;
   padding: 10px;
   border-bottom: 1px solid #ebebeb;
   /* align-items: center; */
 }
-.purchase-img-container {
+
+.sales-img-container {
   width: 80px;
   height: 80px;
 }
 
-.purchase-img-container img {
+.sales-img-container img {
   width: 100%;
   height: 100%;
   object-fit: cover; /* 부모 div에 맞추어 이미지 크기 조정 */
   border-radius: 8px;
 }
 
-.purchase-info-container {
+.sales-info-container {
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
   width: calc(100% - 70px);
   padding-left: 30px;
+  line-height: 1.4;
 }
-.purchase-date-container {
+.sales-info-container > div:first-child {
+  font-size: var(--ft14);
+  font-weight: var(--semibold);
+  flex-wrap: wrap;
+}
+.sales-info-container > div {
+  font-size: var(--ft12);
+  font-weight: var(--medium);
+}
+.sales-date-container {
   flex-grow: 1;
-
-  padding-left: 10px;
+  padding-left: 0px;
+  flex-wrap: nowrap;
+  font-size: var(--ft12);
+  font-weight: var(--regular);
 }

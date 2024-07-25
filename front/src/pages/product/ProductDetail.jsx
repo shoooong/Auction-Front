@@ -10,6 +10,8 @@ import 'chart.js/auto';
 import { getCookie } from "../../pages/user/cookieUtil";
 import jwtAxios from "pages/user/jwtUtil";
 
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/dummy/";
+
 const ProductDetails = () => {
     const { modelNum } = useParams();
     const navigate = useNavigate();
@@ -373,7 +375,7 @@ const ProductDetails = () => {
             <div className="left-section">
                 <div className="img-container pos-sticky">
                     <div className="product-img">
-                        <img src={img1} alt="Sample Product" />
+                        <img src={`${CLOUD_STORAGE_BASE_URL}products${product.productImg}`} alt="Sample Product" />
                     </div>
                 </div>
             </div>

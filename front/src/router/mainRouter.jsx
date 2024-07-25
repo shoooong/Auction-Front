@@ -27,6 +27,7 @@ import TechMain from "pages/tech/TechMain";
 
 import Sample from "pages/Sample";
 import SuccessPage from "pages/payment/Success";
+import ProductRanking from "pages/product/ProductRanking";
 
 const mainRouter = () => {
     return [
@@ -110,6 +111,10 @@ const mainRouter = () => {
         {
             path: "user",
             children: userRouter(),
+        },
+        {
+            path: "rank",
+            element: <ProductRanking />,
         },
 
         // 종욱이거?

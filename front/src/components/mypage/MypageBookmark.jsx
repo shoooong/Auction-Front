@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { SERVER_URL } from "api/serverApi";
 import jwtAxios from "pages/user/jwtUtil";
 import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
 import "styles/bookmark.css";
 
 const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
+const CLOUD_STORAGE_BASE_URL_DUMMY = "https://kr.object.ncloudstorage.com/push/shooong/dummy/";
 
 const MypageBookmark = () => {
     const [requestProducts, setRequestProducts] = useState([]);
@@ -54,15 +56,19 @@ const MypageBookmark = () => {
                                 <p>로딩 중...</p>
                             ) : (
                                 requestProducts.map(product => (
-                                    <div key={product.productId} className="product-item">
+                                    <Link 
+                                      key={product.productId} 
+                                      to={`/clothes/details/${product.modelNum}`}
+                                      className="product-item"
+                                    >
                                         <img 
-                                            src={`${CLOUD_STORAGE_BASE_URL}${product.productImg}`} 
+                                            src={`${CLOUD_STORAGE_BASE_URL_DUMMY}products${product.productImg}`} 
                                             alt={product.productName} 
                                         />
                                         <h3>{product.productName}</h3>
                                         <p>{product.productBrand}</p>
                                         <p>Lowest Bidding Price: {product.salesBiddingPrice ? `${product.salesBiddingPrice} 원` : "없음"}</p>
-                                    </div>
+                                    </Link>
                                 ))
                             )}
                         </div>
@@ -73,14 +79,18 @@ const MypageBookmark = () => {
                                 <p>로딩 중...</p>
                             ) : (
                                 feedBookmarks.map(feed => (
-                                    <div key={feed.feedId} className="feed-item">
+                                    <Link 
+                                      key={feed.feedId} 
+                                      to={`/style/styledetail/${feed.feedId}`}
+                                      className="feed-item"
+                                    >
                                         <img 
                                             src={`${CLOUD_STORAGE_BASE_URL}${feed.feedImage}`} 
                                             alt={`Feed ${feed.feedId}`} 
                                         />
                                         <h3>{feed.feedTitle}</h3>
                                         <p>Feed ID: {feed.feedId}</p>
-                                    </div>
+                                    </Link>
                                 ))
                             )}
                         </div>

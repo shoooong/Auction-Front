@@ -2,7 +2,7 @@ import jwtAxios from "pages/user/jwtUtil";
 
 export const getMypageData = async () => {
     try {
-        const res = await jwtAxios.get(`/mypage`);
+        const res = await jwtAxios.get('/mypage');
         return res.data;
     } catch (error) {
         console.error('getMypageData error...', error);

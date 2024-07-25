@@ -80,7 +80,7 @@ const RequestProductForm = ({ onSuccess }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="originalPrice">원가:</label>
+          <label htmlFor="originalPrice">희망 가격:</label>
           <input
             type="number"
             id="originalPrice"
@@ -91,7 +91,7 @@ const RequestProductForm = ({ onSuccess }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="mainDepartment">주요 부서:</label>
+          <label htmlFor="mainDepartment">상품 대분류:</label>
           <input
             type="text"
             id="mainDepartment"
@@ -102,7 +102,7 @@ const RequestProductForm = ({ onSuccess }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="subDepartment">하위 부서:</label>
+          <label htmlFor="subDepartment">상품 소분류:</label>
           <input
             type="text"
             id="subDepartment"
@@ -113,7 +113,7 @@ const RequestProductForm = ({ onSuccess }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="productSize">제품 크기:</label>
+          <label htmlFor="productSize">제품 사이즈:</label>
           <input
             type="text"
             id="productSize"

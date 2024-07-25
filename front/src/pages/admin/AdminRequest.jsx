@@ -120,16 +120,6 @@ const AdminRequest = () => {
     );
   }
 
-  if (error) {
-    return (
-      <Box sx={{ padding: "16px" }}>
-        <Typography variant="h6" color="error">
-          데이터를 불러오는 중 오류가 발생했습니다.
-        </Typography>
-      </Box>
-    );
-  }
-
   return (
     <Box className="column-direction admin-content-container">
       <div className="admin-title-box">

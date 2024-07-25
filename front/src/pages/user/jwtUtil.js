@@ -2,7 +2,10 @@ import axios from "axios";
 import { getCookie, setCookie } from "./cookieUtil";
 import { SERVER_URL } from "api/serverApi";
 
-const jwtAxios = axios.create();
+const jwtAxios = axios.create({
+    baseURL: `${SERVER_URL}/api`,
+    withCredentials: true,
+});
 
 const refresh = async (accessToken, refreshToken) => {
     console.log("calling refresh...");

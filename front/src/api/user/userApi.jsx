@@ -47,7 +47,7 @@ export const unregisterUser = async () => {
 
 export const getUser = async () => {
   try {
-    const res = await jwtAxios.get(`${SERVER_URL}/mypage/modify`);
+    const res = await jwtAxios.get(`/mypage/modify`);
     return res.data;
   } catch (error) {
     console.error("axios getUser error...", error);
@@ -63,7 +63,7 @@ export const modifyUser = async (user, file) => {
   formData.append('file', file);
 
   try {
-    const res = await jwtAxios.put(`${SERVER_URL}/mypage/modify`, formData, header);
+    const res = await jwtAxios.put(`/mypage/modify`, formData, header);
     return res.data;
   } catch (error) {
     console.error("jwtAxios modify error…", error);

@@ -22,7 +22,7 @@ export const getLuckyDrawDetail = async (luckyId) => {
 
 export const enterLuckyDraw = async (luckyId) => {
     try {
-        const response = await jwtAxios.post(`${SERVER_URL}/luckydraw/${luckyId}/enter`);
+        const response = await jwtAxios.post(`/luckydraw/${luckyId}/enter`);
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.error);

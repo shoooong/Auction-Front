@@ -1,9 +1,8 @@
-import { SERVER_URL } from "../serverApi";
 import jwtAxios from "pages/user/jwtUtil";
 
 export const getMypageData = async () => {
     try {
-        const res = await jwtAxios.get(`${SERVER_URL}/mypage`);
+        const res = await jwtAxios.get(`/mypage`);
         return res.data;
     } catch (error) {
         console.error('getMypageData error...', error);
@@ -13,7 +12,7 @@ export const getMypageData = async () => {
 
 export const getAllBuyHistory = async () => {
     try {
-        const res = await jwtAxios.get(`${SERVER_URL}/mypage/buyHistory`);
+        const res = await jwtAxios.get(`/mypage/buyHistory`);
         return res.data;
     } catch (error) {
         console.error('getBuyHistory error...', error);
@@ -22,7 +21,7 @@ export const getAllBuyHistory = async () => {
 };
 export const getBuyHistoryProcess = async () => {
     try {
-        const res = await jwtAxios.get(`${SERVER_URL}/mypage/buyHistory/process`);
+        const res = await jwtAxios.get(`/mypage/buyHistory/process`);
         return res.data;
     } catch (error) {
         console.error('getBuyHistory error...', error);
@@ -31,7 +30,7 @@ export const getBuyHistoryProcess = async () => {
 };
 export const getBuyHistoryComplete = async () => {
     try {
-        const res = await jwtAxios.get(`${SERVER_URL}/mypage/buyHistory/complete`);
+        const res = await jwtAxios.get(`/mypage/buyHistory/complete`);
         return res.data;
     } catch (error) {
         console.error('getBuyHistory error...', error);
@@ -40,7 +39,7 @@ export const getBuyHistoryComplete = async () => {
 };
 export const cancelBuyingBidding = async (buyingBiddingId) => {
     try {
-        const res = await jwtAxios.put(`${SERVER_URL}/mypage/buyHistory/process?buyingBiddingId=${buyingBiddingId}`);
+        const res = await jwtAxios.put(`/mypage/buyHistory/process?buyingBiddingId=${buyingBiddingId}`);
         return res.data;
     } catch (error) {
         console.error('cancelBuyingBidding error...', error);
@@ -50,7 +49,7 @@ export const cancelBuyingBidding = async (buyingBiddingId) => {
 
 export const getSaleHistory = async () => {
     try {
-        const res = await jwtAxios.get(`${SERVER_URL}/mypage/saleHistory`);
+        const res = await jwtAxios.get(`/mypage/saleHistory`);
         return res.data;
     } catch (error) {
         console.error('getSaleHistory error...', error);
@@ -59,7 +58,7 @@ export const getSaleHistory = async () => {
 };
 export const cancelSalesBidding = async (salesBiddingId) => {
     try {
-        const res = await jwtAxios.put(`${SERVER_URL}/mypage/saleHistory?salesBiddingId=${salesBiddingId}`);
+        const res = await jwtAxios.put(`/mypage/saleHistory?salesBiddingId=${salesBiddingId}`);
         return res.data;
     } catch (error) {
         console.error('cancelSalesBidding error...', error);
@@ -69,7 +68,7 @@ export const cancelSalesBidding = async (salesBiddingId) => {
 
 export const getBookmarkProducts = async () => {
     try {
-        const res = await jwtAxios.get(`${SERVER_URL}/mypage/bookmark/product`);
+        const res = await jwtAxios.get("/mypage/bookmark/product");
         return res.data;
     } catch (error) {
         console.error('getBookmarkProducts error...', error);
@@ -79,7 +78,7 @@ export const getBookmarkProducts = async () => {
 
 export const getDrawHistory = async () => {
     try {
-        const res = await jwtAxios.get(`${SERVER_URL}/mypage/drawHistory`);
+        const res = await jwtAxios.get(`/mypage/drawHistory`);
         return res.data;
     } catch (error) {
         console.error('getDrawHistory error...', error);
@@ -89,7 +88,7 @@ export const getDrawHistory = async () => {
 
 export const getAccount = async () => {
     try {
-        const res = await jwtAxios.get(`${SERVER_URL}/mypage/account`);
+        const res = await jwtAxios.get(`/mypage/account`);
         return res.data;
     } catch (error) {
         console.error('Error fetching account:', error);
@@ -99,7 +98,7 @@ export const getAccount = async () => {
 
 export const registerOrModifyAccount = async (account) => {
     try {
-        const res = await jwtAxios.post(`${SERVER_URL}/mypage/account`, account);
+        const res = await jwtAxios.post(`/mypage/account`, account);
         return res.data;
     } catch (error) {
         console.error('Error registering or modifying account:', error);
@@ -110,7 +109,7 @@ export const registerOrModifyAccount = async (account) => {
 
 export const getAddress = async () => {
     try {
-        const response = await jwtAxios.get(`${SERVER_URL}/mypage/address`);
+        const response = await jwtAxios.get(`/mypage/address`);
         return response.data;
     } catch (error) {
         console.error('Error fetching address data:', error);
@@ -120,7 +119,7 @@ export const getAddress = async () => {
 
 export const addAddress = async (addressData) => {
     try {
-        const response = await jwtAxios.post(`${SERVER_URL}/mypage/address`, addressData);
+        const response = await jwtAxios.post(`/mypage/address`, addressData);
         return response.data;
     } catch (error) {
         console.error('Error adding address data:', error);
@@ -130,7 +129,7 @@ export const addAddress = async (addressData) => {
 
 export const modifyAddress = async (addressData, addressId) => {
     try {
-        const response = await jwtAxios.put(`${SERVER_URL}/mypage/address?addressId=${addressId}`, addressData);
+        const response = await jwtAxios.put(`/mypage/address?addressId=${addressId}`, addressData);
         return response.data;
     } catch (error) {
         console.error('Error modifying address data:', error);
@@ -140,7 +139,7 @@ export const modifyAddress = async (addressData, addressId) => {
 
 export const deleteAddress = async (addressId) => {
     try {
-        const response = await jwtAxios.delete(`${SERVER_URL}/mypage/address?addressId=${addressId}`);
+        const response = await jwtAxios.delete(`/mypage/address?addressId=${addressId}`);
         return response.data;
     } catch (error) {
         console.error('Error deleting address data:', error);

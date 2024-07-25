@@ -7,7 +7,7 @@ export const getLuckyDraw = async () => {
         const res = await axios.get(`${SERVER_URL}/luckydraw`);
         return res.data;
     } catch (error) {
-        throw new Error("Unexpected response format");
+        throw error;
     }
 };
 
@@ -16,7 +16,7 @@ export const getLuckyDrawDetail = async (luckyId) => {
         const response = await axios.get(`${SERVER_URL}/luckydraw/${luckyId}`);
         return response.data;
     } catch (error) {
-        throw new Error(`Failed to fetch lucky draw detail: ${error.message}`);
+        throw error;
     }
 };
 
@@ -25,7 +25,7 @@ export const enterLuckyDraw = async (luckyId) => {
         const response = await jwtAxios.post(`/luckydraw/${luckyId}/enter`);
         return response.data;
     } catch (error) {
-        throw new Error(error.response?.data?.error);
+        throw error;
     }
 };
 

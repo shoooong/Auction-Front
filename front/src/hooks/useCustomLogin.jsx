@@ -57,7 +57,7 @@ const useCustomLogin = () => {
         console.log("----------Exception---------");
         console.log(ex);
 
-        const errorMsg = ex.response.data.error;
+        const errorMsg = ex.response?.data?.error;
         
         const errorStr = createSearchParams({error: errorMsg}).toString();
 
@@ -76,6 +76,8 @@ const useCustomLogin = () => {
 
             return;
         };
+
+        alert("오류가 발생했습니다. 다시 시도해 주세요.");
     }, [navigate]);
 
     return {loginState, isLogin, doLogin, doLogout, doUnregister, moveToPath, moveToLogin, moveToLoginReturn, exceptionHandler};

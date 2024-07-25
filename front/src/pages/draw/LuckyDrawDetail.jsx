@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { Button } from "@mui/material";
-import { getCookie } from "pages/user/cookieUtil";
 import { getLuckyDrawDetail, enterLuckyDraw } from "api/luckydrawApi";
+import useCustomLogin from "hooks/useCustomLogin";
 
 import banner from "assets/images/toss_banner.webp";
 
@@ -14,6 +14,8 @@ const LuckyDrawDetail = () => {
     const [error, setError] = useState(null);
     const [remainingTime, setRemainingTime] = useState("");
     const navigate = useNavigate();
+
+    const {exceptionHandler} = useCustomLogin();
 
     const CLOUD_STORAGE_BASE_URL =
         "https://kr.object.ncloudstorage.com/push/shooong/luckydraw";
@@ -36,23 +38,15 @@ const LuckyDrawDetail = () => {
 
     const handleEnterClick = async () => {
         try {
-            const userInfo = getCookie("user");
-
-            if (!userInfo || !userInfo.accessToken) {
-                alert("로그인이 필요한 서비스입니다.");
-                navigate("/user/login");
-                return;
-            }
-
             const data = await enterLuckyDraw(luckyId);
             console.log("Enter response:", data);
 
             alert("응모가 완료되었습니다.");
             navigate("/luckydraw");
         } catch (error) {
+            exceptionHandler(error);
             setError("응모 중 오류가 발생했습니다.");
-            alert(error.message);
-            navigate(0);
+            // navigate(0);
         }
     };
 

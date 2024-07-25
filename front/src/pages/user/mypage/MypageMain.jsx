@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import useCustomLogin from "hooks/useCustomLogin";
 import { getMypageData } from "api/user/mypageApi";
-import { getCookie } from "pages/user/cookieUtil";
 import { formatPrice, getStatusText, maskEmail } from "pages/user/mypageUtil";
 import { Button } from "@mui/material";
 // import { Button, IconButton } from "@mui/material";
@@ -26,23 +26,17 @@ export default function MypageMain() {
     const [saleHistory, setSaleHistory] = useState(null);
     const [bookmarkProducts, setBookmarkProducts] = useState([]);
     // const [like, setLike] = useState(false);
-
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const {exceptionHandler} = useCustomLogin();
+
     const navigate = useNavigate();
 
     const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
 
     useEffect(() => {
         const fetchData = async () => {
-            const userInfo = getCookie("user");
-
-            if (!userInfo || !userInfo.accessToken) {
-                alert("로그인이 필요한 서비스입니다.");
-                navigate("/user/login");
-                return;
-            }
-
             try {
                 const response = await getMypageData();
 
@@ -52,13 +46,14 @@ export default function MypageMain() {
                 setSaleHistory(response.saleHistoryDto);
                 setBookmarkProducts(response.bookmarkProductsDto);
             } catch (error) {
+                exceptionHandler(error);
                 setError("정보를 불러오는 중 오류가 발생했습니다.");
-            } finally {
-                setLoading(false);
             }
+            
+            setLoading(false);
         };
         fetchData();
-    }, [navigate]);
+    }, [exceptionHandler]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;

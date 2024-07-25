@@ -13,6 +13,7 @@ import useUserCoupon from "hooks/useUserCoupon";
 import OrderCouponComponent from "components/OrderCouponComponent";
 import { SERVER_URL } from "../../api/serverApi";
 import jwtAxios from "pages/user/jwtUtil";
+import useBid from "hooks/useBid";
 // import Postcode from "components/mypage/Postcode";
 // ------  SDK 초기화 ------
 
@@ -22,17 +23,20 @@ const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 const customerKey = "HOytG9DDEHHgTxwNS0YWT";
 
 export default function Buy() {
-
     const location = useLocation();
-    const data = location.state || {};
+    const bidData = location.state || {};
+    console.log("data====" + bidData);
+    console.log("jasn===" + JSON.stringify(bidData, null, 2));
 
+    const { product, addressInfo } = useBid(bidData);
     const [orderData, setOrderData] = useState({
         productId: null,
         couponId: null,
         addressId: null,
-        price: null,
+        price: 0,
         exp: 90,
     });
+    console.log("useBid==" + product);
     // const { coupons } = useUserCoupon();
     const [selectedCoupon, setSelectedCoupon] = useState(null);
     const [couponAmount, setCouponAmount] = useState(0);
@@ -50,8 +54,9 @@ export default function Buy() {
     const [fee, setFee] = useState(0);
     // const [open2, setOpen2] = useState(false);
 
-    const { buyingBidding, addressInfo } = useOrder();
+    // const { buyingBidding, addressInfo } = useOrder(bidData);
 
+    // console.log("buyingBidding===" + buyingBidding);
     const handleSelectCoupon = (coupon) => {
         setSelectedCoupon(coupon);
         setCouponAmount(coupon.amount);
@@ -61,24 +66,41 @@ export default function Buy() {
     };
 
     useEffect(() => {
-        console.log("Received data in Buy component:", data);
-    }, [data]);
+        console.log("Received data in Buy component:", bidData);
+    }, [bidData]);
+
+    // useEffect(() => {
+    //     if (addressInfo && buyingBidding) {
+    //         const calculatedFee = buyingBidding.buyingBiddingPrice * 0.04;
+    //         setFee(calculatedFee);
+    //         setOrderData((prevData) => ({
+    //             ...prevData,
+    //             addressId: addressInfo?.addressId,
+    //             productId: buyingBidding?.product.productId,
+    //             couponId: selectedCoupon?.coupon.couponId,
+    //             price: buyingBidding?.buyingBiddingPrice - fee,
+    //             exp: 90,
+    //         }));
+    //     }
+    // }, [addressInfo, buyingBidding]);
 
     useEffect(() => {
-        if (addressInfo && buyingBidding) {
-            const calculatedFee = buyingBidding.buyingBiddingPrice * 0.04;
-            setFee(calculatedFee);
+        if (addressInfo && product) {
+            const calculatedFee = bidData?.bidPrice * 0.04;
+            console.log("calculatedFee=" + calculatedFee);
+            setFee(Math.floor(calculatedFee / 10) * 10);
             setOrderData((prevData) => ({
                 ...prevData,
                 addressId: addressInfo?.addressId,
-                productId: buyingBidding?.product.productId,
+                productId: bidData?.productId,
                 couponId: selectedCoupon?.coupon.couponId,
-                price: buyingBidding?.buyingBiddingPrice - fee,
-                exp: 90,
+                price: bidData?.bidPrice - fee,
+                exp: bidData?.selectedDays,
             }));
         }
-    }, [addressInfo, buyingBidding]);
-    console.log(orderData);
+    }, [addressInfo, product]);
+
+    console.log("orderData===" + orderData);
     // SDK 초기화 및 결제 객체 설정
     useEffect(() => {
         async function fetchPayment() {
@@ -96,10 +118,13 @@ export default function Buy() {
         fetchPayment();
     }, []);
 
-    const immediateBuyPrice = buyingBidding?.buyingBiddingPrice || 0;
+    const immediateBuyPrice = parseInt(bidData?.bidPrice) || 0;
     const deliveryFee = 3000;
 
     const calculateTotalAmount = () => {
+        console.log(typeof immediateBuyPrice);
+        console.log(typeof deliveryFee);
+        console.log(typeof fee);
         let total = immediateBuyPrice + deliveryFee + fee;
 
         // 쿠폰 타입이 PERCENT인 경우
@@ -114,19 +139,21 @@ export default function Buy() {
         }
 
         // 총 금액이 0보다 작으면 0으로 설정
-        return total > 0 ? total : 0;
+        total = total > 0 ? total : 0;
+
+        return Math.round(total);
     };
     useEffect(() => {
         setAmount({
             currency: "KRW",
             value: calculateTotalAmount(),
         });
-    }, [couponDiscountType, couponAmount, buyingBidding?.buyingBiddingPrice]);
+    }, [couponDiscountType, couponAmount, bidData?.bidPrice]);
 
     async function saveOrderData() {
         try {
             const response = await jwtAxios.post(
-                `${SERVER_URL}/api/bid/buyingBidding/register`, // 주문 정보를 저장하는 API 엔드포인트
+                `bid/buyingBidding/register`, // 주문 정보를 저장하는 API 엔드포인트
                 orderData
             );
             return response.data.orderId; // 서버에서 반환한 주문 ID
@@ -178,17 +205,11 @@ export default function Buy() {
                         </div>
                         <div className="product_detail">
                             <p className="product_model_number bold_title">
-                                {buyingBidding?.product.modelNum}
+                                {product?.modelNum}
                             </p>
-                            <p className="model_eng">
-                                {buyingBidding?.product.productName}
-                            </p>
-                            <p className="model_kor">
-                                {buyingBidding?.product.productName}
-                            </p>
-                            <p className="size_txt">
-                                {buyingBidding?.product.productSize}
-                            </p>
+                            <p className="model_eng">{product?.productName}</p>
+                            <p className="model_kor">{product?.productName}</p>
+                            <p className="size_txt">{product?.productSize}</p>
                         </div>
                     </div>
                 </div>
@@ -324,8 +345,7 @@ export default function Buy() {
                         <div className="order_item">
                             <p className="desc">즉시 구매가</p>
                             <p className="desc bold">
-                                {buyingBidding?.buyingBiddingPrice.toLocaleString()}
-                                원
+                                {Number(bidData.bidPrice).toLocaleString()}원
                             </p>
                         </div>
                         <div className="order_item">
@@ -334,7 +354,7 @@ export default function Buy() {
                         </div>
                         <div className="order_item">
                             <p className="sub_text">수수료</p>
-                            <p className="desc">8,000원</p>
+                            <p className="desc">{fee.toLocaleString()}원</p>
                         </div>
                         <div className="order_item">
                             <p className="sub_text">배송비</p>

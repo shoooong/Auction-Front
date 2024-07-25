@@ -19,7 +19,7 @@ export default function useSell() {
 
                 // 상품 정보와 배송지 정보 가져오기
                 const salesBiddingResponse = await jwtAxios.get(
-                    `${SERVER_URL}/api/order/sales`,
+                    `/order/sales`,
                     {
                         params: {
                             salesBiddingId: 180,
@@ -27,9 +27,7 @@ export default function useSell() {
                     }
                 );
 
-                const addressInfoResponse = await jwtAxios.get(
-                    `${SERVER_URL}/api/order/addr`
-                );
+                const addressInfoResponse = await jwtAxios.get(`/order/addr`);
 
                 setSalesBidding(salesBiddingResponse.data);
                 setAddressInfo(addressInfoResponse.data);

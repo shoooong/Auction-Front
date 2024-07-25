@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 // import useAddress from "hooks/useAddress";
 
 export default function Sell() {
-
     const location = useLocation();
     const data = location.state || {};
 
@@ -64,7 +63,7 @@ export default function Sell() {
         try {
             // 1단계: 입찰 정보 생성
             const orderResponse = await jwtAxios.post(
-                `${SERVER_URL}/api/bid/salesBidding/register`,
+                `/bid/salesBidding/register`,
                 orderData
             );
 

@@ -74,9 +74,11 @@
 } */
 .model_eng {
     color: #181818;
+    font-size: 14px;
 }
 .model_kor {
     color: rgba(34, 34, 34, 0.5);
+    font-size: 13px;
 }
 .size_txt {
     color: #181818;
@@ -84,7 +86,7 @@
     font-weight: 800;
 }
 .product_detail {
-    text-indent: 16px;
+    /* text-indent: 16px; */
     height: 76px;
     /* align-content: space-between; */
     display: flex;
@@ -92,8 +94,6 @@
     justify-content: space-between;
 }
 
-.product_info_area {
-}
 .product_info {
     display: flex;
     align-items: center;
@@ -236,8 +236,11 @@ dd.desc {
 }
 /* 주문 */
 .final_order_info_area {
-    height: 230px;
+    /* height: 230px; */
     padding: 32px 32px 6px 32px;
+}
+.sell_final {
+    /* height: 190px; */
 }
 .order_main_title > .order_item {
     display: flex;
@@ -297,4 +300,21 @@ dd.desc {
     background-size: cover; /* 배경 이미지 크기 */
     background-position: center; /* 배경 이미지 위치 */
     background-repeat: no-repeat; /* 배경 이미지 반복 여부 */
+}
+.account_info_area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.account_info > .title_txt {
+    margin-bottom: 4px;
+}
+.account_info {
+    height: 68px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.account_btn {
+    align-self: end;
 }

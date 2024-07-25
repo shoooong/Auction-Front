@@ -9,15 +9,15 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { getCookie } from "pages/user/cookieUtil";
 import { useNavigate } from "react-router-dom";
-import { CLOUD_STORAGE_BASE_URL } from "api/admin/AdminLuckyApi";
+import useCustomLogin from "hooks/useCustomLogin";
 
 const AdminLuckdraws = () => {
   const [luckyProcessStatus, setLuckyProcessStatus] = useState(""); // default status
   const [luckyDraws, setLuckyDraws] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
+  const { exceptionHandler } = useCustomLogin();
   const tabButtons = [
     { label: "READY", value: "READY" },
     { label: "PROCESS", value: "PROCESS" },
@@ -30,19 +30,13 @@ const AdminLuckdraws = () => {
       setLuckyDraws(data.luckyDraws);
       console.log(status);
     } catch (error) {
+      exceptionHandler(error);
       console.error("Error fetching lucky draws:", error);
     }
   };
 
   useEffect(() => {
     const checkUserAndFetchData = async () => {
-      const userInfo = getCookie("user");
-
-      if (!userInfo || !userInfo.accessToken) {
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/admin/login");
-        return;
-      }
       try {
         await fetchData(luckyProcessStatus);
       } catch (error) {

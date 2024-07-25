@@ -103,6 +103,7 @@ const AdminRequestDetailed = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    setSelectedFile(file); // 파일 선택 상태 업데이트
     setPreview(URL.createObjectURL(file));
   };
 

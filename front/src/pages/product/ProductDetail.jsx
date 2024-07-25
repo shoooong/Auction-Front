@@ -295,7 +295,7 @@ const ProductDetails = () => {
 
     const handleLikeClick = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/products/like/${modelNum}`);
+            const response = await axios.post(`${SERVER_URL}/like/${modelNum}`);
             if (response.status === 200) {
                 setIsLiked(true);
 
@@ -335,7 +335,7 @@ const ProductDetails = () => {
         }
 
         try {
-            const response = await jwtAxios.post(`${SERVER_URL}/product/bookmark`, null, {
+            const response = await jwtAxios.post(`/product/bookmark`, null, {
                 params: {
                     modelNum: modelNum,
                     productSize: bookmarkSize

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import jwtAxios from "pages/user/jwtUtil";
-import { SERVER_URL } from "api/serverApi";
 
 const AdminNoticeList = ({ activeTab }) => {
     const [notices, setNotices] = useState([]);
@@ -10,7 +9,7 @@ const AdminNoticeList = ({ activeTab }) => {
     useEffect(() => {
         const fetchNoticesAndLuckyDraws = async () => {
             try {
-                const response = await jwtAxios.get(`/api/admin/user/combinedNoticeList`);
+                const response = await jwtAxios.get(`/admin/user/combinedNoticeList`);
                 const { notices, luckyDrawAnnouncements } = response.data;
                 setNotices(notices);
                 setLuckyDraws(luckyDrawAnnouncements);

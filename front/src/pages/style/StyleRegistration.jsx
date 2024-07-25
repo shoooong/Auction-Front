@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import jwtAxios from "pages/user/jwtUtil";
-import { SERVER_URL } from "../../api/serverApi";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const FeedRegistrationForm = () => {
     const [feedTitle, setFeedTitle] = useState("");
     const [feedImage, setFeedImage] = useState(null);
+    const {exceptionHandler} = useCustomLogin();
+    const [error, setError] = useState(null);
 
     const handleImageChange = (event) => {
         setFeedImage(event.target.files[0]);
@@ -18,8 +20,7 @@ const FeedRegistrationForm = () => {
         formData.append("files", feedImage);
 
         try {
-            const response = await jwtAxios.post(
-                `/api/user/feedRegistration`,
+            const response = await jwtAxios.post(`/user/feedRegistration`,
                 formData,
                 {
                     headers: {
@@ -31,14 +32,9 @@ const FeedRegistrationForm = () => {
             setFeedTitle("");
             setFeedImage(null);
         } catch (error) {
-            if (error.response) {
-                console.error("Error response:", error.response.data);
-                console.error("Status code:", error.response.status);
-            } else if (error.request) {
-                console.error("No response received:", error.request);
-            } else {
-                console.error("Error setting up request:", error.message);
-            }
+            exceptionHandler(error);
+            setError("정보를 불러오는 중 오류가 발생했습니다.");
+    
         }
     };
 

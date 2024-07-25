@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import jwtAxios from "../../../pages/user/jwtUtil";
+import axios from "axios";
 import { SERVER_URL } from "../../../api/serverApi";
 
 const LuckyDrawDetailPage = () => {
@@ -12,7 +12,7 @@ const LuckyDrawDetailPage = () => {
     useEffect(() => {
         const fetchLuckyDraw = async () => {
             try {
-                const response = await jwtAxios.get(`${SERVER_URL}/luckyDrawAnnouncement/${luckyAnnouncementId}`);
+                const response = await axios.get(`${SERVER_URL}/luckyDrawAnnouncement/${luckyAnnouncementId}`);
                 setLuckyDraw(response.data);
                 setLoading(false);
             } catch (err) {

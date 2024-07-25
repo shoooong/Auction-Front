@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import jwtAxios from 'pages/user/jwtUtil'; 
 import FeedBookmarksList from './FeedBookmarkList';
-import { SERVER_URL } from "../../api/serverApi";
 
 const FeedBookmarkContainer = () => {
   const [feedBookmarks, setFeedBookmarks] = useState([]);
@@ -9,7 +8,7 @@ const FeedBookmarkContainer = () => {
   useEffect(() => {
     const fetchFeedBookmarks = async () => {
       try {
-        const response = await jwtAxios.get(`/api/feedBookmark`);
+        const response = await jwtAxios.get(`/feedBookmark`);
         console.log('Response data:', response.data);
         if (Array.isArray(response.data)) {
           setFeedBookmarks(response.data);

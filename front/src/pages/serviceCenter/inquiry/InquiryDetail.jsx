@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
-import { SERVER_URL } from '../../../api/serverApi';
 
 const InquiryDetail = ({ inquiryId }) => {
   const [inquiry, setInquiry] = useState(null);
@@ -11,7 +10,7 @@ const InquiryDetail = ({ inquiryId }) => {
     const fetchInquiry = async () => {
       try {
         setLoading(true);
-        const response = await jwtAxios.get(`/api/${inquiryId}`);
+        const response = await jwtAxios.get(`/${inquiryId}`);
         console.log('API Response:', response.data);
         setInquiry(response.data);
         setError(null);

@@ -11,7 +11,7 @@ const FeedBookmarks = () => {
     useEffect(() => {
         const fetchFeedBookmarks = async () => {
             try {
-                const response = await jwtAxios.get(`${SERVER_URL}/feed/feedBookmark`);
+                const response = await jwtAxios.get(`/feedBookmark`);
                 setFeedBookmarks(response.data);
             } catch (error) {
                 console.error("Error fetching feed bookmarks:", error);

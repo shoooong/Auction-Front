@@ -14,7 +14,7 @@ const ProductRanking = () => {
   useEffect(() => {
     const fetchProductsByLikes = async () => {
       try {
-        const response = await axios.get(`${SERVER_URL}/products/all_product_likes`, {
+        const response = await axios.get(`${SERVER_URL}/all_product_likes`, {
           params: { mainDepartment }
         });
         console.log('Fetched products:', response.data);

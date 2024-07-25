@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import jwtAxios from 'pages/user/jwtUtil';
 import { SERVER_URL } from "api/serverApi";
+import axios from 'axios';
 
 const FeedDetail = () => {
   const [feed, setFeed] = useState(null);
   const [error, setError] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false); // Track save state
   const { id } = useParams();
 
   const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
@@ -14,7 +16,7 @@ const FeedDetail = () => {
   useEffect(() => {
     const fetchFeedDetail = async () => {
       try {
-        const response = await jwtAxios.get(`${SERVER_URL}/styleFeed/${id}`);
+        const response = await axios.get(`${SERVER_URL}/styleFeed/${id}`);
         const feedData = response.data;
         feedData.feedImage = `${CLOUD_STORAGE_BASE_URL}${feedData.feedImage}`;
         setFeed(feedData);
@@ -28,7 +30,7 @@ const FeedDetail = () => {
 
   const handleLikeClick = async () => {
     try {
-      const response = await jwtAxios.post(`/api/user/likeFeed/${id}`);
+      const response = await jwtAxios.post(`/user/likeFeed/${id}`);
       if (response.status === 200) {
         setIsLiked(true);
         setFeed(prevFeed => ({
@@ -38,6 +40,21 @@ const FeedDetail = () => {
       }
     } catch (error) {
       console.error('Error liking feed:', error);
+    }
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      const response = await jwtAxios.post(`/user/saveFeedBookmark`, {
+        feedId: id,
+        feedImage: feed.feedImage,
+        feedTitle: feed.feedTitle
+      });
+      if (response.status === 201) {
+        setIsSaved(true);
+      }
+    } catch (error) {
+      console.error('Error saving feed:', error);
     }
   };
 
@@ -54,6 +71,10 @@ const FeedDetail = () => {
         <p className="description">{feed.feedContent}</p>
         <button onClick={handleLikeClick} className="like-button">
           ❤️ {isLiked ? 'Liked' : 'Like'}
+        </button>
+        {/* New Save button */}
+        <button onClick={handleSaveClick} className="save-button">
+          💾 {isSaved ? 'Saved' : 'Save'}
         </button>
       </div>
     </div>

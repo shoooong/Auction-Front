@@ -3,7 +3,6 @@ import jwtAxios from 'pages/user/jwtUtil';
 import { useParams, useNavigate } from 'react-router-dom';
 import NoticeDetailContent from './NoticeDetailContent';
 import NoticeEditForm from './NoticeEditForm';
-import { SERVER_URL } from '../../../api/serverApi';
 
 const AdminNoticeDetailContainer = () => {
   const [notice, setNotice] = useState(null);
@@ -16,7 +15,7 @@ const AdminNoticeDetailContainer = () => {
   useEffect(() => {
     const fetchNotice = async () => {
       try {
-        const response = await jwtAxios.get(`/api/admin/notice/${noticeId}`);
+        const response = await jwtAxios.get(`/admin/notice/${noticeId}`);
         setNotice(response.data);
         setLoading(false);
       } catch (err) {
@@ -35,7 +34,7 @@ const AdminNoticeDetailContainer = () => {
   const handleUpdate = async (updatedNotice) => {
     console.log('Updating notice:', updatedNotice);
     try {
-      const response = await jwtAxios.put(`/api/user/modifyNotice/${noticeId}`, updatedNotice);
+      const response = await jwtAxios.put(`/user/modifyNotice/${noticeId}`, updatedNotice);
       console.log('Update response:', response.data);
       setNotice(response.data);
       setIsEditing(false);
@@ -48,7 +47,7 @@ const AdminNoticeDetailContainer = () => {
     console.log('Delete button clicked');
     if (window.confirm('정말로 이 공지사항을 삭제하시겠습니까?')) {
       try {
-        await jwtAxios.delete(`/api/user/deleteNotice/${noticeId}`);
+        await jwtAxios.delete(`/user/deleteNotice/${noticeId}`);
         console.log('Notice deleted successfully');
         navigate('/admin/notice');
       } catch (err) {

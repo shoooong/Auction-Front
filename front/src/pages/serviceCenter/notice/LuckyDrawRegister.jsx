@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import jwtAxios from "../../../pages/user/jwtUtil";
-import { SERVER_URL } from "../../../api/serverApi";
 import { useNavigate } from "react-router-dom";
 
 const LuckyDrawRegister = () => {
@@ -13,7 +12,7 @@ const LuckyDrawRegister = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await jwtAxios.post(`/api/announcementRegistration`, {
+            const response = await jwtAxios.post(`/announcementRegistration`, {
                 luckyTitle,
                 luckyContent,
                 luckyId,

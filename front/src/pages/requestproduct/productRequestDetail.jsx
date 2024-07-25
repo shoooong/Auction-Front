@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import jwtAxios from '../../pages/user/jwtUtil';
+import axios from 'axios';
 import { SERVER_URL } from '../../api/serverApi';
 
 const ProductRequestDetail = () => {
@@ -17,7 +17,7 @@ const ProductRequestDetail = () => {
       }
 
       try {
-        const response = await jwtAxios.get(`${SERVER_URL}/product/request/${productId}`);
+        const response = await axios.get(`${SERVER_URL}/product/request/${productId}`);
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product detail:', error);

@@ -11,24 +11,18 @@ export const getProductsByDepartment = async (
 ) => {
   const params = subDepartment ? { subDepartment } : {};
   console.log(mainDepartment, subDepartment);
-  const res = await jwtAxios.get(
-    `${SERVER_URL}/api/admin/products/${mainDepartment}`,
-    {
-      params,
-    }
-  );
+  const res = await jwtAxios.get(`/admin/products/${mainDepartment}`, {
+    params,
+  });
   return res.data;
 };
 
 // 상품 상세 조회
 export const getProduct = async (modelNum, productSize = null) => {
   const params = productSize ? { productSize } : {};
-  const res = await jwtAxios.get(
-    `${SERVER_URL}/api/admin/products/detailed/${modelNum}`,
-    {
-      params,
-    }
-  );
+  const res = await jwtAxios.get(`/admin/products/detailed/${modelNum}`, {
+    params,
+  });
   console.log(res.data);
 
   return res.data;
@@ -37,9 +31,7 @@ export const getProduct = async (modelNum, productSize = null) => {
 // 검수 상품 승인
 export const acceptProduct = async (salesBiddingId) => {
   try {
-    const res = await jwtAxios.post(
-      `${SERVER_URL}/api/admin/sales/${salesBiddingId}/approve`
-    );
+    const res = await jwtAxios.post(`/admin/sales/${salesBiddingId}/approve`);
     return res.data;
   } catch (error) {
     console.error("Error approving product:", error);

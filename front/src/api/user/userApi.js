@@ -59,7 +59,7 @@ export const modifyUser = async (user, file) => {
   const header = { headers: { "Content-Type": "multipart/form-data" } };
 
   const formData = new FormData();
-  formData.append('userModifyDTO', new Blob([JSON.stringify(user)], {type: "application/json"}));
+  formData.append('userModifyReqDto', new Blob([JSON.stringify(user)], {type: "application/json"}));
   formData.append('file', file);
 
   try {

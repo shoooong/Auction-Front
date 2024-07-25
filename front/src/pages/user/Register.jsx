@@ -28,7 +28,7 @@ const RegisterPage = () => {
 
     const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
-    const phoneNumRegExp = /^\d{10}$/;
+    const phoneNumRegExp = /^\d{11}$/;
 
 
     useEffect(() => {

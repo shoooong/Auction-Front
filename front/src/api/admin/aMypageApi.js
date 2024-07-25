@@ -5,7 +5,7 @@ import jwtAxios from "pages/user/jwtUtil";
 //사용자 판매정산 내역 조회
 export const getSales = async (page) => {
   const res = await jwtAxios.get(
-    `${SERVER_URL}/api/mypage/account/sales/user?page=${page}&size=4&sort=orderDate,desc`
+    `${SERVER_URL}/mypage/account/sales/user?page=${page}&size=4&sort=orderDate,desc`
   );
   return res.data;
 };

@@ -26,7 +26,7 @@ const ModifyPage = () => {
     const { doUnregister } = useCustomLogin();
 
     const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
-    const phoneNumRegExp = /^\d{11}$/;
+    const phoneNumRegExp = /^\d{10}$/;
 
     useEffect(() => {
         const userInfo = getCookie("user");

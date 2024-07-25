@@ -4,8 +4,13 @@ import axios from "axios";
 import jwtAxios from "pages/user/jwtUtil";
 
 // 관리자 페이지 요청상품 전체 조회
-export const getRequests = async () => {
-  const res = await jwtAxios.get(`/admin/requests`);
+export const getRequests = async (page, size) => {
+  const res = await jwtAxios.get(`/admin/requests`, {
+    params: {
+      page,
+      size,
+    },
+  });
   return res.data;
 };
 
@@ -36,6 +41,6 @@ export const acceptRequest = async (productId, formData) => {
 
 // 요청상품 기존상품에 등록되어 있을시 삭제
 export const rejectRequest = async (productId) => {
-  const res = await jwtAxios.delete(`/admin/requests/${productId}`);
+  const res = await jwtAxios.post(`/admin/requests/${productId}`);
   return res.data;
 };

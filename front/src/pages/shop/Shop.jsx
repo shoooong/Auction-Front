@@ -5,6 +5,8 @@ import { RichTreeView } from "@mui/x-tree-view";
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+
 const LABEL_DATA = [
     { id: "top", label: "상의" },
     { id: "bottom", label: "하의" },
@@ -143,7 +145,7 @@ export default function Shop() {
                                     <div>
                                         <div className="product-img">
                                             <img
-                                                src={list.productImg}
+                                                src={`${CLOUD_STORAGE_BASE_URL}/products/${list.productImg}`}
                                                 alt="이미지"
                                             />
                                         </div>

@@ -28,17 +28,29 @@ const InquiryDetail = ({ inquiryId }) => {
   if (error) return <div>Error: {error}</div>;
   if (!inquiry) return <div>No inquiry found</div>;
 
-  // 데이터 구조 로깅
-  console.log('Inquiry state:', inquiry);
+  const { inquiryTitle, inquiryContent, createdDate, modifyDate, response } = inquiry;
 
   return (
     <div className="inquiry-detail">
-      <h2>Inquiry Detail</h2>
-      <p><strong>ID:</strong> {inquiry.inquiryId}</p>
-      <p><strong>Title:</strong> {inquiry.title || '(No title)'}</p>
-      <p><strong>Content:</strong> {inquiry.content || '(No content)'}</p>
-      {/* 모든 필드 출력 (디버깅용) */}
-      <pre>{JSON.stringify(inquiry, null, 2)}</pre>
+      <h2>문의 상세</h2>
+      <div className="inquiry-detail-content">
+        <div className="inquiry-item">
+          <h3>제목</h3>
+          <p>{inquiryTitle}</p>
+        </div>
+        <div className="inquiry-item">
+          <h3>내용</h3>
+          <p>{inquiryContent}</p>
+        </div>
+        <div className="inquiry-item">
+          <h3>등록일</h3>
+          <p>{new Date(createdDate).toLocaleString()}</p>
+        </div>
+        <div className="inquiry-item">
+          <h3>답변</h3>
+          <p>{response ? response : '답변 대기 중'}</p>
+        </div>
+      </div>
     </div>
   );
 };

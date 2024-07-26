@@ -15,7 +15,7 @@ const AdminInquiryDetail = ({ inquiryId }) => {
   const fetchInquiry = async () => {
     try {
       setLoading(true);
-      const response = await jwtAxios.get(`/api/admin/${inquiryId}`);
+      const response = await jwtAxios.get(`/admin/${inquiryId}`);
       setInquiry(response.data);
       setError(null);
     } catch (error) {

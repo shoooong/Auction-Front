@@ -6,7 +6,7 @@ import { SERVER_URL } from "api/serverApi";
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 
-const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/dummy/";
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
 const MainNewBuy = () => {
     const location = useLocation(); // 현재 경로를 가져옵니다
@@ -23,7 +23,7 @@ const MainNewBuy = () => {
                 );
                 const data = response.data.map((product, index) => ({
                     productId: product.productId,
-                    productImg: `${CLOUD_STORAGE_BASE_URL}products${product.productImg}`,
+                    productImg: `${CLOUD_STORAGE_BASE_URL}${product.productImg}`,
                     productBrand: product.productBrand,
                     productName: product.productName,
                     modelNum: product.modelNum,

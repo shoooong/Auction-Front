@@ -11,7 +11,7 @@ import { getCookie } from "../../pages/user/cookieUtil";
 import jwtAxios from "pages/user/jwtUtil";
 import useCustomLogin from "hooks/useCustomLogin";
 
-const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/dummy/";
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
 const ProductDetails = () => {
     const { modelNum } = useParams();
@@ -372,7 +372,7 @@ const ProductDetails = () => {
             <div className="left-section">
                 <div className="img-container pos-sticky">
                     <div className="product-img">
-                        <img src={`${CLOUD_STORAGE_BASE_URL}products${product.productImg}`} alt="Sample Product" />
+                        <img src={`${CLOUD_STORAGE_BASE_URL}${product.productImg}`} alt="Sample Product" />
                     </div>
                 </div>
             </div>

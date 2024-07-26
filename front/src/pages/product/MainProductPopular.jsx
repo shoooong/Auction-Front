@@ -7,7 +7,7 @@ import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 
 
-const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/dummy/";
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
 const MainProductPopular = () => {
     const location = useLocation(); // 현재 경로를 가져옵니다
     const navigate = useNavigate(); // 네비게이트 훅을 가져옵니다
@@ -23,7 +23,7 @@ const MainProductPopular = () => {
                 );
                 const data = response.data.map((product, index) => ({
                     productId: product.productId,
-                    productImg: `${CLOUD_STORAGE_BASE_URL}products${product.productImg}`,
+                    productImg: `${CLOUD_STORAGE_BASE_URL}${product.productImg}`,
                     productBrand: product.productBrand,
                     productName: product.productName,
                     modelNum: product.modelNum,

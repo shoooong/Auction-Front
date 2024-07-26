@@ -44,7 +44,7 @@ const loginSlice = createSlice({
 
             console.log("Payload for cookie:", payload);
 
-            setCookie("user", JSON.stringify(payload), 1);
+            setCookie("user", JSON.stringify(payload), 60 * 3);
         
 
             return { ...state, ...payload };
@@ -64,7 +64,7 @@ const loginSlice = createSlice({
             const payload = action.payload;
 
             if (!payload.error) {
-                setCookie("user", JSON.stringify(payload), 1)         // 1일
+                setCookie("user", JSON.stringify(payload), 60 * 3)         
             }
 
             console.log("Payload for cookie:", payload);

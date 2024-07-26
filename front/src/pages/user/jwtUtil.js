@@ -68,7 +68,7 @@ const responseFail = async (err) => {
                 const newTokens = await refresh(accessToken, refreshToken);
                 userInfo.accessToken = newTokens.accessToken;
                 userInfo.refreshToken = newTokens.refreshToken;
-                setCookie("user", JSON.stringify(userInfo), 1);
+                setCookie("user", JSON.stringify(userInfo), 60 * 3);
 
                 const originalRequest = { ...err.config };
                 originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;

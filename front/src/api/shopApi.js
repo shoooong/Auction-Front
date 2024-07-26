@@ -17,3 +17,9 @@ export const getSub = async (pageNum = 0, subDepartment = []) => {
 	);
 	return res;
 };
+
+export const getSearch = async (pageNum = 0, keyword = "") => {
+	const res = await axios.get(`${SERVER_URL}/search?pageNumber=${pageNum}&keyword=${keyword}`);
+
+	return res;
+}

@@ -14,6 +14,7 @@ import techRouter from "./techRouter"; // 추가
 
 import Style from "pages/style/Style";
 import Shop from "pages/shop/Shop";
+import Search from "pages/shop/Search";
 import LuckyDraw from "pages/draw/LuckyDraw";
 import StyleRegistration from "pages/style/StyleRegistration";
 import FeedBookmark from "pages/style/FeedBookmark";
@@ -62,6 +63,10 @@ const mainRouter = () => {
                     element: <Event />,
                 },
             ],
+        },
+        {
+            path: "search",
+            element: <Search />,
         },
         {
             path: "clothes",

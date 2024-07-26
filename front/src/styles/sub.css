@@ -122,3 +122,8 @@
 .feed-registration-form .form-group label + input[type="file"] {margin-left: 10px;}
 .feed-registration-form .form-group + .text-center button {margin: 0 10px;}
 
+
+/*  ----------------------------- search -----------------------------------*/
+.search-box {display: flex; width: 100%; justify-content: center; padding: 50px 0;}
+.search-box input{border-bottom: 4px solid var(--black); height: 40px; font-size: var(--ft14); font-weight: var(--medium); color: var(--black); width: 400px;}
+.search-box button {}

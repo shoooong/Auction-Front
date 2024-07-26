@@ -178,7 +178,7 @@ hr {
 .grid {display: grid !important;}
 .grid-column-4 {grid-template-columns: repeat(4, 1fr);}
 .grid-column-5 {grid-template-columns: repeat(5, 1fr);}
-.grid-gap-x30 {gap: 0 30px;}
+.grid-gap-x30 {gap: 0 32px;}
 
 
 /* position-layout */

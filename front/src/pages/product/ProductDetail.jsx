@@ -5,7 +5,6 @@ import { Box, Dialog, DialogTitle, Button, ToggleButton, TextField, DialogAction
 import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
 import { Line } from 'react-chartjs-2';
 import { SERVER_URL } from "../../api/serverApi";
-import img1 from "../../assets/images/feed6.png";
 import 'chart.js/auto';
 import { getCookie } from "../../pages/user/cookieUtil";
 import jwtAxios from "pages/user/jwtUtil";
@@ -33,6 +32,7 @@ const ProductDetails = () => {
     const [bookmarkModalOpen, setBookmarkModalOpen] = useState(false);
     const [bookmarkSize, setBookmarkSize] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
+    const [bookmarkCount, setBookmarkCount] = useState(0); // 북마크 개수 상태 추가
 
     const {exceptionHandler} = useCustomLogin();
 
@@ -45,6 +45,7 @@ const ProductDetails = () => {
         };
         checkUser();
         fetchProductDetails();
+        fetchBookmarkCount(); // 북마크 개수 가져오기
     }, [modelNum]);
 
     const fetchProductDetails = async () => {
@@ -54,6 +55,17 @@ const ProductDetails = () => {
             console.log("Fetched Product:", response.data); // product 객체 확인
         } catch (error) {
             console.error("Error fetching product details: ", error);
+        }
+    };
+
+    const fetchBookmarkCount = async () => {
+        try {
+            const response = await axios.get(`${SERVER_URL}/product/bookmarkCount`, {
+                params: { modelNum }
+            });
+            setBookmarkCount(response.data);
+        } catch (error) {
+            console.error("Error fetching bookmark count:", error);
         }
     };
 
@@ -84,7 +96,7 @@ const ProductDetails = () => {
     };
 
     const getChartData = (tab) => {
-        let data;
+        let data = [];
         switch (tab) {
             case 1:
                 data = product.averagePriceResponseList.threeDayPrices;
@@ -104,6 +116,32 @@ const ProductDetails = () => {
             default:
                 data = product.averagePriceResponseList.threeDayPrices;
         }
+    
+        if (!data || data.length === 0) {
+            return {
+                labels: ["No data"],
+                datasets: [
+                    {
+                        label: 'No data',
+                        data: [0],
+                        borderColor: 'rgba(255,100,150,1)',
+                        backgroundColor: 'rgba(50,1,192,0.2)',
+                        borderWidth: 2,
+                        pointRadius: 1,
+                        lineTension: 0.2,
+                    },
+                ],
+            };
+        }
+    
+        if (data.length === 1) {
+            const singlePoint = data[0];
+            data = [
+                { ...singlePoint, contractDateTime: `${singlePoint.contractDateTime} 00:00:00` },
+                { ...singlePoint, contractDateTime: `${singlePoint.contractDateTime} 23:59:59` }
+            ];
+        }
+    
         return {
             labels: data.map(item => item.contractDateTime),
             datasets: [
@@ -164,12 +202,12 @@ const ProductDetails = () => {
     };
 
     const getSizeOptions = () => {
-        if (product.subDepartment === 'top' || product.subDepartment === 'outer' || product.subDepartment === 'bottom' || product.subDepartment === 'inner' || product.subDepartment === 'beauty' || product.subDepartment === 'tech') {
+        if (product.subDepartment === 'top' || product.subDepartment === 'outer' || product.subDepartment === 'bottom' || product.subDepartment === 'inner' || product.subDepartment === 'beauty') {
             return ['S', 'M', 'L', 'XL', 'XXL'];
         } else if (product.subDepartment === 'shoes') {
-            return ['230', '235', '240', '245', '250', '255', '260', '270', '275'];
-        } else if (product.subDepartment === 'kitchen' || product.subDepartment === 'interior') {
-            return ['oneSize'];
+            return ['230', '235', '240', '245', '250', '255', '260', '270', '275', '280'];
+        } else if (product.subDepartment === 'kitchen' || product.subDepartment === 'interior'|| product.subDepartment === 'tech') {
+            return ['ONESIZE'];
         } else {
             return [];
         }
@@ -195,8 +233,6 @@ const ProductDetails = () => {
     };
 
     const handleReviewSubmit = async () => {
-        
-
         try {
             const smallImgData = "temp_image_data"; // 임시 데이터로 대체
 
@@ -232,73 +268,68 @@ const ProductDetails = () => {
     };
 
     const handleConfirmClick = () => {
-    const userInfo = getCookie("user");
-    if (!userInfo || !userInfo.accessToken) {
-        alert("로그인이 필요합니다.");
-        navigate("/user/login");
-        return;
-    }
+        const userInfo = getCookie("user");
+        if (!userInfo || !userInfo.accessToken) {
+            alert("로그인이 필요합니다.");
+            navigate("/user/login");
+            return;
+        }
 
-    if (!selectedSize) {
-        alert("사이즈를 선택해주세요.");
-        return;
-    }
+        if (!selectedSize) {
+            alert("사이즈를 선택해주세요.");
+            return;
+        }
 
-    const simplifiedSize = selectedSize.replace('size-', ''); // 'size-' 부분 제거
-    console.log("Simplified Size:", simplifiedSize);
+        const simplifiedSize = selectedSize.replace('size-', ''); // 'size-' 부분 제거
+        console.log("Simplified Size:", simplifiedSize);
 
-    const buyingProduct = product.groupByBuyingList.find(item => item.productSize === simplifiedSize);
-    const salesProduct = product.groupBySalesList.find(item => item.productSize === simplifiedSize);
+        const buyingProduct = product.groupByBuyingList.find(item => item.productSize === simplifiedSize);
+        const salesProduct = product.groupBySalesList.find(item => item.productSize === simplifiedSize);
 
-    console.log("Selected Buying Product:", buyingProduct);
-    console.log("Selected Sales Product:", salesProduct);
+        console.log("Selected Buying Product:", buyingProduct);
+        console.log("Selected Sales Product:", salesProduct);
 
-    const size = simplifiedSize;
-    const type = currentTab === 'buy' ? 'buy' : 'sales';
-    const buyingBiddingPrice = buyingProduct ? buyingProduct.buyingBiddingPrice : null;
-    const buyProductId = buyingProduct ? buyingProduct.buyProductId : null; // 올바르게 참조
-    const salesBiddingPrice = salesProduct ? salesProduct.productMaxPrice : null;
-    const salesProductId = salesProduct ? salesProduct.salesProductId : null; // 올바르게 참조
+        const size = simplifiedSize;
+        const type = currentTab === 'buy' ? 'buy' : 'sales';
+        const buyingBiddingPrice = buyingProduct ? buyingProduct.buyingBiddingPrice : null;
+        const buyProductId = buyingProduct ? buyingProduct.buyProductId : null; // 올바르게 참조
+        const salesBiddingPrice = salesProduct ? salesProduct.productMaxPrice : null;
+        const salesProductId = salesProduct ? salesProduct.salesProductId : null; // 올바르게 참조
 
-    const selectedProductId = currentTab === 'buy' ? (buyingProduct ? buyingProduct.productId : product.productId) : (salesProduct ? salesProduct.productId : product.productId);
+        const selectedProductId = currentTab === 'buy' ? (buyingProduct ? buyingProduct.productId : product.productId) : (salesProduct ? salesProduct.productId : product.productId);
 
-    console.log("ProductID 상품 고유 :", selectedProductId);
-    console.log("Model Number:", modelNum);
-    console.log("Buying Bidding Price:", buyingBiddingPrice);
-    console.log("Sales Bidding Price:", salesBiddingPrice);
-    console.log("Buying Product ID:", buyProductId);
-    console.log("Sales Product ID:", salesProductId);
+        console.log("ProductID 상품 고유 :", selectedProductId);
+        console.log("Model Number:", modelNum);
+        console.log("Buying Bidding Price:", buyingBiddingPrice);
+        console.log("Sales Bidding Price:", salesBiddingPrice);
+        console.log("Buying Product ID:", buyProductId);
+        console.log("Sales Product ID:", salesProductId);
 
-    const state = {
-        productId: selectedProductId,
-        productImg: product.productImg,
-        productName: product.productName,
-        modelNum: product.modelNum,
-        productSize: size,
-        buyingBiddingPrice: buyingBiddingPrice ? buyingBiddingPrice.toLocaleString() : null,
-        buyingProductId: buyProductId,
-        salesProductId: salesProductId,
-        salesBiddingPrice: salesBiddingPrice ? salesBiddingPrice.toLocaleString() : null,
-        userId: userInfo.userId,
-        currentTab: currentTab,
-        biddingPrice: currentTab === 'buy' ? buyingBiddingPrice : salesBiddingPrice,
+        const state = {
+            productId: selectedProductId,
+            productImg: product.productImg,
+            productName: product.productName,
+            modelNum: product.modelNum,
+            productSize: size,
+            buyingBiddingPrice: buyingBiddingPrice ? buyingBiddingPrice.toLocaleString() : null,
+            buyingProductId: buyProductId,
+            salesProductId: salesProductId,
+            salesBiddingPrice: salesBiddingPrice ? salesBiddingPrice.toLocaleString() : null,
+            userId: userInfo.userId,
+            currentTab: currentTab,
+            biddingPrice: currentTab === 'buy' ? buyingBiddingPrice : salesBiddingPrice,
+        };
+
+        const mainDepartmentPath = product.mainDepartment ? product.mainDepartment : 'clothes'; // mainDepartment가 없으면 기본값을 'clothes'로 설정
+        navigate(`/${mainDepartmentPath}/details/${modelNum}/bid?size=${size}&type=${type}`, { state });
+        console.log("전송");
     };
-
-    // mainDepartment를 사용하여 동적으로 경로 설정
-    const mainDepartmentPath = product.mainDepartment ? product.mainDepartment : 'clothes'; // mainDepartment가 없으면 기본값을 'clothes'로 설정
-    navigate(`/${mainDepartmentPath}/details/${modelNum}/bid?size=${size}&type=${type}`, { state });
-    console.log("전송");
-};
-
-    
-    
 
     const handleLikeClick = async () => {
         try {
             const response = await axios.post(`${SERVER_URL}/like/${modelNum}`);
             if (response.status === 200) {
                 setIsLiked(true);
-
                 setProduct(prevProduct => ({
                     ...prevProduct,
                     productLike: (prevProduct.productLike || 0) + 1
@@ -309,18 +340,15 @@ const ProductDetails = () => {
         }
     };
 
-    // 북마크 클릭 핸들러
     const handleBookmarkClick = () => {
         setBookmarkModalOpen(true);
     };
 
-    // 북마크 모달 닫기 핸들러
     const handleBookmarkClose = () => {
         setBookmarkModalOpen(false);
         setBookmarkSize(null);
     };
 
-    // 북마크 저장 핸들러
     const handleBookmarkSave = async () => {
         if (!bookmarkSize) {
             alert("사이즈를 선택해주세요.");
@@ -342,30 +370,19 @@ const ProductDetails = () => {
                 }
             });
 
-            // 응답 상태 코드와 본문 확인
-            console.log("응답 상태 코드:", response.status);
-            console.log("응답 본문:", response.data);
-
-            // 성공적인 응답 처리
-            if (response.status === 200) {
+            if (response.status === 200 || response.status === 204) {
                 alert("관심상품으로 저장되었습니다.");
                 setBookmarkModalOpen(false);
                 setBookmarkSize(null);
-            } else if (response.status === 204) {
-                alert("관심상품으로 저장되었습니다.");
-                setBookmarkModalOpen(false);
-                setBookmarkSize(null);
+                fetchBookmarkCount(); // 북마크 개수 업데이트
             } else {
-                console.log("기타 상태 코드:", response.status);
                 alert("관심상품으로 저장되었습니다.");
             }
         } catch (error) {
-            // 요청 오류 처리
             console.error("요청 오류:", error);
             alert("요청 처리 중 오류가 발생했습니다.");
         }
     };
-
 
     return (
         <Box className="product-page">
@@ -447,18 +464,18 @@ const ProductDetails = () => {
     <span>{product.productLike || 0}</span>
     <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
 </button>
-    <button 
-        className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary btn full-btn border-btn align-center css-1e6y48t-MuiButtonBase-root-MuiButton-root" 
-        tabIndex="0" 
-        type="button"
-        onClick={handleBookmarkClick}
+<button 
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary btn full-btn border-btn align-center css-1e6y48t-MuiButtonBase-root-MuiButton-root" 
+      tabIndex="0" 
+      type="button"
+      onClick={handleBookmarkClick}
     >
-        <span>
-            <img src="/static/media/bookmark-off.6b051f0a6642a44e2147719b5bbbf331.svg" alt="BookmarkOff" />
-        </span>
-        관심상품
-        <span>3,298</span>
-        <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
+      <span>
+        <img src="/static/media/bookmark-off.6b051f0a6642a44e2147719b5bbbf331.svg" alt="BookmarkOff" />
+      </span>
+      관심상품
+      <span>{bookmarkCount}</span> {/* 북마크 개수를 동적으로 표시 */}
+      <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
     </button>
     {/* ... 다른 요소들 ... */}
 </div>

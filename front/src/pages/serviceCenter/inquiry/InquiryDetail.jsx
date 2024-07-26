@@ -11,7 +11,6 @@ const InquiryDetail = ({ inquiryId }) => {
       try {
         setLoading(true);
         const response = await jwtAxios.get(`/${inquiryId}`);
-        console.log('API Response:', response.data);
         setInquiry(response.data);
         setError(null);
       } catch (error) {
@@ -28,7 +27,16 @@ const InquiryDetail = ({ inquiryId }) => {
   if (error) return <div>Error: {error}</div>;
   if (!inquiry) return <div>No inquiry found</div>;
 
-  const { inquiryTitle, inquiryContent, createdDate, modifyDate, response } = inquiry;
+  const { inquiryTitle, inquiryContent, createdDate, response } = inquiry;
+
+  // Extract only the actual response text
+  let answer = '답변 대기 중';
+  if (response) {
+    const match = response.match(/response=([^,\])]*)/);
+    if (match) {
+      answer = match[1].replace(/[)\]]/, ''); // Remove any trailing ')' or ']'
+    }
+  }
 
   return (
     <div className="inquiry-detail">
@@ -48,7 +56,7 @@ const InquiryDetail = ({ inquiryId }) => {
         </div>
         <div className="inquiry-item">
           <h3>답변</h3>
-          <p>{response ? response : '답변 대기 중'}</p>
+          <p>{answer}</p>
         </div>
       </div>
     </div>

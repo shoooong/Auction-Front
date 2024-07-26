@@ -160,7 +160,7 @@ export default function Shop() {
                                     }
                                 >
                                     <div>
-                                        <div className="product-img">
+                                        <div className="product-img-230">
                                             <img
                                                 src={`${CLOUD_STORAGE_BASE_URL}/products/${list.productImg}`}
                                                 alt="이미지"

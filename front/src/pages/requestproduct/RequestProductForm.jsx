@@ -80,14 +80,14 @@ const RequestProductForm = ({ onSuccess }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="originalPrice">희망 가격:</label>
+          <label htmlFor="originalPrice">희망가격:</label>
           <input
             type="number"
             id="originalPrice"
             value={originalPrice}
             onChange={(e) => setOriginalPrice(e.target.value)}
             required
-            placeholder="원가를 입력해주세요"
+            placeholder="희망가격를 입력해주세요"
           />
         </div>
         <div className="form-group">
@@ -98,7 +98,7 @@ const RequestProductForm = ({ onSuccess }) => {
             value={mainDepartment}
             onChange={(e) => setMainDepartment(e.target.value)}
             required
-            placeholder="주요 부서를 입력해주세요"
+            placeholder="상품 대분류를 입력해주세요"
           />
         </div>
         <div className="form-group">
@@ -109,7 +109,7 @@ const RequestProductForm = ({ onSuccess }) => {
             value={subDepartment}
             onChange={(e) => setSubDepartment(e.target.value)}
             required
-            placeholder="하위 부서를 입력해주세요"
+            placeholder="상품 소분류를 입력해주세요"
           />
         </div>
         <div className="form-group">
@@ -120,7 +120,7 @@ const RequestProductForm = ({ onSuccess }) => {
             value={productSize}
             onChange={(e) => setProductSize(e.target.value)}
             required
-            placeholder="제품 크기를 입력해주세요"
+            placeholder="제품 사이즈를 입력해주세요"
           />
         </div>
         <div className="form-group">

@@ -5,6 +5,8 @@ import { SERVER_URL } from "../../api/serverApi";
 import { Box } from "@mui/material";
 import "../../styles/productBid.css";
 
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
+
 export default function ProductBid() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -118,7 +120,7 @@ export default function ProductBid() {
                         <div className="product">
                             <div className="product_img">
                                 <img
-                                    src={data.productImg}
+                                    src={`${CLOUD_STORAGE_BASE_URL}${data.productImg}`}
                                     alt={data.productName}
                                     className="product_img"
                                 />

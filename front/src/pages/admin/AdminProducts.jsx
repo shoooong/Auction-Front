@@ -17,8 +17,8 @@ import LaptopMacOutlinedIcon from "@mui/icons-material/LaptopMacOutlined";
 import useCustomLogin from "hooks/useCustomLogin";
 
 const departments = {
-  clothes: ["top", "bottom", "outer", "shoes", "inner"],
-  life: ["interior", "kitchen", "beauty"],
+  clothes: ["all", "top", "bottom", "outer", "shoes", "inner"],
+  life: ["all", "interior", "kitchen", "beauty"],
   tech: ["tech"],
 };
 
@@ -32,7 +32,10 @@ const AdminProducts = () => {
   //상품 리스트 다운
   const fetchData = async () => {
     try {
-      const data = await getProductsByDepartment(main, sub);
+      const data = await getProductsByDepartment(
+        main,
+        sub === "all" ? "" : sub
+      );
       const products = data.products;
       setProducts(products); // 상태 업데이트
       console.log(products);
@@ -129,6 +132,9 @@ const AdminProducts = () => {
     console.log(row.modelNum);
   };
 
+  console.log(sub);
+  console.log(departments[main][0]);
+
   return (
     <div className="column-direction h100p">
       <BottomNavigation showLabels value={main} onChange={changeMain}>
@@ -155,7 +161,10 @@ const AdminProducts = () => {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={sub}
-            label="소분류"
+            defaultValue={departments[main][0]}
+            // defaultValue="all"
+            // defaultValue={departments[main][0]}
+            displayEmpty
             onChange={handleChange}
             sx={{
               width: "80px",
@@ -167,12 +176,9 @@ const AdminProducts = () => {
               },
             }}
           >
-            {/* <MenuItem key="default" value={main} disabled>
-              {main}
-            </MenuItem> */}
-            {departments[main].map((sub) => (
-              <MenuItem key={sub} value={sub}>
-                {sub}
+            {departments[main].map((sub, index) => (
+              <MenuItem key={index} value={sub}>
+                {sub === "all" ? "all" : sub}
               </MenuItem>
             ))}
           </Select>

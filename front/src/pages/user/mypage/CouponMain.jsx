@@ -44,12 +44,12 @@ export default function Event() {
                             </div>
                         </div>
                         <div className="mypage-coupon-content2">
-                            <p className="coupon-exp">
+                            <div className="coupon-exp">
                                 <CouponDday
                                     startDate={item.coupon.startDate}
                                     endDate={item.coupon.endDate}
                                 />
-                            </p>
+                            </div>
                             <p className="coupon-endDate">
                                 {item.coupon.endDate.replace(/T/, " ")} 까지
                             </p>

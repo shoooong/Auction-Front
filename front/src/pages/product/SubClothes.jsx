@@ -136,7 +136,7 @@ const SubClothes = () => {
                                         {product.modelNum}
                                     </span>
                                     <span className="semibold-black">
-                                        {product.biddingPrice ? product.biddingPrice : product.originalPrice}
+                                        {parseInt(product.biddingPrice).toLocaleString()}
                                         <span className="light-black">원</span>
                                     </span>
                                     <span className="light-grey">

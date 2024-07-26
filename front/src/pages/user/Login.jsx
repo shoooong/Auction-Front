@@ -92,9 +92,9 @@ const LoginPage = () => {
                             <li className="flex-grow text-center">
                                 <Link to="/user/register">이메일 찾기</Link>
                             </li>
-                            <li className="flex-grow text-center">
+                            {/* <li className="flex-grow text-center">
                                 <Link to="/user/register">비밀번호 찾기</Link>
-                            </li>
+                            </li> */}
                         </ul>
 
                         {/* <KakaoLoginComponent /> */}

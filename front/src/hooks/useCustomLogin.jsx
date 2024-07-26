@@ -84,7 +84,7 @@ const useCustomLogin = () => {
             return;
         };
 
-        alert(errorStr);
+        alert(errorMsg);
     }, [navigate, isAdmin]);
 
     return {loginState, isLogin, doLogin, doLogout, doUnregister, moveToPath, moveToLogin, moveToLoginReturn, exceptionHandler};

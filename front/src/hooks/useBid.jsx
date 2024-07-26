@@ -39,8 +39,8 @@ export default function useBid(data) {
                 setProduct(productResponse.data);
                 setAddressInfo(addressInfoResponse.data);
 
-                console.log(product);
-                console.log(addressInfo);
+                // console.log(product);
+                // console.log(addressInfo);
             } catch (err) {
                 setError(err);
             } finally {

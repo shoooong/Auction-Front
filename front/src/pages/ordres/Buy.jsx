@@ -32,9 +32,9 @@ export default function Buy() {
     const { product, addressInfo } = useBid(bidData);
     console.log("product===" + product);
     const [orderData, setOrderData] = useState({
-        productId: null,
-        couponId: null,
-        addressId: null,
+        productId: 0,
+        couponId: 0,
+        addressId: 0,
         price: 0,
         exp: 90,
     });
@@ -67,9 +67,9 @@ export default function Buy() {
         console.log(coupon);
     };
 
-    useEffect(() => {
-        console.log("Received data in Buy component:", bidData);
-    }, [bidData]);
+    // useEffect(() => {
+    //     console.log("Received data in Buy component:", bidData);
+    // }, [bidData]);
 
     useEffect(() => {
         if (addressInfo && product) {
@@ -233,11 +233,21 @@ export default function Buy() {
                                                 배송 주소
                                             </dt>
                                             <dd className="desc">
-                                                ({addressInfo?.zonecode}
-                                                )&nbsp;
-                                                {addressInfo?.roadAddress}
-                                                &nbsp;
-                                                {addressInfo?.detailAddress}
+                                                {addressInfo ? (
+                                                    <>
+                                                        ({addressInfo.zonecode}
+                                                        )&nbsp;
+                                                        {
+                                                            addressInfo.roadAddress
+                                                        }
+                                                        &nbsp;
+                                                        {
+                                                            addressInfo.detailAddress
+                                                        }
+                                                    </>
+                                                ) : (
+                                                    "등록된 배송지가 없습니다. 배송지를 추가해주세요"
+                                                )}
                                             </dd>
                                         </div>
                                     </dl>

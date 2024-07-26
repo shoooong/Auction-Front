@@ -292,9 +292,9 @@ const ProductDetails = () => {
         const size = simplifiedSize;
         const type = currentTab === 'buy' ? 'buy' : 'sales';
         const buyingBiddingPrice = buyingProduct ? buyingProduct.buyingBiddingPrice : null;
-        const buyProductId = buyingProduct ? buyingProduct.buyProductId : null; // 올바르게 참조
+        const buyProductId = buyingProduct ? buyingProduct.buyProductId : null; 
         const salesBiddingPrice = salesProduct ? salesProduct.productMaxPrice : null;
-        const salesProductId = salesProduct ? salesProduct.salesProductId : null; // 올바르게 참조
+        const salesProductId = salesProduct ? salesProduct.salesProductId : null; 
 
         const selectedProductId = currentTab === 'buy' ? (buyingProduct ? buyingProduct.productId : product.productId) : (salesProduct ? salesProduct.productId : product.productId);
 

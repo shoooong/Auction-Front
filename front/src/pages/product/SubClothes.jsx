@@ -16,6 +16,24 @@ const SubClothes = () => {
     const [hasNext, setHasNext] = useState(true);
     const loadMoreRef = useRef(null);
 
+    const getTitle = () => {
+        const category = location.pathname.split("/")[2];
+        switch (category) {
+            case "top":
+                return "상의";
+            case "bottom":
+                return "하의";
+            case "outer":
+                return "아우터";
+            case "shoes":
+                return "신발";
+            case "inner":
+                return "이너웨어";
+            default:
+                return "제품";
+        }
+    };
+
     useEffect(() => {
         const category = location.pathname.split("/")[2] || "clothes";
         const fetchProducts = async (page) => {
@@ -72,7 +90,7 @@ const SubClothes = () => {
     return (
         <div className="container">
             <div className="sub-nav"></div>
-            <h2 className="title">하의</h2>
+            <h2 className="title">{getTitle()}</h2>
             <main className="product-content" style={{ marginBottom: "80px" }}>
                 <Box className="box">
                     <Box className="product-wrap inline-flex">
@@ -118,7 +136,7 @@ const SubClothes = () => {
                                         {product.modelNum}
                                     </span>
                                     <span className="semibold-black">
-                                        {product.biddingPrice}
+                                        {product.biddingPrice ? product.biddingPrice : product.originalPrice}
                                         <span className="light-black">원</span>
                                     </span>
                                     <span className="light-grey">

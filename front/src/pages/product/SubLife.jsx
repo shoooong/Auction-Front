@@ -15,6 +15,20 @@ const SubLife = () => {
     const [hasNext, setHasNext] = useState(true);
     const loadMoreRef = useRef(null);
 
+    const getTitle = () => {
+        const category = location.pathname.split("/")[2];
+        switch (category) {
+            case "beauty":
+                return "뷰티";
+            case "kitchen":
+                return "주방";
+            case "interior":
+                return "인테리어";
+            default:
+                return "라이프스타일";
+        }
+    };
+
     useEffect(() => {
         const category = location.pathname.split("/")[2] || "life";
         const fetchProducts = async (page) => {
@@ -71,7 +85,7 @@ const SubLife = () => {
         <div className="container">
             <div className="sub-nav"></div>
 
-            <h2 className="title">인테리어</h2>
+            <h2 className="title">{getTitle()}</h2>
 
             <main className="product-content" style={{ marginBottom: "80px" }}>
                 <Box className="box">

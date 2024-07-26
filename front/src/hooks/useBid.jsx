@@ -8,6 +8,7 @@ export default function useBid(data) {
 
     const [product, setProduct] = useState(null);
     const [addressInfo, setAddressInfo] = useState(null);
+    const [accountInfo, setAccountInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -28,8 +29,13 @@ export default function useBid(data) {
                     }
                 );
 
+                const accountInfoResponse = await jwtAxios.get(
+                    `/mypage/account`
+                );
+
                 const addressInfoResponse = await jwtAxios.get(`/order/addr`);
 
+                setAccountInfo(accountInfoResponse.data);
                 setProduct(productResponse.data);
                 setAddressInfo(addressInfoResponse.data);
 
@@ -55,5 +61,5 @@ export default function useBid(data) {
         return <div>Error: {error.message}</div>;
     }
 
-    return { product, addressInfo };
+    return { product, addressInfo, accountInfo };
 }

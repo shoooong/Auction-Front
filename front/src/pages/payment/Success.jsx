@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import "styles/order.css";
+import "styles/order_complete.css";
+import OrderProduct from "components/order/OrderProduct";
 
 export function SuccessPage() {
     const navigate = useNavigate();
@@ -38,8 +39,10 @@ export function SuccessPage() {
     }, []);
 
     return (
-        <div className="result_wrapper">
-            <div className="order_box_section"></div>
+        <div className="success_main">
+            <div className="complete_box">
+                <OrderProduct />
+            </div>
         </div>
     );
 }

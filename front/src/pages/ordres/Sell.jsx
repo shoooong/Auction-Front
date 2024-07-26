@@ -22,9 +22,11 @@ export default function Sell() {
     console.log("data====" + bidData2);
     console.log("jasn===" + JSON.stringify(bidData2, null, 2));
 
-    const { product, addressInfo } = useBid(bidData2);
+    const { product, addressInfo, accountInfo } = useBid(bidData2);
+    console.log("addressInfo=" + addressInfo);
     console.log("product====" + product);
 
+    console.log("accountInfo===" + accountInfo);
     console.log(typeof bidData2.bidPrice);
 
     const navigate = useNavigate();
@@ -56,6 +58,8 @@ export default function Sell() {
             }));
         }
     }, [addressInfo, product]);
+
+    console.log("addressInfo?.addressId===" + addressInfo?.addressId);
     // console.log(salesBidding);
     // console.log(addressInfo);
     // console.log(salesBidding?.product.productId);
@@ -72,7 +76,7 @@ export default function Sell() {
 
             // 성공 메시지
             alert("주문이 성공적으로 생성되었습니다.");
-            navigate("/event");
+            navigate("/success");
         } catch (error) {
             console.error("주문 생성 중 오류가 발생했습니다.", error);
             alert("주문 생성 중 오류가 발생했습니다.");
@@ -102,11 +106,14 @@ export default function Sell() {
                         <h3 className="title_txt">판매 정산 계좌</h3>
                         <div className="info_box">
                             <dt className="buy_title">계좌</dt>
-                            <dd className="desc">우리은행 1002960016078</dd>
+                            <dd className="desc">
+                                {accountInfo?.bankName}{" "}
+                                {accountInfo?.accountNum}
+                            </dd>
                         </div>
                         <div className="info_box">
                             <dt className="buy_title">예금주</dt>
-                            <dd className="desc">정종욱</dd>
+                            <dd className="desc">{accountInfo?.depositor}</dd>
                         </div>
                     </div>
                     <div className="account_btn btn_box">

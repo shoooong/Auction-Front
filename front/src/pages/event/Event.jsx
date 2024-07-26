@@ -9,6 +9,7 @@ import { getCookie } from "pages/user/cookieUtil";
 import couponDownBtn from "assets/images/coupon_down.svg";
 
 export default function Event() {
+    const [error, setError] = useState("");
     const { coupons } = useCouponEvent();
     const navigate = useNavigate();
 
@@ -29,9 +30,14 @@ export default function Event() {
 
             console.log(response.data);
             alert("쿠폰이 발급되었습니다!");
-        } catch (error) {
-            console.error(error);
-            alert("쿠폰 발급에 실패했습니다.");
+        } catch (err) {
+            if (err.response) {
+                setError(err.response.data);
+                alert(err.response.data.message);
+                console.log(err.response.data);
+            } else {
+                setError("An unexpected error occurred");
+            }
         }
     };
 

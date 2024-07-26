@@ -27,7 +27,7 @@ const MainLatestProduct = () => {
                     productBrand: product.productBrand,
                     productName: product.productName,
                     modelNum: product.modelNum,
-                    biddingPrice: product.biddingPrice,
+                    biddingPrice: product.biddingPrice ? product.biddingPrice : product.originalPrice,
                     liked: false, // 초기 좋아요 상태
                     rank: index + 1, // 순위 추가
                 }));

@@ -1,9 +1,10 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SERVER_URL } from "../../api/serverApi";
 import { Box } from "@mui/material";
 import "../../styles/productBid.css";
+import { SERVER_URL } from "api/serverApi";
+
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
 export default function ProductBid() {
     const location = useLocation();
@@ -118,7 +119,11 @@ export default function ProductBid() {
                         <div className="product">
                             <div className="product_img">
                                 <img
-                                    src={data.productImg}
+                                    src={
+                                        data.productImg
+                                            ? `${CLOUD_STORAGE_BASE_URL}${data.productImg}`
+                                            : "/path/to/default/image.jpg" // 기본 이미지 경로 설정
+                                    }
                                     alt={data.productName}
                                     className="product_img"
                                 />
@@ -246,113 +251,56 @@ export default function ProductBid() {
 
                         <div className="deadline_info_area">
                             <div className="section-title">
-                                <h3 className="title_text">입찰 마감기한</h3>
+                                <h3 className="title_text">입찰 마감 기한</h3>
                             </div>
-                            <div className="section-content">
-                                <div className="bid_deadline">
-                                    <p className="deadline_txt">
-                                        {selectedDays}일 ({endDate} 마감)
-                                    </p>
-                                    <div className="deadline_tab">
-                                        <button
-                                            onClick={() => handleDaysChange(1)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 1
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            1
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(3)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 3
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            3
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(7)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 7
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            7
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(30)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 30
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            30
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(60)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 60
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            60
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(90)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 90
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            90
-                                        </button>
-                                        <button
-                                            onClick={() =>
-                                                handleDaysChange(180)
-                                            }
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 180
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            180
-                                        </button>
-                                    </div>
-                                </div>
+                            <ul className="deadline_info">
+                                <li
+                                    className={`item ${
+                                        selectedDays === 1 ? "on" : ""
+                                    }`}
+                                    onClick={() => handleDaysChange(1)}
+                                >
+                                    1일
+                                </li>
+                                <li
+                                    className={`item ${
+                                        selectedDays === 3 ? "on" : ""
+                                    }`}
+                                    onClick={() => handleDaysChange(3)}
+                                >
+                                    3일
+                                </li>
+                                <li
+                                    className={`item ${
+                                        selectedDays === 7 ? "on" : ""
+                                    }`}
+                                    onClick={() => handleDaysChange(7)}
+                                >
+                                    7일
+                                </li>
+                            </ul>
+                            <div className="selected_deadline">
+                                <strong className="title">
+                                    선택한 마감 기한
+                                </strong>
+                                <span className="deadline_date">{endDate}</span>
                             </div>
                         </div>
-
-                        <div className="buy_total_confirm">
-                            <div className="price_total">
-                                <dl className="price_box price_empty">
-                                    <dt className="price_title">총 결제금액</dt>
-                                    <dd className="price_empty_desc">
-                                        다음 화면에서 확인
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div className="bid_confirm">
-                            <a href="#" className="blind full solid false">
-                                {" "}
-                                계속하기{" "}
-                            </a>
+                        <div className="btn_area">
                             <button
                                 type="button"
-                                className="btn full solid"
+                                className="btn_instant"
+                                disabled={isBuyNowDisabled}
+                                onClick={handleInstantSubmit}
+                            >
+                                즉시 구매
+                            </button>
+                            <button
+                                type="button"
+                                className="btn_submit"
                                 onClick={handleSubmit}
                             >
-                                {" "}
-                                구매 입찰 계속{" "}
+                                입찰하기
                             </button>
                         </div>
                     </div>
@@ -377,7 +325,6 @@ export default function ProductBid() {
                                     <span className="unit">원</span>
                                 </dd>
                             </dl>
-
                             <div className="price_bind">
                                 <p className="price_bind_empty">
                                     총 결제금액은 다음 화면에서 계산됩니다.
@@ -387,215 +334,87 @@ export default function ProductBid() {
 
                         <div className="deadline_info_area">
                             <div className="section-title">
-                                <h3 className="title_text">입찰 마감기한</h3>
+                                <h3 className="title_text">판매 마감 기한</h3>
                             </div>
-                            <div className="section-content">
-                                <div className="bid_deadline">
-                                    <p className="deadline_txt">
-                                        {selectedDays}일 ({endDate} 마감)
-                                    </p>
-                                    <div className="deadline_tab">
-                                        <button
-                                            onClick={() => handleDaysChange(1)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 1
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            1
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(3)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 3
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            3
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(7)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 7
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            7
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(30)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 30
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            30
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(60)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 60
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            60
-                                        </button>
-                                        <button
-                                            onClick={() => handleDaysChange(90)}
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 90
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            90
-                                        </button>
-                                        <button
-                                            onClick={() =>
-                                                handleDaysChange(180)
-                                            }
-                                            className={`btn outlinegrey medium ${
-                                                selectedDays === 180
-                                                    ? "is_active"
-                                                    : ""
-                                            }`}
-                                        >
-                                            180
-                                        </button>
-                                    </div>
-                                </div>
+                            <ul className="deadline_info">
+                                <li
+                                    className={`item ${
+                                        selectedDays === 1 ? "on" : ""
+                                    }`}
+                                    onClick={() => handleDaysChange(1)}
+                                >
+                                    1일
+                                </li>
+                                <li
+                                    className={`item ${
+                                        selectedDays === 3 ? "on" : ""
+                                    }`}
+                                    onClick={() => handleDaysChange(3)}
+                                >
+                                    3일
+                                </li>
+                                <li
+                                    className={`item ${
+                                        selectedDays === 7 ? "on" : ""
+                                    }`}
+                                    onClick={() => handleDaysChange(7)}
+                                >
+                                    7일
+                                </li>
+                            </ul>
+                            <div className="selected_deadline">
+                                <strong className="title">
+                                    선택한 마감 기한
+                                </strong>
+                                <span className="deadline_date">{endDate}</span>
                             </div>
                         </div>
-
-                        <div className="buy_total_confirm">
-                            <div className="price_total">
-                                <dl className="price_box price_empty">
-                                    <dt className="price_title">총 결제금액</dt>
-                                    <dd className="price_empty_desc">
-                                        다음 화면에서 확인
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div className="bid_confirm">
-                            <a href="#" className="blind full solid false">
-                                {" "}
-                                계속하기{" "}
-                            </a>
+                        <div className="btn_area">
                             <button
                                 type="button"
-                                className="btn full solid"
+                                className="btn_instant"
+                                disabled={isSellNowDisabled}
+                                onClick={handleInstantSubmit}
+                            >
+                                즉시 판매
+                            </button>
+                            <button
+                                type="button"
+                                className="btn_submit"
                                 onClick={handleSubmit}
                             >
-                                {" "}
-                                판매 입찰 계속{" "}
+                                입찰하기
                             </button>
                         </div>
                     </div>
                 )}
 
-                {currentForm === "buy_now" && !isSales && (
-                    <div className="buy_now_form">
+                {(currentForm === "buy_now" || currentForm === "sell_now") && (
+                    <div className="instant_form">
                         <div className="price_now">
                             <dl className="price_now_box">
-                                <dt className="price_now_title">즉시 구매가</dt>
+                                <dt className="price_now_title">
+                                    {currentForm === "buy_now"
+                                        ? "즉시 구매가"
+                                        : "즉시 판매가"}
+                                </dt>
                                 <dd className="price">
-                                    <span className="price">
-                                        {data.salesBiddingPrice
-                                            ? data.salesBiddingPrice.toLocaleString()
-                                            : "-"}
-                                    </span>
+                                    {currentForm === "buy_now"
+                                        ? data.salesBiddingPrice
+                                        : data.buyingBiddingPrice}
                                     <span className="unit">원</span>
                                 </dd>
                             </dl>
-
-                            <div className="price_bind">
-                                <p className="price_bind_empty">
-                                    총 결제금액은 다음 화면에서 계산됩니다.
-                                </p>
-                            </div>
                         </div>
-
-                        <div className="buy_total_confirm">
-                            <div className="price_total">
-                                <dl className="price_box price_empty">
-                                    <dt className="price_title">총 결제금액</dt>
-                                    <dd className="price_empty_desc">
-                                        다음 화면에서 확인
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div className="bid_confirm">
-                            <a href="#" className="blind full solid false">
-                                {" "}
-                                계속하기{" "}
-                            </a>
+                        <div className="btn_area">
                             <button
                                 type="button"
-                                className={`btn full solid ${
-                                    isBuyNowDisabled ? "disabled" : ""
-                                }`}
+                                className="btn_instant"
                                 onClick={handleInstantSubmit}
-                                disabled={isBuyNowDisabled}
                             >
-                                즉시 구매 계속
-                            </button>
-                        </div>
-                    </div>
-                )}
-
-                {currentForm === "sell_now" && isSales && (
-                    <div className="sell_now_form">
-                        <div className="price_now">
-                            <dl className="price_now_box">
-                                <dt className="price_now_title">즉시 판매가</dt>
-                                <dd className="price">
-                                    <span className="price">
-                                        {data.buyingBiddingPrice
-                                            ? data.buyingBiddingPrice.toLocaleString()
-                                            : "-"}
-                                    </span>
-                                    <span className="unit">원</span>
-                                </dd>
-                            </dl>
-
-                            <div className="price_bind">
-                                <p className="price_bind_empty">
-                                    총 결제금액은 다음 화면에서 계산됩니다.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="buy_total_confirm">
-                            <div className="price_total">
-                                <dl className="price_box price_empty">
-                                    <dt className="price_title">총 결제금액</dt>
-                                    <dd className="price_empty_desc">
-                                        다음 화면에서 확인
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div className="bid_confirm">
-                            <a href="#" className="blind full solid false">
-                                {" "}
-                                계속하기{" "}
-                            </a>
-                            <button
-                                type="button"
-                                className={`btn full solid ${
-                                    isSellNowDisabled ? "disabled" : ""
-                                }`}
-                                onClick={handleInstantSubmit}
-                                disabled={isSellNowDisabled}
-                            >
-                                즉시 판매 계속
+                                {currentForm === "buy_now"
+                                    ? "즉시 구매"
+                                    : "즉시 판매"}
                             </button>
                         </div>
                     </div>

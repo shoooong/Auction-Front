@@ -15,13 +15,21 @@ export const maskEmail = (email) => {
 
 // 배송지 관리
 export const maskName = (name) => {
-    if (name.length > 1) {
-        return name[0] + '*'.repeat(name.length - 1);
+    if (!name) {
+        return "";
     }
-    return name;
-};
+    
+    if (name.length <= 2) {
+        return name.charAt(0) + "*";
+    }
+    return name.charAt(0) + "*".repeat(name.length - 2) + name.charAt(name.length - 1);
+}
 
 export const formatPhoneNumber = (phoneNum) => {
+    if (!phoneNum) {
+        return "";
+    }
+
     if (phoneNum.length === 11) {
         return `${phoneNum.slice(0, 3)}-${phoneNum.slice(3, 4)}***-*${phoneNum.slice(8)}`;
     }

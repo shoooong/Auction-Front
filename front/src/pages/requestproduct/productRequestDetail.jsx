@@ -7,7 +7,7 @@ const ProductRequestDetail = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
 
-  const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
+  const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
   useEffect(() => {
     const fetchProduct = async () => {

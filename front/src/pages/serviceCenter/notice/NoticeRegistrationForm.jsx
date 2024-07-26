@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
-import { SERVER_URL } from '../../../api/serverApi';
 import { useNavigate } from 'react-router-dom';
 
 const NoticeRegistrationForm = () => {
@@ -24,6 +23,11 @@ const NoticeRegistrationForm = () => {
         setTitle('');
         setContent('');
         setType('notice');
+        setTimeout(() => {
+          navigate('/admin/notice');
+        }, 100);
+      } else {
+        setMessage('공지사항 등록에 실패했습니다.');
         navigate('/admin/notice');
       }
     } catch (error) {
@@ -45,17 +49,6 @@ const NoticeRegistrationForm = () => {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="type">유형:</label>
-          <select
-            id="type"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option value="notice">공지</option>
-            <option value="event">이벤트</option>
-          </select>
         </div>
         <div>
           <label htmlFor="content">내용:</label>

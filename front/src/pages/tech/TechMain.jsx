@@ -10,6 +10,7 @@ export default function TechMain() {
     return (
         <>
             <div className="container">
+                <h2 className="title">Tech</h2>
                 <MainProductPopular />
                 <MainLatestProduct />
             </div>

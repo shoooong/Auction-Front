@@ -37,7 +37,7 @@ const BookmarkProduct = () => {
                 <div className="bookmark-grid">
                     {bookmarkProducts.map((bookmark, index) => (
                         <div className="bookmark-item" key={index}>
-                            <img src={`${CLOUD_STORAGE_BASE_URL}/dummy/products${bookmark.productDetailsDto.productImg}`} alt={bookmark.productDetailsDto.productName} />
+                            <img src={`${CLOUD_STORAGE_BASE_URL}/products/${bookmark.productDetailsDto.productImg}`} alt={bookmark.productDetailsDto.productName} />
                             <p className="bookmark-text1">{bookmark.productDetailsDto.productBrand}</p>
                             <p className="bookmark-text2">{bookmark.productDetailsDto.productName}</p>
                             <p className="bookmark-text3">{bookmark.productDetailsDto.modelNum}</p>

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import jwtAxios from "pages/user/jwtUtil";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
 const FeedRegistrationForm = () => {
     const [feedTitle, setFeedTitle] = useState("");
     const [feedImage, setFeedImage] = useState(null);
-    const {exceptionHandler} = useCustomLogin();
+    const { exceptionHandler } = useCustomLogin();
     const [error, setError] = useState(null);
+    const navigate = useNavigate(); // useNavigate 훅 추가
 
     const handleImageChange = (event) => {
         setFeedImage(event.target.files[0]);
@@ -31,10 +32,10 @@ const FeedRegistrationForm = () => {
             console.log("Feed registered successfully:", response.data);
             setFeedTitle("");
             setFeedImage(null);
+            navigate('/style'); // 등록 후 리다이렉션
         } catch (error) {
             exceptionHandler(error);
             setError("정보를 불러오는 중 오류가 발생했습니다.");
-    
         }
     };
 
@@ -69,7 +70,7 @@ const FeedRegistrationForm = () => {
                         등록
                     </button>
                     <Link to="/style">
-                        <button className="small-btn">목록으로</button>
+                        <button type="button" className="small-btn">목록으로</button>
                     </Link>
                 </div>
             </form>

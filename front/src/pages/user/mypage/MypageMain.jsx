@@ -54,6 +54,11 @@ export default function MypageMain() {
         fetchData();
     }, [exceptionHandler]);
 
+    const getStatusCount = (status) => {
+        const statusCount = saleHistory.salesStatusCounts.find(count => count.salesStatus === status);
+        return statusCount ? statusCount.count : 0;
+    };
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
@@ -151,7 +156,7 @@ export default function MypageMain() {
                         {buyHistory.buyingDetails.length > 0 ? (
                             buyHistory.buyingDetails.map((buy, index) => (
                                 <div className="buy-item" key={index}>
-                                    <img src={`${CLOUD_STORAGE_BASE_URL}/dummy/products${buy.productImg}`} alt={buy.productName} />
+                                    <img src={`${CLOUD_STORAGE_BASE_URL}/products/${buy.productImg}`} alt={buy.productName} />
                                     <div>
                                         <p>{buy.productName}</p>
                                         <p>{buy.productSize}</p>
@@ -179,20 +184,19 @@ export default function MypageMain() {
                                 전체 <span>{saleHistory.allCount}</span>
                             </div>
                             <div>
-                                검수 중
-                                <span>{saleHistory.inspectionCount}</span>
+                                검수 중 <span>{getStatusCount('INSPECTION')}</span>
                             </div>
                             <div>
-                                진행 중 <span>{saleHistory.processCount}</span>
+                                입찰 중 <span>{getStatusCount('PROCESS')}</span>
                             </div>
                             <div>
-                                종료 <span>{saleHistory.completeCount}</span>
+                                종료 <span>{getStatusCount('COMPLETE')}</span>
                             </div>
                         </div>
                         {saleHistory.saleDetails.length > 0 ? (
                             saleHistory.saleDetails.map((sale, index) => (
                                 <div className="sale-item" key={index}>
-                                    <img src={`${CLOUD_STORAGE_BASE_URL}/dummy/products${sale.productImg}`} alt={sale.productName} />
+                                    <img src={`${CLOUD_STORAGE_BASE_URL}/products/${sale.productImg}`} alt={sale.productName} />
                                     <div>
                                         <p>{sale.productName}</p>
                                         <p>{sale.productSize}</p>
@@ -223,7 +227,7 @@ export default function MypageMain() {
                     <div className="bookmark-grid">
                         {bookmarkProducts.map((bookmark, index) => (
                             <div className="bookmark-item product" key={index}>
-                                <img src={`${CLOUD_STORAGE_BASE_URL}/dummy/products${bookmark.productDetailsDto.productImg}`} alt={bookmark.productDetailsDto.name} />
+                                <img src={`${CLOUD_STORAGE_BASE_URL}/products/${bookmark.productDetailsDto.productImg}`} alt={bookmark.productDetailsDto.name} />
                                 {/* <img src={photo} alt="이앤톤" /> */}
 
                                 {/* <div className="product"> */}

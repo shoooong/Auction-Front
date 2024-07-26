@@ -21,7 +21,11 @@ const customerKey = "HOytG9DDEHHgTxwNS0YWT";
 
 export default function Buy() {
     const location = useLocation();
-    const bidData = location.state || {};
+    const bidData = location.state || {
+        productId: 1,
+        bidPrice: 128000,
+        selectedDays: 30,
+    };
     console.log("data====" + bidData);
     console.log("jasn===" + JSON.stringify(bidData, null, 2));
 
@@ -66,21 +70,6 @@ export default function Buy() {
     useEffect(() => {
         console.log("Received data in Buy component:", bidData);
     }, [bidData]);
-
-    // useEffect(() => {
-    //     if (addressInfo && buyingBidding) {
-    //         const calculatedFee = buyingBidding.buyingBiddingPrice * 0.04;
-    //         setFee(calculatedFee);
-    //         setOrderData((prevData) => ({
-    //             ...prevData,
-    //             addressId: addressInfo?.addressId,
-    //             productId: buyingBidding?.product.productId,
-    //             couponId: selectedCoupon?.coupon.couponId,
-    //             price: buyingBidding?.buyingBiddingPrice - fee,
-    //             exp: 90,
-    //         }));
-    //     }
-    // }, [addressInfo, buyingBidding]);
 
     useEffect(() => {
         if (addressInfo && product) {
@@ -171,7 +160,8 @@ export default function Buy() {
             await payment.requestPayment({
                 method: "CARD",
                 amount: amount,
-                orderId: "Zi9UdirQdheViE-1c0oca",
+                orderId: "Zi9UdirQdheViE-1c0oca1" + orderId,
+                // orderId: "Zi9UdirQdheViE-orderId" + orderId,
                 orderName: "토스 티셔츠 외 2건",
                 successUrl: window.location.origin + "/success",
                 failUrl: window.location.origin + "/fail",

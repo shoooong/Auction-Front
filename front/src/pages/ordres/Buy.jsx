@@ -140,7 +140,7 @@ export default function Buy() {
                 `bid/buyingBidding/register`, // 주문 정보를 저장하는 API 엔드포인트
                 orderData
             );
-            return response.data.orderId; // 서버에서 반환한 주문 ID
+            return response.data; // 서버에서 반환한 주문 ID
         } catch (error) {
             console.error("Error saving order data:", error);
             throw error; // 오류가 발생하면 결제 요청을 진행하지 않음
@@ -157,6 +157,8 @@ export default function Buy() {
         try {
             console.log("111" + orderData);
             const orderId = await saveOrderData();
+            console.log("ordId.od====" + orderId.orderId);
+            console.log("odrId====" + JSON.stringify(orderId, null, 2));
             await payment.requestPayment({
                 method: "CARD",
                 amount: amount,

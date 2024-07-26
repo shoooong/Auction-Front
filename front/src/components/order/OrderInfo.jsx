@@ -1,18 +1,18 @@
 import useBid from "hooks/useBid";
 import useOrderApi from "api/order/useOrderApi";
-const OrderInfo = ({ Order }) => {
-    console.log(Order);
+const OrderInfo = ({ order }) => {
+    console.log(order);
     return (
         <div className="order_info_box">
             <div className="total_box">
                 <p className="total_pay">총 결제금액</p>
-                <p className="total_pay pay_end">{Order?.orderPirce}</p>
+                <p className="total_pay pay_end">{order?.orderPrice}</p>
             </div>
             <div className="final_info">
                 <div className="order_item">
                     <p className="sub_text">입찰 희망가</p>
                     <p className="desc">
-                        {Order?.buyingBidding.buyingBiddingPrice}
+                        {/* {Order?.buyingBidding.buyingBiddingPrice} */}
                     </p>
                 </div>
                 <div className="order_item">
@@ -26,9 +26,9 @@ const OrderInfo = ({ Order }) => {
                 <div className="order_item">
                     <p className="sub_text">쿠폰 사용</p>
                     <p className="coupon_use desc">
-                        {Order?.coupon.Amount > 0
+                        {/* {Order?.coupon.Amount > 0
                             ? `-${Order?.coupon.Amount.toLocaleString()}원`
-                            : "-"}
+                            : "-"} */}
                     </p>
                     {/* <p className="coupon_use desc">원</p> */}
                 </div>
@@ -41,7 +41,7 @@ const OrderInfo = ({ Order }) => {
                                     : "-"}
                             </p> */}
                     <p className="sub_text desc">
-                        {Order?.buyingBidding.buyingBiddingTime}
+                        {/* {Order?.buyingBidding.buyingBiddingTime} */}
                     </p>
                 </div>
             </div>

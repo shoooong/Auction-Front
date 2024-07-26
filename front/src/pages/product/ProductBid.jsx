@@ -56,8 +56,8 @@ export default function ProductBid() {
     const handleSubmit = async () => {
         const productId =
             currentForm === "buy"
-                ? data.buyingProductId || data.productId
-                : data.salesProductId || data.productId; // 입찰일 경우 적절한 productId 사용
+                ? data.productId || data.buyingProductId 
+                :  data.productId || data.salesProductId; // 입찰일 경우 적절한 productId 사용
         const url = currentForm === "buy" ? "/buy" : "/sell";
         const postData = {
             bidPrice,
@@ -81,7 +81,7 @@ export default function ProductBid() {
         let productId, biddingPrice, url;
 
         if (currentForm === "buy_now") {
-            productId = data.salesProductId || data.productId; // 즉시 구매가의 ID가 없으면 상품 고유 ID 사용
+            productId = data.salesProductId ||data.productId; // 즉시 구매가의 ID가 없으면 상품 고유 ID 사용
             biddingPrice = data.salesBiddingPrice || 0; // 즉시 구매가가 없으면 기본값 사용
             url = "/buy";
         } else if (currentForm === "sell_now") {

@@ -65,22 +65,22 @@ const SalesSummary = () => {
             </li>
           ))}
         </ol>
+        {totalPages >= 0 && (
+          <div style={{ textAlign: "center", margin: "0 20px 30px" }}>
+            <Pagination
+              count={10}
+              page={page}
+              onChange={handlePageChange}
+              shape="rounded"
+            />
+          </div>
+        )}
         {loading && (
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             Loading...
           </div>
         )}
       </div>
-      {totalPages > 1 && (
-        <div style={{ textAlign: "center", margin: "0 20px 30px" }}>
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={handlePageChange}
-            shape="rounded"
-          />
-        </div>
-      )}
     </div>
   );
 };

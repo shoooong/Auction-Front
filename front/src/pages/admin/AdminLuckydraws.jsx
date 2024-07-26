@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import useCustomLogin from "hooks/useCustomLogin";
 
 const AdminLuckdraws = () => {
-  const [luckyProcessStatus, setLuckyProcessStatus] = useState(""); // default status
+  const [luckyProcessStatus, setLuckyProcessStatus] = useState("READY"); // default status
   const [luckyDraws, setLuckyDraws] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();

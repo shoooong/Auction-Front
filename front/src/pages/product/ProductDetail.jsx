@@ -34,7 +34,7 @@ const ProductDetails = () => {
     const [isLiked, setIsLiked] = useState(false);
     const [bookmarkCount, setBookmarkCount] = useState(0); // 북마크 개수 상태 추가
 
-    const {exceptionHandler} = useCustomLogin();
+    const { exceptionHandler } = useCustomLogin();
 
     useEffect(() => {
         const checkUser = () => {
@@ -116,13 +116,13 @@ const ProductDetails = () => {
             default:
                 data = product.averagePriceResponseList.threeDayPrices;
         }
-    
+
         if (!data || data.length === 0) {
             return {
-                labels: ["No data"],
+                labels: ["데이터 없음"],
                 datasets: [
                     {
-                        label: 'No data',
+                        label: '거래 가격',
                         data: [0],
                         borderColor: 'rgba(255,100,150,1)',
                         backgroundColor: 'rgba(50,1,192,0.2)',
@@ -133,21 +133,28 @@ const ProductDetails = () => {
                 ],
             };
         }
-    
-        if (data.length === 1) {
-            const singlePoint = data[0];
-            data = [
-                { ...singlePoint, contractDateTime: `${singlePoint.contractDateTime} 00:00:00` },
-                { ...singlePoint, contractDateTime: `${singlePoint.contractDateTime} 23:59:59` }
-            ];
+
+        const formattedData = data.map(item => ({
+            contractDateTime: item.contractDateTime,
+            averagePrice: item.averagePrice || 0 // 평균값이 없을 경우 0으로 설정
+        }));
+
+        // 데이터가 한 개일 경우 추가 포인트 생성
+        if (formattedData.length === 1) {
+            const singlePoint = formattedData[0];
+            formattedData.push({ ...singlePoint, contractDateTime: `${singlePoint.contractDateTime} 23:59:59` });
         }
-    
+
+        // 최소값과 최대값을 계산하여 차트의 y축을 설정
+        const minPrice = Math.min(...formattedData.map(item => item.averagePrice));
+        const maxPrice = Math.max(...formattedData.map(item => item.averagePrice));
+
         return {
-            labels: data.map(item => item.contractDateTime),
+            labels: formattedData.map(item => item.contractDateTime),
             datasets: [
                 {
                     label: '거래 가격',
-                    data: data.map(item => item.averagePrice),
+                    data: formattedData.map(item => item.averagePrice),
                     borderColor: 'rgba(255,100,150,1)',
                     backgroundColor: 'rgba(50,1,192,0.2)',
                     borderWidth: 2,
@@ -155,8 +162,18 @@ const ProductDetails = () => {
                     lineTension: 0.2,
                 },
             ],
+            options: {
+                scales: {
+                    y: {
+                        min: minPrice > 0 ? 0 : minPrice,
+                        max: maxPrice,
+                    },
+                },
+            },
         };
     };
+
+
 
     const chartOptions = {
         responsive: true,
@@ -206,7 +223,7 @@ const ProductDetails = () => {
             return ['S', 'M', 'L', 'XL', 'XXL'];
         } else if (product.subDepartment === 'shoes') {
             return ['230', '235', '240', '245', '250', '255', '260', '270', '275', '280'];
-        } else if (product.subDepartment === 'kitchen' || product.subDepartment === 'interior'|| product.subDepartment === 'tech') {
+        } else if (product.subDepartment === 'kitchen' || product.subDepartment === 'interior' || product.subDepartment === 'tech') {
             return ['ONESIZE'];
         } else {
             return [];
@@ -292,9 +309,9 @@ const ProductDetails = () => {
         const size = simplifiedSize;
         const type = currentTab === 'buy' ? 'buy' : 'sales';
         const buyingBiddingPrice = buyingProduct ? buyingProduct.buyingBiddingPrice : null;
-        const buyProductId = buyingProduct ? buyingProduct.buyProductId : null; 
+        const buyProductId = buyingProduct ? buyingProduct.buyProductId : null;
         const salesBiddingPrice = salesProduct ? salesProduct.productMaxPrice : null;
-        const salesProductId = salesProduct ? salesProduct.salesProductId : null; 
+        const salesProductId = salesProduct ? salesProduct.salesProductId : null;
 
         const selectedProductId = currentTab === 'buy' ? (buyingProduct ? buyingProduct.productId : product.productId) : (salesProduct ? salesProduct.productId : product.productId);
 
@@ -451,34 +468,34 @@ const ProductDetails = () => {
                         </button>
                     </div>
                     <div className="alpha">
-                    <button 
-    className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary btn full-btn border-btn align-center css-1e6y48t-MuiButtonBase-root-MuiButton-root" 
-    tabIndex="0" 
-    type="button"
-    onClick={handleLikeClick}
->
-    <span>
-        <img src={isLiked ? "/static/media/heart-filled.svg" : "/static/media/heart-empty.svg"} alt="Like" />
-    </span>
-    좋아요
-    <span>{product.productLike || 0}</span>
-    <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
-</button>
-<button 
-      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary btn full-btn border-btn align-center css-1e6y48t-MuiButtonBase-root-MuiButton-root" 
-      tabIndex="0" 
-      type="button"
-      onClick={handleBookmarkClick}
-    >
-      <span>
-        <img src="/static/media/bookmark-off.6b051f0a6642a44e2147719b5bbbf331.svg" alt="BookmarkOff" />
-      </span>
-      관심상품
-      <span>{bookmarkCount}</span> {/* 북마크 개수를 동적으로 표시 */}
-      <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
-    </button>
-    {/* ... 다른 요소들 ... */}
-</div>
+                        <button
+                            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary btn full-btn border-btn align-center css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                            tabIndex="0"
+                            type="button"
+                            onClick={handleLikeClick}
+                        >
+                            <span>
+                                <img src={isLiked ? "/static/media/heart-filled.svg" : "/static/media/heart-empty.svg"} alt="Like" />
+                            </span>
+                            좋아요
+                            <span>{product.productLike || 0}</span>
+                            <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
+                        </button>
+                        <button
+                            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary btn full-btn border-btn align-center css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                            tabIndex="0"
+                            type="button"
+                            onClick={handleBookmarkClick}
+                        >
+                            <span>
+                                <img src="/static/media/bookmark-off.6b051f0a6642a44e2147719b5bbbf331.svg" alt="BookmarkOff" />
+                            </span>
+                            관심상품
+                            <span>{bookmarkCount}</span> {/* 북마크 개수를 동적으로 표시 */}
+                            <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
+                        </button>
+                        {/* ... 다른 요소들 ... */}
+                    </div>
                     <div className="product-tab">
                         <Tabs defaultValue={1} onChange={handleTabChange}>
                             <TabsList className="tabs-list">
@@ -656,9 +673,9 @@ const ProductDetails = () => {
 
                 <div className="popup-content">
                     <Box className="popup-product flex align-center">
-                        <div className="w20p">
+                        <div className="w20p" >
                             <div style={{ background: "#ddd", height: "80px" }}>
-                                {product.productImg ? product.productImg : "-"}
+                                <img src={product.productImg ? `${CLOUD_STORAGE_BASE_URL}${product.productImg}` : "-"} alt="-" style={{ width: "100px" }} />
                             </div>
                         </div>
                         <div className="product-info w80p">
@@ -756,69 +773,68 @@ const ProductDetails = () => {
                     >
                         <span className="black-label">취소</span>
                     </Button>
-                    <Button className="confirm-btn" onClick={handleConfirmClick}>
-                        <span className="white-label">확인</span>
-                    </Button>
                 </div>
             </Dialog>
 
             <Dialog open={open} onClose={() => setOpen(false)}>
-            <div className="popup-title-box">
-                <DialogTitle>
-                    {currentTab === 'buy' ? <span className="red-label">구매하기</span> : currentTab === 'sales' ? <span className="green-label">판매하기</span> : '모든 사이즈'}<span>(가격 단위: 원)</span>
-                </DialogTitle>
-                <Button
-                    className="popup-close-btn"
-                    onClick={() => setOpen(false)}
-                ></Button>
-            </div>
-
-            <div className="popup-content">
-                <Box className="popup-product flex align-center">
-                    <div className="w20p">
-                        <div style={{ background: "#ddd", height: "80px" }}>
-                            {/* 이미지 URL 생성 */}
-                            <img 
-                                src={product.productImg ? `${CLOUD_STORAGE_BASE_URL}${product.productImg}` : "-"} 
-                                alt={product.productName} 
-                                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                            />
-                        </div>
-                    </div>
-                    <div className="product-info w80p">
-                        <span>{product.modelNum}</span>
-                        <span>{product.productName}</span>
-                    </div>
-                </Box>
-
-                <div className="scroll size-buttons">
-                    {getSizeOptions().map((size, index) => (
-                        <ToggleButton
-                            key={index}
-                            value={`size-${size}`}
-                            selected={selectedSize === `size-${size}`}
-                            onChange={() => handleToggleButtonChange(`size-${size}`)}
-                            className="btn toggle-btn"
-                        >
-                            <span className="black-label">{size}</span>
-                            <span className="red-label">{getSizePrice(size)}</span>
-                        </ToggleButton>
-                    ))}
+                <div className="popup-title-box">
+                    <DialogTitle>
+                        {currentTab === 'buy' ? <span className="red-label">구매하기</span> : currentTab === 'sales' ? <span className="green-label">판매하기</span> : '모든 사이즈'}<span>(가격 단위: 원)</span>
+                    </DialogTitle>
+                    <Button
+                        className="popup-close-btn"
+                        onClick={() => setOpen(false)}
+                    ></Button>
                 </div>
-            </div>
 
-            <div className="popup-bottom justify-center">
-                <Button
-                    className="cancel-btn"
-                    onClick={() => setOpen(false)}
-                >
-                    <span className="black-label">취소</span>
-                </Button>
-                <Button className="confirm-btn" onClick={handleConfirmClick}>
-                    <span className="white-label">확인</span>
-                </Button>
-            </div>
-        </Dialog>
+                <div className="popup-content">
+                    <Box className="popup-product flex align-center">
+                        <div className="w20p">
+                            <div style={{ background: "#ddd", height: "80px" }}>
+                                <img
+                                    src={product.productImg ? `${CLOUD_STORAGE_BASE_URL}${product.productImg}` : "-"}
+                                    alt={product.productName}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                            </div>
+                        </div>
+                        <div className="product-info w80p">
+                            <span>{product.modelNum}</span>
+                            <span>{product.productName}</span>
+                        </div>
+                    </Box>
+
+                    <div className="scroll size-buttons">
+                        {getSizeOptions().map((size, index) => (
+                            <ToggleButton
+                                key={index}
+                                value={`size-${size}`}
+                                selected={selectedSize === `size-${size}`}
+                                onChange={() => handleToggleButtonChange(`size-${size}`)}
+                                className="btn toggle-btn"
+                            >
+                                <span className="black-label">{size}</span>
+                                <span className="red-label">{getSizePrice(size)}</span>
+                            </ToggleButton>
+                        ))}
+                    </div>
+                </div>
+
+                {currentTab !== 'all' && (
+                    <div className="popup-bottom justify-center">
+                        <Button
+                            className="cancel-btn"
+                            onClick={() => setOpen(false)}
+                        >
+                            <span className="black-label">취소</span>
+                        </Button>
+                        <Button className="confirm-btn" onClick={handleConfirmClick}>
+                            <span className="white-label">확인</span>
+                        </Button>
+                    </div>
+                )}
+            </Dialog>
+
             <Dialog open={bookmarkModalOpen} onClose={handleBookmarkClose}>
                 <DialogTitle>관심상품 저장</DialogTitle>
                 <DialogContent>
@@ -842,7 +858,7 @@ const ProductDetails = () => {
                 </DialogActions>
             </Dialog>
         </Box>
-        
+
     );
 };
 

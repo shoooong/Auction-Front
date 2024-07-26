@@ -763,57 +763,62 @@ const ProductDetails = () => {
             </Dialog>
 
             <Dialog open={open} onClose={() => setOpen(false)}>
-                <div className="popup-title-box">
-                    <DialogTitle>
-                        {currentTab === 'buy' ? <span className="red-label">구매하기</span> : currentTab === 'sales' ? <span className="green-label">판매하기</span> : '모든 사이즈'}<span>(가격 단위: 원)</span>
-                    </DialogTitle>
-                    <Button
-                        className="popup-close-btn"
-                        onClick={() => setOpen(false)}
-                    ></Button>
-                </div>
+            <div className="popup-title-box">
+                <DialogTitle>
+                    {currentTab === 'buy' ? <span className="red-label">구매하기</span> : currentTab === 'sales' ? <span className="green-label">판매하기</span> : '모든 사이즈'}<span>(가격 단위: 원)</span>
+                </DialogTitle>
+                <Button
+                    className="popup-close-btn"
+                    onClick={() => setOpen(false)}
+                ></Button>
+            </div>
 
-                <div className="popup-content">
-                    <Box className="popup-product flex align-center">
-                        <div className="w20p">
-                            <div style={{ background: "#ddd", height: "80px" }}>
-                                {product.productImg ? product.productImg : "-"}
-                            </div>
+            <div className="popup-content">
+                <Box className="popup-product flex align-center">
+                    <div className="w20p">
+                        <div style={{ background: "#ddd", height: "80px" }}>
+                            {/* 이미지 URL 생성 */}
+                            <img 
+                                src={product.productImg ? `${CLOUD_STORAGE_BASE_URL}${product.productImg}` : "-"} 
+                                alt={product.productName} 
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                            />
                         </div>
-                        <div className="product-info w80p">
-                            <span>{product.modelNum}</span>
-                            <span>{product.productName}</span>
-                        </div>
-                    </Box>
-
-                    <div className="scroll size-buttons">
-                        {getSizeOptions().map((size, index) => (
-                            <ToggleButton
-                                key={index}
-                                value={`size-${size}`}
-                                selected={selectedSize === `size-${size}`}
-                                onChange={() => handleToggleButtonChange(`size-${size}`)}
-                                className="btn toggle-btn"
-                            >
-                                <span className="black-label">{size}</span>
-                                <span className="red-label">{getSizePrice(size)}</span>
-                            </ToggleButton>
-                        ))}
                     </div>
-                </div>
+                    <div className="product-info w80p">
+                        <span>{product.modelNum}</span>
+                        <span>{product.productName}</span>
+                    </div>
+                </Box>
 
-                <div className="popup-bottom justify-center">
-                    <Button
-                        className="cancel-btn"
-                        onClick={() => setOpen(false)}
-                    >
-                        <span className="black-label">취소</span>
-                    </Button>
-                    <Button className="confirm-btn" onClick={handleConfirmClick}>
-                        <span className="white-label">확인</span>
-                    </Button>
+                <div className="scroll size-buttons">
+                    {getSizeOptions().map((size, index) => (
+                        <ToggleButton
+                            key={index}
+                            value={`size-${size}`}
+                            selected={selectedSize === `size-${size}`}
+                            onChange={() => handleToggleButtonChange(`size-${size}`)}
+                            className="btn toggle-btn"
+                        >
+                            <span className="black-label">{size}</span>
+                            <span className="red-label">{getSizePrice(size)}</span>
+                        </ToggleButton>
+                    ))}
                 </div>
-            </Dialog>
+            </div>
+
+            <div className="popup-bottom justify-center">
+                <Button
+                    className="cancel-btn"
+                    onClick={() => setOpen(false)}
+                >
+                    <span className="black-label">취소</span>
+                </Button>
+                <Button className="confirm-btn" onClick={handleConfirmClick}>
+                    <span className="white-label">확인</span>
+                </Button>
+            </div>
+        </Dialog>
             <Dialog open={bookmarkModalOpen} onClose={handleBookmarkClose}>
                 <DialogTitle>관심상품 저장</DialogTitle>
                 <DialogContent>

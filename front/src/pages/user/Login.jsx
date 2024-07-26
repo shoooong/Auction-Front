@@ -45,8 +45,7 @@ const LoginPage = () => {
         }
     };
 
-    // 카카오
-    const link = getKaKaoLoginLink();
+    const linkToKakao = getKaKaoLoginLink();
 
     return (
         // <LoginComponent />
@@ -97,14 +96,13 @@ const LoginPage = () => {
                             </li> */}
                         </ul>
 
-                        {/* <KakaoLoginComponent /> */}
                         <div className="btn full-btn border-btn align-center justify-center">
                             <span></span>
-                            <Link to={link}>네이버로 로그인</Link>
+                            <Link>네이버로 로그인</Link>
                         </div>
                         <div className="btn full-btn border-btn align-center justify-center">
                             <span></span>
-                            <Link to={link}>카카오톡으로 로그인</Link>
+                            <Link to={linkToKakao}>카카오톡으로 로그인</Link>
                         </div>
                     </div>
                 </div>

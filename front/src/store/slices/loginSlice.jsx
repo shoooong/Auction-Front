@@ -8,6 +8,7 @@ const initState = {
     phoneNum: '',
     profileImg: '',
     isLogin: false,
+    error: null,
 };
 
 export const checkAuthAsync = createAsyncThunk('checkAuthAsync', async () => {
@@ -39,28 +40,28 @@ const loginSlice = createSlice({
             .addCase(checkAuthAsync.fulfilled, (state, action) => {
                 const payload = action.payload;
 
-                if (!payload.error) {
-                    return { ...state, ...payload, isLogin: true };
+                if (payload && !payload.error) {
+                    return { ...state, ...payload, isLogin: true, error: null };
                 } else {
-                    return { ...initState };
+                    return { ...initState, error: payload ? payload.error : 'Unknown error' };
                 }
             })
             .addCase(loginPostAsync.fulfilled, (state, action) => {
                 const payload = action.payload;
 
-                if (!payload.error) {
-                    return { ...state, ...payload, isLogin: true };
+                if (payload && !payload.error) {
+                    return { ...state, ...payload, isLogin: true, error: null };
                 } else {
-                    return { ...initState };
+                    return { ...initState, error: payload ? payload.error : 'Unknown error' };
                 }
             })
             .addCase(loginPostAsync.pending, (state) => {
                 console.log("loginPost pending");
                 return state;
             })
-            .addCase(loginPostAsync.rejected, (state) => {
+            .addCase(loginPostAsync.rejected, (state, action) => {
                 console.log("loginPost rejected");
-                return state;
+                return { ...state, error: action.error.message };
             })
             .addCase(logoutPostAsync.fulfilled, () => {
                 console.log("logoutPost fulfilled");
@@ -70,9 +71,9 @@ const loginSlice = createSlice({
                 console.log("logoutPost pending");
                 return state;
             })
-            .addCase(logoutPostAsync.rejected, (state) => {
+            .addCase(logoutPostAsync.rejected, (state, action) => {
                 console.log("logoutPost rejected");
-                return state;
+                return { ...state, error: action.error.message };
             })
             .addCase(unregisterUserAsync.fulfilled, () => {
                 console.log("unregisterUser fulfilled");
@@ -82,9 +83,9 @@ const loginSlice = createSlice({
                 console.log("unregisterUser pending");
                 return state;
             })
-            .addCase(unregisterUserAsync.rejected, (state) => {
+            .addCase(unregisterUserAsync.rejected, (state, action) => {
                 console.log("unregisterUser rejected");
-                return state;
+                return { ...state, error: action.error.message };
             });
     }
 });

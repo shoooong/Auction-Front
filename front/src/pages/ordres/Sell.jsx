@@ -17,6 +17,7 @@ import useBid from "hooks/useBid";
 // import useAddress from "hooks/useAddress";
 
 export default function Sell() {
+    // const [address, setAddress] = useState("");
     const location = useLocation();
     const bidData2 = location.state || {};
     console.log("data====" + bidData2);
@@ -25,56 +26,60 @@ export default function Sell() {
     const { product, addressInfo, accountInfo } = useBid(bidData2);
     console.log("addressInfo=" + addressInfo);
     console.log("product====" + product);
+    const [userAddress, setUserAddress] = useState();
 
     console.log("accountInfo===" + accountInfo);
     console.log(typeof bidData2.bidPrice);
 
     const navigate = useNavigate();
-    const [open2, setOpen2] = useState(false);
+    const [addressOpen, setAddressOpen] = useState(false);
     const [fee, setFee] = useState(0);
     console.log("bidData2====" + bidData2);
     const [orderData, setOrderData] = useState({
-        productId: 0,
-        price: 0,
-        exp: 0,
-        addressId: 0,
+        productId: null,
+        price: null,
+        exp: null,
+        addressId: null,
     });
+    const [isDisabled, setIsDisabled] = useState(true);
 
+    const [loading, setLoading] = useState(true);
     // useEffect(() => {
     //     console.log("Received data in Sell component:", bidData2);
     // }, [bidData2]);
 
     useEffect(() => {
         if (addressInfo && product) {
+            setUserAddress(addressInfo);
             const calculatedFee = bidData2?.bidPrice * 0.04;
-            console.log("calculatedFee=" + calculatedFee);
             setFee(Math.floor(calculatedFee / 10) * 10);
-            setOrderData((prevData) => ({
-                ...prevData,
-                addressId: addressInfo?.addressId,
-                productId: bidData2?.productId,
-                price: bidData2?.bidPrice - fee,
-                exp: bidData2?.selectedDays,
-            }));
         }
-    }, [addressInfo, product]);
+    }, [addressInfo, product, bidData2?.bidPrice]);
 
-    console.log("addressInfo?.addressId===" + addressInfo?.addressId);
-    // console.log(salesBidding);
-    // console.log(addressInfo);
-    // console.log(salesBidding?.product.productId);
-
-    // console.log(orderData);
+    useEffect(() => {
+        if (
+            userAddress.addressId &&
+            bidData2?.productId &&
+            bidData2?.bidPrice != null
+        ) {
+            setOrderData({
+                productId: bidData2.productId,
+                price: bidData2.bidPrice - fee,
+                exp: bidData2.selectedDays,
+                addressId: userAddress.addressId,
+            });
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
+        }
+    }, [userAddress, bidData2, fee]);
 
     const handleSell = async () => {
         try {
-            // 1단계: 입찰 정보 생성
             const orderResponse = await jwtAxios.post(
                 `/bid/salesBidding/register`,
                 orderData
             );
-
-            // 성공 메시지
             alert("주문이 성공적으로 생성되었습니다.");
             navigate("/success");
         } catch (error) {
@@ -82,6 +87,55 @@ export default function Sell() {
             alert("주문 생성 중 오류가 발생했습니다.");
         }
     };
+    // useEffect(() => {
+    //     if (addressInfo && product) {
+    //         setUserAddress(addressInfo);
+
+    //         const calculatedFee = bidData2?.bidPrice * 0.04;
+    //         console.log("calculatedFee=" + calculatedFee);
+    //         setFee(Math.floor(calculatedFee / 10) * 10);
+    //         setOrderData((prevData) => ({
+    //             ...prevData,
+    //             addressId: userAddress?.addressId,
+    //             productId: bidData2?.productId,
+    //             price: bidData2?.bidPrice - fee,
+    //             exp: bidData2?.selectedDays,
+    //         }));
+    //     }
+    //     setIsDisabled(!userAddress?.addressId || !orderData?.productId);
+    // }, [userAddress, accountInfo, product]);
+
+    // console.log("userAddress?.addressId===" + userAddress?.addressId);
+    // // console.log(salesBidding);
+    // // console.log(addressInfo);
+    // // console.log(salesBidding?.product.productId);
+
+    // // console.log(orderData);
+
+    // const handleSell = async () => {
+    //     // const { productId, price, exp, addressId } = orderData;
+    //     // console.log("jasn===" + JSON.stringify(orderData, null, 2));
+
+    //     // if (!productId || price === null || exp === null || !addressId) {
+    //     //     alert("모든 필드를 올바르게 입력해 주세요.");
+    //     //     // return; // 오류가 있을 경우 주문 생성 함수 종료
+    //     // }
+
+    //     try {
+    //         // 1단계: 입찰 정보 생성
+    //         const orderResponse = await jwtAxios.post(
+    //             `/bid/salesBidding/register`,
+    //             orderData
+    //         );
+
+    //         // 성공 메시지
+    //         alert("주문이 성공적으로 생성되었습니다.");
+    //         navigate("/success");
+    //     } catch (error) {
+    //         console.error("주문 생성 중 오류가 발생했습니다.", error);
+    //         alert("주문 생성 중 오류가 발생했습니다.");
+    //     }
+    // };
 
     return (
         <div className="buy_bg">
@@ -137,7 +191,7 @@ export default function Sell() {
                                                 받는 분
                                             </dt>
                                             <dd className="desc">
-                                                {addressInfo?.name}
+                                                {userAddress?.name}
                                             </dd>
                                         </div>
                                         <div className="info_box">
@@ -145,7 +199,7 @@ export default function Sell() {
                                                 연락처
                                             </dt>
                                             <dd className="desc">
-                                                {addressInfo?.addrPhone}
+                                                {userAddress?.addrPhone}
                                             </dd>
                                         </div>
                                         <div className="info_box">
@@ -153,11 +207,11 @@ export default function Sell() {
                                                 배송 주소
                                             </dt>
                                             <dd className="desc">
-                                                ({addressInfo?.zonecode}
+                                                ({userAddress?.zonecode}
                                                 )&nbsp;
-                                                {addressInfo?.roadAddress}
+                                                {userAddress?.roadAddress}
                                                 &nbsp;
-                                                {addressInfo?.detailAddress}
+                                                {userAddress?.detailAddress}
                                             </dd>
                                         </div>
                                     </dl>
@@ -165,7 +219,7 @@ export default function Sell() {
                                 <div className="btn_box">
                                     <button
                                         className="btn_edit border_box"
-                                        onClick={() => setOpen2(true)}
+                                        onClick={() => setAddressOpen(true)}
                                     >
                                         변경
                                     </button>
@@ -270,9 +324,10 @@ export default function Sell() {
                             className="pay_btn"
                             onClick={handleSell}
                             disabled={
-                                !orderData.addressId ||
-                                !orderData.productId ||
-                                !orderData.price
+                                isDisabled
+                                // !orderData?.addressId ||
+                                // !orderData?.productId ||
+                                // !orderData?.price
                             }
                         >
                             {bidData2?.bidPrice?.toLocaleString()}원 • 판매하기
@@ -313,8 +368,8 @@ export default function Sell() {
                 </Box>
             </Dialog> */}
             <Dialog
-                open={open2}
-                onClose={() => setOpen2(false)}
+                open={addressOpen}
+                onClose={() => setAddressOpen(false)}
                 PaperProps={{
                     style: {
                         textAlign: "center",
@@ -326,7 +381,12 @@ export default function Sell() {
                     },
                 }}
             >
-                <OrderAddressComponent />
+                <OrderAddressComponent
+                    userAddress={userAddress}
+                    setUserAddress={setUserAddress}
+                    addressOpen={addressOpen}
+                    setAddressOpen={setAddressOpen}
+                />
             </Dialog>
         </div>
     );

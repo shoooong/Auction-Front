@@ -7,6 +7,7 @@ import Logo from "assets/images/logo.svg";
 import defaultProfileImg from "assets/images/WelshCorgi.jpeg";
 import useCustomRegister from "hooks/useCustomRegister";
 import { getKaKaoLoginLink } from "../../api/user/kakaoApi";
+import { emailRegExp, passwordRegExp, phoneNumRegExp } from "./mypageUtil";
 
 const initState = {
     email: "",
@@ -25,11 +26,6 @@ const RegisterPage = () => {
     const [nicknameError, setNicknameError] = useState(false);
 
     const { doRegister, moveToPath } = useCustomRegister();
-
-    const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
-    const phoneNumRegExp = /^\d{11}$/;
-
 
     useEffect(() => {
         fetch(defaultProfileImg)
@@ -116,7 +112,7 @@ const RegisterPage = () => {
                                 type={"password"}
                                 value={registerParam.password}
                                 onChange={handleChange}
-                                helperText={passwordError ? "비밀번호는 영문, 숫자, 특수 문자를 포함하여 10자 이상이어야 합니다." : ""}
+                                helperText={passwordError ? "비밀번호는 영문, 숫자, 특수 문자를 포함하여 8자 이상이어야 합니다." : ""}
                                 FormHelperTextProps={{
                                     style: { color: 'var(--primary)' }
                                 }}

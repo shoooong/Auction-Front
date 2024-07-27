@@ -49,10 +49,16 @@ export const getStatusText = (status) => {
         case 'PROCESS': return '입찰 중';
         case 'WAITING': return '입찰 중';
         case 'COMPLETE': return '종료';
-        case 'CANCEL': return '취소';
+        case 'CANCEL': return '입찰 취소';
         case 'FAIL': return '실패';
         default: return status;
     }
 };
+
+
+// 정규 표현식
+export const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!#%*?&])[A-Za-z\d@$#!%*?&]{8,}$/;
+export const phoneNumRegExp = /^\d{11}$/;
+export const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "pages/user/cookieUtil";
 import { getUser, modifyUser } from "api/user/userApi";
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
-import { formatPhoneNumber, maskEmail } from "../mypageUtil";
+import { formatPhoneNumber, maskEmail, passwordRegExp, phoneNumRegExp } from "../mypageUtil";
 import useCustomLogin from "hooks/useCustomLogin";
 
 const initState = {
@@ -24,9 +24,6 @@ const ModifyPage = () => {
 
     const navigate = useNavigate();
     const { doUnregister } = useCustomLogin();
-
-    const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
-    const phoneNumRegExp = /^\d{11}$/;
 
     useEffect(() => {
         const userInfo = getCookie("user");
@@ -132,7 +129,7 @@ const ModifyPage = () => {
                     <input name="phoneNum" type={'text'} placeholder="휴대폰 번호는 11자리 숫자만 입력 가능합니다." value={formatPhoneNumber(user.phoneNum)} onChange={handleChange} />
                 </div>
                 <div className="modify-password">
-                    <input name="password" type={'password'} placeholder="비밀번호는 영문, 숫자, 특수 문자를 포함하여 10자 이상이어야 합니다." onChange={handleChange} />
+                    <input name="password" type={'password'} placeholder="비밀번호는 영문, 숫자, 특수 문자를 포함하여 8자 이상이어야 합니다." onChange={handleChange} />
                 </div>
             </div>
 

@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import useCustomLogin from "hooks/useCustomLogin";
-import { getKaKaoLoginLink } from "api/user/kakaoApi";
-// import KakaoLoginComponent from "components/user/KakaoLoginComponent";
+import SocialLogin from "components/SocialLogin";
 
 import { TextField, Button } from "@mui/material";
 
@@ -45,7 +44,6 @@ const LoginPage = () => {
         }
     };
 
-    const linkToKakao = getKaKaoLoginLink();
 
     return (
         // <LoginComponent />
@@ -89,21 +87,14 @@ const LoginPage = () => {
                                 <Link to="/user/register">이메일 가입</Link>
                             </li>
                             <li className="flex-grow text-center">
-                                <Link to="/user/register">이메일 찾기</Link>
+                                <Link to="/user/findEmail">이메일 찾기</Link>
                             </li>
                             {/* <li className="flex-grow text-center">
                                 <Link to="/user/register">비밀번호 찾기</Link>
                             </li> */}
                         </ul>
 
-                        <div className="btn full-btn border-btn align-center justify-center">
-                            <span></span>
-                            <Link>네이버로 로그인</Link>
-                        </div>
-                        <div className="btn full-btn border-btn align-center justify-center">
-                            <span></span>
-                            <Link to={linkToKakao}>카카오톡으로 로그인</Link>
-                        </div>
+                        <SocialLogin />
                     </div>
                 </div>
             </div>

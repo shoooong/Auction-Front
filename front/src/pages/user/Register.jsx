@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import { TextField, Button } from "@mui/material";
-
 import Logo from "assets/images/logo.svg";
 import defaultProfileImg from "assets/images/WelshCorgi.jpeg";
 import useCustomRegister from "hooks/useCustomRegister";
-import { getKaKaoLoginLink } from "../../api/user/kakaoApi";
 import { emailRegExp, passwordRegExp, phoneNumRegExp } from "./mypageUtil";
+import SocialLogin from 'components/SocialLogin';
 
 const initState = {
     email: "",
@@ -82,8 +80,6 @@ const RegisterPage = () => {
         }
     };
 
-    // 카카오
-    const link = getKaKaoLoginLink();
 
     return (
         <>
@@ -153,14 +149,7 @@ const RegisterPage = () => {
                             회원 가입
                         </Button>
 
-                        <div className="btn full-btn border-btn align-center justify-center">
-                            <span></span>
-                            <Link to={link}>네이버로 로그인</Link>
-                        </div>
-                        <div className="btn full-btn border-btn align-center justify-center">
-                            <span></span>
-                            <Link to={link}>카카오톡으로 로그인</Link>
-                        </div>
+                        <SocialLogin />
                     </div>
                 </div>
             </div>

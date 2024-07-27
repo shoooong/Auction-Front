@@ -10,14 +10,14 @@ const MypageBookmark = () => {
                 <Tabs defaultValue={1}>
                     <TabsList className="bookmark-tab">
                         <Tab value={1}>
-                            <span className="bookmark-tab-span">관심 상품</span>
-                        </Tab>
-                        <Tab value={2}>
                             <span>관심 스타일</span>
                         </Tab>
+                        <Tab value={2}>
+                            <span className="bookmark-tab-span">관심 상품</span>
+                        </Tab>
                     </TabsList>
-                    <TabPanel value={1}><BookmarkProduct /></TabPanel>
-                    <TabPanel value={2}><BookmarkFeed/></TabPanel>
+                    <TabPanel value={1}><BookmarkFeed/></TabPanel>
+                    <TabPanel value={2}><BookmarkProduct /></TabPanel>
                 </Tabs>
             </div>
         </div>

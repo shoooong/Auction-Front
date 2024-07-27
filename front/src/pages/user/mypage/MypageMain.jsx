@@ -81,18 +81,18 @@ export default function MypageMain() {
                         <Button className="medium-btn" onClick={() => navigate("/mypage/modify")}>
                             <span className="black-label">프로필 관리</span>
                         </Button>
-                        <Button className="medium-btn" onClick={() => navigate("/style")}>
-                            <span className="black-label">스타일</span>
+                        <Button className="medium-btn" onClick={() => navigate("/mypage/bookmark")}>
+                            <span className="black-label">관심 스타일</span>
                         </Button>
                     </div>
                 </div>
             )}
 
             <div className="buttons">
-                <div className="button">
+                {/* <div className="button">
                     <img src={icon1} alt="판매자등급 아이콘" />
                     <p>판매자 등급</p>
-                </div>
+                </div> */}
                 <div className="button">
                     <img src={icon2} alt="쿠폰 아이콘" onClick={() => navigate("/mypage/coupon")} />
                     <p>쿠폰 {couponCount}</p>

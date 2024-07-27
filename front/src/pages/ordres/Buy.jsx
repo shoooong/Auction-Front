@@ -260,7 +260,7 @@ export default function Buy() {
                             </div>
                             <div className="">
                                 <div className="memo_box border_box">
-                                    <button class="btn_shipping_memo ">
+                                    <button className="btn_shipping_memo ">
                                         <span className="shipping_memo">
                                             요청사항 없음
                                         </span>
@@ -268,7 +268,7 @@ export default function Buy() {
                                     <img src={arrowImg} alt="" />
                                 </div>
                             </div>
-                            <div class="border_line"></div>
+                            <div className="border_line"></div>
                         </div>
                     </div>
                     <div className="delivery_delivery_type_info">
@@ -279,7 +279,7 @@ export default function Buy() {
                                     <div className="way_icon">
                                         <img
                                             src={postImg}
-                                            class="way_img"
+                                            className="way_img"
                                         ></img>
                                     </div>
                                     <div className="way_desc flex_space">

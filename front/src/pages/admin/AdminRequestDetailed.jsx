@@ -173,7 +173,8 @@ const AdminRequestDetailed = () => {
             <TextField
               name="modelNum"
               type="text"
-              value={product.modelNum}
+              // value={product.modelNum}
+              value={product.modelNum !== null ? product.modelNum : ""} // null 체크 후 빈 문자열 반환
               onChange={handleChange}
               fullWidth
             />

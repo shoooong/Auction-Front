@@ -4,13 +4,10 @@ import axios from "axios";
 import jwtAxios from "pages/user/jwtUtil";
 
 // 관리자 페이지 요청상품 전체 조회
-export const getRequests = async (page, size) => {
-  const res = await jwtAxios.get(`/admin/requests`, {
-    params: {
-      page,
-      size,
-    },
-  });
+export const getRequests = async (page, pageSize) => {
+  const res = await jwtAxios.get(
+    `/admin/requests?page=${page}&size=${pageSize}`
+  );
   return res.data;
 };
 

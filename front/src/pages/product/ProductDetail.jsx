@@ -173,8 +173,6 @@ const ProductDetails = () => {
         };
     };
 
-
-
     const chartOptions = {
         responsive: true,
         plugins: {
@@ -251,24 +249,31 @@ const ProductDetails = () => {
 
     const handleReviewSubmit = async () => {
         try {
-            const smallImgData = "temp_image_data"; // 임시 데이터로 대체
+            const formData = new FormData();
+            if (reviewImg) {
+                formData.append("temp_image_data", reviewImg);
+            }
+            formData.append("reviewContent", reviewContent);
 
-            await jwtAxios.post(`/products/details/${modelNum}/review`, {
-                reviewImg: smallImgData,
-                reviewContent,
-                productId: product.productId,
+            const response = await jwtAxios.post(`/products/details/${modelNum}/review`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
+
+            console.log("Review submitted successfully:", response.data);
             setReviewImg(null);
             setReviewContent("");
             setReviewDialogOpen(false);
             fetchProductDetails(); // 리뷰 제출 후 상품 정보를 다시 불러옵니다.
         } catch (error) {
-            console.error("Error submitting review: ", error);
             exceptionHandler(error);
             if (error.response && error.response.status === 409) {
                 alert('리소스 충돌이 발생했습니다.');
             } else if (error.response && error.response.status === 401) {
                 alert('인증 오류가 발생했습니다. 다시 로그인해 주세요.');
+            } else {
+                console.error("Error submitting review: ", error);
             }
         }
     };
@@ -276,13 +281,10 @@ const ProductDetails = () => {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setReviewImg(reader.result); // Base64 문자열로 설정
-            };
-            reader.readAsDataURL(file);
+            setReviewImg(file);
         }
     };
+
 
     const handleConfirmClick = () => {
         const userInfo = getCookie("user");
@@ -618,7 +620,7 @@ const ProductDetails = () => {
                 {product.photoReviewList && product.photoReviewList.length > 0 ? product.photoReviewList.slice(0, visibleReviews).map((review, index) => (
                     <div key={index} className="photo-review">
                         <div className="image-container">
-                            <img src={review.reviewImg} alt={`Review ${index + 1}`} />
+                            <img src={`${CLOUD_STORAGE_BASE_URL}${review.reviewImg}`} alt={`Review ${index + 1}`} />
                         </div>
                         <div className="review-content">
                             <p>{review.reviewContent}</p>
@@ -637,6 +639,7 @@ const ProductDetails = () => {
                 )}
             </div>
 
+
             <Dialog open={reviewDialogOpen} onClose={handleReviewDialogClose}>
                 <DialogTitle>스타일 리뷰 작성</DialogTitle>
                 <Box className="dialog-container">
@@ -645,7 +648,7 @@ const ProductDetails = () => {
                         type="file"
                         onChange={handleImageChange}
                     />
-                    {reviewImg && <img src={reviewImg} alt="Review Preview" className="review-preview" />}
+                    {reviewImg && <img src={URL.createObjectURL(reviewImg)} alt="Review Preview" className="review-preview" />}
                     <TextField
                         label="리뷰 내용"
                         multiline

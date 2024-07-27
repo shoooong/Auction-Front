@@ -19,7 +19,8 @@ export default function ProductBid() {
     ); // 현재 폼 상태 관리
     const [selectedDays, setSelectedDays] = useState(1); // 선택된 입찰 마감 기한 일수
     const [endDate, setEndDate] = useState(""); // 마감 기한 날짜 문자열
-    const [bidPrice, setBidPrice] = useState(0); // 희망가 입력 필드 상태
+    const [bidPrice, setBidPrice] = useState(20000); // 희망가 입력 필드 상태, 기본값을 20000으로 설정
+    const MIN_BID_PRICE = 20000; // 최소 입찰 희망가를 20000으로 설정
 
     useEffect(() => {
         setCurrentForm(type === "buy" ? "buy" : "sell");
@@ -48,12 +49,17 @@ export default function ProductBid() {
 
     const handleBidPriceChange = (e) => {
         const value = e.target.value;
-        if (!isNaN(value)) {
+        if (!isNaN(value) && Number(value) >= 0) {
             setBidPrice(Number(value));
         }
     };
 
     const handleSubmit = async () => {
+        if (bidPrice < MIN_BID_PRICE) {
+            alert(`희망가는 최소 ${MIN_BID_PRICE.toLocaleString()}원 이상이어야 합니다.`);
+            return;
+        }
+
         const productId =
             currentForm === "buy"
                 ? data.productId || data.buyingProductId 
@@ -81,7 +87,7 @@ export default function ProductBid() {
         let productId, biddingPrice, url;
 
         if (currentForm === "buy_now") {
-            productId = data.salesProductId ||data.productId; // 즉시 구매가의 ID가 없으면 상품 고유 ID 사용
+            productId = data.salesProductId || data.productId; // 즉시 구매가의 ID가 없으면 상품 고유 ID 사용
             biddingPrice = data.salesBiddingPrice || 0; // 즉시 구매가가 없으면 기본값 사용
             url = "/buy";
         } else if (currentForm === "sell_now") {
@@ -107,10 +113,8 @@ export default function ProductBid() {
         }
     };
 
-    const isBuyNowDisabled =
-        currentForm === "buy_now" && !data.salesBiddingPrice;
-    const isSellNowDisabled =
-        currentForm === "sell_now" && !data.buyingBiddingPrice;
+    const isBuyNowDisabled = currentForm === "buy_now" && !data.salesBiddingPrice;
+    const isSellNowDisabled = currentForm === "sell_now" && !data.buyingBiddingPrice;
 
     return (
         <Box className="product_bid_page">
@@ -234,6 +238,7 @@ export default function ProductBid() {
                                         className="input_amount"
                                         onChange={handleBidPriceChange}
                                         value={bidPrice}
+                                        min={MIN_BID_PRICE}
                                     />
                                     <span className="unit">원</span>
                                 </dd>
@@ -375,6 +380,7 @@ export default function ProductBid() {
                                         className="input_amount"
                                         onChange={handleBidPriceChange}
                                         value={bidPrice}
+                                        min={MIN_BID_PRICE}
                                     />
                                     <span className="unit">원</span>
                                 </dd>

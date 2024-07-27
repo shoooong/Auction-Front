@@ -47,7 +47,7 @@ const MainProductPopular = () => {
     };
 
     const loadMoreProducts = () => {
-        setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 5);
+        setVisibleProducts(10); // 한번만 클릭하면 10개로 늘어납니다
     };
 
     const handleProductClick = (modelNum) => {
@@ -122,7 +122,7 @@ const MainProductPopular = () => {
                         ))}
                 </Box>
 
-                {visibleProducts < products.length && (
+                {visibleProducts < products.length && visibleProducts < 10 && (
                     <div className="text-center">
                         <Button className="add-btn" onClick={loadMoreProducts}>
                             더보기

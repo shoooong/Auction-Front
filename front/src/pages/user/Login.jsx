@@ -26,24 +26,31 @@ const LoginPage = () => {
     };
 
     const handleClickLogin = async (e) => {
-        try {
-            const data = await doLogin(loginParam);
-            console.log(data);
+    e.preventDefault();
 
-            if (data.error) {
-                alert("이메일과 패스워드가 일치하지 않습니다");
-            } else {
-                if (data.role === true) {
-                    moveToPath('/admin');
-                } else {
-                    moveToPath('/');
-                }
-            }
-        } catch (error) {
-            console.error('Login failed: ', error);
+    try {
+        const data = await doLogin(loginParam);
+        console.log(data);
+
+        if (!data) {
             alert("로그인 오류입니다. 다시 시도해주세요.");
+            return;
         }
-    };
+
+        if (data.error) {
+            alert("이메일과 패스워드가 일치하지 않습니다");
+        } else {
+            if (data.role === true) {
+                moveToPath('/admin');
+            } else {
+                moveToPath('/');
+            }
+        }
+    } catch (error) {
+        console.error('Login failed: ', error);
+        alert("로그인 오류입니다. 다시 시도해주세요.");
+    }
+};
 
     // 카카오
     const link = getKaKaoLoginLink();

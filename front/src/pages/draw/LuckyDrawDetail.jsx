@@ -34,7 +34,7 @@ const LuckyDrawDetail = () => {
         fetchLuckyDraw();
     }, [luckyId]);
 
-    const handleEnterClick = async () => {
+    const handleEnterClick = async (event) => {
         try {
             const data = await enterLuckyDraw(luckyId);
             console.log("Enter response:", data);
@@ -43,8 +43,8 @@ const LuckyDrawDetail = () => {
             navigate("/luckydraw");
         } catch (error) {
             exceptionHandler(error);
-            setError("응모 중 오류가 발생했습니다.");
-            navigate(0);
+            // setError("응모 중 오류가 발생했습니다.");
+            // navigate(0);
         }
     };
 

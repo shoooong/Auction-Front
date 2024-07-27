@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom"; // useNavigate 추가
-import { Box, Dialog, DialogTitle, Button, ToggleButton, TextField } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import { Box, Dialog, DialogTitle, Button, ToggleButton, TextField, DialogActions, DialogContent } from "@mui/material";
 import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
 import { Line } from 'react-chartjs-2';
 import { SERVER_URL } from "../../api/serverApi";
-import img1 from "../../assets/images/feed6.png";
 import 'chart.js/auto';
-import { getCookie } from "../../pages/user/cookieUtil"; // 쿠키 유틸리티를 import
+import { getCookie } from "../../pages/user/cookieUtil";
+import jwtAxios from "pages/user/jwtUtil";
+import useCustomLogin from "hooks/useCustomLogin";
+
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
 const ProductDetails = () => {
     const { modelNum } = useParams();
-    const navigate = useNavigate(); // navigate 함수 추가
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [tabValue, setTabValue] = useState(1);
     const [subTabValue, setSubTabValue] = useState(1);
@@ -22,10 +25,16 @@ const ProductDetails = () => {
     const [currentTab, setCurrentTab] = useState("all");
     const [popupContent, setPopupContent] = useState('contract');
     const [visibleReviews, setVisibleReviews] = useState(4);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
-    const [reviewImg, setReviewImg] = useState(null); // 리뷰 이미지
-    const [reviewContent, setReviewContent] = useState(""); // 리뷰 내용
-    const [reviewDialogOpen, setReviewDialogOpen] = useState(false); // 리뷰 작성 폼 다이얼로그
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [reviewImg, setReviewImg] = useState(null);
+    const [reviewContent, setReviewContent] = useState("");
+    const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
+    const [bookmarkModalOpen, setBookmarkModalOpen] = useState(false);
+    const [bookmarkSize, setBookmarkSize] = useState(null);
+    const [isLiked, setIsLiked] = useState(false);
+    const [bookmarkCount, setBookmarkCount] = useState(0); // 북마크 개수 상태 추가
+
+    const { exceptionHandler } = useCustomLogin();
 
     useEffect(() => {
         const checkUser = () => {
@@ -36,15 +45,27 @@ const ProductDetails = () => {
         };
         checkUser();
         fetchProductDetails();
+        fetchBookmarkCount(); // 북마크 개수 가져오기
     }, [modelNum]);
 
     const fetchProductDetails = async () => {
         try {
             const response = await axios.get(`${SERVER_URL}/products/detailInfo/${modelNum}`);
             setProduct(response.data);
-            console.log(response.data);
+            console.log("Fetched Product:", response.data); // product 객체 확인
         } catch (error) {
             console.error("Error fetching product details: ", error);
+        }
+    };
+
+    const fetchBookmarkCount = async () => {
+        try {
+            const response = await axios.get(`${SERVER_URL}/product/bookmarkCount`, {
+                params: { modelNum }
+            });
+            setBookmarkCount(response.data);
+        } catch (error) {
+            console.error("Error fetching bookmark count:", error);
         }
     };
 
@@ -75,7 +96,7 @@ const ProductDetails = () => {
     };
 
     const getChartData = (tab) => {
-        let data;
+        let data = [];
         switch (tab) {
             case 1:
                 data = product.averagePriceResponseList.threeDayPrices;
@@ -95,12 +116,45 @@ const ProductDetails = () => {
             default:
                 data = product.averagePriceResponseList.threeDayPrices;
         }
+
+        if (!data || data.length === 0) {
+            return {
+                labels: ["데이터 없음"],
+                datasets: [
+                    {
+                        label: '거래 가격',
+                        data: [0],
+                        borderColor: 'rgba(255,100,150,1)',
+                        backgroundColor: 'rgba(50,1,192,0.2)',
+                        borderWidth: 2,
+                        pointRadius: 1,
+                        lineTension: 0.2,
+                    },
+                ],
+            };
+        }
+
+        const formattedData = data.map(item => ({
+            contractDateTime: item.contractDateTime,
+            averagePrice: item.averagePrice || 0 // 평균값이 없을 경우 0으로 설정
+        }));
+
+        // 데이터가 한 개일 경우 추가 포인트 생성
+        if (formattedData.length === 1) {
+            const singlePoint = formattedData[0];
+            formattedData.push({ ...singlePoint, contractDateTime: `${singlePoint.contractDateTime} 23:59:59` });
+        }
+
+        // 최소값과 최대값을 계산하여 차트의 y축을 설정
+        const minPrice = Math.min(...formattedData.map(item => item.averagePrice));
+        const maxPrice = Math.max(...formattedData.map(item => item.averagePrice));
+
         return {
-            labels: data.map(item => item.contractDateTime),
+            labels: formattedData.map(item => item.contractDateTime),
             datasets: [
                 {
                     label: '거래 가격',
-                    data: data.map(item => item.averagePrice),
+                    data: formattedData.map(item => item.averagePrice),
                     borderColor: 'rgba(255,100,150,1)',
                     backgroundColor: 'rgba(50,1,192,0.2)',
                     borderWidth: 2,
@@ -108,6 +162,14 @@ const ProductDetails = () => {
                     lineTension: 0.2,
                 },
             ],
+            options: {
+                scales: {
+                    y: {
+                        min: minPrice > 0 ? 0 : minPrice,
+                        max: maxPrice,
+                    },
+                },
+            },
         };
     };
 
@@ -155,12 +217,12 @@ const ProductDetails = () => {
     };
 
     const getSizeOptions = () => {
-        if (product.subDepartment === 'top' || product.subDepartment === 'outer' || product.subDepartment === 'bottom' || product.subDepartment === 'inner' || product.subDepartment === 'beauty' || product.subDepartment === 'tech') {
+        if (product.subDepartment === 'top' || product.subDepartment === 'outer' || product.subDepartment === 'bottom' || product.subDepartment === 'inner' || product.subDepartment === 'beauty') {
             return ['S', 'M', 'L', 'XL', 'XXL'];
         } else if (product.subDepartment === 'shoes') {
-            return ['230', '235', '240', '245', '250', '255', '260', '270', '275'];
-        } else if (product.subDepartment === 'kitchen' || product.subDepartment === 'interior') {
-            return ['oneSize'];
+            return ['230', '235', '240', '245', '250', '255', '260', '270', '275', '280'];
+        } else if (product.subDepartment === 'kitchen' || product.subDepartment === 'interior' || product.subDepartment === 'tech') {
+            return ['ONESIZE'];
         } else {
             return [];
         }
@@ -170,7 +232,7 @@ const ProductDetails = () => {
         if (currentTab === 'buy' || currentTab === 'all') {
             const sizeInfo = product.groupByBuyingList.find(item => item.productSize === String(size));
             return sizeInfo ? <span className="red-label">{sizeInfo.buyingBiddingPrice.toLocaleString()} 원</span> : "-";
-        } else if (currentTab === 'sell') {
+        } else if (currentTab === 'sales') {
             const sizeInfo = product.groupBySalesList.find(item => item.productSize === String(size));
             return sizeInfo ? <span className="green-label">{sizeInfo.productMaxPrice.toLocaleString()} 원 </span> : "-";
         }
@@ -186,106 +248,167 @@ const ProductDetails = () => {
     };
 
     const handleReviewSubmit = async () => {
-        const userInfo = getCookie("user");
-        if (!userInfo || !userInfo.accessToken) {
-            alert("로그인이 필요합니다.");
-            console.log(modelNum)
-            return;
-        }
-    
         try {
-            // 임의의 작은 문자열로 대체하여 테스트
-            const smallImgData = "temp_image_data";
-    
-            await axios.post(`${SERVER_URL}/products/details/${modelNum}/review`, {
-                userId: userInfo.userId,
-                reviewImg: smallImgData,
-                reviewContent,
-                productId: product.productId,
-            }, {
+            const formData = new FormData();
+            if (reviewImg) {
+                formData.append("temp_image_data", reviewImg);
+            }
+            formData.append("reviewContent", reviewContent);
+
+            const response = await jwtAxios.post(`/products/details/${modelNum}/review`, formData, {
                 headers: {
-                    Authorization: `Bearer ${userInfo.accessToken}`,
-                    'Content-Type': 'application/json' // JSON 형식의 Content-Type 설정
-                }
+                    "Content-Type": "multipart/form-data",
+                },
             });
-            // 리뷰를 성공적으로 제출한 후 상태를 초기화하고 폼을 닫습니다.
+
+            console.log("Review submitted successfully:", response.data);
             setReviewImg(null);
             setReviewContent("");
             setReviewDialogOpen(false);
             fetchProductDetails(); // 리뷰 제출 후 상품 정보를 다시 불러옵니다.
         } catch (error) {
-            console.error("Error submitting review: ", error);
-            // 409 Conflict 에러 핸들링
+            exceptionHandler(error);
             if (error.response && error.response.status === 409) {
                 alert('리소스 충돌이 발생했습니다.');
             } else if (error.response && error.response.status === 401) {
                 alert('인증 오류가 발생했습니다. 다시 로그인해 주세요.');
+            } else {
+                console.error("Error submitting review: ", error);
             }
         }
     };
-    
+
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setReviewImg(reader.result); // Base64 문자열로 설정
-            };
-            reader.readAsDataURL(file);
+            setReviewImg(file);
         }
     };
+
 
     const handleConfirmClick = () => {
         const userInfo = getCookie("user");
         if (!userInfo || !userInfo.accessToken) {
             alert("로그인이 필요합니다.");
+            navigate("/user/login");
             return;
         }
-    
+
         if (!selectedSize) {
             alert("사이즈를 선택해주세요.");
             return;
         }
-    
-        // 사이즈 값을 직접 비교합니다.
-        const selectedProduct = currentTab === 'buy'
-            ? product.groupByBuyingList.find(item => item.productSize === selectedSize)
-            : product.groupBySalesList.find(item => item.productSize === selectedSize);
-    
-        if (!selectedProduct) {
-            alert("선택한 사이즈에 해당하는 상품이 없습니다.");
+
+        const simplifiedSize = selectedSize.replace('size-', ''); // 'size-' 부분 제거
+        console.log("Simplified Size:", simplifiedSize);
+
+        const buyingProduct = product.groupByBuyingList.find(item => item.productSize === simplifiedSize);
+        const salesProduct = product.groupBySalesList.find(item => item.productSize === simplifiedSize);
+
+        console.log("Selected Buying Product:", buyingProduct);
+        console.log("Selected Sales Product:", salesProduct);
+
+        const size = simplifiedSize;
+        const type = currentTab === 'buy' ? 'buy' : 'sales';
+        const buyingBiddingPrice = buyingProduct ? buyingProduct.buyingBiddingPrice : null;
+        const buyProductId = buyingProduct ? buyingProduct.buyProductId : null;
+        const salesBiddingPrice = salesProduct ? salesProduct.productMaxPrice : null;
+        const salesProductId = salesProduct ? salesProduct.salesProductId : null;
+
+        const selectedProductId = currentTab === 'buy' ? (buyingProduct ? buyingProduct.productId : product.productId) : (salesProduct ? salesProduct.productId : product.productId);
+
+        console.log("ProductID 상품 고유 :", selectedProductId);
+        console.log("Model Number:", modelNum);
+        console.log("Buying Bidding Price:", buyingBiddingPrice);
+        console.log("Sales Bidding Price:", salesBiddingPrice);
+        console.log("Buying Product ID:", buyProductId);
+        console.log("Sales Product ID:", salesProductId);
+
+        const state = {
+            productId: selectedProductId,
+            productImg: product.productImg,
+            productName: product.productName,
+            modelNum: product.modelNum,
+            productSize: size,
+            buyingBiddingPrice: buyingBiddingPrice ? buyingBiddingPrice.toLocaleString() : null,
+            buyingProductId: buyProductId,
+            salesProductId: salesProductId,
+            salesBiddingPrice: salesBiddingPrice ? salesBiddingPrice.toLocaleString() : null,
+            userId: userInfo.userId,
+            currentTab: currentTab,
+            biddingPrice: currentTab === 'buy' ? buyingBiddingPrice : salesBiddingPrice,
+        };
+
+        const mainDepartmentPath = product.mainDepartment ? product.mainDepartment : 'clothes'; // mainDepartment가 없으면 기본값을 'clothes'로 설정
+        navigate(`/${mainDepartmentPath}/details/${modelNum}/bid?size=${size}&type=${type}`, { state });
+        console.log("전송");
+    };
+
+    const handleLikeClick = async () => {
+        try {
+            const response = await axios.post(`${SERVER_URL}/like/${modelNum}`);
+            if (response.status === 200) {
+                setIsLiked(true);
+                setProduct(prevProduct => ({
+                    ...prevProduct,
+                    productLike: (prevProduct.productLike || 0) + 1
+                }));
+            }
+        } catch (error) {
+            console.error("Error liking product:", error);
+        }
+    };
+
+    const handleBookmarkClick = () => {
+        setBookmarkModalOpen(true);
+    };
+
+    const handleBookmarkClose = () => {
+        setBookmarkModalOpen(false);
+        setBookmarkSize(null);
+    };
+
+    const handleBookmarkSave = async () => {
+        if (!bookmarkSize) {
+            alert("사이즈를 선택해주세요.");
             return;
         }
-    
-        console.log(modelNum);
-        console.log(selectedProduct.buyingBiddingPrice);
-        console.log(selectedProduct.salesBiddingPrice);
-    
-        const size = selectedProduct.productSize;
-        const type = currentTab === 'buy' ? 'buy' : 'sales';
-    
-        navigate(`/products/details/${modelNum}/bid?size=${size}&type=${type}`, {
-            state: {
-                productImg: product.productImg,
-                productName: product.productName,
-                modelNum: product.modelNum,
-                productSize: size,
-                biddingPrice: currentTab === 'buy' ? selectedProduct.buyingBiddingPrice : selectedProduct.salesBiddingPrice,
-                productId: selectedProduct.productId,
-                userId: userInfo.userId,
-                currentTab: currentTab
+
+        const userInfo = getCookie("user");
+        if (!userInfo || !userInfo.accessToken) {
+            alert("로그인이 필요합니다.");
+            navigate("/user/login");
+            return;
+        }
+
+        try {
+            const response = await jwtAxios.post(`/product/bookmark`, null, {
+                params: {
+                    modelNum: modelNum,
+                    productSize: bookmarkSize
+                }
+            });
+
+            if (response.status === 200 || response.status === 204) {
+                alert("관심상품으로 저장되었습니다.");
+                setBookmarkModalOpen(false);
+                setBookmarkSize(null);
+                fetchBookmarkCount(); // 북마크 개수 업데이트
+            } else {
+                alert("관심상품으로 저장되었습니다.");
             }
-        });
+        } catch (error) {
+            console.error("요청 오류:", error);
+            alert("요청 처리 중 오류가 발생했습니다.");
+        }
     };
-    
-    
 
     return (
         <Box className="product-page">
             <div className="left-section">
                 <div className="img-container pos-sticky">
                     <div className="product-img">
-                        <img src={img1} alt="Sample Product" />
+                        <img src={`${CLOUD_STORAGE_BASE_URL}${product.productImg}`} alt="Sample Product" />
                     </div>
                 </div>
             </div>
@@ -294,7 +417,7 @@ const ProductDetails = () => {
                     <div className="price-container">
                         <h4>즉시 구매가</h4>
                         <div className="now-price">
-                            <p className="wonSize">{product.buyingBiddingPrice} 원</p>
+                            <p className="wonSize">{product.buyingBiddingPrice.toLocaleString()} 원</p>
                             <p>{product.productName}</p>
                         </div>
                     </div>
@@ -305,9 +428,9 @@ const ProductDetails = () => {
                     <div className="product-summary">
                         <div className="item">
                             <p>최근 거래가</p>
-                            <p>{product.latestPrice ? product.latestPrice : "-"}원</p>
+                            <p>{product.latestPrice ? product.latestPrice.toLocaleString() : "-"}원</p>
                             <p className={`price ${product.differenceContract < 0 ? "negative" : product.differenceContract > 0 ? "positive" : ""}`}>
-                                {product.differenceContract !== null && product.differenceContract !== undefined ? product.differenceContract : "-"}
+                                {product.differenceContract !== null && product.differenceContract !== undefined ? product.differenceContract.toLocaleString() : "-"}
                             </p>
                             <p className={`price ${product.changePercentage < 0 ? "negative" : product.changePercentage > 0 ? "positive" : ""}`}>
                                 ({product.changePercentage !== null && product.changePercentage !== undefined ? product.changePercentage : "-"})%
@@ -315,7 +438,7 @@ const ProductDetails = () => {
                         </div>
                         <div className="item">
                             <p>발매가</p>
-                            <p>{product.originalPrice ? product.originalPrice : "-"}₩</p>
+                            <p>{product.originalPrice ? product.originalPrice.toLocaleString() : "-"}원</p>
                         </div>
                         <div className="item">
                             <p>모델 번호</p>
@@ -331,29 +454,50 @@ const ProductDetails = () => {
                             구매
                             <span>
                                 <span>
-                                    <p>{product.buyingBiddingPrice ? product.buyingBiddingPrice : "-"}원</p>
+                                    <p>{product.buyingBiddingPrice.toLocaleString() ? product.buyingBiddingPrice.toLocaleString() : "-"}원</p>
                                 </span>
                                 즉시 구매가
                             </span>
                         </button>
-                        <button className="flex-grow align-center inline-flex flex-start sell-btn btn btn-text" onClick={() => handleBuySellClick('sell')}>
+                        <button className="flex-grow align-center inline-flex flex-start sell-btn btn btn-text" onClick={() => handleBuySellClick('sales')}>
                             판매
                             <span>
                                 <span>
-                                    <p>{product.salesBiddingPrice ? product.salesBiddingPrice : "-"}원</p>
+                                    <p>{product.salesBiddingPrice.toLocaleString() ? product.salesBiddingPrice.toLocaleString() : "-"}원</p>
                                 </span>
                                 즉시 판매가
                             </span>
                         </button>
                     </div>
-                    <button className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary btn full-btn border-btn align-center css-1e6y48t-MuiButtonBase-root-MuiButton-root" tabIndex="0" type="button">
-                        <span>
-                            <img src="/static/media/bookmark-off.6b051f0a6642a44e2147719b5bbbf331.svg" alt="BookmarkOff" />
-                        </span>
-                        관심상품
-                        <span>3,298</span>
-                        <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
-                    </button>
+                    <div className="alpha">
+                        <button
+                            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary btn full-btn border-btn align-center css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                            tabIndex="0"
+                            type="button"
+                            onClick={handleLikeClick}
+                        >
+                            <span>
+                                <img src={isLiked ? "/static/media/heart-filled.svg" : "/static/media/heart-empty.svg"} alt="Like" />
+                            </span>
+                            좋아요
+                            <span>{product.productLike || 0}</span>
+                            <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
+                        </button>
+                        <button
+                            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary btn full-btn border-btn align-center css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                            tabIndex="0"
+                            type="button"
+                            onClick={handleBookmarkClick}
+                        >
+                            <span>
+                                <img src="/static/media/bookmark-off.6b051f0a6642a44e2147719b5bbbf331.svg" alt="BookmarkOff" />
+                            </span>
+                            관심상품
+                            <span>{bookmarkCount}</span> {/* 북마크 개수를 동적으로 표시 */}
+                            <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
+                        </button>
+                        {/* ... 다른 요소들 ... */}
+                    </div>
                     <div className="product-tab">
                         <Tabs defaultValue={1} onChange={handleTabChange}>
                             <TabsList className="tabs-list">
@@ -407,7 +551,7 @@ const ProductDetails = () => {
                                             {product.contractInfoList.slice(0, visibleItems).map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.productContractPrice}원</td>
+                                                    <td>{info.productContractPrice.toLocaleString()}원</td>
                                                     <td>{info.productContractDate}</td>
                                                 </tr>
                                             ))}
@@ -432,7 +576,7 @@ const ProductDetails = () => {
                                             {product.salesHopeList.slice(0, visibleItems).map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.salesBiddingPrice}원</td>
+                                                    <td>{info.salesBiddingPrice.toLocaleString()}원</td>
                                                     <td>{info.salesQuantity}</td>
                                                 </tr>
                                             ))}
@@ -457,7 +601,7 @@ const ProductDetails = () => {
                                             {product.buyingHopeList.slice(0, visibleItems).map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.buyingBiddingPrice}원</td>
+                                                    <td>{info.buyingBiddingPrice.toLocaleString()}원</td>
                                                     <td>{info.buyingQuantity}</td>
                                                 </tr>
                                             ))}
@@ -476,7 +620,7 @@ const ProductDetails = () => {
                 {product.photoReviewList && product.photoReviewList.length > 0 ? product.photoReviewList.slice(0, visibleReviews).map((review, index) => (
                     <div key={index} className="photo-review">
                         <div className="image-container">
-                            <img src={review.reviewImg} alt={`Review ${index + 1}`} />
+                            <img src={`${CLOUD_STORAGE_BASE_URL}${review.reviewImg}`} alt={`Review ${index + 1}`} />
                         </div>
                         <div className="review-content">
                             <p>{review.reviewContent}</p>
@@ -495,6 +639,7 @@ const ProductDetails = () => {
                 )}
             </div>
 
+
             <Dialog open={reviewDialogOpen} onClose={handleReviewDialogClose}>
                 <DialogTitle>스타일 리뷰 작성</DialogTitle>
                 <Box className="dialog-container">
@@ -503,7 +648,7 @@ const ProductDetails = () => {
                         type="file"
                         onChange={handleImageChange}
                     />
-                    {reviewImg && <img src={reviewImg} alt="Review Preview" className="review-preview" />}
+                    {reviewImg && <img src={URL.createObjectURL(reviewImg)} alt="Review Preview" className="review-preview" />}
                     <TextField
                         label="리뷰 내용"
                         multiline
@@ -531,9 +676,9 @@ const ProductDetails = () => {
 
                 <div className="popup-content">
                     <Box className="popup-product flex align-center">
-                        <div className="w20p">
+                        <div className="w20p" >
                             <div style={{ background: "#ddd", height: "80px" }}>
-                                {product.productImg ? product.productImg : "-"}
+                                <img src={product.productImg ? `${CLOUD_STORAGE_BASE_URL}${product.productImg}` : "-"} alt="-" style={{ width: "100px" }} />
                             </div>
                         </div>
                         <div className="product-info w80p">
@@ -568,7 +713,7 @@ const ProductDetails = () => {
                                             {product.contractInfoList.map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.productContractPrice}원</td>
+                                                    <td>{info.productContractPrice.toLocaleString()}원</td>
                                                     <td>{info.productContractDate}</td>
                                                 </tr>
                                             ))}
@@ -590,7 +735,7 @@ const ProductDetails = () => {
                                             {product.salesHopeList.map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.salesBiddingPrice}원</td>
+                                                    <td>{info.salesBiddingPrice.toLocaleString()}원</td>
                                                     <td>{info.salesQuantity}</td>
                                                 </tr>
                                             ))}
@@ -612,7 +757,7 @@ const ProductDetails = () => {
                                             {product.buyingHopeList.map((info, index) => (
                                                 <tr key={index}>
                                                     <td>{info.productSize}</td>
-                                                    <td>{info.buyingBiddingPrice}원</td>
+                                                    <td>{info.buyingBiddingPrice.toLocaleString()}원</td>
                                                     <td>{info.buyingQuantity}</td>
                                                 </tr>
                                             ))}
@@ -630,9 +775,6 @@ const ProductDetails = () => {
                         onClick={handleClosePopup}
                     >
                         <span className="black-label">취소</span>
-                    </Button>
-                    <Button className="confirm-btn" onClick={handleConfirmClick}>
-                        <span className="white-label">확인</span>
                     </Button>
                 </div>
             </Dialog>
@@ -652,7 +794,11 @@ const ProductDetails = () => {
                     <Box className="popup-product flex align-center">
                         <div className="w20p">
                             <div style={{ background: "#ddd", height: "80px" }}>
-                                {product.productImg ? product.productImg : "-"}
+                                <img
+                                    src={product.productImg ? `${CLOUD_STORAGE_BASE_URL}${product.productImg}` : "-"}
+                                    alt={product.productName}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
                             </div>
                         </div>
                         <div className="product-info w80p">
@@ -677,19 +823,45 @@ const ProductDetails = () => {
                     </div>
                 </div>
 
-                <div className="popup-bottom justify-center">
-                    <Button
-                        className="cancel-btn"
-                        onClick={() => setOpen(false)}
-                    >
-                        <span className="black-label">취소</span>
-                    </Button>
-                    <Button className="confirm-btn" onClick={handleConfirmClick}>
-                        <span className="white-label">확인</span>
-                    </Button>
-                </div>
+                {currentTab !== 'all' && (
+                    <div className="popup-bottom justify-center">
+                        <Button
+                            className="cancel-btn"
+                            onClick={() => setOpen(false)}
+                        >
+                            <span className="black-label">취소</span>
+                        </Button>
+                        <Button className="confirm-btn" onClick={handleConfirmClick}>
+                            <span className="white-label">확인</span>
+                        </Button>
+                    </div>
+                )}
+            </Dialog>
+
+            <Dialog open={bookmarkModalOpen} onClose={handleBookmarkClose}>
+                <DialogTitle>관심상품 저장</DialogTitle>
+                <DialogContent>
+                    <div className="scroll size-buttons">
+                        {getSizeOptions().map((size, index) => (
+                            <ToggleButton
+                                key={index}
+                                value={size}
+                                selected={bookmarkSize === size}
+                                onChange={() => setBookmarkSize(size)}
+                                className="btn toggle-btn"
+                            >
+                                <span className="black-label">{size}</span>
+                            </ToggleButton>
+                        ))}
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleBookmarkClose}>취소</Button>
+                    <Button onClick={handleBookmarkSave}>저장</Button>
+                </DialogActions>
             </Dialog>
         </Box>
+
     );
 };
 

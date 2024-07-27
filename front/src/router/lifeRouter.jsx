@@ -28,7 +28,7 @@ export default function lifeRouter() {
             ),
         },
         {
-            path: ":modelNum", // 상세 페이지 경로 추가
+            path: "details/:modelNum", // 상세 페이지 경로 추가
             element: (
                 <>
                     <ProductDetail />

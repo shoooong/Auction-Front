@@ -15,13 +15,21 @@ export const maskEmail = (email) => {
 
 // 배송지 관리
 export const maskName = (name) => {
-    if (name.length > 1) {
-        return name[0] + '*'.repeat(name.length - 1);
+    if (!name) {
+        return "";
     }
-    return name;
-};
+    
+    if (name.length <= 2) {
+        return name.charAt(0) + "*";
+    }
+    return name.charAt(0) + "*".repeat(name.length - 2) + name.charAt(name.length - 1);
+}
 
 export const formatPhoneNumber = (phoneNum) => {
+    if (!phoneNum) {
+        return "";
+    }
+
     if (phoneNum.length === 11) {
         return `${phoneNum.slice(0, 3)}-${phoneNum.slice(3, 4)}***-*${phoneNum.slice(8)}`;
     }
@@ -41,10 +49,40 @@ export const getStatusText = (status) => {
         case 'PROCESS': return '입찰 중';
         case 'WAITING': return '입찰 중';
         case 'COMPLETE': return '종료';
-        case 'CANCEL': return '취소';
+        case 'CANCEL': return '입찰 취소';
         case 'FAIL': return '실패';
         default: return status;
     }
 };
+
+// 응모 내역
+const getLuckyStatusText = (status) => {
+    switch (status) {
+        case 'PROCESS': return { text: '진행 중', bold: false, color: 'inherit' };
+        case 'LUCKY': return { text: '당첨', bold: true, color: 'var(--primary)' };
+        case 'UNLUCKY': return { text: '미당첨', bold: false, color: 'inherit' };
+        default: return { text: status, bold: false, color: 'inherit' };
+    }
+};
+
+export const StatusDisplay = ({ status }) => {
+    const statusText = getLuckyStatusText(status);
+
+    return (
+        <span style={{ 
+            fontWeight: statusText.bold ? 'bold' : 'normal',
+            color: statusText.color
+        }}>
+            {statusText.text}
+        </span>
+    );
+};
+
+
+
+// 정규 표현식
+export const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!#%*?&])[A-Za-z\d@$#!%*?&]{8,}$/;
+export const phoneNumRegExp = /^\d{11}$/;
+export const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 

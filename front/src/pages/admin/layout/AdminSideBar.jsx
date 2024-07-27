@@ -2,7 +2,7 @@ import React from "react";
 import { Box, List, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
 import UserProfile from "./UserProfile"; // UserProfile 컴포넌트 경로에 맞게 수정하세요.
-import "../admin.css";
+import "styles/admin.css";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
 import SentimentVerySatisfiedOutlinedIcon from "@mui/icons-material/SentimentVerySatisfiedOutlined";
@@ -27,7 +27,7 @@ const Nav = () => {
           </span>
           <ListItemText primary="입고 상품 관리" />
         </NavLink>
-        <NavLink to="/admin/luckydraw">
+        <NavLink to="/admin/luckydraws">
           <span className="icon">
             <SentimentVerySatisfiedOutlinedIcon />
           </span>

@@ -10,10 +10,11 @@ import mypageRouter from "./mypageRouter";
 import serviceRouter from "./serviceRouter";
 import clothesRouter from "./clothesRouter";
 import luckyDrawRouter from "./luckyDrawRouter";
-
+import techRouter from "./techRouter"; // 추가
 
 import Style from "pages/style/Style";
 import Shop from "pages/shop/Shop";
+import Search from "pages/shop/Search";
 import LuckyDraw from "pages/draw/LuckyDraw";
 import StyleRegistration from "pages/style/StyleRegistration";
 import FeedBookmark from "pages/style/FeedBookmark";
@@ -23,10 +24,9 @@ import Event from "pages/event/Event";
 import Buy from "pages/ordres/Buy";
 import Sell from "pages/ordres/Sell";
 
-import TechMain from "pages/tech/TechMain";
-
 import Sample from "pages/Sample";
 import SuccessPage from "pages/payment/Success";
+import ProductRanking from "pages/product/ProductRanking";
 
 const mainRouter = () => {
     return [
@@ -48,11 +48,7 @@ const mainRouter = () => {
                 },
                 {
                     path: "tech",
-                    element: <TechMain />,
-                },
-                {
-                    path: "rank",
-                    element: <StyleRanking />,
+                    children: techRouter(), // 추가
                 },
                 {
                     path: "luckydraw",
@@ -63,10 +59,14 @@ const mainRouter = () => {
                     children: luckyDrawRouter(),
                 },
                 {
-                    path: "/event",
+                    path: "event",
                     element: <Event />,
                 },
             ],
+        },
+        {
+            path: "search",
+            element: <Search />,
         },
         {
             path: "clothes",
@@ -84,6 +84,10 @@ const mainRouter = () => {
         {
             path: "style",
             element: <Style />,
+        },
+        {
+            path: "style/rank",
+            element: <StyleRanking />,
         },
         {
             path: "style/register",
@@ -110,6 +114,10 @@ const mainRouter = () => {
         {
             path: "user",
             children: userRouter(),
+        },
+        {
+            path: "rank",
+            element: <ProductRanking />,
         },
 
         // 종욱이거?

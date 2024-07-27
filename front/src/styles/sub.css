@@ -24,7 +24,8 @@
 .lucky-main .img-box + h2 {font-size: var(--ft25); font-weight: var(--bold); word-break: keep-all; width: 300px; text-align: left; padding: 20px 0 10px; color: var(--black);}
 .lucky-main h2 + p {font-size: var(--ft18); color: var(--grey); margin-bottom: 20px; font-weight: var(--light); width: 230px; word-break: keep-all;}
 
-.lucky-detail .img-box p {background-color: #ddd; margin-right: 30px; height: 400px}
+.lucky-detail .img-box p {margin-right: 30px;}
+.lucky-detail .img-box p > img {width: 100%; border-radius: 10px;}
 .lucky-detail > div:nth-child(2) {border-left: 1px solid var(--borderBasic); padding-left: 30px; color: var(--black);}
 .lucky-detail > div:nth-child(2) h1 {font-size: var(--ft20); font-weight: var(--semibold); margin-bottom: 10px;}
 .lucky-detail > div:nth-child(2) p {color: var(--grey); font-size: var(--ft18);}
@@ -122,3 +123,8 @@
 .feed-registration-form .form-group label + input[type="file"] {margin-left: 10px;}
 .feed-registration-form .form-group + .text-center button {margin: 0 10px;}
 
+
+/*  ----------------------------- search -----------------------------------*/
+.search-box {display: flex; width: 100%; justify-content: center; padding: 50px 0;}
+.search-box input{border-bottom: 4px solid var(--black); height: 40px; font-size: var(--ft14); font-weight: var(--medium); color: var(--black); width: 400px;}
+.search-box button {}

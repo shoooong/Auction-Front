@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Box, Typography, CircularProgress, Button } from "@mui/material";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { Box, CircularProgress, Button } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+
 import { getRequests } from "api/admin/requestApi";
 import { Outlet, useNavigate } from "react-router-dom";
-import { getCookie } from "pages/user/cookieUtil";
-import CommonList from "./layout/CommonList";
+import useCustomLogin from "hooks/useCustomLogin";
 
 const ApproveCell = ({ productStatus }) => (
   <Button variant="contained" color="primary" size="small">
@@ -12,38 +13,51 @@ const ApproveCell = ({ productStatus }) => (
 );
 
 const AdminRequest = () => {
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { exceptionHandler } = useCustomLogin();
+
+  // 페이지 상태를 관리하기 위한 useState 훅
+  const [pageState, setPageState] = useState({
+    isLoading: false,
+    data: [],
+    total: 0,
+    page: 0, // page 값을 0부터 시작하도록 설정
+    pageSize: 10, // 초기 pageSize 값이 rowsPerPageOptions에 포함되도록 설정
+  });
 
   const fetchRequests = useCallback(async () => {
-    setLoading(true);
+    setPageState((old) => ({ ...old, isLoading: true }));
     try {
-      const data = await getRequests();
-      setProducts(data.products || []);
-      console.log("API Response:", data.products);
+      const data = await getRequests(pageState.page, pageState.pageSize);
+      setPageState((old) => ({
+        ...old,
+        isLoading: false,
+        data: data.products || [],
+        total: data.totalElements,
+        page: data.number, // 서버에서 받은 현재 페이지 번호
+      }));
+      console.log(data);
     } catch (error) {
-      console.error("Error fetching data", error);
+      exceptionHandler(error);
+      setPageState((old) => ({ ...old, isLoading: false }));
       setError(error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [pageState.page, pageState.pageSize, exceptionHandler]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const userInfo = getCookie("user");
+    fetchRequests();
+  }, [fetchRequests]);
 
-      if (!userInfo || !userInfo.accessToken) {
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/admin/login");
-        return;
-      }
-      fetchRequests();
-    };
-    fetchData();
-  }, [navigate, fetchRequests]);
+  // page와 pageSize가 변경될 때마다 로그를 출력하는 useEffect
+  useEffect(() => {
+    console.log(
+      `Current page: ${pageState.page}, Page size: ${pageState.pageSize}`
+    );
+  }, [pageState.page, pageState.pageSize]);
 
   const columns = [
     {
@@ -58,20 +72,12 @@ const AdminRequest = () => {
       headerName: "상품명",
       width: 150,
       headerAlign: "center",
-      align: "left",
+      align: "center",
       flex: 1,
     },
     {
       field: "productBrand",
       headerName: "브랜드",
-      width: 150,
-      headerAlign: "center",
-      align: "left",
-      flex: 1,
-    },
-    {
-      field: "modelNum",
-      headerName: "모델명",
       width: 150,
       headerAlign: "center",
       align: "center",
@@ -89,14 +95,23 @@ const AdminRequest = () => {
     },
   ];
 
-  const rows = products.map((product, index) => ({
-    id: product.productId,
-    indexId: index + 1,
-    productName: product.productName,
-    productBrand: product.productBrand,
-    modelNum: product.modelNum,
-    productStatus: product.productStatus,
-  }));
+  const rows = Array.isArray(pageState.data)
+    ? pageState.data.map((product, index) => ({
+        id: product.productId,
+        indexId: index + 1 + pageState.page * pageState.pageSize,
+        productName: product.productName,
+        productBrand: product.productBrand,
+        productStatus: product.productStatus,
+      }))
+    : [];
+  // 동적으로 pageSizeOptions 설정
+  const pageSizeOptions = useMemo(() => {
+    const options = [10, 30, 50, 70, 100];
+    if (!options.includes(pageState.pageSize)) {
+      options.push(pageState.pageSize);
+    }
+    return options;
+  }, [pageState.pageSize]);
 
   const handleRowClick = useCallback(
     (row) => {
@@ -105,7 +120,22 @@ const AdminRequest = () => {
     [navigate]
   );
 
-  if (loading) {
+  const handlePaginationModelChange = (model) => {
+    console.log(
+      `Pagination model changed to: ${model.page}, ${model.pageSize}`
+    ); // 디버깅 로그 추가
+    setPageState((old) => ({
+      ...old,
+      page: model.page,
+      pageSize: model.pageSize,
+    }));
+  };
+
+  useEffect(() => {
+    fetchRequests();
+  }, [pageState.page, pageState.pageSize]);
+
+  if (pageState.isLoading || loading) {
     return (
       <Box
         sx={{
@@ -120,22 +150,28 @@ const AdminRequest = () => {
     );
   }
 
-  if (error) {
-    return (
-      <Box sx={{ padding: "16px" }}>
-        <Typography variant="h6" color="error">
-          데이터를 불러오는 중 오류가 발생했습니다.
-        </Typography>
-      </Box>
-    );
-  }
-
   return (
     <Box className="column-direction admin-content-container">
       <div className="admin-title-box">
         <p className="admin-main-title">요청 상품 관리</p>
       </div>
-      <CommonList rows={rows} columns={columns} onRowClick={handleRowClick} />
+      <DataGrid
+        autoHeight
+        rows={rows}
+        rowCount={pageState.total}
+        loading={pageState.isLoading}
+        rowsPerPageOptions={pageSizeOptions} // 동적으로 설정된 pageSizeOptions 사용
+        pageSizeOptions={pageSizeOptions}
+        pagination
+        paginationMode="server"
+        paginationModel={{
+          page: pageState.page,
+          pageSize: pageState.pageSize,
+        }}
+        onPaginationModelChange={handlePaginationModelChange}
+        columns={columns}
+        onRowClick={handleRowClick}
+      />
       <Outlet context={{ fetchRequests }} />
     </Box>
   );

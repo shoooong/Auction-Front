@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
-import { SERVER_URL } from '../../../api/serverApi';
 
 const InquiryDetail = ({ inquiryId }) => {
   const [inquiry, setInquiry] = useState(null);
@@ -11,8 +10,7 @@ const InquiryDetail = ({ inquiryId }) => {
     const fetchInquiry = async () => {
       try {
         setLoading(true);
-        const response = await jwtAxios.get(`${SERVER_URL}/inquiry/${inquiryId}`);
-        console.log('API Response:', response.data); // 전체 응답 데이터 로깅
+        const response = await jwtAxios.get(`/${inquiryId}`);
         setInquiry(response.data);
         setError(null);
       } catch (error) {
@@ -29,17 +27,38 @@ const InquiryDetail = ({ inquiryId }) => {
   if (error) return <div>Error: {error}</div>;
   if (!inquiry) return <div>No inquiry found</div>;
 
-  // 데이터 구조 로깅
-  console.log('Inquiry state:', inquiry);
+  const { inquiryTitle, inquiryContent, createdDate, response } = inquiry;
+
+  // Extract only the actual response text
+  let answer = '답변 대기 중';
+  if (response) {
+    const match = response.match(/response=([^,\])]*)/);
+    if (match) {
+      answer = match[1].replace(/[)\]]/, ''); // Remove any trailing ')' or ']'
+    }
+  }
 
   return (
     <div className="inquiry-detail">
-      <h2>Inquiry Detail</h2>
-      <p><strong>ID:</strong> {inquiry.inquiryId}</p>
-      <p><strong>Title:</strong> {inquiry.title || '(No title)'}</p>
-      <p><strong>Content:</strong> {inquiry.content || '(No content)'}</p>
-      {/* 모든 필드 출력 (디버깅용) */}
-      <pre>{JSON.stringify(inquiry, null, 2)}</pre>
+      <h2>문의 상세</h2>
+      <div className="inquiry-detail-content">
+        <div className="inquiry-item">
+          <h3>제목</h3>
+          <p>{inquiryTitle}</p>
+        </div>
+        <div className="inquiry-item">
+          <h3>내용</h3>
+          <p>{inquiryContent}</p>
+        </div>
+        <div className="inquiry-item">
+          <h3>등록일</h3>
+          <p>{new Date(createdDate).toLocaleString()}</p>
+        </div>
+        <div className="inquiry-item">
+          <h3>답변</h3>
+          <p>{answer}</p>
+        </div>
+      </div>
     </div>
   );
 };

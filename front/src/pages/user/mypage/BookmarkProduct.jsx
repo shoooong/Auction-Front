@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getCookie } from "pages/user/cookieUtil";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 import { getBookmarkProducts } from "api/user/mypageApi";
-
-import photo from "assets/images/myson.jpg";
 
 const BookmarkProduct = () => {
     const [bookmarkProducts, setBookmarkProducts] = useState([]);
@@ -14,14 +12,6 @@ const BookmarkProduct = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const userInfo = getCookie("user");
-
-            if (!userInfo || !userInfo.accessToken) {
-                alert('로그인이 필요한 서비스입니다.');
-                navigate('/user/login');
-                return;
-            }
-
             try {
                 const response = await getBookmarkProducts();
                 setBookmarkProducts(response);
@@ -47,8 +37,7 @@ const BookmarkProduct = () => {
                 <div className="bookmark-grid">
                     {bookmarkProducts.map((bookmark, index) => (
                         <div className="bookmark-item" key={index}>
-                            {/* <img src={bookmark.productDetailsDto.productImg} alt={bookmark.productDetailsDto.productName} /> */}
-                            <img src={photo} alt="이앤톤" />
+                            <img src={`${CLOUD_STORAGE_BASE_URL}/products/${bookmark.productDetailsDto.productImg}`} alt={bookmark.productDetailsDto.productName} />
                             <p className="bookmark-text1">{bookmark.productDetailsDto.productBrand}</p>
                             <p className="bookmark-text2">{bookmark.productDetailsDto.productName}</p>
                             <p className="bookmark-text3">{bookmark.productDetailsDto.modelNum}</p>

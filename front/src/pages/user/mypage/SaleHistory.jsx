@@ -8,7 +8,7 @@ import { getSaleHistory, cancelSalesBidding } from "api/user/mypageApi";
 import { getCookie } from "pages/user/cookieUtil";
 import { formatPrice, getStatusText } from "pages/user/mypageUtil";
 
-import photo from "assets/images/myson.jpg";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 
 export default function SaleHistory() {
     const [saleHistory, setSaleHistory] = useState(null);
@@ -85,8 +85,7 @@ export default function SaleHistory() {
         return saleDetails.length > 0 ? (
             saleDetails.map((sale, index) => (
                 <div className="sale-item" key={index}>
-                    {/* <img src={sale.productImg} alt={sale.productName} /> */}
-                    <img src={photo} alt="이앤톤" />
+                    <img src={`${CLOUD_STORAGE_BASE_URL}/products/${sale.productImg}`} alt={sale.productName} />
                     <div>
                         <p>{sale.productName}</p>
                         <p>{sale.productSize}</p>

@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import { getCookie } from "pages/user/cookieUtil";
 import { getUser, modifyUser } from "api/user/userApi";
-import { formatPhoneNumber, maskEmail } from "../mypageUtil";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+import { passwordRegExp, phoneNumRegExp } from "../mypageUtil";
+import useCustomLogin from "hooks/useCustomLogin";
 
 const initState = {
     email: '',
@@ -16,19 +18,15 @@ const initState = {
 const ModifyPage = () => {
     const [user, setUser] = useState(initState);
     const [file, setFile] = useState(null);
+    const [passwordError, setPasswordError] = useState(false);
+    const [phoneNumError, setPhoneNumError] = useState(false);
+    const [nicknameError, setNicknameError] = useState(false);
 
     const navigate = useNavigate();
+    const { doUnregister } = useCustomLogin();
 
-    const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
-    
     useEffect(() => {
         const userInfo = getCookie("user");
-
-        if (!userInfo || !userInfo.accessToken) {
-            alert('로그인이 필요한 서비스입니다.');
-            navigate('/user/login');
-            return;
-        }
 
         const fetchData = async () => {
             try {
@@ -43,11 +41,26 @@ const ModifyPage = () => {
     }, [navigate]);
 
     const handleChange = ({ target: { name, value } }) => {
+        if (name === "password") {
+            setPasswordError(!passwordRegExp.test(value));
+        }
+        if (name === "nickname") {
+            setNicknameError(value.length > 10);
+        }
+        if (name === "phoneNum") {
+            setPhoneNumError(!phoneNumRegExp.test(value));
+        }
+        
         setUser((prev) => ({ ...prev,
             [name]: name === "password" ? (value ? value : null) : value  }));
     }
 
     const handleClickModify = async () => {
+        if (passwordError || phoneNumError || nicknameError) {
+            alert("입력한 정보에 오류가 있습니다. 다시 입력해 주세요.");
+            return;
+        }
+
         try {   
             await modifyUser(user, file);
             alert('회원 정보가 성공적으로 수정되었습니다.');
@@ -72,6 +85,12 @@ const ModifyPage = () => {
         }
     };
 
+    const handleUnregister = async () => {
+        if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+            doUnregister();
+        }
+    };
+
     
 
     return (
@@ -90,27 +109,31 @@ const ModifyPage = () => {
                 </div>
                 <div>
                     <div className="modify-nickname">
-                        <input name="nickname" type={'text'} value={user.nickname} onChange={handleChange} />
+                        <input name="nickname" type={'text'} placeholder="닉네임은 10자 이내로 입력 가능합니다." value={user.nickname} onChange={handleChange} />
                     </div>
 
                     <div className="modify-email">
-                        <input name="email" type={'text'} value={maskEmail(user.email)} readOnly />
+                        <input name="email" type={'text'} value={user.email} readOnly />
                     </div>
                 </div>
             </div>
 
             <div className="profile-bottom-container">
                 <div className="modify-phone">
-                    <input name="phoneNum" type={'text'} value={formatPhoneNumber(user.phoneNum)} onChange={handleChange} />
+                    <input name="phoneNum" type={'text'} placeholder="휴대폰 번호는 11자리 숫자만 입력 가능합니다." value={user.phoneNum} onChange={handleChange} />
                 </div>
                 <div className="modify-password">
-                    <input name="password" type={'password'} placeholder="비밀번호는 영문, 숫자, 특수문자를 포함하여 10자 이상이어야 합니다." onChange={handleChange} />
+                    <input name="password" type={'password'} placeholder="(선택) 비밀번호는 영문, 숫자, 특수 문자를 포함하여 8자 이상이어야 합니다." onChange={handleChange} />
                 </div>
             </div>
 
             <div className="profile-button">
                 <button type="button" onClick={handleClickModify}>수정</button>
                 <button type="button" onClick={() => navigate('/mypage')}>취소</button>
+            </div>
+
+            <div className="unregister-container">
+                <button type="button" className="unregister-button" onClick={handleUnregister}>회원 탈퇴</button>
             </div>
         </div>
     );

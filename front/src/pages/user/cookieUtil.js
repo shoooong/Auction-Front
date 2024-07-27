@@ -2,12 +2,20 @@ import { Cookies } from "react-cookie";
 
 const cookies = new Cookies();
 
-export const setCookie = (name, value, days) => {
+// export const setCookie = (name, value, days) => {
 
+//     const expires = new Date();
+//     expires.setUTCDate(expires.getUTCDate() + days);
+
+//     return cookies.set(name, value, {path:'/', expires:expires});
+// };
+
+export const setCookie = (name, value, minutes) => {
+    
     const expires = new Date();
-    expires.setUTCDate(expires.getUTCDate() + days);
+    expires.setTime(expires.getTime() + minutes * 60 * 1000);
 
-    return cookies.set(name, value, {path:'/', expires:expires});
+    return cookies.set(name, value, { path: "/", expires:expires });
 };
 
 export const getCookie = (name) => {

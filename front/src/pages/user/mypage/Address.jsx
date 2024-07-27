@@ -136,7 +136,7 @@ const Address = () => {
                         </div>
                     </div>
                 ))}
-                {addresses.length === 0 && <p>등록된 배송지가 없습니다.</p>}
+                {addresses.length === 0 && <p className='non-history'>등록된 배송지가 없습니다.</p>}
             </div>
            
             <Dialog

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
-import { SERVER_URL } from '../../../api/serverApi';
 
 const AdminInquiryDetail = ({ inquiryId }) => {
   const [inquiry, setInquiry] = useState(null);
@@ -16,7 +15,7 @@ const AdminInquiryDetail = ({ inquiryId }) => {
   const fetchInquiry = async () => {
     try {
       setLoading(true);
-      const response = await jwtAxios.get(`${SERVER_URL}/inquiry/admin/${inquiryId}`);
+      const response = await jwtAxios.get(`/admin/${inquiryId}`);
       setInquiry(response.data);
       setError(null);
     } catch (error) {
@@ -30,7 +29,7 @@ const AdminInquiryDetail = ({ inquiryId }) => {
   const handleResponseSubmit = async (e) => {
     e.preventDefault();
     try {
-      await jwtAxios.post(`http://localhost:80/inquiry/inquiryResponseRegistration/${inquiryId}`, { response });
+      await jwtAxios.post(`/inquiryResponseRegistration/${inquiryId}`, { response });
       setResponseStatus('답변이 성공적으로 등록되었습니다.');
       fetchInquiry();
       setResponse('');

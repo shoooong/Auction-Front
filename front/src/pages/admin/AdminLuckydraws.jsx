@@ -9,15 +9,15 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { getCookie } from "pages/user/cookieUtil";
 import { useNavigate } from "react-router-dom";
-import { CLOUD_STORAGE_BASE_URL } from "api/admin/AdminLuckyApi";
+import useCustomLogin from "hooks/useCustomLogin";
 
 const AdminLuckdraws = () => {
-  const [luckyProcessStatus, setLuckyProcessStatus] = useState(""); // default status
+  const [luckyProcessStatus, setLuckyProcessStatus] = useState("READY"); // default status
   const [luckyDraws, setLuckyDraws] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
+  const { exceptionHandler } = useCustomLogin();
   const tabButtons = [
     { label: "READY", value: "READY" },
     { label: "PROCESS", value: "PROCESS" },
@@ -30,19 +30,13 @@ const AdminLuckdraws = () => {
       setLuckyDraws(data.luckyDraws);
       console.log(status);
     } catch (error) {
+      exceptionHandler(error);
       console.error("Error fetching lucky draws:", error);
     }
   };
 
   useEffect(() => {
     const checkUserAndFetchData = async () => {
-      const userInfo = getCookie("user");
-
-      if (!userInfo || !userInfo.accessToken) {
-        alert("로그인이 필요한 서비스입니다.");
-        navigate("/admin/login");
-        return;
-      }
       try {
         await fetchData(luckyProcessStatus);
       } catch (error) {
@@ -55,7 +49,7 @@ const AdminLuckdraws = () => {
   // CommonList 컴포넌트에 필요한 columns 정의
   const columns = [
     {
-      field: "luckyId",
+      field: "id",
       headerName: "ID",
       width: 90,
       headerAlign: "center",
@@ -83,7 +77,7 @@ const AdminLuckdraws = () => {
 
   // rows 데이터 생성
   const rows = luckyDraws.map((draw, index) => ({
-    id: index, // DataGrid에서 필요한 ID 필드
+    id: index + 1, // DataGrid에서 필요한 ID 필드
     luckyId: draw.luckyId,
     luckyName: draw.luckyName,
     luckyProcessStatus: draw.luckyProcessStatus,
@@ -98,6 +92,8 @@ const AdminLuckdraws = () => {
       console.error("Error creating lucky draw:", error);
     }
   };
+
+  const handleRowClick = async (luckyId) => {};
 
   return (
     <div className="column-direction h100p">
@@ -124,7 +120,7 @@ const AdminLuckdraws = () => {
       <CommonList
         rows={rows}
         columns={columns}
-        onRowClick={(row) => console.log("Row clicked:", row)}
+        onRowClick={(luckyId) => handleRowClick(luckyId)}
       />
 
       <Button

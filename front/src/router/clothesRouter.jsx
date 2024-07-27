@@ -1,5 +1,6 @@
 import SubClothes from "pages/product/SubClothes";
-import detailRouter from "router/detailRouter";
+import ProductDetail from "pages/product/ProductDetail";
+import ProductBid from "pages/product/ProductBid";
 
 export default function clothesRouter() {
     return [
@@ -44,9 +45,12 @@ export default function clothesRouter() {
             ),
         },
         {
-            path: ":modelNum",
-            children: detailRouter(),
+            path: "details/:modelNum",
+            element: <ProductDetail />
         },
-        
+        {
+            path: "details/:modelNum/bid",
+            element: <ProductBid />
+        },
     ];
 }

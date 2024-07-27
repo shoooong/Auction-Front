@@ -23,6 +23,9 @@ const RequestProductDetail = lazy(() =>
 const RequestProductRegister = lazy(() =>
     import("pages/requestproduct/RequestProduct")
 );
+const LuckyDrawDetailPage = lazy(() =>
+    import("pages/serviceCenter/notice/LuckyDrawDetailPage")
+);
 const Loading = <div>Loading...</div>;
 
 export default function clothesRouter() {
@@ -87,10 +90,18 @@ export default function clothesRouter() {
             ),
         },
         {
-            path: "notice/:noticeId",
+            path: "notice/notice/:noticeId",
             element: (
                 <Suspense fallback={Loading}>
                     <NoticeDetail />
+                </Suspense>
+            ),
+        },
+        {
+            path: "notice/event/:luckyAnnouncementId",
+            element: (
+                <Suspense fallback={Loading}>
+                    <LuckyDrawDetailPage />
                 </Suspense>
             ),
         },

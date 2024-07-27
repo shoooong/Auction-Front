@@ -1,59 +1,96 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { SERVER_URL } from "api/serverApi";
+import { Link, useLocation } from "react-router-dom";
+import jwtAxios from "pages/user/jwtUtil";
 
-import CommonList from "pages/admin/layout/CommonList";
-
-const AdminNoticeList = () => {
+const AdminNoticeList = ({ activeTab }) => {
     const [notices, setNotices] = useState([]);
-    const [activeTab] = useState("all");
-    const navigate = useNavigate();
+    const [luckyDraws, setLuckyDraws] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10); // 한 페이지당 항목 수
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+    const tab = query.get("tab") || "all";
 
     useEffect(() => {
-        axios
-            .get(`${SERVER_URL}/notice/admin/noticeList`)
-            .then((response) => {
-                setNotices(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching notices:", error);
-            });
+        const fetchNoticesAndLuckyDraws = async () => {
+            try {
+                const response = await jwtAxios.get(`/admin/user/combinedNoticeList`);
+                const { notices, luckyDrawAnnouncements } = response.data;
+                setNotices(notices);
+                setLuckyDraws(luckyDrawAnnouncements);
+            } catch (error) {
+                console.error("Error fetching notices and lucky draws:", error);
+            }
+        };
+
+        fetchNoticesAndLuckyDraws();
     }, []);
 
     const filteredNotices = notices.filter((notice) => {
-        if (activeTab === "all") {
-            return true;
-        } else {
-            return notice.type === activeTab;
-        }
+        if (tab === "all") return true;
+        return tab === "notice";
     });
 
-    const columns = [
-        { field: "id", headerName: "ID", width: 300 },
-        { field: "noticeTitle", headerName: "Title", width: 250 },
-        { field: "noticeContent", headerName: "Content", width: 400 },
-        { field: "createDate", headerName: "Create Date", width: 200 },
-    ];
+    const filteredLuckyDraws = luckyDraws.filter((draw) => {
+        if (tab === "all") return true;
+        return tab === "event";
+    });
 
-    const rows = filteredNotices.map((notice) => ({
-        id: notice.noticeId,
-        noticeTitle: notice.noticeTitle,
-        noticeContent: notice.noticeContent,
-        createDate: new Date(notice.createDate).toLocaleString(),
-    }));
+    // 페이지네이션 적용
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
 
-    const handleRowClick = (row) => {
-        navigate(`/admin/notice/${row.id}`);
+    const paginatedNotices = filteredNotices.slice(startIndex, endIndex);
+    const paginatedLuckyDraws = filteredLuckyDraws.slice(startIndex, endIndex);
+
+    const totalItems = filteredNotices.length + filteredLuckyDraws.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    const handlePageChange = (page) => {
+        if (page > 0 && page <= totalPages) {
+            setCurrentPage(page);
+        }
     };
 
     return (
         <section className="notice-list">
-            <CommonList
-                rows={rows}
-                columns={columns}
-                onRowClick={handleRowClick}
-            />
+            <ul>
+                {paginatedNotices.length === 0 && paginatedLuckyDraws.length === 0 ? (
+                    <li>
+                        <span className="title">No notices or lucky draws available</span>
+                    </li>
+                ) : (
+                    [...paginatedNotices, ...paginatedLuckyDraws].map((item) => (
+                        <li key={item.noticeId || item.luckyAnnouncementId}>
+                            <Link to={`/admin/notice/${item.noticeId ? `notice/${item.noticeId}` : `event/${item.luckyAnnouncementId}`}?tab=${tab}`}>
+                                <div>
+                                    <span className="type">
+                                        {item.noticeTitle ? "일반공지" : "이벤트 공지"}
+                                    </span>
+                                    <span className="title">
+                                        {item.noticeTitle || item.luckyTitle}
+                                    </span>
+                                </div>
+                            </Link>
+                        </li>
+                    ))
+                )}
+            </ul>
+            <div className="pagination">
+                <button 
+                    onClick={() => handlePageChange(currentPage - 1)} 
+                    disabled={currentPage === 1}
+                >
+                    이전
+                </button>
+                <span>페이지 {currentPage} / {totalPages}</span>
+                <button 
+                    onClick={() => handlePageChange(currentPage + 1)} 
+                    disabled={currentPage === totalPages}
+                >
+                    다음
+                </button>
+            </div>
         </section>
     );
 };

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import jwtAxios from "pages/user/jwtUtil";
-import { SERVER_URL } from "../../api/serverApi";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const FeedRegistrationForm = () => {
     const [feedTitle, setFeedTitle] = useState("");
     const [feedImage, setFeedImage] = useState(null);
+    const { exceptionHandler } = useCustomLogin();
+    const [error, setError] = useState(null);
+    const navigate = useNavigate(); // useNavigate 훅 추가
 
     const handleImageChange = (event) => {
         setFeedImage(event.target.files[0]);
@@ -18,8 +21,7 @@ const FeedRegistrationForm = () => {
         formData.append("files", feedImage);
 
         try {
-            const response = await jwtAxios.post(
-                `${SERVER_URL}/feed/user/feedRegistration`,
+            const response = await jwtAxios.post(`/user/feedRegistration`,
                 formData,
                 {
                     headers: {
@@ -30,15 +32,10 @@ const FeedRegistrationForm = () => {
             console.log("Feed registered successfully:", response.data);
             setFeedTitle("");
             setFeedImage(null);
+            navigate('/style'); // 등록 후 리다이렉션
         } catch (error) {
-            if (error.response) {
-                console.error("Error response:", error.response.data);
-                console.error("Status code:", error.response.status);
-            } else if (error.request) {
-                console.error("No response received:", error.request);
-            } else {
-                console.error("Error setting up request:", error.message);
-            }
+            exceptionHandler(error);
+            setError("정보를 불러오는 중 오류가 발생했습니다.");
         }
     };
 
@@ -73,7 +70,7 @@ const FeedRegistrationForm = () => {
                         등록
                     </button>
                     <Link to="/style">
-                        <button className="small-btn">목록으로</button>
+                        <button type="button" className="small-btn">목록으로</button>
                     </Link>
                 </div>
             </form>

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import useCustomLogin from "hooks/useCustomLogin";
 
@@ -79,9 +79,6 @@ const AdminMain = () => {
               </li>
               <li className="flex-grow text-center">
                 <Link to="/user/register">이메일 찾기</Link>
-              </li>
-              <li className="flex-grow text-center">
-                <Link to="/user/register">비밀번호 찾기</Link>
               </li>
             </ul>
           </div>

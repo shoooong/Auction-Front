@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getSub, getAll } from "api/shopApi";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+
 import { Box, IconButton } from "@mui/material";
 import { RichTreeView } from "@mui/x-tree-view";
+
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 
@@ -111,6 +115,15 @@ export default function Shop() {
         };
     }, [lastElementRef, loadMore, hasNext]);
 
+    // 해당 상품으로 경로 이동
+    const navigate = useNavigate();
+    const location = useLocation();
+    const handleProductClick = (modelNum, displayProducts) => {
+        const category =
+            location.pathname.split("/")[0] || displayProducts.mainDepartment;
+        navigate(`/${category}/details/${modelNum}`);
+    };
+
     return (
         <div className="container">
             <div className="sub-nav"></div>
@@ -139,11 +152,17 @@ export default function Shop() {
                             style={{ marginBottom: "80px" }}
                         >
                             {displayProducts.map((list, index) => (
-                                <div className="product" key={index}>
+                                <div
+                                    className="product"
+                                    key={index}
+                                    onClick={() =>
+                                        handleProductClick(list.modelNum, list)
+                                    }
+                                >
                                     <div>
-                                        <div className="product-img">
+                                        <div className="product-img-230">
                                             <img
-                                                src={list.productImg}
+                                                src={`${CLOUD_STORAGE_BASE_URL}/products/${list.productImg}`}
                                                 alt="이미지"
                                             />
                                         </div>
@@ -179,15 +198,21 @@ export default function Shop() {
                                         <span className="red-bullet">
                                             {list.modelNum}
                                         </span>
-                                        <span className="semibold-black">
-                                            {list.buyingBiddingPrice}
-                                            <span className="light-black">
-                                                원
-                                            </span>
-                                        </span>
-                                        <span className="light-grey">
-                                            즉시 구매가
-                                        </span>
+                                        {list.buyingBiddingPrice === null ? (
+                                            <></>
+                                        ) : (
+                                            <>
+                                                <span className="semibold-black">
+                                                    {list.buyingBiddingPrice}
+                                                    <span className="light-black">
+                                                        원
+                                                    </span>
+                                                </span>
+                                                <span className="light-grey">
+                                                    즉시 구매가
+                                                </span>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             ))}

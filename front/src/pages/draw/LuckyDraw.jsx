@@ -1,15 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
 import useLuckyDraw from "hooks/useLuckyDraw";
-
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 import { Button } from "@mui/material";
 
 const LuckyDraw = () => {
     const { drawItems, loading, error } = useLuckyDraw();
     const navigate = useNavigate();
-
-    const CLOUD_STORAGE_BASE_URL =
-        "https://kr.object.ncloudstorage.com/push/shooong/luckydraw";
 
     const handleApplyClick = (luckyId) => {
         navigate(`/luckydraw/${luckyId}`);
@@ -38,7 +35,7 @@ const LuckyDraw = () => {
                     <div className="justify-center" key={item.luckyId}>
                         <div>
                             <div className="img-box">
-                                <p><img src={CLOUD_STORAGE_BASE_URL + item.luckyImage}  alt="왜 안나와"/></p>
+                                <p><img src={`${CLOUD_STORAGE_BASE_URL}/luckydraw${item.luckyImage}`}  alt="왜 안나와"/></p>
                             </div>
 
                             <h2>{item.luckyName}</h2>

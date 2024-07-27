@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Box, IconButton } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom"; // useNavigate 훅을 import 합니다
-import tempImg from "assets/images/feed4.png";
 import { SERVER_URL } from "api/serverApi";
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
+
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
 const MainNewBuy = () => {
     const location = useLocation(); // 현재 경로를 가져옵니다
@@ -22,11 +23,11 @@ const MainNewBuy = () => {
                 );
                 const data = response.data.map((product, index) => ({
                     productId: product.productId,
-                    productImg: tempImg,
+                    productImg: `${CLOUD_STORAGE_BASE_URL}${product.productImg}`,
                     productBrand: product.productBrand,
                     productName: product.productName,
                     modelNum: product.modelNum,
-                    biddingPrice: product.biddingPrice,
+                    biddingPrice: product.biddingPrice ? product.biddingPrice.toLocaleString() : product.originalPrice.toLocaleString(),
                     liked: false, // 초기 좋아요 상태
                     rank: index + 1, // 순위 추가
                 }));
@@ -46,12 +47,12 @@ const MainNewBuy = () => {
     };
 
     const loadMoreProducts = () => {
-        setVisibleProducts((prevVisibleProducts) => prevVisibleProducts + 5);
+        setVisibleProducts(10); // 한번만 클릭하면 10개로 늘어납니다
     };
 
     const handleProductClick = (modelNum) => {
-        navigate(`clothes/details/${modelNum}`);  // 클릭된 상품의 상세 페이지로 이동합니다
-        return modelNum;
+        const category = location.pathname.split("/")[1] || "clothes"; // 현재 카테고리를 추출합니다
+        navigate(`/${category}/details/${modelNum}`); // 클릭된 상품의 상세 페이지로 이동합니다
     };
 
     return (
@@ -123,7 +124,7 @@ const MainNewBuy = () => {
                         ))}
                 </Box>
 
-                {visibleProducts < products.length && (
+                {visibleProducts < products.length && visibleProducts < 10 && (
                     <div className="text-center">
                         <Button className="add-btn" onClick={loadMoreProducts}>
                             더보기

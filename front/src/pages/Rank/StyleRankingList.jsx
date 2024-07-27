@@ -8,16 +8,19 @@ import Feed from "pages/style/Feed";
 const StyleRankingList = () => {
     const [feeds, setFeeds] = useState([]);
 
+    const CLOUD_STORAGE_BASE_URL =
+    "https://kr.object.ncloudstorage.com/push/shooong/";
+
     useEffect(() => {
         const fetchFeeds = async () => {
             try {
                 const response = await axios.get(
-                    `${SERVER_URL}/feed/feedRanking§`
+                    `${SERVER_URL}/feedRanking`
                 );
                 const data = response.data.map((feed) => ({
                     id: feed.feedId,
                     username: feed.userId ? `User ${feed.userId}` : "Unknown",
-                    image: feed.feedImage,
+                    image: `${CLOUD_STORAGE_BASE_URL}${feed.feedImage}`,
                     description: feed.feedTitle,
                     likes: feed.likeCount,
                 }));

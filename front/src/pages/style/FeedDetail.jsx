@@ -2,18 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import jwtAxios from 'pages/user/jwtUtil';
 import { SERVER_URL } from "api/serverApi";
+import axios from 'axios';
 
 const FeedDetail = () => {
   const [feed, setFeed] = useState(null);
   const [error, setError] = useState(null);
-  const [isSaved, setIsSaved] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false); // Track save state
   const { id } = useParams();
+
+  const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
 
   useEffect(() => {
     const fetchFeedDetail = async () => {
       try {
-        const response = await jwtAxios.get(`${SERVER_URL}/feed/styleFeed/${id}`);
-        setFeed(response.data);
+        const response = await axios.get(`${SERVER_URL}/styleFeed/${id}`);
+        const feedData = response.data;
+        feedData.feedImage = `${CLOUD_STORAGE_BASE_URL}${feedData.feedImage}`;
+        setFeed(feedData);
       } catch (error) {
         console.error('Error fetching feed details:', error);
         setError(error.response?.status === 404 ? 'Feed not found' : 'An error occurred');
@@ -22,10 +28,31 @@ const FeedDetail = () => {
     fetchFeedDetail();
   }, [id]);
 
-  const handleSave = async () => {
+  const handleLikeClick = async () => {
     try {
-      await jwtAxios.post(`${SERVER_URL}/feed/user/saveFeedBookmark`, { feedId: id });
-      setIsSaved(!isSaved);
+      const response = await jwtAxios.post(`/user/likeFeed/${id}`);
+      if (response.status === 200) {
+        setIsLiked(true);
+        setFeed(prevFeed => ({
+          ...prevFeed,
+          likeCount: (prevFeed.likeCount || 0) + 1
+        }));
+      }
+    } catch (error) {
+      console.error('Error liking feed:', error);
+    }
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      const response = await jwtAxios.post(`/user/saveFeedBookmark`, {
+        feedId: id,
+        feedImage: feed.feedImage,
+        feedTitle: feed.feedTitle
+      });
+      if (response.status === 201) {
+        setIsSaved(true);
+      }
     } catch (error) {
       console.error('Error saving feed:', error);
     }
@@ -42,13 +69,12 @@ const FeedDetail = () => {
         <p className="username">@{feed.userId ? `User ${feed.userId}` : 'Unknown'}</p>
         <p className="likes">❤️ {feed.likeCount}</p>
         <p className="description">{feed.feedContent}</p>
-        <button onClick={handleSave} className="save-button">
-          {isSaved ? (
-            <i className="fa-solid fa-bookmark"></i>
-          ) : (
-            <i className="fa-regular fa-bookmark"></i>
-          )}
-          {isSaved ? ' Saved' : ' Save'}
+        <button onClick={handleLikeClick} className="like-button">
+          ❤️ {isLiked ? 'Liked' : 'Like'}
+        </button>
+        {/* New Save button */}
+        <button onClick={handleSaveClick} className="save-button">
+          💾 {isSaved ? 'Saved' : 'Save'}
         </button>
       </div>
     </div>

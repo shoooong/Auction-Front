@@ -4,7 +4,7 @@ import jwtAxios from "pages/user/jwtUtil";
 
 export const getAddressInfo = async () => {
     try {
-        const res = await jwtAxios.get(`${SERVER_URL}/order/addr`);
+        const res = await jwtAxios.get(`/order/addr`);
         return res.data;
     } catch (error) {
         throw new Error("Unexpected response format");
@@ -13,7 +13,7 @@ export const getAddressInfo = async () => {
 
 export const getBuyingBidding = async (buyingBiddingId) => {
     try {
-        const response = await axios.get(`${SERVER_URL}/order/buy`);
+        const response = await axios.get(`/order/buy`);
         return response.data;
     } catch (error) {
         throw new Error(`Failed  ${error.message}`);

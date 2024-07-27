@@ -2,23 +2,21 @@ import axios from "axios";
 import { getCookie, setCookie } from "./cookieUtil";
 import { SERVER_URL } from "api/serverApi";
 
-// TODO: JWT를 사용해야 하는 api에서는 기존의 axios 대신 jwtAxios를 사용할 것
-const jwtAxios = axios.create();
+const jwtAxios = axios.create({
+    baseURL: `${SERVER_URL}/api`,
+    withCredentials: true,
+});
 
-const refreshToken = async (accessToken, refreshToken) => {
-    const host = SERVER_URL;
+const refresh = async (accessToken, refreshToken) => {
+    console.log("calling refresh...");
 
     const header = {headers: {"Authorization": `Bearer ${accessToken}`}};
 
     try {
-        const res = await axios.post(`${host}/user/refresh`, {refreshToken}, header);
-
-        console.log(res.data);
-
+        const res = await axios.post(`${SERVER_URL}/user/refresh`, { refreshToken }, header);
         return res.data;
     } catch (error) {
-                handleError(error);
-
+        handleError(error);
         throw error;
     };  
 };
@@ -32,13 +30,7 @@ const beforeReq = (config) => {
     if (!userInfo) {
         console.log("User not found!");
 
-        return Promise.reject(
-            {response:
-                {data:
-                    {error:"REQUIRE_LOGIN"}
-                }
-            }
-        );
+        return Promise.reject({response: {data: {error:"REQUIRE_LOGIN"} } });
     };
 
     const {accessToken} = userInfo;
@@ -58,42 +50,36 @@ const requestFail = (err) => {
 // 응답 전에
 const beforeRes = async (res) => {
     console.log("before return response...");
-    console.log(res);
-
-    const data = res.data;
-
-    if (data && data.error === 'ERROR_ACCESS_TOKEN') {
-        const userCookieValue = getCookie("user");
-
-        try {
-            const result = await refreshToken(userCookieValue.accessToken, userCookieValue.refreshToken);
-            console.log("refreshToken RESULT: ", result);
-
-            userCookieValue.accessToken = result.accessToken;
-            userCookieValue.refreshToken = result.refreshToken;
-
-            setCookie("user", JSON.stringify(userCookieValue), 1);
-
-            // 원래 원했던 호출 재시도
-            const originalRequest = { ...res.config };
-
-            originalRequest.headers.Authorization = `Bearer ${result.accessToken}`;
-
-            return jwtAxios(originalRequest);
-        } catch (error) {
-            console.error("Failed to refresh token during response interception", error);
-
-            return Promise.reject(error);
-        }
-    };
 
     return res;
 };
 
 // 응답 실패 시
-const responseFail = (err) => {
+const responseFail = async (err) => {
     console.log("response fail error...");
 
+    if (err.response && err.response.status === 401 && err.response.data.error === 'ERROR_ACCESS_TOKEN') {
+        const userInfo = getCookie("user");
+
+        if (userInfo) {
+            const { accessToken, refreshToken } = userInfo;
+
+            try {
+                const newTokens = await refresh(accessToken, refreshToken);
+                userInfo.accessToken = newTokens.accessToken;
+                userInfo.refreshToken = newTokens.refreshToken;
+                setCookie("user", JSON.stringify(userInfo), 60 * 3);
+
+                const originalRequest = { ...err.config };
+                originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
+
+                return axios(originalRequest);
+            } catch (refreshError) {
+                console.error("Failed to refresh token:", refreshError);
+                throw refreshError;
+            }
+        }
+    }
     return Promise.reject(err);
 };
 

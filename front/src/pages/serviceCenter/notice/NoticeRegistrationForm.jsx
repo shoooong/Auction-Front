@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import jwtAxios from 'pages/user/jwtUtil';
-import { SERVER_URL } from '../../../api/serverApi';
 import { useNavigate } from 'react-router-dom';
 
 const NoticeRegistrationForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [type, setType] = useState('notice'); // 공지사항 유형 상태
+  const [type, setType] = useState('notice');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await jwtAxios.post(`${SERVER_URL}/notice/user/noticeRegistration`, {
+      const response = await jwtAxios.post(`/user/noticeRegistration`, {
         noticeTitle: title,
         noticeContent: content,
         noticeType: type
@@ -24,7 +23,12 @@ const NoticeRegistrationForm = () => {
         setTitle('');
         setContent('');
         setType('notice');
-        navigate('/admin/notice'); // 등록 완료 후 이동할 페이지 경로
+        setTimeout(() => {
+          navigate('/admin/notice');
+        }, 100);
+      } else {
+        setMessage('공지사항 등록에 실패했습니다.');
+        navigate('/admin/notice');
       }
     } catch (error) {
       console.error('Error registering notice:', error);
@@ -45,17 +49,6 @@ const NoticeRegistrationForm = () => {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label htmlFor="type">유형:</label>
-          <select
-            id="type"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option value="notice">공지</option>
-            <option value="event">이벤트</option>
-          </select>
         </div>
         <div>
           <label htmlFor="content">내용:</label>

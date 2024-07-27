@@ -15,7 +15,7 @@ const NoticeDetailContainer = () => {
         const fetchNotice = async () => {
             try {
                 const response = await axios.get(
-                    `${SERVER_URL}/notice/notice/${noticeId}`
+                    `${SERVER_URL}/notice/${noticeId}`
                 );
                 setNotice(response.data);
                 setLoading(false);

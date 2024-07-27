@@ -5,7 +5,7 @@ const StyleRanking = () => {
     return (
         <div className="style">
             <header>
-                <h1>스타일 페이지</h1>
+                <h1>스타일 랭킹</h1>
             </header>
             <StyleRankingList />
         </div>

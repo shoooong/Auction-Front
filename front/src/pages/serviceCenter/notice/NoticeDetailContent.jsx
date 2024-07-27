@@ -10,8 +10,6 @@ const NoticeDetailContent = ({ notice, onEdit, onDelete }) => {
 
             <div className="content">{notice.noticeContent}</div>
             <div className="notice-actions">
-                <button onClick={onEdit}>수정</button>
-                <button onClick={onDelete}>삭제</button>
             </div>
         </div>
     );

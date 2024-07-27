@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import useUserCoupon from "hooks/useUserCoupon";
 import { useNavigate } from "react-router-dom";
-import jwtAxios from "pages/user/jwtUtil";
 import "styles/coupon.css";
-import { getCookie } from "pages/user/cookieUtil";
-import { SERVER_URL } from "api/serverApi";
 import CouponDday from "components/CouponDday";
+
 export default function Event() {
     const { coupons } = useUserCoupon();
     const navigate = useNavigate();
@@ -14,7 +12,7 @@ export default function Event() {
         <>
             <div className="coupon_main_titleBox">
                 <h3 className="coupon_main_title">쿠폰</h3>
-                <button>쿠폰 발급하기</button>
+                <button onClick={() => navigate("/event")}>쿠폰 발급하기</button>
             </div>
 
             <div className="mypage-coupon-main-container">
@@ -44,12 +42,12 @@ export default function Event() {
                             </div>
                         </div>
                         <div className="mypage-coupon-content2">
-                            <p className="coupon-exp">
+                            <div className="coupon-exp">
                                 <CouponDday
                                     startDate={item.coupon.startDate}
                                     endDate={item.coupon.endDate}
                                 />
-                            </p>
+                            </div>
                             <p className="coupon-endDate">
                                 {item.coupon.endDate.replace(/T/, " ")} 까지
                             </p>

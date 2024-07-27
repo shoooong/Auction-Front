@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { SERVER_URL } from "api/serverApi";
-import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { Box, Button } from "@mui/material";
 
@@ -10,87 +10,57 @@ import { useSelector } from "react-redux";
 export default function Alarm(props) {
     // props
     const { open, close } = props;
-    const [alarmList, setAlarmList] = useState(null);
-    const [alarm, setAlarm] = useState(null);
-
+    const [allAlarm, setAllAlarm] = useState([]);
     // 리덕스에서 accessToken 가져오기
     const accessToken = useSelector((state) => state.loginSlice.accessToken);
-    console.log(accessToken);
 
     // sse 알람
-    const EventSource = EventSourcePolyfill;
     useEffect(() => {
+        const eventSource = new EventSourcePolyfill(
+            `${SERVER_URL}/api/alarm/subscribe`,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "text/event-stream",
+                    Authorization: `Bearer ${accessToken}`,
+                    "Cache-Control": "no-cache",
+                },
+            }
+        );
         if (accessToken) {
-            const fetchSse = () => {
-                const eventSource = new EventSource(
-                    `${SERVER_URL}/alarm/subscribe`,
-                    {
-                        withCredentials: true,
-                        headers: {
-                            "Content-Type": "text/event-stream",
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                );
+            eventSource.addEventListener("alarm-list", (event) => {
+                console.log(JSON.parse(event.data));
+                // setAlarmList(JSON.parse(event.data));
+                setAllAlarm(() => JSON.parse(event.data));
+            });
 
-                eventSource.addEventListener("alarm-list", (event) => {
-                    console.log(JSON.parse(event.data));
+            eventSource.addEventListener("alarm", (event) => {
+                console.log(JSON.parse(event.data));
+                // setAlarm(JSON.parse(event.data));
+                setAllAlarm((list) => [...list, JSON.parse(event.data)]);
+            });
 
-                    if (JSON.parse(event.data).alarmType === "LUCKYAPPLY") {
-                        return "럭키드로우에 응모 완료되었습니다.";
-                    } else if (JSON.parse(event.data).alarmType === "LUCKY") {
-                        return "럭키드로우에~ 당첨~ 되었습니다~~~ 예에에에에 짝짝짝";
-                    } else if (JSON.parse(event.data).alarmType === "STYLE") {
-                        return "당신의 스타일 원픽";
-                    } else if (
-                        JSON.parse(event.data).alarmType === "ONETOONE"
-                    ) {
-                        return "1:1문의 답변 완료~!";
-                    } else if (JSON.parse(event.data).alarmType === "SALES") {
-                        return "급전이 왔어요~! 급전이!";
-                    }
-                    setAlarmList(JSON.parse(event.data));
-                });
-
-                eventSource.addEventListener("alarm", (event) => {
-                    alert(event.data);
-                    console.log(JSON.parse(event.data));
-                    setAlarm(JSON.parse(event.data));
-                });
-
-                eventSource.addEventListener("error", () => {
-                    eventSource.close();
-                });
-
-                // eventSource.onerror = async () => {
-                //     // e: Event
-                //     eventSource.close();
-                //     // 재연결
-                //     // setTimeout(fetchSse, 4500);
-                // };
-                // eventSource.onopen = (event) => {
-                //     console.log("Connection to server opened.");
-                // };
-
-                // eventSource.onmessage = (event) => {
-                //     console.log("New message:", event.data);
-                // };
-            };
-            fetchSse();
+            eventSource.addEventListener("error", () => {
+                eventSource.close();
+            });
+        } else {
+            eventSource.close();
         }
     }, [accessToken]);
 
     const condition = (event) => {
-        if (JSON.parse(event.data) === "LUCKYAPPLY") {
+        if (event === "LUCKYAPPLY") {
             return "럭키드로우에 응모 완료되었습니다.";
-        } else if (JSON.parse(event.data) === "LUCKY") {
+        } else if (event === "LUCKY") {
             return "럭키드로우에~ 당첨~ 되었습니다~~~ 예에에에에 짝짝짝";
-        } else if (JSON.parse(event.data) === "STYLE") {
-            return "당신의 스타일 원픽";
-        } else if (JSON.parse(event.data) === "ONETOONE") {
+        } else if (event === "STYLE") {
+            return "당신의 스타일에 누군가가 원픽";
+        } else if (event === "ONETOONE") {
             return "1:1문의 답변 완료~!";
-        } else if (JSON.parse(event.data) === "SALES") {
+        } else if (event === "SALES") {
             return "급전이 왔어요~! 급전이!";
+        } else if (event === "COUPON") {
+            return "쿠폰 발급이 됐습니다.";
         }
     };
 
@@ -110,28 +80,13 @@ export default function Alarm(props) {
                             className="alarm-box scroll"
                             style={{ maxHeight: "100%", marginTop: 0 }}
                         >
-                            {alarmList === null ? (
+                            {allAlarm === null ? (
                                 <div>받은 알람이 없습니다.</div>
                             ) : (
-                                alarmList.map((list) => (
+                                allAlarm.map((list) => (
                                     <div className="alarm" key={list.alarmId}>
                                         <span className="black-label">
-                                            {list.alarmType}
-                                        </span>
-                                        <span className="grey-label"></span>
-                                        <span className="grey-label">
-                                            {list.alarmDate}
-                                        </span>
-                                    </div>
-                                ))
-                            )}
-                            {alarm === null ? (
-                                <></>
-                            ) : (
-                                alarm.map((list) => (
-                                    <div className="alarm" key={list.alarmId}>
-                                        <span className="black-label">
-                                            {list.alarmType}
+                                            {condition(list.alarmType)}
                                         </span>
                                         <span className="grey-label"></span>
                                         <span className="grey-label">

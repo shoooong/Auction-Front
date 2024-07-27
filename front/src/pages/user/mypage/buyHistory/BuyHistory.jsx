@@ -6,7 +6,7 @@ import { getAllBuyHistory } from "api/user/mypageApi";
 import { formatPrice, getStatusText } from "pages/user/mypageUtil";
 import BuyHistoryProcess from "./BuyHistoryProcess";
 import BuyHistoryComplete from "./BuyHistoryComplete";
-import photo from "assets/images/myson.jpg";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 
 export default function BuyHistory() {
     const [buyHistory, setBuyHistory] = useState(null);
@@ -67,14 +67,13 @@ export default function BuyHistory() {
                             {buyHistory.buyingDetails.length > 0 ? (
                                 buyHistory.buyingDetails.map((buy, index) => (
                                     <div className="buy-item" key={index}>
-                                        {/* <img src={buy.productImg} alt={buy.productName} /> */}
-                                        <img src={photo} alt="이앤톤" />
+                                        <img src={`${CLOUD_STORAGE_BASE_URL}/products/${buy.productImg}`} alt={buy.productName} />
                                         <div>
                                             <p>{buy.productName}</p>
                                             <p>{buy.productSize}</p>
                                         </div>
                                         <p>{formatPrice(buy.orderPrice)}원</p>
-                                        <p>{getStatusText(buy.orderStatus)}</p>
+                                        <p>{getStatusText(buy.biddingStatus)}</p>
                                     </div>
                                  ))
                             ) : (

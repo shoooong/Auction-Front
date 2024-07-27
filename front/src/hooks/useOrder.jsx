@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import jwtAxios from "pages/user/jwtUtil";
 import { SERVER_URL } from "api/serverApi";
 
-export default function useOrder() {
+// 구매입찰 정보를 가져와서 즉시판매
+export default function useOrder(data) {
     // 상태 정의
 
     const [buyingBidding, setBuyingBidding] = useState(null);
@@ -18,18 +19,13 @@ export default function useOrder() {
                 setError(null);
 
                 // 상품 정보와 배송지 정보 가져오기
-                const buyingBiddingResponse = await jwtAxios.get(
-                    `${SERVER_URL}/order/buy`,
-                    {
-                        params: {
-                            buyingBiddingId: 1,
-                        },
-                    }
-                );
+                const buyingBiddingResponse = await jwtAxios.get(`/order/buy`, {
+                    params: {
+                        buyingBiddingId: data?.productId,
+                    },
+                });
 
-                const addressInfoResponse = await jwtAxios.get(
-                    `${SERVER_URL}/order/addr`
-                );
+                const addressInfoResponse = await jwtAxios.get(`/order/addr`);
 
                 setBuyingBidding(buyingBiddingResponse.data);
                 setAddressInfo(addressInfoResponse.data);

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { Button } from "@mui/material";
-import { getCookie } from "pages/user/cookieUtil";
 import { getLuckyDrawDetail, enterLuckyDraw } from "api/luckydrawApi";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+import useCustomLogin from "hooks/useCustomLogin";
 
 import banner from "assets/images/toss_banner.webp";
 
@@ -15,8 +16,7 @@ const LuckyDrawDetail = () => {
     const [remainingTime, setRemainingTime] = useState("");
     const navigate = useNavigate();
 
-    const CLOUD_STORAGE_BASE_URL =
-        "https://kr.object.ncloudstorage.com/push/shooong/luckydraw";
+    const {exceptionHandler} = useCustomLogin();
 
     useEffect(() => {
         const fetchLuckyDraw = async () => {
@@ -34,25 +34,17 @@ const LuckyDrawDetail = () => {
         fetchLuckyDraw();
     }, [luckyId]);
 
-    const handleEnterClick = async () => {
+    const handleEnterClick = async (event) => {
         try {
-            const userInfo = getCookie("user");
-
-            if (!userInfo || !userInfo.accessToken) {
-                alert("로그인이 필요한 서비스입니다.");
-                navigate("/user/login");
-                return;
-            }
-
             const data = await enterLuckyDraw(luckyId);
             console.log("Enter response:", data);
 
             alert("응모가 완료되었습니다.");
             navigate("/luckydraw");
         } catch (error) {
-            setError("응모 중 오류가 발생했습니다.");
-            alert(error.message);
-            navigate(0);
+            exceptionHandler(error);
+            // setError("응모 중 오류가 발생했습니다.");
+            // navigate(0);
         }
     };
 
@@ -120,7 +112,7 @@ const LuckyDrawDetail = () => {
             <div className="lucky-detail flex row-direction">
                 <div className="img-box w50p">
                     <div className="pos-sticky">
-                        <p><img src={CLOUD_STORAGE_BASE_URL + luckyDraw.luckyImage}  alt="왜 안나와"/></p>
+                        <p><img src={`${CLOUD_STORAGE_BASE_URL}/luckydraw${luckyDraw.luckyImage}`}  alt="왜 안나와"/></p>
                     </div>
                 </div>
 

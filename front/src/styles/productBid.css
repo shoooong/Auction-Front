@@ -1,0 +1,410 @@
+.product_bid_page {
+    margin: 0 auto;
+    color: black;
+    max-width: 780px;
+    padding: 20px 40px 160px;
+}
+
+.bid_form {
+    background-color: #f4f4f4;
+}
+
+.product_info_area {
+    padding: 32px;
+}
+
+.product_info {
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox  */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+.product_info .product {
+    border-radius: 10px;
+    flex-shrink: 0;
+    height: 80px;
+    padding-top: 0;
+    width: 80px;
+    background-color: rgb(244, 244, 244);
+    overflow: hidden;
+}
+
+.product_info .product_img {
+    width: 100%;
+}
+
+.product_detail {
+    flex: 1;
+    overflow: hidden;
+    padding-left: 16px;
+}
+
+.product_detail .model_number {
+    display: block;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.product_detail .model_title {
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 1px;
+}
+
+.product_detail .model_desc {
+    align-items: start;
+    display: flex;
+    gap: 14px;
+    justify-content: space-between;
+    margin-top: 7px;
+}
+
+.price_box {
+    padding: 0 32px 32px;
+}
+
+.price_box .price_list {
+    align-items: center;
+    border-top: 1px solid #ebebeb;
+    display: flex;
+    padding-bottom: 22px;
+    padding-top: 28px;
+}
+
+.price_list .list_item {
+    flex: 1;
+    text-align: center;
+}
+.price_list .list_item:first-child {
+    border-right: 2px solid #ebebeb;
+}
+
+.price_list .title {
+    color: rgba(34, 34, 34, 0.5);
+    font-size: 12px;
+    letter-spacing: -0.06px;
+    line-height: 14px;
+}
+
+.price_list .price,
+.price_list .unit {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 24px;
+    vertical-align: top;
+}
+
+.instant_group {
+    margin: 0;
+    padding: 0;
+}
+
+.tab_area {
+    position: relative;
+}
+
+.tab_area.buy_tab .tab_list,
+.tab_area.sell_tab .tab_list {
+    border: 1px solid #ebebeb;
+    border-radius: 80px;
+    margin-bottom: 27px;
+    display: flex;
+    justify-content: center;
+}
+
+.tab_area.buy_tab .item,
+.tab_area.sell_tab .item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    border-radius: 80px;
+}
+
+.tab_area.buy_tab .item.on,
+.tab_area.sell_tab .item.on {
+    background-color: #ef6253;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 80px;
+}
+
+.tab_area.sell_tab .item.on {
+    background-color: green;
+}
+
+.tab_area.buy_tab .item.on .item_link,
+.tab_area.sell_tab .item.on .item_link {
+    background-color: inherit;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 80px;
+}
+
+.tab_area.buy_tab .item .item_link,
+.tab_area.sell_tab .item .item_link {
+    border-radius: 80px;
+    color: rgba(34, 34, 34, 0.8);
+    font-size: 14px;
+    letter-spacing: 0.15px;
+    padding: 14px 0;
+    display: block;
+    text-align: center;
+}
+
+.price_now {
+    margin: 0;
+    padding: 0;
+}
+
+.price_now_box {
+    border-bottom: 2px solid #ebebeb;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}
+
+.price_now_title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.21px;
+    min-width: 63px;
+    padding-left: 35px;
+}
+
+.bid_price {
+    align-items: center;
+    display: flex;
+    margin-top: 15px;
+}
+
+input.input_amount {
+    font-size: 20px;
+    font-style: normal;
+    margin-right: 10px;
+}
+
+.input_amount {
+    border-width: 0;
+    box-sizing: border-box;
+    font-weight: 600;
+    letter-spacing: normal;
+    line-height: 26px;
+    max-width: 200px;
+    overflow: visible;
+    text-align: right;
+}
+
+input,
+textarea {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+    padding: 0;
+    resize: none;
+}
+
+.price > .unit {
+    font: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 26px;
+    padding-left: 2px;
+}
+
+.price_bind > .price_bind_empty {
+    color: rgba(34, 34, 34, 0.5);
+    font-size: 14px;
+    padding-top: 10px;
+    padding-left: 35px;
+    padding-bottom: 50px;
+}
+
+.deadline_info_area {
+    margin-top: 30px;
+    padding: 32px;
+}
+
+.section-title {
+    padding-bottom: 16px;
+}
+
+.section-title > .title_text {
+    font-size: 14px;
+    letter-spacing: -0.21px;
+}
+
+.section-content {
+    margin: 0;
+    padding: 0;
+}
+
+.deadline_info_area .bid_deadline {
+    margin-top: -3px;
+}
+
+.deadline_txt {
+    font-size: 15px;
+    letter-spacing: -0.15px;
+}
+
+.deadline_info_area .deadline_tab {
+    margin-top: 7px;
+}
+
+.deadline_tab {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deadline_tab .btn.is_active {
+    background-color: #fff;
+    border: 1px solid #222;
+    color: #222;
+    font-weight: 700;
+}
+
+.deadline_tab .btn {
+    flex: 1;
+    white-space: nowrap;
+}
+
+.medium {
+    border-radius: 12px;
+    font-size: 14px;
+    height: 42px;
+    letter-spacing: -0.14px;
+    padding: 0 18px;
+}
+
+.deadline_tab .btn + .btn {
+    margin-left: 4px;
+}
+
+.deadline_tab > .btn {
+    align-items: center;
+    background-color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.buy_total_confirm {
+    border-top: 1px solid #ebebeb;
+    padding: 0 32px 32px;
+}
+
+.price_total {
+    padding-bottom: 12px;
+    padding-top: 16px;
+}
+
+.price_total > .price_box {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.price_box > .price_title {
+    font-size: 13px;
+    letter-spacing: -0.07px;
+}
+
+.price_box.price_empty .price_empty_desc {
+    color: rgba(34, 34, 34, 0.5);
+}
+
+.blind,
+.u_skip {
+    clip: rect(0, 0, 0, 0) !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    width: 1px !important;
+}
+
+.btn_confirm.btn {
+    font-weight: 600;
+}
+
+.solid.disabled .solid:disabled {
+    background-color: #ebebeb;
+    color: #fff;
+    cursor: default;
+}
+
+.full {
+    border-radius: 80px; /* 변경 */
+    font-size: 16px;
+    font-weight: 700;
+    height: 52px;
+    letter-spacing: -0.16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn_confirm.btn {
+    align-items: center;
+    background-color: #fff;
+    color: rgba(34, 34, 34, 0.8);
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.button {
+    appearance: none;
+    background: none;
+    border: 0;
+    outline: none;
+    padding: 0;
+}
+
+/* 버튼 스타일 추가 */
+.bid_confirm .btn {
+    border-radius: 80px;
+    background-color: #ef6253;
+    color: #fff;
+    font-weight: 700;
+}
+
+.bid_confirm .btn.disabled {
+    background-color: #ebebeb;
+    color: #fff;
+    cursor: default;
+}
+
+.bid_confirm .btn.full {
+    width: 100%;
+    height: 52px;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: -0.16px;
+    border-radius: 80px;
+}
+
+/* 판매 경로에서의 스타일 */
+.sell_form .bid_confirm .btn.full.solid {
+    background-color: green;
+    color: #fff;
+}

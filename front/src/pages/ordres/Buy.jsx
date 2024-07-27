@@ -3,44 +3,91 @@ import postImg from "assets/images/icon-post.png";
 import tossImg from "assets/images/icon-toss.png";
 import arrowImg from "assets/images/arrow2.svg";
 import "styles/order.css";
-import useOrder from "hooks/useOrder";
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
 import { Button, Box, Dialog, DialogTitle } from "@mui/material";
-import useUserCoupon from "hooks/useUserCoupon";
+import { useLocation } from "react-router-dom";
 // import Event from "pages/user/mypage/CouponMain";
 import OrderCouponComponent from "components/OrderCouponComponent";
+import jwtAxios from "pages/user/jwtUtil";
+import useBid from "hooks/useBid";
 // import Postcode from "components/mypage/Postcode";
 // ------  SDK 초기화 ------
 
 // import useAddress from "hooks/useAddress";
-import { getCookie } from "pages/user/cookieUtil";
 
 const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 const customerKey = "HOytG9DDEHHgTxwNS0YWT";
 
 export default function Buy() {
-    const { coupons } = useUserCoupon();
+    const location = useLocation();
+    const bidData = location.state || {
+        productId: 1,
+        bidPrice: 128000,
+        selectedDays: 30,
+    };
+    console.log("data====" + bidData);
+    console.log("jasn===" + JSON.stringify(bidData, null, 2));
+
+    const { product, addressInfo } = useBid(bidData);
+    console.log("product===" + product);
+    const [orderData, setOrderData] = useState({
+        productId: 0,
+        couponId: 0,
+        addressId: 0,
+        price: 0,
+        exp: 90,
+    });
+    console.log("useBid==" + product);
+    // const { coupons } = useUserCoupon();
     const [selectedCoupon, setSelectedCoupon] = useState(null);
     const [couponAmount, setCouponAmount] = useState(0);
+    const [couponDiscount, setCouponDiscount] = useState(0);
+    const [couponDiscountType, setCouponDiscountType] = useState(null);
     // const { handleCancel, isAdding, selectedAddress, handleSave } =
     //     useAddress();
     const [payment, setPayment] = useState(null);
     const [amount, setAmount] = useState({
         currency: "KRW",
-        value: 50000,
+        value: 0,
     });
 
     const [open, setOpen] = useState(false);
+    const [fee, setFee] = useState(0);
     // const [open2, setOpen2] = useState(false);
 
-    const { buyingBidding, addressInfo } = useOrder();
+    // const { buyingBidding, addressInfo } = useOrder(bidData);
 
+    // console.log("buyingBidding===" + buyingBidding);
     const handleSelectCoupon = (coupon) => {
         setSelectedCoupon(coupon);
         setCouponAmount(coupon.amount);
+        setCouponDiscountType(coupon.discountType);
         setOpen(false); // 쿠폰 팝업 닫기
+        console.log(coupon);
     };
+
+    // useEffect(() => {
+    //     console.log("Received data in Buy component:", bidData);
+    // }, [bidData]);
+
+    useEffect(() => {
+        if (addressInfo && product) {
+            const calculatedFee = bidData?.bidPrice * 0.04;
+            console.log("calculatedFee=" + calculatedFee);
+            setFee(Math.floor(calculatedFee / 10) * 10);
+            setOrderData((prevData) => ({
+                ...prevData,
+                addressId: addressInfo?.addressId,
+                productId: bidData?.productId,
+                couponId: selectedCoupon?.coupon.couponId,
+                price: bidData?.bidPrice - fee,
+                exp: bidData?.selectedDays,
+            }));
+        }
+    }, [addressInfo, product]);
+
+    console.log("orderData===" + orderData);
     // SDK 초기화 및 결제 객체 설정
     useEffect(() => {
         async function fetchPayment() {
@@ -58,20 +105,48 @@ export default function Buy() {
         fetchPayment();
     }, []);
 
-    const immediateBuyPrice = buyingBidding?.buyingBiddingPrice || 0;
+    const immediateBuyPrice = parseInt(bidData?.bidPrice) || 0;
     const deliveryFee = 3000;
-    const fee = 8000;
+
     const calculateTotalAmount = () => {
-        const total = immediateBuyPrice + deliveryFee + fee - couponAmount;
-        return total > 0 ? total : 0; // 총 결제 금액이 음수일 수 없으므로 0으로 설정
+        let total = immediateBuyPrice + deliveryFee + fee;
+
+        // 쿠폰 타입이 PERCENT인 경우
+        if (couponDiscountType === "PERCENT") {
+            // 쿠폰 금액을 퍼센트로 적용
+            const discount = (total * couponAmount) / 100;
+            total -= discount;
+        } else {
+            // 쿠폰 타입이 FIXED인 경우 (예: 고정 금액 할인)
+            const discount = couponAmount;
+            total -= discount;
+        }
+
+        // 총 금액이 0보다 작으면 0으로 설정
+        total = total > 0 ? total : 0;
+
+        return Math.round(total);
     };
     useEffect(() => {
         setAmount({
             currency: "KRW",
             value: calculateTotalAmount(),
         });
-    }, [couponAmount, buyingBidding?.buyingBiddingPrice]);
+    }, [couponDiscountType, couponAmount, bidData?.bidPrice]);
 
+    async function saveOrderData() {
+        try {
+            const response = await jwtAxios.post(
+                `bid/buyingBidding/register`, // 주문 정보를 저장하는 API 엔드포인트
+                orderData
+            );
+            return response.data; // 서버에서 반환한 주문 ID
+        } catch (error) {
+            console.error("Error saving order data:", error);
+            throw error; // 오류가 발생하면 결제 요청을 진행하지 않음
+        }
+    }
+    // console.log(couponDiscountType?.discountType);
     // 결제 요청 함수
     async function requestPayment() {
         if (!payment) {
@@ -80,10 +155,15 @@ export default function Buy() {
         }
 
         try {
+            console.log("111" + orderData);
+            const orderId = await saveOrderData();
+            console.log("ordId.od====" + orderId.orderId);
+            console.log("odrId====" + JSON.stringify(orderId, null, 2));
             await payment.requestPayment({
                 method: "CARD",
                 amount: amount,
-                orderId: "Zi9UdirQdheViE-1c0oca",
+                orderId: "Zi9UdirQdheViE-1c0oca1" + orderId,
+                // orderId: "Zi9UdirQdheViE-orderId" + orderId,
                 orderName: "토스 티셔츠 외 2건",
                 successUrl: window.location.origin + "/success",
                 failUrl: window.location.origin + "/fail",
@@ -112,17 +192,11 @@ export default function Buy() {
                         </div>
                         <div className="product_detail">
                             <p className="product_model_number bold_title">
-                                {buyingBidding?.product.modelNum}
+                                {product?.modelNum}
                             </p>
-                            <p className="model_eng">
-                                {buyingBidding?.product.productName}
-                            </p>
-                            <p className="model_kor">
-                                {buyingBidding?.product.productName}
-                            </p>
-                            <p className="size_txt">
-                                {buyingBidding?.product.productSize}
-                            </p>
+                            <p className="model_eng">{product?.productName}</p>
+                            <p className="model_kor">{product?.productName}</p>
+                            <p className="size_txt">{product?.productSize}</p>
                         </div>
                     </div>
                 </div>
@@ -159,11 +233,21 @@ export default function Buy() {
                                                 배송 주소
                                             </dt>
                                             <dd className="desc">
-                                                ({addressInfo?.zonecode}
-                                                )&nbsp;
-                                                {addressInfo?.roadAddress}
-                                                &nbsp;
-                                                {addressInfo?.detailAddress}
+                                                {addressInfo ? (
+                                                    <>
+                                                        ({addressInfo.zonecode}
+                                                        )&nbsp;
+                                                        {
+                                                            addressInfo.roadAddress
+                                                        }
+                                                        &nbsp;
+                                                        {
+                                                            addressInfo.detailAddress
+                                                        }
+                                                    </>
+                                                ) : (
+                                                    "등록된 배송지가 없습니다. 배송지를 추가해주세요"
+                                                )}
                                             </dd>
                                         </div>
                                     </dl>
@@ -176,7 +260,7 @@ export default function Buy() {
                             </div>
                             <div className="">
                                 <div className="memo_box border_box">
-                                    <button class="btn_shipping_memo ">
+                                    <button className="btn_shipping_memo ">
                                         <span className="shipping_memo">
                                             요청사항 없음
                                         </span>
@@ -184,7 +268,7 @@ export default function Buy() {
                                     <img src={arrowImg} alt="" />
                                 </div>
                             </div>
-                            <div class="border_line"></div>
+                            <div className="border_line"></div>
                         </div>
                     </div>
                     <div className="delivery_delivery_type_info">
@@ -195,7 +279,7 @@ export default function Buy() {
                                     <div className="way_icon">
                                         <img
                                             src={postImg}
-                                            class="way_img"
+                                            className="way_img"
                                         ></img>
                                     </div>
                                     <div className="way_desc flex_space">
@@ -258,8 +342,7 @@ export default function Buy() {
                         <div className="order_item">
                             <p className="desc">즉시 구매가</p>
                             <p className="desc bold">
-                                {buyingBidding?.buyingBiddingPrice.toLocaleString()}
-                                원
+                                {Number(bidData?.bidPrice).toLocaleString()}원
                             </p>
                         </div>
                         <div className="order_item">
@@ -268,7 +351,7 @@ export default function Buy() {
                         </div>
                         <div className="order_item">
                             <p className="sub_text">수수료</p>
-                            <p className="desc">8,000원</p>
+                            <p className="desc">{fee.toLocaleString()}원</p>
                         </div>
                         <div className="order_item">
                             <p className="sub_text">배송비</p>
@@ -276,9 +359,14 @@ export default function Buy() {
                         </div>
                         <div className="order_item">
                             <p className="sub_text">쿠폰 사용</p>
-                            <p className="coupon_use desc">
+                            {/* <p className="coupon_use desc">
                                 {couponAmount > 0
                                     ? `-${couponAmount.toLocaleString()}원`
+                                    : "-"}
+                            </p> */}
+                            <p className="coupon_use desc">
+                                {couponDiscount > 0
+                                    ? `-${couponDiscount.toLocaleString()}원`
                                     : "-"}
                             </p>
                         </div>

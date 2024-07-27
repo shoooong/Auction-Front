@@ -22,6 +22,10 @@ export default function Header() {
     // 알람
     const [alarmOpen, setAlarmOpen] = useState(false);
 
+    if (!loginState) {
+        return null; // loginState가 아직 정의되지 않았을 때 null 반환
+    }
+
     return (
         <>
             <div className="container">

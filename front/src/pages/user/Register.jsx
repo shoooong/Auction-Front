@@ -40,19 +40,23 @@ const RegisterPage = () => {
 
 
     const handleChange = ({ target: { name, value } }) => {
-        if (name === "email") {
-            setEmailError(!emailRegExp.test(value));
+        switch (name) {
+            case "email":
+                setEmailError(!emailRegExp.test(value));
+                break;
+            case "password":
+                setPasswordError(!passwordRegExp.test(value));
+                break;
+            case "nickname":
+                setNicknameError(value.length > 10);
+                break;
+            case "phoneNum":
+                setPhoneNumError(!phoneNumRegExp.test(value));
+                break;
+            default:
+                break;
         }
-        if (name === "password") {
-            setPasswordError(!passwordRegExp.test(value));
-        }
-        if (name === "nickname") {
-            setNicknameError(value.length > 10);
-        }
-        if (name === "phoneNum") {
-            setPhoneNumError(!phoneNumRegExp.test(value));
-        }
-
+    
         setRegisterParam((prev) => ({ ...prev, [name]: value }));
     };
 
@@ -73,8 +77,8 @@ const RegisterPage = () => {
                 moveToPath('/user/login');
             }
         } catch (error) {
-            console.error("Registration failed: ", error);
-            alert("회원 가입 오류입니다. 다시 시도해주세요.");
+            const errorMessage = error.response?.data?.error || "회원 가입 오류입니다. 다시 시도해주세요.";
+            alert(errorMessage);
         }
     };
 

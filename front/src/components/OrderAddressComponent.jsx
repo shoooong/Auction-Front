@@ -32,7 +32,12 @@ const fetchData = async (setAddresses, setLoading, navigate) => {
     setLoading(false);
 };
 
-const OrderAddressComponent = ({ onSelectAddress }) => {
+const OrderAddressComponent = ({
+    userAddress,
+    setUserAddress,
+    addressOpen,
+    setAddressOpen,
+}) => {
     const [addresses, setAddresses] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
@@ -137,6 +142,10 @@ const OrderAddressComponent = ({ onSelectAddress }) => {
         setOpen(false);
     };
 
+    const handleAddressSelect = (address) => {
+        setSelectedAddress(address);
+        setUserAddress(address); // Pass the selected address to the parent component
+    };
     return (
         <div className="address-management">
             <div className="detail-history-title">
@@ -183,7 +192,18 @@ const OrderAddressComponent = ({ onSelectAddress }) => {
                                 {address.detailAddress}
                             </p>
                         </div>
+
                         <div className="address-actions">
+                            <button
+                                type="button"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAddressSelect(address);
+                                    setAddressOpen(false);
+                                }}
+                            >
+                                선택
+                            </button>
                             <button
                                 type="button"
                                 onClick={() => {
@@ -198,6 +218,7 @@ const OrderAddressComponent = ({ onSelectAddress }) => {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleDeleteAddress(address.addressId);
+                                    handleAddressSelect("");
                                 }}
                             >
                                 삭제

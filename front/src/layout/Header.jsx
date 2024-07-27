@@ -9,7 +9,14 @@ import { checkAuthAsync, logoutPostAsync } from "store/slices/loginSlice";
 
 export default function Header() {
     const dispatch = useDispatch();
-    const loginState = useSelector((state) => state.login);
+    const loginState = useSelector((state) => state.login) || {
+        email: '',
+        password: '',
+        nickname: '',
+        phoneNum: '',
+        profileImg: '',
+        isLogin: false,
+    };
 
     useEffect(() => {
         dispatch(checkAuthAsync());

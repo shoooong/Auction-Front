@@ -127,7 +127,6 @@ const AdminProducts = () => {
 
   //해당 row 의 모델 번호를 parameter로 AdminProductDetailed에 전달
   const handleRowClick = (row) => {
-    alert("상품상세정보 페이지로 이동");
     navigate(`/admin/product/${row.modelNum}`);
     console.log(row.modelNum);
   };

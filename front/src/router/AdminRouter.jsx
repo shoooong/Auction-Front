@@ -16,7 +16,7 @@ import LuckyDrawRegister from "pages/serviceCenter/notice/LuckyDrawRegister";
 const AdminRouter = () => {
   return [
     {
-      path: "login",
+      path: "",
       element: <AdminMain />,
     },
     {

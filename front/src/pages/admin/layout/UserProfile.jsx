@@ -10,7 +10,8 @@ const UserProfile = () => {
 
   const isLoggedIn = !!loginState.email;
 
-  const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong";
+  const CLOUD_STORAGE_BASE_URL =
+    "https://kr.object.ncloudstorage.com/push/shooong";
 
   return (
     <Box className="row-direction admin-profile-container">
@@ -29,11 +30,11 @@ const UserProfile = () => {
       </Box>
       <Box className="link-container text-right align-center">
         {!loginState.email ? (
-          <Link to="/admin/login" className="login-link">
+          <Link to="/admin" className="login-link">
             로그인
           </Link>
         ) : (
-          <Link to="/admin/login" onClick={doLogout} className="login-link">
+          <Link to="/admin" onClick={doLogout} className="login-link">
             로그아웃
           </Link>
         )}

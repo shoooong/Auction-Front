@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import jwtAxios from 'pages/user/jwtUtil';
 
 const AdminInquiryDetail = ({ inquiryId }) => {
@@ -7,6 +8,8 @@ const AdminInquiryDetail = ({ inquiryId }) => {
   const [error, setError] = useState(null);
   const [response, setResponse] = useState('');
   const [responseStatus, setResponseStatus] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchInquiry();
@@ -33,6 +36,9 @@ const AdminInquiryDetail = ({ inquiryId }) => {
       setResponseStatus('답변이 성공적으로 등록되었습니다.');
       fetchInquiry();
       setResponse('');
+      setTimeout(() => {
+        navigate('/admin/inquiry');
+      },);
     } catch (error) {
       console.error('Error submitting response:', error);
       setResponseStatus('답변 등록에 실패했습니다. 다시 시도해주세요.');
@@ -57,7 +63,7 @@ const AdminInquiryDetail = ({ inquiryId }) => {
       <p><strong>ID:</strong> {inquiry.inquiryId}</p>
       <p><strong>제목:</strong> {inquiry.inquiryTitle}</p>
       <p><strong>내용:</strong> {inquiry.inquiryContent}</p>
-      <p><strong>작성자:</strong> {inquiry.userId}</p>
+      <p><strong>작성자:</strong> {inquiry.nickName || inquiry.userId}</p>
       <p><strong>작성일:</strong> {new Date(inquiry.createdDate).toLocaleString()}</p>
       <p><strong>상태:</strong> {extractedResponse ? '답변 완료' : '답변 대기'}</p>
 

@@ -34,10 +34,10 @@ const FeedBookmarks = () => {
                     >
                         <img 
                             src={`${CLOUD_STORAGE_BASE_URL}${feed.feedImage}`} 
-                            alt={`Feed ${feed.feedId}`} 
+                            alt={`Feed ${feed.feedTitle}`} 
                         />
                         <h3>{feed.feedTitle}</h3>
-                        <p>Feed ID: {feed.feedId}</p>
+                        <p>작성자: {feed.nickName}</p> {/* Nickname을 표시 */}
                     </Link>
                 ))
             )}

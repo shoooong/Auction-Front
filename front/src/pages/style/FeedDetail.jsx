@@ -8,7 +8,7 @@ const FeedDetail = () => {
   const [feed, setFeed] = useState(null);
   const [error, setError] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
-  const [isSaved, setIsSaved] = useState(false); // Track save state
+  const [isSaved, setIsSaved] = useState(false);
   const { id } = useParams();
 
   const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
@@ -66,13 +66,12 @@ const FeedDetail = () => {
       <img src={feed.feedImage} alt={feed.feedTitle} className="feed-detail-image" />
       <div className="feed-detail-info">
         <h2>{feed.feedTitle}</h2>
-        <p className="username">@{feed.userId ? `User ${feed.userId}` : 'Unknown'}</p>
+        <p className="username">{feed.nickName || 'Unknown'}</p> {/* Updated to display nickName */}
         <p className="likes">❤️ {feed.likeCount}</p>
         <p className="description">{feed.feedContent}</p>
         <button onClick={handleLikeClick} className="like-button">
           ❤️ {isLiked ? 'Liked' : 'Like'}
         </button>
-        {/* New Save button */}
         <button onClick={handleSaveClick} className="save-button">
           💾 {isSaved ? 'Saved' : 'Save'}
         </button>

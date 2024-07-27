@@ -29,12 +29,11 @@ const InquiryDetail = ({ inquiryId }) => {
 
   const { inquiryTitle, inquiryContent, createdDate, response } = inquiry;
 
-  // Extract only the actual response text
   let answer = '답변 대기 중';
   if (response) {
     const match = response.match(/response=([^,\])]*)/);
     if (match) {
-      answer = match[1].replace(/[)\]]/, ''); // Remove any trailing ')' or ']'
+      answer = match[1].replace(/[)\]]/, '');
     }
   }
 

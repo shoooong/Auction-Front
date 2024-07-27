@@ -17,7 +17,7 @@ const FeedList = () => {
                 const response = await axios.get(`${SERVER_URL}/feedList`);
                 const data = response.data.map((feed) => ({
                     id: feed.feedId,
-                    username: feed.userId ? `User ${feed.userId}` : "Unknown",
+                    username: feed.nickName, // Use nickName instead of userId
                     image: `${CLOUD_STORAGE_BASE_URL}${feed.feedImage}`,
                     description: feed.feedTitle,
                     likes: feed.likeCount,

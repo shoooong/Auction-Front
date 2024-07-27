@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { loginPost, logoutPost, unregisterUser, checkAuth } from "../../api/user/userApi";
 
-// 초기 상태 설정
 const initState = {
     email: '',
     password: '',
@@ -11,31 +10,26 @@ const initState = {
     isLogin: false,
 };
 
-// 인증 상태 확인 비동기 작업 생성
 export const checkAuthAsync = createAsyncThunk('checkAuthAsync', async () => {
     const response = await checkAuth();
     return response.data;
 });
 
-// 로그인 비동기 작업 생성
 export const loginPostAsync = createAsyncThunk('loginPostAsync', async (param) => {
     const response = await loginPost(param);
     return response.data;
 });
 
-// 로그아웃 비동기 작업 생성
 export const logoutPostAsync = createAsyncThunk('logoutPostAsync', async () => {
     const response = await logoutPost();
     return response.data;
 });
 
-// 사용자 탈퇴 비동기 작업 생성
 export const unregisterUserAsync = createAsyncThunk('unregisterUserAsync', async () => {
     const response = await unregisterUser();
     return response.data;
 });
 
-// 로그인 슬라이스 생성
 const loginSlice = createSlice({
     name: 'LoginSlice',
     initialState: initState,
@@ -43,55 +37,56 @@ const loginSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(checkAuthAsync.fulfilled, (state, action) => {
-                console.log("checkAuth fulfilled");
-
                 const payload = action.payload;
 
                 if (!payload.error) {
                     return { ...state, ...payload, isLogin: true };
                 } else {
-                    return { ...state, isLogin: false };
+                    return { ...initState };
                 }
             })
             .addCase(loginPostAsync.fulfilled, (state, action) => {
-                console.log("loginPost fulfilled");
-
                 const payload = action.payload;
 
                 if (!payload.error) {
                     return { ...state, ...payload, isLogin: true };
                 } else {
-                    return { ...state, isLogin: false };
+                    return { ...initState };
                 }
             })
-            .addCase(loginPostAsync.pending, () => {
+            .addCase(loginPostAsync.pending, (state) => {
                 console.log("loginPost pending");
+                return state;
             })
-            .addCase(loginPostAsync.rejected, () => {
+            .addCase(loginPostAsync.rejected, (state) => {
                 console.log("loginPost rejected");
+                return state;
             })
             .addCase(logoutPostAsync.fulfilled, () => {
                 console.log("logoutPost fulfilled");
                 return { ...initState };
             })
-            .addCase(logoutPostAsync.pending, () => {
+            .addCase(logoutPostAsync.pending, (state) => {
                 console.log("logoutPost pending");
+                return state;
             })
-            .addCase(logoutPostAsync.rejected, () => {
+            .addCase(logoutPostAsync.rejected, (state) => {
                 console.log("logoutPost rejected");
+                return state;
             })
             .addCase(unregisterUserAsync.fulfilled, () => {
                 console.log("unregisterUser fulfilled");
                 return { ...initState };
             })
-            .addCase(unregisterUserAsync.pending, () => {
+            .addCase(unregisterUserAsync.pending, (state) => {
                 console.log("unregisterUser pending");
+                return state;
             })
-            .addCase(unregisterUserAsync.rejected, () => {
+            .addCase(unregisterUserAsync.rejected, (state) => {
                 console.log("unregisterUser rejected");
+                return state;
             });
     }
 });
 
-// 슬라이스 리듀서 내보내기
 export default loginSlice.reducer;

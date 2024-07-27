@@ -102,3 +102,13 @@ export const registerAdmin = async (userData, file) => {
     throw error;
   }
 };
+
+export const findEmail = async (userFindEmailReqDto) => {
+  try {
+    const res = await axios.post(`${SERVER_URL}/user/findEmail`, userFindEmailReqDto);
+    return res.data;
+  } catch (error) {
+    console.error("axios findEmail error...", error);
+    throw error;
+  }
+}

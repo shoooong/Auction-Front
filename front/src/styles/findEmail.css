@@ -1,0 +1,45 @@
+.instruction-container {
+    margin: 50px 0;
+}
+
+.instruction-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--black);
+}
+
+.instruction-container p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.email-result-container {
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.email-result-header {
+    font-size: 14px;
+    font-weight: var(--semibold);
+    margin: 20px 0 10px;
+    color: var(--black);
+}
+
+.email-result-email {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.email-result-email span {
+    font-weight: var(--medium);
+}
+
+.error-message {
+    color: rgb(200, 0, 0);
+    margin: 20px 0;
+}

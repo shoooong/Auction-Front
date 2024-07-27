@@ -3,8 +3,8 @@ import { Suspense, lazy } from "react";
 const Loading = <div>Loading...</div>;
 const Login = lazy(() => import("pages/user/Login"));
 const KakaoRedirect = lazy(() => import("pages/user/KakaoRedirect"));
-const UserModify = lazy(() => import("pages/user/mypage/Modify"));
 const Register = lazy(() => import("pages/user/Register"));
+const FindEmail = lazy(() => import("pages/user/FindEmail"));
 
 const userRouter = () => {
     return [
@@ -25,13 +25,14 @@ const userRouter = () => {
             ),
         },
         {
-            path: "mypage/modify",
+            path: "findEmail",
             element: (
                 <Suspense fallback={Loading}>
-                    <UserModify />
+                    <FindEmail />
                 </Suspense>
             ),
-        },{
+        },
+        {
             path: "register",
             element: (
                 <Suspense fallback={Loading}>

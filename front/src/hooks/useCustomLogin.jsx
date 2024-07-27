@@ -16,6 +16,8 @@ const useCustomLogin = () => {
     const doLogin = async (loginParam) => {
         try {
             const action = await dispatch(loginPostAsync(loginParam));
+            console.log(action);
+            console.log(action.payload);
             return action.payload;
         } catch (error) {
             console.error('Login failed:', error);

@@ -30,6 +30,7 @@ const LoginPage = () => {
 
     try {
         const data = await doLogin(loginParam);
+        console.log(loginParam);
         console.log(data);
 
         if (!data) {

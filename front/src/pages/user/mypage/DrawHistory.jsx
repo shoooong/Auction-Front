@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "pages/user/cookieUtil";
+
+import { StatusDisplay } from "../mypageUtil";
 import { getDrawHistory } from "api/user/mypageApi";
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 
@@ -12,14 +13,6 @@ const DrawHistory = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const userInfo = getCookie("user");
-
-            if (!userInfo || !userInfo.accessToken) {
-                alert('로그인이 필요한 서비스입니다.');
-                navigate('/user/login');
-                return;
-            }
-
             try {
                 const response = await getDrawHistory();
                 setDrawHistory(response);
@@ -63,7 +56,7 @@ const DrawHistory = () => {
                                 <p>{draw.luckySize}</p>
                             </div>
                             <p className="draw-date">{formatDate(draw.luckyDate)}</p>
-                            <p className="draw-status">{draw.luckyStatus}</p>
+                            <StatusDisplay status={draw.luckyStatus} />
                         </div>
                     ))
                 ) : (

@@ -55,6 +55,30 @@ export const getStatusText = (status) => {
     }
 };
 
+// 응모 내역
+const getLuckyStatusText = (status) => {
+    switch (status) {
+        case 'PROCESS': return { text: '진행 중', bold: false, color: 'inherit' };
+        case 'LUCKY': return { text: '당첨', bold: true, color: 'var(--primary)' };
+        case 'UNLUCKY': return { text: '미당첨', bold: false, color: 'inherit' };
+        default: return { text: status, bold: false, color: 'inherit' };
+    }
+};
+
+export const StatusDisplay = ({ status }) => {
+    const statusText = getLuckyStatusText(status);
+
+    return (
+        <span style={{ 
+            fontWeight: statusText.bold ? 'bold' : 'normal',
+            color: statusText.color
+        }}>
+            {statusText.text}
+        </span>
+    );
+};
+
+
 
 // 정규 표현식
 export const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!#%*?&])[A-Za-z\d@$#!%*?&]{8,}$/;

@@ -32,7 +32,7 @@ const AdminMain = () => {
         if (data.role === true) {
           moveToPath("/admin/request");
         } else {
-          moveToPath("/admin/login");
+          moveToPath("/admin");
           alert("관리자 권한이 없습니다.");
         }
       }

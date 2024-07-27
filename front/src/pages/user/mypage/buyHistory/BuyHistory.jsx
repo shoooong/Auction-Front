@@ -73,7 +73,7 @@ export default function BuyHistory() {
                                             <p>{buy.productSize}</p>
                                         </div>
                                         <p>{formatPrice(buy.orderPrice)}원</p>
-                                        <p>{getStatusText(buy.orderStatus)}</p>
+                                        <p>{getStatusText(buy.biddingStatus)}</p>
                                     </div>
                                  ))
                             ) : (

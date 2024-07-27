@@ -15,7 +15,6 @@ import icon3 from "assets/images/icon3.svg";
 import icon4 from "assets/images/icon4.svg";
 import icon5 from "assets/images/icon5.svg";
 import icon6 from "assets/images/icon6.svg";
-// import photo from "assets/images/myson.jpg";
 import banner from "assets/images/toss_banner.webp";
 // import BookmarkOff from "assets/images/bookmark-off.svg";
 // import BookmarkOn from "assets/images/bookmark-on.svg";
@@ -162,7 +161,7 @@ export default function MypageMain() {
                                         <p>{buy.productSize}</p>
                                     </div>
                                     <p>{formatPrice(buy.orderPrice)}원</p>
-                                    <p>{getStatusText(buy.orderStatus)}</p>
+                                    <p>{getStatusText(buy.biddingStatus)}</p>
                                 </div>
                             ))
                         ) : (

@@ -106,8 +106,12 @@ const AdminRequest = () => {
     : [];
   // 동적으로 pageSizeOptions 설정
   const pageSizeOptions = useMemo(() => {
-    return pageState.data.length === 0 ? [0] : [10, 30, 50, 70, 100];
-  }, [pageState.data.length]);
+    const options = [10, 30, 50, 70, 100];
+    if (!options.includes(pageState.pageSize)) {
+      options.push(pageState.pageSize);
+    }
+    return options;
+  }, [pageState.pageSize]);
 
   const handleRowClick = useCallback(
     (row) => {

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import jwtAxios from "../../../pages/user/jwtUtil";
 
 const LuckyDrawDetailPage = () => {
     const { luckyAnnouncementId } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+    const tab = query.get("tab") || "all"; // 현재 탭 상태 가져오기
     const [luckyDraw, setLuckyDraw] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -47,7 +50,7 @@ const LuckyDrawDetailPage = () => {
 
     const handleSave = async () => {
         try {
-            await jwtAxios.put(`/modifyAnnouncement/${luckyAnnouncementId}`, formData);
+            await jwtAxios.put(`/admin/luckyDrawAnnouncement/${luckyAnnouncementId}`, formData);
             setLuckyDraw(formData);
             setIsEditing(false);
         } catch (error) {
@@ -58,12 +61,16 @@ const LuckyDrawDetailPage = () => {
     const handleDelete = async () => {
         if (window.confirm("정말로 이 이벤트 공지사항을 삭제하시겠습니까?")) {
             try {
-                await jwtAxios.delete(`/deleteAnnouncement/${luckyAnnouncementId}`);
-                navigate("/admin/notice"); 
+                await jwtAxios.delete(`/admin/luckyDrawAnnouncement/${luckyAnnouncementId}`);
+                navigate(`/admin/notice?tab=${tab}`); // 탭 상태를 유지하면서 목록으로 이동
             } catch (error) {
                 setError("이벤트 공지사항을 삭제하는 데 실패했습니다.");
             }
         }
+    };
+
+    const handleBackToList = () => {
+        navigate(`/admin/notice?tab=${tab}`); // 탭 상태를 유지하면서 목록으로 이동
     };
 
     if (loading) return <div>로딩 중...</div>;
@@ -98,6 +105,7 @@ const LuckyDrawDetailPage = () => {
                     <button onClick={handleDelete}>삭제</button>
                 </div>
             )}
+            <button onClick={handleBackToList}>목록으로 이동</button>
         </div>
     );
 };

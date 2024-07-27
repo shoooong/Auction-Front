@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "../../../api/serverApi";
 
 const LuckyDrawDetailPage = () => {
     const { luckyAnnouncementId } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+    const tab = query.get("tab") || "all"; // 기본값은 "all"
+
     const [luckyDraw, setLuckyDraw] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -24,12 +29,18 @@ const LuckyDrawDetailPage = () => {
         fetchLuckyDraw();
     }, [luckyAnnouncementId]);
 
+    const handleBack = () => {
+        // 목록 페이지로 돌아갈 때 탭 정보 유지
+        navigate(`/service/notice?tab=${tab}`);
+    };
+
     if (loading) return <div>로딩 중...</div>;
     if (error) return <div>{error}</div>;
     if (!luckyDraw) return <div>이벤트 공지사항을 찾을 수 없습니다.</div>;
 
     return (
         <div className="lucky-draw-detail">
+            <button onClick={handleBack}>목록으로 돌아가기</button>
             <h2>{luckyDraw.luckyTitle}</h2>
             <p>{luckyDraw.createDate}</p>
             <div className="content">{luckyDraw.luckyContent}</div>

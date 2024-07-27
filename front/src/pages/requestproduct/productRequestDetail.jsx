@@ -33,14 +33,15 @@ const ProductRequestDetail = () => {
 
   const imageUrl = product.productImg ? `${CLOUD_STORAGE_BASE_URL}${product.productImg}` : '';
 
+  const statusText = product.productStatus === 'REJECTED' ? '반려' : '요청완료';
+
   return (
     <div className="product-detail">
       <h2>{product.productName}</h2>
       <p><strong>Brand:</strong> {product.productBrand}</p>
       <p><strong>Price:</strong> {product.originalPrice}</p>
       <p><strong>Size:</strong> {product.productSize}</p>
-      <p><strong>Status:</strong> {product.productStatus}</p>
-      <p><strong>Model Number:</strong> {product.modelNum}</p>
+      <p><strong>Status:</strong> {statusText}</p>
       <p><strong>Main Department:</strong> {product.mainDepartment}</p>
       <p><strong>Sub Department:</strong> {product.subDepartment}</p>
       {imageUrl && <img src={imageUrl} alt={product.productName} />}

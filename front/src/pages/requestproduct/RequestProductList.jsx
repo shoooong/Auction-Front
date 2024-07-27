@@ -27,14 +27,20 @@ const ProductRequestList = () => {
         <button>등록하기</button>
       </Link>
       <div className="request-list">
-        {requestProducts.map((product) => (
-          <Link to={`/service/request/${product.productId}`} key={product.productId}>
-            <div className="request-card">
-              <h3>{product.productName}</h3>
-              <p><strong>Brand:</strong> {product.productBrand}</p>
-            </div>
-          </Link>
-        ))}
+        {requestProducts.map((product) => {
+
+          const statusText = product.productStatus === 'REJECTED' ? '반려' : '요청완료';
+          
+          return (
+            <Link to={`/service/request/${product.productId}`} key={product.productId}>
+              <div className="request-card">
+                <h3>{product.productName}</h3>
+                <p><strong>Brand:</strong> {product.productBrand}</p>
+                <p><strong>Status:</strong> {statusText}</p>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

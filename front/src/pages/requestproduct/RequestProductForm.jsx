@@ -1,20 +1,27 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import jwtAxios from "pages/user/jwtUtil";
 import { SERVER_URL } from "../../api/serverApi";
 import { Link } from "react-router-dom";
 
-const RequestProductForm = ({ onSuccess }) => {
+const RequestProductForm = () => {
   const [productBrand, setProductBrand] = useState("");
   const [productName, setProductName] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
   const [mainDepartment, setMainDepartment] = useState("");
   const [subDepartment, setSubDepartment] = useState("");
   const [productSize, setProductSize] = useState("");
-  const [modelNum, setModelNum] = useState("");
   const [files, setFiles] = useState(null);
+
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 리다이렉션 처리
 
   const handleImageChange = (event) => {
     setFiles(event.target.files);
+  };
+
+  const handleMainDepartmentChange = (e) => {
+    setMainDepartment(e.target.value);
+    setSubDepartment(""); // Reset subDepartment on mainDepartment change
   };
 
   const handleSubmit = async (event) => {
@@ -26,7 +33,6 @@ const RequestProductForm = ({ onSuccess }) => {
     formData.append("mainDepartment", mainDepartment);
     formData.append("subDepartment", subDepartment);
     formData.append("productSize", productSize);
-    formData.append("modelNum", modelNum);
     if (files) {
       for (let i = 0; i < files.length; i++) {
         formData.append("files", files[i]);
@@ -40,7 +46,7 @@ const RequestProductForm = ({ onSuccess }) => {
         },
       });
       console.log("Product request submitted successfully:", response.data);
-      onSuccess();
+      navigate("/service/request"); 
     } catch (error) {
       if (error.response) {
         console.error("Error response:", error.response.data);
@@ -50,6 +56,19 @@ const RequestProductForm = ({ onSuccess }) => {
       } else {
         console.error("Error setting up request:", error.message);
       }
+    }
+  };
+
+  const getSubDepartmentOptions = () => {
+    switch (mainDepartment) {
+      case "clothes":
+        return ["top", "bottom", "outer", "shoes", "inner"];
+      case "life":
+        return ["interior", "kitchen", "beauty"];
+      case "tech":
+        return ["tech"];
+      default:
+        return [];
     }
   };
 
@@ -92,25 +111,38 @@ const RequestProductForm = ({ onSuccess }) => {
         </div>
         <div className="form-group">
           <label htmlFor="mainDepartment">상품 대분류:</label>
-          <input
-            type="text"
+          <select
             id="mainDepartment"
             value={mainDepartment}
-            onChange={(e) => setMainDepartment(e.target.value)}
+            onChange={handleMainDepartmentChange}
             required
-            placeholder="상품 대분류를 입력해주세요"
-          />
+          >
+            <option value="" disabled>
+              상품 대분류를 선택해주세요
+            </option>
+            <option value="clothes">clothes</option>
+            <option value="life">life</option>
+            <option value="tech">tech</option>
+          </select>
         </div>
         <div className="form-group">
           <label htmlFor="subDepartment">상품 소분류:</label>
-          <input
-            type="text"
+          <select
             id="subDepartment"
             value={subDepartment}
             onChange={(e) => setSubDepartment(e.target.value)}
             required
-            placeholder="상품 소분류를 입력해주세요"
-          />
+            disabled={!mainDepartment}
+          >
+            <option value="" disabled>
+              상품 소분류를 선택해주세요
+            </option>
+            {getSubDepartmentOptions().map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-group">
           <label htmlFor="productSize">제품 사이즈:</label>
@@ -121,17 +153,6 @@ const RequestProductForm = ({ onSuccess }) => {
             onChange={(e) => setProductSize(e.target.value)}
             required
             placeholder="제품 사이즈를 입력해주세요"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="modelNum">모델 번호:</label>
-          <input
-            type="text"
-            id="modelNum"
-            value={modelNum}
-            onChange={(e) => setModelNum(e.target.value)}
-            required
-            placeholder="모델 번호를 입력해주세요"
           />
         </div>
         <div className="form-group">

@@ -1,14 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import AdminNoticeTabs from "./AdminNoticeTabs";
 import AdminNoticeList from "./AdminNoticeList";
+import { Link } from "react-router-dom";
 
 const AdminNotice = () => {
-    const [activeTab, setActiveTab] = useState("all");
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+    const [activeTab, setActiveTab] = useState(query.get("tab") || "all");
+
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+    };
 
     return (
         <div>
-            <AdminNoticeTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <AdminNoticeTabs activeTab={activeTab} setActiveTab={handleTabChange} />
             <Link to="/admin/notice/register" className="create-notice-btn">
                 일반 공지사항 등록하기
             </Link>

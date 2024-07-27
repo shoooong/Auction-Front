@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "pages/user/cookieUtil";
 import { getUser, modifyUser } from "api/user/userApi";
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
-import { formatPhoneNumber, maskEmail, passwordRegExp, phoneNumRegExp } from "../mypageUtil";
+import { passwordRegExp, phoneNumRegExp } from "../mypageUtil";
 import useCustomLogin from "hooks/useCustomLogin";
 
 const initState = {
@@ -27,12 +27,6 @@ const ModifyPage = () => {
 
     useEffect(() => {
         const userInfo = getCookie("user");
-
-        if (!userInfo || !userInfo.accessToken) {
-            alert('로그인이 필요한 서비스입니다.');
-            navigate('/user/login');
-            return;
-        }
 
         const fetchData = async () => {
             try {
@@ -115,21 +109,21 @@ const ModifyPage = () => {
                 </div>
                 <div>
                     <div className="modify-nickname">
-                        <input name="nickname" type={'text'} placeholder="닉네임은 10자 이내로 입력해야 합니다." value={user.nickname} onChange={handleChange} />
+                        <input name="nickname" type={'text'} placeholder="닉네임은 10자 이내로 입력 가능합니다." value={user.nickname} onChange={handleChange} />
                     </div>
 
                     <div className="modify-email">
-                        <input name="email" type={'text'} value={maskEmail(user.email)} readOnly />
+                        <input name="email" type={'text'} value={user.email} readOnly />
                     </div>
                 </div>
             </div>
 
             <div className="profile-bottom-container">
                 <div className="modify-phone">
-                    <input name="phoneNum" type={'text'} placeholder="휴대폰 번호는 11자리 숫자만 입력 가능합니다." value={formatPhoneNumber(user.phoneNum)} onChange={handleChange} />
+                    <input name="phoneNum" type={'text'} placeholder="휴대폰 번호는 11자리 숫자만 입력 가능합니다." value={user.phoneNum} onChange={handleChange} />
                 </div>
                 <div className="modify-password">
-                    <input name="password" type={'password'} placeholder="비밀번호는 영문, 숫자, 특수 문자를 포함하여 8자 이상이어야 합니다." onChange={handleChange} />
+                    <input name="password" type={'password'} placeholder="(선택) 비밀번호는 영문, 숫자, 특수 문자를 포함하여 8자 이상이어야 합니다." onChange={handleChange} />
                 </div>
             </div>
 

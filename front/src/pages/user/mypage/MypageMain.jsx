@@ -78,14 +78,11 @@ export default function MypageMain() {
                     </div>
 
                     <div className="button-container">
-                        <Button
-                            className="medium-btn"
-                            onClick={() => navigate("/mypage/modify")}
-                        >
+                        <Button className="medium-btn" onClick={() => navigate("/mypage/modify")}>
                             <span className="black-label">프로필 관리</span>
                         </Button>
-                        <Button className="medium-btn">
-                            <span className="black-label">내 스타일</span>
+                        <Button className="medium-btn" onClick={() => navigate("/style")}>
+                            <span className="black-label">스타일</span>
                         </Button>
                     </div>
                 </div>
@@ -97,39 +94,23 @@ export default function MypageMain() {
                     <p>판매자 등급</p>
                 </div>
                 <div className="button">
-                    <img src={icon2} alt="쿠폰 아이콘" />
+                    <img src={icon2} alt="쿠폰 아이콘" onClick={() => navigate("/mypage/coupon")} />
                     <p>쿠폰 {couponCount}</p>
                 </div>
                 <div className="button">
-                    <img
-                        src={icon3}
-                        alt="배송지관리 아이콘"
-                        onClick={() => navigate("/mypage/delivery")}
-                    />
+                    <img src={icon3} alt="배송지관리 아이콘" onClick={() => navigate("/mypage/delivery")} />
                     <p>배송지 관리</p>
                 </div>
                 <div className="button">
-                    <img
-                        className="account-img"
-                        src={icon4}
-                        alt="계좌관리 아이콘"
-                    />
+                    <img className="account-img" src={icon4} alt="계좌관리 아이콘" onClick={() => navigate("/mypage/account")} />
                     <p>계좌 관리</p>
                 </div>
                 <div className="button">
-                    <img
-                        src={icon5}
-                        alt="응모내역 아이콘"
-                        onClick={() => navigate("/mypage/applyHistory")}
-                    />
+                    <img src={icon5} alt="응모내역 아이콘" onClick={() => navigate("/mypage/applyHistory")} />
                     <p>응모내역</p>
                 </div>
                 <div className="button">
-                    <img
-                        src={icon6}
-                        alt="공지사항 아이콘"
-                        onClick={() => navigate("/service/info")}
-                    />
+                    <img src={icon6} alt="공지사항 아이콘" onClick={() => navigate("/service/notice")} />
                     <p>공지사항</p>
                 </div>
             </div>

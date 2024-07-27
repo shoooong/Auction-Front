@@ -4,12 +4,14 @@
   display: flex;
   flex-direction: column;
 }
+
 .sales-head {
   align-items: center;
   border-bottom: 1px solid #ebebeb;
   display: flex;
   padding: 20px;
 }
+
 .head-content {
   color: var(--palegrey);
   font-size: var(--ft14);
@@ -17,6 +19,7 @@
   gap: 10px;
   line-height: 1.5;
 }
+
 .sales-list-container {
   flex-grow: 1;
   overflow-y: auto; /* 스크롤 가능하도록 설정 */
@@ -52,19 +55,28 @@
   padding-left: 30px;
   line-height: 1.4;
 }
+
 .sales-info-container > div:first-child {
   font-size: var(--ft14);
   font-weight: var(--semibold);
   flex-wrap: wrap;
 }
+
 .sales-info-container > div {
   font-size: var(--ft12);
   font-weight: var(--medium);
 }
+
 .sales-date-container {
   flex-grow: 1;
   padding-left: 0px;
   flex-wrap: nowrap;
   font-size: var(--ft12);
   font-weight: var(--regular);
+}
+
+.pagination-container {
+  text-align: center;
+  margin-top: auto; /* 자동으로 상단 마진을 추가하여 페이지네이션이 하단에 위치하게 함 */
+  padding: 20px 0; /* 페이지네이션과 리스트 사이의 간격 추가 */
 }

@@ -19,7 +19,7 @@ export default function ProductBid() {
     ); // 현재 폼 상태 관리
     const [selectedDays, setSelectedDays] = useState(1); // 선택된 입찰 마감 기한 일수
     const [endDate, setEndDate] = useState(""); // 마감 기한 날짜 문자열
-    const [bidPrice, setBidPrice] = useState(20000); // 희망가 입력 필드 상태, 기본값을 20000으로 설정
+    const [bidPrice, setBidPrice] = useState(0); // 희망가 입력 필드 상태
     const MIN_BID_PRICE = 20000; // 최소 입찰 희망가를 20000으로 설정
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export default function ProductBid() {
 
     const handleSubmit = async () => {
         if (bidPrice < MIN_BID_PRICE) {
-            alert(`희망가는 최소 ${MIN_BID_PRICE.toLocaleString()}원 이상이어야 합니다.`);
+            alert(`입찰 최소 금액은 ${MIN_BID_PRICE.toLocaleString()}원입니다.`);
             return;
         }
 
@@ -238,7 +238,6 @@ export default function ProductBid() {
                                         className="input_amount"
                                         onChange={handleBidPriceChange}
                                         value={bidPrice}
-                                        min={MIN_BID_PRICE}
                                     />
                                     <span className="unit">원</span>
                                 </dd>
@@ -380,7 +379,6 @@ export default function ProductBid() {
                                         className="input_amount"
                                         onChange={handleBidPriceChange}
                                         value={bidPrice}
-                                        min={MIN_BID_PRICE}
                                     />
                                     <span className="unit">원</span>
                                 </dd>

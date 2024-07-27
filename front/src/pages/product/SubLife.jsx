@@ -7,6 +7,8 @@ import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 import '../../styles/product.css';
 
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
+
 const SubLife = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -96,7 +98,7 @@ const SubLife = () => {
                                 <div>
                                     <div className="image-container">
                                         <img
-                                            src={product.productImg}
+                                            src={`${CLOUD_STORAGE_BASE_URL}${product.productImg}`}
                                             alt={product.productName}
                                             className="post-image"
                                         />

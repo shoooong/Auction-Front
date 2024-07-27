@@ -1,80 +1,97 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginPost } from "../../api/user/userApi";
-import { getCookie, setCookie, removeCookie } from "../../pages/user/cookieUtil";
+import { loginPost, logoutPost, unregisterUser, checkAuth } from "../../api/user/userApi";
 
+// 초기 상태 설정
 const initState = {
-    email:'',
-    password:'',
-    nickname:'',
+    email: '',
+    password: '',
+    nickname: '',
     phoneNum: '',
-    profileImg: ''
+    profileImg: '',
+    isLogin: false,
 };
 
-const loadMemberCookie = () => {
-    
-    const userInfo = getCookie("user");
-
-    if (userInfo && userInfo.nickname) {
-        userInfo.nickname = decodeURIComponent(userInfo.nickname);
-
-        console.log("userInfo: " + userInfo);
-
-    };
-
-    return userInfo;
-}
-
-export const loginPostAsync = createAsyncThunk('loginPostAsync', (param) => {
-    return loginPost(param);
+// 인증 상태 확인 비동기 작업 생성
+export const checkAuthAsync = createAsyncThunk('checkAuthAsync', async () => {
+    const response = await checkAuth();
+    return response.data;
 });
 
+// 로그인 비동기 작업 생성
+export const loginPostAsync = createAsyncThunk('loginPostAsync', async (param) => {
+    const response = await loginPost(param);
+    return response.data;
+});
+
+// 로그아웃 비동기 작업 생성
+export const logoutPostAsync = createAsyncThunk('logoutPostAsync', async () => {
+    const response = await logoutPost();
+    return response.data;
+});
+
+// 사용자 탈퇴 비동기 작업 생성
+export const unregisterUserAsync = createAsyncThunk('unregisterUserAsync', async () => {
+    const response = await unregisterUser();
+    return response.data;
+});
+
+// 로그인 슬라이스 생성
 const loginSlice = createSlice({
     name: 'LoginSlice',
-    initialState: loadMemberCookie() || initState,
-    reducers: {
-        login: (state, action) => {
-            console.log("login...");
-
-            const payload = action.payload;
-
-            console.log("Payload for cookie:", payload);
-
-            setCookie("user", JSON.stringify(payload), 1);
-        
-
-            return { ...state, ...payload };
-        },
-        logout: (state, action) => {
-            console.log("logout...");
-
-            removeCookie("user");
-
-            return {...initState}
-        }
-    },
+    initialState: initState,
+    reducers: {},
     extraReducers: (builder) => {
-        builder.addCase( loginPostAsync.fulfilled, (state, action) => {
-            console.log("fulfilled");
+        builder
+            .addCase(checkAuthAsync.fulfilled, (state, action) => {
+                console.log("checkAuth fulfilled");
 
-            const payload = action.payload;
+                const payload = action.payload;
 
-            if (!payload.error) {
-                setCookie("user", JSON.stringify(payload), 1)         // 1일
-            }
+                if (!payload.error) {
+                    return { ...state, ...payload, isLogin: true };
+                } else {
+                    return { ...state, isLogin: false };
+                }
+            })
+            .addCase(loginPostAsync.fulfilled, (state, action) => {
+                console.log("loginPost fulfilled");
 
-            console.log("Payload for cookie:", payload);
+                const payload = action.payload;
 
-            return { ...state, ...payload };
-        })
-        .addCase(loginPostAsync.pending, (state,action) => {
-            console.log("pending")
-        })
-        .addCase(loginPostAsync.rejected, (state,action) => {
-            console.log("rejected")
-        })
+                if (!payload.error) {
+                    return { ...state, ...payload, isLogin: true };
+                } else {
+                    return { ...state, isLogin: false };
+                }
+            })
+            .addCase(loginPostAsync.pending, () => {
+                console.log("loginPost pending");
+            })
+            .addCase(loginPostAsync.rejected, () => {
+                console.log("loginPost rejected");
+            })
+            .addCase(logoutPostAsync.fulfilled, () => {
+                console.log("logoutPost fulfilled");
+                return { ...initState };
+            })
+            .addCase(logoutPostAsync.pending, () => {
+                console.log("logoutPost pending");
+            })
+            .addCase(logoutPostAsync.rejected, () => {
+                console.log("logoutPost rejected");
+            })
+            .addCase(unregisterUserAsync.fulfilled, () => {
+                console.log("unregisterUser fulfilled");
+                return { ...initState };
+            })
+            .addCase(unregisterUserAsync.pending, () => {
+                console.log("unregisterUser pending");
+            })
+            .addCase(unregisterUserAsync.rejected, () => {
+                console.log("unregisterUser rejected");
+            });
     }
 });
 
-export const {login, logout} = loginSlice.actions;
-
+// 슬라이스 리듀서 내보내기
 export default loginSlice.reducer;

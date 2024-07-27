@@ -2,6 +2,13 @@ import axios from "axios";
 import { SERVER_URL } from "../serverApi";
 import jwtAxios from "pages/user/jwtUtil";
 
+axios.defaults.withCredentials = true;
+
+export const checkAuth = async () => {
+  const response = await axios.get(`${SERVER_URL}/user/check`);
+  return response.data;
+};
+
 export const loginPost = async (loginParam) => {
   const header = { 
     headers: { "Content-Type": "application/x-www-form-urlencoded" },

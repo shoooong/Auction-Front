@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Link, Outlet } from "react-router-dom";
 
 import { Box, Button } from "@mui/material";
@@ -7,10 +8,19 @@ import Alarm from "pages/Alarm";
 
 import logo from "assets/images/logo.svg";
 import Search from "assets/images/search.svg";
-import useCustomLogin from "hooks/useCustomLogin";
+import { checkAuthAsync, logoutPostAsync } from "store/slices/loginSlice";
 
 export default function Header() {
-    const { isLogin, doLogout } = useCustomLogin();
+    const dispatch = useDispatch();
+    const loginState = useSelector(state => state.login);
+    
+    useEffect(() => {
+        dispatch(checkAuthAsync());
+    }, [dispatch]);
+
+    const doLogout = () => {
+        dispatch(logoutPostAsync());
+    }
 
     // 알람
     const [alarmOpen, setAlarmOpen] = useState(false);
@@ -35,7 +45,7 @@ export default function Header() {
                             >
                                 알림
                             </Button>
-                            {!isLogin ? (
+                            {!loginState.isLogin ? (
                                 <Link to="/user/login">로그인</Link>
                             ) : (
                                 <Link to="/" onClick={doLogout}>

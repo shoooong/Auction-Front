@@ -1,5 +1,5 @@
 .sales-summary-container {
-  padding: 20px;
+  padding: 20px 0;
   height: 600px; /* 고정된 높이 설정 */
   display: flex;
   flex-direction: column;
@@ -43,7 +43,8 @@
 .sales-img-container img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 부모 div에 맞추어 이미지 크기 조정 */
+  -o-object-fit: cover;
+     object-fit: cover; /* 부모 div에 맞추어 이미지 크기 조정 */
   border-radius: 8px;
 }
 
@@ -76,7 +77,8 @@
 }
 
 .pagination-container {
-  text-align: center;
+  display: flex;
+  justify-content: center;
   margin-top: auto; /* 자동으로 상단 마진을 추가하여 페이지네이션이 하단에 위치하게 함 */
   padding: 20px 0; /* 페이지네이션과 리스트 사이의 간격 추가 */
 }

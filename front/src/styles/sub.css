@@ -91,15 +91,16 @@
 .notice-list {margin: 20px 0 80px;}
 .notice-list li {height: 60px;line-height: 60px;border-bottom: 1px solid var(--borderGrey);}
 .notice-list .title,
-.notice-detail-content h2 {color: var(--black); font-weight: var(--bold);font-size: var(--ft15); width: 84px; display: inline-block; text-align: left;}
+.notice-detail-content h2 {color: var(--black); font-weight: var(--bold);font-size: var(--ft15); width: 95px; display: inline-block; text-align: left;}
 .notice-list .content {font-size: var(--ft15);color: var(--grey); font-weight: var(--regular);}
 
 .notice-detail-content > div:first-child {margin-bottom: 20px; border-bottom: 1px solid var(--black); height: 60px;}
 .notice-detail-content span {font-size: var(--ft11); font-weight: var(--light); color: var(--grey);}
 .notice-detail-content .content {background: #f5f5f5; font-size: var(--ft15);color: var(--black); font-weight: var(--regular); padding: 25px; margin-bottom: 80px;}
 
+.inquiry-registration {margin-top: 13px;}
 .inquiry-registration h2 {font-size: var(--ft22); font-weight: var(--semibold); padding-bottom: 10px; border-bottom: 4px solid var(--borderBlack); color: var(--black);}
-.inquiry-registration p {font-size: var(--ft18); font-weight: var(--medium); padding: 20px 0; color: var(--grey);}
+.inquiry-registration p {font-size: var(--ft16); font-weight: var(--regular); color: var(--grey);}
 .inquiry-registration form {margin: 30px 0 80px;}
 .inquiry-registration form label {font-size: var(--ft15); font-weight: var(--semibold); color: var(--black); display: block; width: 100%; display: flex; align-items: center; margin-bottom: 20px;}
 .inquiry-registration form label:last-of-type {align-items: flex-start;}
@@ -108,13 +109,16 @@
 .inquiry-registration .btn-box {margin-top: 40px;}
 .inquiry-registration .btn-box button {margin: 0 10px;}
 
-.inquiry-item {border-bottom: 1px solid var(--borderBasic); display: flex; align-items: center; color: var(--black); justify-content: space-between; width: 100%; flex-wrap: wrap; padding-bottom: 10px; margin-top: 30px;}
-.inquiry-item div h3 {font-size: var(--ft18); font-weight: var(--semibold);}
-.inquiry-item div h3 + p {font-size: var(--ft15); font-weight: var(--regular); color: var(--black);}
-.inquiry-item div > p {color: var(--grey); font-size: var(--ft14);}
-.inquiry-item div > p:last-child {margin-top: 5px;}
+.inquiry-detail {padding: 10px 0;}
+.inquiry-detail .inquiry-item {height: 40px; display: flex; align-items: center;}
+.inquiry-detail > div {padding:10px 0 50px;}
+.inquiry-detail div h3 {font-size: var(--ft16); font-weight: var(--semibold); width: 80px; color: var(--black);}
+.inquiry-detail div h3 + p {font-size: var(--ft15); font-weight: var(--regular); color: var(--black);}
 
-.inquiry-list {color: var(--black);}
+.inquiry-registration .inquiry-list {color: var(--black);}
+
+
+.title-btn {position: absolute; right: 0; top: -13px;}
 
 
 /*  ----------------------------- feed -----------------------------------*/
@@ -200,3 +204,7 @@
 .style-detail div > span:last-child {padding-left: 10px;}
 .style-detail button {padding-right: 15px;}
 .style-detail button > img {padding-right: 5px;}
+
+
+/*  ----------------------------- pagination -----------------------------------*/
+.pagination {text-align: center; margin-top: 20px;}

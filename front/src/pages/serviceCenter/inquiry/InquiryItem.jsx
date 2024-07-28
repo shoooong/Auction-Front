@@ -2,7 +2,7 @@ import React from "react";
 
 const InquiryItem = ({ inquiry }) => {
     return (
-        <div className="inquiry-item">
+        <div className="inquiry-item flex space-between">
             <div>
                 <h3>{inquiry.inquiryTitle}</h3>
                 {/* <p>{inquiry.content}</p> */}
@@ -11,7 +11,7 @@ const InquiryItem = ({ inquiry }) => {
             </div>
 
             <div>
-                <p>{new Date(inquiry.createdDate).toLocaleString()}</p>
+                <p>등록일: {new Date(inquiry.createdDate).toLocaleString()}</p>
                 <p>
                     수정일:{" "}
                     {inquiry.modifyDate

@@ -15,8 +15,12 @@ const NoticeDetail = () => {
 
     return (
         <div className="notice-detail-page">
-            <button onClick={handleBack}>목록으로 돌아가기</button>
             <NoticeDetailContainer />
+            <div className="text-center">
+                <button className="btn add-btn" onClick={handleBack}>
+                    목록으로 돌아가기
+                </button>
+            </div>
         </div>
     );
 };

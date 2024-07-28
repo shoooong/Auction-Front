@@ -351,7 +351,7 @@ export default function ProductBid() {
                                     다음 화면에서 확인
                                 </span>
                             </div>
-                            <div style={{ padding: "0 35px 40px" }}>
+                            <div style={{ paddingBottom: "40px" }}>
                                 <button
                                     type="button"
                                     className="btn full-btn buy"
@@ -495,7 +495,7 @@ export default function ProductBid() {
                             </div>
                         </div>
 
-                        <div style={{ padding: "0 35px 40px" }}>
+                        <div style={{ paddingBottom: "40px" }}>
                             <button
                                 type="button"
                                 className="btn full-btn sales"
@@ -542,7 +542,7 @@ export default function ProductBid() {
                                     다음 화면에서 확인
                                 </span>
                             </div>
-                            <div style={{ padding: "0 35px 40px" }}>
+                            <div style={{ paddingBottom: "40px" }}>
                                 <button
                                     type="button"
                                     className={`btn full-btn buy ${
@@ -592,7 +592,7 @@ export default function ProductBid() {
                                 </span>
                             </div>
                         </div>
-                        <div style={{ padding: "0 35px 40px" }}>
+                        <div style={{ paddingBottom: "40px" }}>
                             <button
                                 type="button"
                                 className={`btn full-btn sales ${

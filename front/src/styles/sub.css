@@ -191,3 +191,12 @@
 
 .bidding-form .confirm-box {border-top: 1px solid var(--borderBasic);}
 .bidding-form .disabled {background-color: #ebebeb !important;cursor: default; color: var(--white) !important;}
+
+
+/*  ----------------------------- bidding-page -----------------------------------*/
+.style-detail {max-width: 700px; margin-bottom: 80px;}
+.style-detail > img {margin-bottom: 20px; width: 100%;}
+.style-detail div > p {font-size: var(--ft16);}
+.style-detail div > span:last-child {padding-left: 10px;}
+.style-detail button {padding-right: 15px;}
+.style-detail button > img {padding-right: 5px;}

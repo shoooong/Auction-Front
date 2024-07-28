@@ -13,12 +13,10 @@ const InquiryRegistration = () => {
         e.preventDefault();
 
         try {
-            const response = await jwtAxios.post(`/user/registration`,
-                {
-                    inquiryTitle: title,
-                    inquiryContent: content,
-                }
-            );
+            const response = await jwtAxios.post(`/user/registration`, {
+                inquiryTitle: title,
+                inquiryContent: content,
+            });
 
             if (response.status === 201) {
                 console.log("Inquiry successfully submitted");
@@ -49,7 +47,7 @@ const InquiryRegistration = () => {
     }
 
     return (
-        <div className="inquiry-registration">
+        <div className="inquiry-registration second">
             <h2>1대1 문의 등록</h2>
             <form onSubmit={handleSubmit}>
                 <label>

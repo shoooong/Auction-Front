@@ -1,93 +1,72 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginPost, logoutPost, unregisterUser, checkAuth } from "../../api/user/userApi";
+import create from 'zustand';
+import { loginPost, logoutPost, unregisterUser, checkAuth } from 'api/user/userApi';
+import { getCookie, removeCookie } from 'pages/user/cookieUtil';
 
+// 초기 상태 설정
 const initState = {
     email: '',
-    password: '',
     nickname: '',
     phoneNum: '',
     profileImg: '',
     isLogin: false,
-    error: null,
 };
 
-export const checkAuthAsync = createAsyncThunk('checkAuthAsync', async () => {
-    const response = await checkAuth();
-    return response.data;
-});
-
-export const loginPostAsync = createAsyncThunk('loginPostAsync', async (param) => {
-    const response = await loginPost(param);
-    return response.data;
-});
-
-export const logoutPostAsync = createAsyncThunk('logoutPostAsync', async () => {
-    const response = await logoutPost();
-    return response.data;
-});
-
-export const unregisterUserAsync = createAsyncThunk('unregisterUserAsync', async () => {
-    const response = await unregisterUser();
-    return response.data;
-});
-
-const loginSlice = createSlice({
-    name: 'LoginSlice',
-    initialState: initState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(checkAuthAsync.fulfilled, (state, action) => {
-                const payload = action.payload;
-
-                if (payload && !payload.error) {
-                    return { ...state, ...payload, isLogin: true, error: null };
-                } else {
-                    return { ...initState, error: payload ? payload.error : 'Unknown error' };
-                }
-            })
-            .addCase(loginPostAsync.fulfilled, (state, action) => {
-                const payload = action.payload;
-
-                if (payload && !payload.error) {
-                    return { ...state, ...payload, isLogin: true, error: null };
-                } else {
-                    return { ...initState, error: payload ? payload.error : 'Unknown error' };
-                }
-            })
-            .addCase(loginPostAsync.pending, (state) => {
-                console.log("loginPost pending");
-                return state;
-            })
-            .addCase(loginPostAsync.rejected, (state, action) => {
-                console.log("loginPost rejected");
-                return { ...state, error: action.error.message };
-            })
-            .addCase(logoutPostAsync.fulfilled, () => {
-                console.log("logoutPost fulfilled");
-                return { ...initState };
-            })
-            .addCase(logoutPostAsync.pending, (state) => {
-                console.log("logoutPost pending");
-                return state;
-            })
-            .addCase(logoutPostAsync.rejected, (state, action) => {
-                console.log("logoutPost rejected");
-                return { ...state, error: action.error.message };
-            })
-            .addCase(unregisterUserAsync.fulfilled, () => {
-                console.log("unregisterUser fulfilled");
-                return { ...initState };
-            })
-            .addCase(unregisterUserAsync.pending, (state) => {
-                console.log("unregisterUser pending");
-                return state;
-            })
-            .addCase(unregisterUserAsync.rejected, (state, action) => {
-                console.log("unregisterUser rejected");
-                return { ...state, error: action.error.message };
-            });
+// 쿠키에서 회원 정보 로드
+const loadMemberCookie = () => {
+    const userInfo = getCookie("user");
+    if (userInfo && userInfo.nickname) {
+        userInfo.nickname = decodeURIComponent(userInfo.nickname);
     }
-});
+    return userInfo || initState;
+};
 
-export default loginSlice.reducer;
+// Zustand 스토어 생성
+const useLoginStore = create((set) => ({
+    ...loadMemberCookie(),
+    login: async (param) => {
+        try {
+            const response = await loginPost(param);
+            const payload = response.data;
+            if (!payload.error) {
+                // 쿠키는 서버에서 설정되므로 여기서는 상태만 업데이트
+                set({ ...payload, isLogin: true });
+            }
+        } catch (error) {
+            console.log("login rejected", error);
+        }
+    },
+    logout: async () => {
+        try {
+            await logoutPost();
+            removeCookie("user");
+            set({ ...initState });
+        } catch (error) {
+            console.log("logout rejected", error);
+        }
+    },
+    unregister: async () => {
+        try {
+            await unregisterUser();
+            removeCookie("user");
+            set({ ...initState });
+        } catch (error) {
+            console.log("unregister rejected", error);
+        }
+    },
+    checkAuth: async () => {
+        try {
+            const response = await checkAuth();
+            const payload = response.data;
+            if (!payload.error) {
+                set({ ...payload, isLogin: true });
+            } else {
+                set({ isLogin: false });
+            }
+        } catch (error) {
+            set({ isLogin: false });
+            console.log("checkAuth rejected", error);
+        }
+    }
+}));
+
+export default useLoginStore;

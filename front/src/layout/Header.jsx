@@ -1,30 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Link, Outlet } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 import Alarm from "pages/Alarm";
 import logo from "assets/images/logo.svg";
 import Search from "assets/images/search.svg";
-import { checkAuthAsync, logoutPostAsync } from "store/slices/loginSlice";
+import useLoginStore from 'store/slices/loginSlice'; 
 
-export default function Header() {
-    const dispatch = useDispatch();
-    const loginState = useSelector((state) => state.login) || {
-        email: '',
-        password: '',
-        nickname: '',
-        phoneNum: '',
-        profileImg: '',
-        isLogin: false,
-    };
-
+const Header = () => {
+    const { isLogin, checkAuth, logout } = useLoginStore();
+    
     useEffect(() => {
-        dispatch(checkAuthAsync());
-    }, [dispatch]);
-
-    const doLogout = () => {
-        dispatch(logoutPostAsync());
-    };
+        checkAuth();
+    }, [checkAuth]);
 
     // 알람
     const [alarmOpen, setAlarmOpen] = useState(false);
@@ -49,10 +36,10 @@ export default function Header() {
                             >
                                 알림
                             </Button>
-                            {!loginState.isLogin ? (
+                            {!isLogin ? (
                                 <Link to="/user/login">로그인</Link>
                             ) : (
-                                <Link to="/" onClick={doLogout}>
+                                <Link to="/" onClick={logout}>
                                     로그아웃
                                 </Link>
                             )}
@@ -77,3 +64,5 @@ export default function Header() {
         </>
     );
 };
+
+export default Header;

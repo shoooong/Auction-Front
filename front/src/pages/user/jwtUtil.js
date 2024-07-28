@@ -3,7 +3,9 @@ import { getCookie, setCookie } from "./cookieUtil";
 import { SERVER_URL } from "api/serverApi";
 
 // TODO: JWT를 사용해야 하는 api에서는 기존의 axios 대신 jwtAxios를 사용할 것
-const jwtAxios = axios.create();
+const jwtAxios = axios.create({
+    withCredentials: true
+});
 
 const refreshToken = async (accessToken, refreshToken) => {
     const host = SERVER_URL;

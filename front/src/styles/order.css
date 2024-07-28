@@ -283,6 +283,9 @@ dd.desc {
     display: flex;
 }
 .pay_btn {
+    border-radius: 10px;
+    height: 52px;
+    width: 636px;
     font-size: 16px;
     color: #fff;
     font-weight: 500;
@@ -293,6 +296,12 @@ dd.desc {
     margin-top: 100px;
     margin-bottom: 100px;
 }
+.pay_btn:disabled {
+    background-color: #d6d6d6; /* 비활성화 상태 배경색 */
+    color: #ffffff; /* 비활성화 상태 텍스트 색상 */
+    cursor: not-allowed; /* 비활성화 상태 커서 스타일 */
+}
+
 .order_box_section {
     width: 440px;
     height: 708px;

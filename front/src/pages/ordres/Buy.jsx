@@ -23,6 +23,8 @@ const customerKey = "HOytG9DDEHHgTxwNS0YWT";
 
 export default function Buy() {
     const location = useLocation();
+    const [addressOpen, setAddressOpen] = useState(false);
+    const [userAddress, setUserAddress] = useState();
     const bidData = location.state || {
         productId: 1,
         bidPrice: 128000,
@@ -32,6 +34,7 @@ export default function Buy() {
     console.log("jasn===" + JSON.stringify(bidData, null, 2));
 
     const { product, addressInfo } = useBid(bidData);
+    console.log("addressInfo==" + addressInfo);
     console.log("product===" + product);
     const [orderData, setOrderData] = useState({
         productId: 0,
@@ -56,9 +59,11 @@ export default function Buy() {
 
     const [open, setOpen] = useState(false);
     const [fee, setFee] = useState(0);
+    const [isDisabled, setIsDisabled] = useState(true);
+    // const [isAddres]
     // const [open2, setOpen2] = useState(false);
 
-    // const { buyingBidding, addressInfo } = useOrder(bidData);
+    // const { buyingBidding, userAddress } = useOrder(bidData);
 
     // console.log("buyingBidding===" + buyingBidding);
     const handleSelectCoupon = (coupon) => {
@@ -75,12 +80,13 @@ export default function Buy() {
 
     useEffect(() => {
         if (addressInfo && product) {
+            setUserAddress(addressInfo);
             const calculatedFee = bidData?.bidPrice * 0.04;
             console.log("calculatedFee=" + calculatedFee);
             setFee(Math.floor(calculatedFee / 10) * 10);
             setOrderData((prevData) => ({
                 ...prevData,
-                addressId: addressInfo?.addressId,
+                addressId: userAddress?.addressId,
                 productId: bidData?.productId,
                 couponId: selectedCoupon?.coupon.couponId,
                 price: bidData?.bidPrice - fee,
@@ -88,6 +94,24 @@ export default function Buy() {
             }));
         }
     }, [addressInfo, product]);
+
+    useEffect(() => {
+        if (
+            userAddress?.addressId &&
+            bidData?.productId &&
+            bidData?.bidPrice != null
+        ) {
+            setOrderData({
+                productId: bidData?.productId,
+                price: bidData?.bidPrice - fee,
+                exp: bidData?.selectedDays,
+                addressId: userAddress?.addressId,
+            });
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
+        }
+    }, [userAddress, bidData, fee]);
 
     console.log("orderData===" + orderData);
     // SDK 초기화 및 결제 객체 설정
@@ -219,7 +243,7 @@ export default function Buy() {
                                                 받는 분
                                             </dt>
                                             <dd className="desc">
-                                                {addressInfo?.name}
+                                                {userAddress?.name}
                                             </dd>
                                         </div>
                                         <div className="info_box">
@@ -227,7 +251,7 @@ export default function Buy() {
                                                 연락처
                                             </dt>
                                             <dd className="desc">
-                                                {addressInfo?.addrPhone}
+                                                {userAddress?.addrPhone}
                                             </dd>
                                         </div>
                                         <div className="info_box">
@@ -235,16 +259,16 @@ export default function Buy() {
                                                 배송 주소
                                             </dt>
                                             <dd className="desc">
-                                                {addressInfo ? (
+                                                {userAddress ? (
                                                     <>
-                                                        ({addressInfo.zonecode}
+                                                        ({userAddress.zonecode}
                                                         )&nbsp;
                                                         {
-                                                            addressInfo.roadAddress
+                                                            userAddress.roadAddress
                                                         }
                                                         &nbsp;
                                                         {
-                                                            addressInfo.detailAddress
+                                                            userAddress.detailAddress
                                                         }
                                                     </>
                                                 ) : (
@@ -255,7 +279,10 @@ export default function Buy() {
                                     </dl>
                                 </div>
                                 <div className="btn_box">
-                                    <button className="btn_edit border_box">
+                                    <button
+                                        className="btn_edit border_box"
+                                        onClick={() => setAddressOpen(true)}
+                                    >
                                         변경
                                     </button>
                                 </div>
@@ -384,7 +411,15 @@ export default function Buy() {
                 </div>
                 <div className="final_payment_btn info_area">
                     <div className="pay_btn_box">
-                        <button className="pay_btn" onClick={requestPayment}>
+                        <button
+                            className="pay_btn"
+                            disabled={
+                                !orderData.addressId ||
+                                !orderData.productId ||
+                                !orderData.price
+                            }
+                            onClick={requestPayment}
+                        >
                             {calculateTotalAmount().toLocaleString()}원 •
                             일반배송 결제하기
                         </button>
@@ -470,6 +505,27 @@ export default function Buy() {
                     </div>
                 </Box>
             </Dialog> */}
+            <Dialog
+                open={addressOpen}
+                onClose={() => setAddressOpen(false)}
+                PaperProps={{
+                    style: {
+                        textAlign: "center",
+                        width: "520px",
+                        maxWidth: "unset",
+                        height: "600px",
+                        maxHeight: "unset",
+                        // borderRadius: "15px",
+                    },
+                }}
+            >
+                <OrderAddressComponent
+                    userAddress={userAddress}
+                    setUserAddress={setUserAddress}
+                    addressOpen={addressOpen}
+                    setAddressOpen={setAddressOpen}
+                />
+            </Dialog>
         </div>
     );
 }

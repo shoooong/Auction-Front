@@ -423,7 +423,7 @@ const ProductDetails = () => {
                     <div className="price-container">
                         <h4>즉시 구매가</h4>
                         <div className="now-price">
-                            <p className="wonSize">{product.buyingBiddingPrice.toLocaleString()} 원</p>
+                            <p className="wonSize">{product.buyingBiddingPrice ? product.buyingBiddingPrice.toLocaleString() : '-'} 원</p>
                             <p>{product.productName}</p>
                         </div>
                     </div>

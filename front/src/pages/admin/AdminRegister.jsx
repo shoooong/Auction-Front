@@ -22,13 +22,20 @@ const AdminRegister = () => {
 
   useEffect(() => {
     fetch(defaultProfileImg)
-        .then(response => response.blob())
-        .then(blob => {
-            const defaultFile = new File([blob], "WelshCorgi.jpeg", { type: "image/jpeg" });
-            setFile(defaultFile);
-            setRegisterParam(prev => ({ ...prev, profileImg: URL.createObjectURL(defaultFile) }));
-        })
-        .catch(error => console.error('Error fetching default profile image:', error));
+      .then((response) => response.blob())
+      .then((blob) => {
+        const defaultFile = new File([blob], "WelshCorgi.jpeg", {
+          type: "image/jpeg",
+        });
+        setFile(defaultFile);
+        setRegisterParam((prev) => ({
+          ...prev,
+          profileImg: URL.createObjectURL(defaultFile),
+        }));
+      })
+      .catch((error) =>
+        console.error("Error fetching default profile image:", error)
+      );
   }, []);
 
   const handleChange = ({ target: { name, value } }) => {
@@ -43,7 +50,7 @@ const AdminRegister = () => {
         alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
       } else {
         alert("회원 가입에 성공했습니다. 로그인 페이지로 이동합니다.");
-        moveToPath("/admin/login");
+        moveToPath("/admin");
       }
     } catch (error) {
       console.error("Registration failed: ", error);

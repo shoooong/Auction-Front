@@ -125,6 +125,11 @@
 
 
 /*  ----------------------------- search -----------------------------------*/
-.search-box {display: flex; width: 100%; justify-content: center; padding: 50px 0;}
+.search-box {display: flex; width: 100%; justify-content: center; padding: 20px 0 30px;}
 .search-box input{border-bottom: 4px solid var(--black); height: 40px; font-size: var(--ft14); font-weight: var(--medium); color: var(--black); width: 400px;}
-.search-box button {}
+.search-box button {position: relative; right: 23px;}
+
+
+/*  ----------------------------- scroll top -----------------------------------*/
+.scroll-top {position: fixed; bottom: 40px; right: 8%; background-color: var(--black); border-radius: 100%; width: 41px; height: 41px;}
+.scroll-top .css-i4bv87-MuiSvgIcon-root {color: var(--white); position: relative; top: 9px; left: 9px;}

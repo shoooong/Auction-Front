@@ -7,7 +7,7 @@ const Feed = ({ username, image, description, likes }) => {
                 <img src={image} alt={description} />
             </div>
             <div className="feed-info">
-                <span>@{username}</span>
+                <span>{username}</span>
                 <span>❤️ {likes}</span>
                 <p>{description}</p>
             </div>

@@ -143,7 +143,7 @@ const SubLife = () => {
                                         {product.modelNum}
                                     </span>
                                     <span className="semibold-black">
-                                        {parseInt(product.biddingPrice).toLocaleString()}
+                                        {product.biddingPrice ? parseInt(product.biddingPrice).toLocaleString() : '-'}
                                         <span className="light-black">원</span>
                                     </span>
                                     <span className="light-grey">

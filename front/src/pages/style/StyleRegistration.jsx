@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import jwtAxios from "pages/user/jwtUtil";
-import useCustomLogin from "../../hooks/useCustomLogin";
+
+import jwtAxios from "utils/jwtUtil";
+
+import useCustomLogin from "hooks/useCustomLogin";
 
 const FeedRegistrationForm = () => {
     const [feedTitle, setFeedTitle] = useState("");

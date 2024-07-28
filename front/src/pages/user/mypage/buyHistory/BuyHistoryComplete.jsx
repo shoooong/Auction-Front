@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getBuyHistoryComplete } from "api/user/mypageApi";
-import { formatPrice, getStatusText } from "pages/user/mypageUtil";
-
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+import { getBuyHistoryComplete } from "api/user/mypageApi";
+
+import { formatPrice, getStatusText } from "utils/mypageUtil";
+
 
 export default function BuyHistoryComplete() {
     const [buyHistory, setBuyHistory] = useState(null);

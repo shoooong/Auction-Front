@@ -1,20 +1,22 @@
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+
+import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
+
+import jwtAxios from "utils/jwtUtil";
+
+import OrderCouponComponent from "components/OrderCouponComponent";
+import useBid from "hooks/useBid";
+
+import { Dialog, DialogTitle } from "@mui/material";
+
 import prImg from "assets/images/sample.png";
 import postImg from "assets/images/icon-post.png";
 import tossImg from "assets/images/icon-toss.png";
 import arrowImg from "assets/images/arrow2.svg";
-import "styles/order.css";
-import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
-import { useEffect, useState } from "react";
-import { Button, Box, Dialog, DialogTitle } from "@mui/material";
-import { useLocation } from "react-router-dom";
-// import Event from "pages/user/mypage/CouponMain";
-import OrderCouponComponent from "components/OrderCouponComponent";
-import jwtAxios from "pages/user/jwtUtil";
-import useBid from "hooks/useBid";
-// import Postcode from "components/mypage/Postcode";
-// ------  SDK 초기화 ------
 
-// import useAddress from "hooks/useAddress";
+import "styles/order.css";
+
 
 const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 const customerKey = "HOytG9DDEHHgTxwNS0YWT";

@@ -1,11 +1,8 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, createSearchParams } from "react-router-dom";
-import {
-  loginPostAsync,
-  logoutPostAsync,
-  unregisterUserAsync,
-} from "../store/slices/loginSlice";
+
+import { loginPostAsync, logoutPostAsync, unregisterUserAsync } from "store/slices/loginSlice";
 
 const useCustomLogin = () => {
   const navigate = useNavigate();

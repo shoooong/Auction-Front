@@ -1,4 +1,5 @@
 import React from 'react';
+
 import NoticeRegistrationForm from './NoticeRegistrationForm';
 
 const NoticeRegistration = () => {

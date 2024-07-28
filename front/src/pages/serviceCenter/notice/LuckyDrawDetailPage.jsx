@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+
 import axios from "axios";
-import { SERVER_URL } from "../../../api/serverApi";
+import { SERVER_URL } from "api/serverApi";
 
 const LuckyDrawDetailPage = () => {
     const { luckyAnnouncementId } = useParams();

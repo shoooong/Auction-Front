@@ -1,4 +1,5 @@
 import React from "react";
+
 import StyleRankingList from "./StyleRankingList";
 
 const StyleRanking = () => {

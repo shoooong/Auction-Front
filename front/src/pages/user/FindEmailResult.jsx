@@ -1,7 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { Button } from "@mui/material";
+
 import Logo from "assets/images/logo.svg";
+
 import "styles/findEmail.css";
 
 const FindEmailResult = ({ email }) => {

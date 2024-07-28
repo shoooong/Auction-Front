@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 
+import { emailRegExp, passwordRegExp, phoneNumRegExp } from "utils/mypageUtil";
+
+import useCustomRegister from "hooks/useCustomRegister";
+import SocialLogin from 'components/SocialLogin';
+
 import { TextField, Button } from "@mui/material";
+
 import Logo from "assets/images/logo.svg";
 import defaultProfileImg from "assets/images/WelshCorgi.jpeg";
-import useCustomRegister from "hooks/useCustomRegister";
-import { emailRegExp, passwordRegExp, phoneNumRegExp } from "./mypageUtil";
-import SocialLogin from 'components/SocialLogin';
+
 
 const initState = {
     email: "",

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import jwtAxios from "../../../pages/user/jwtUtil";
-import { SERVER_URL } from "../../../api/serverApi";
+
+import { SERVER_URL } from "api/serverApi";
+
+import jwtAxios from "utils/jwtUtil";
 
 const NoticeList = ({ activeTab }) => {
     const [notices, setNotices] = useState([]);

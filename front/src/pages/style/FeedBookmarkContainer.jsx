@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import jwtAxios from 'pages/user/jwtUtil'; 
+
+import jwtAxios from 'utils/jwtUtil';
+
 import FeedBookmarksList from './FeedBookmarkList';
 
 const FeedBookmarkContainer = () => {

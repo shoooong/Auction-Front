@@ -1,6 +1,8 @@
 import React from "react";
-import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
+
+import { Box } from "@mui/material";
+
 import AdminHeader from "./AdminHeader";
 import AdminFooter from "./AdminFooter";
 import AdminSideBar from "./AdminSideBar";

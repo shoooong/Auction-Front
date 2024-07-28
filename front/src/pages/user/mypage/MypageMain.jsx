@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import useCustomLogin from "hooks/useCustomLogin";
 import { getMypageData } from "api/user/mypageApi";
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
-import { formatPrice, getStatusText, maskEmail } from "pages/user/mypageUtil";
+
+import { formatPrice, getStatusText, maskEmail } from "utils/mypageUtil";
+
+import useCustomLogin from "hooks/useCustomLogin";
+
 import { Button } from "@mui/material";
 // import { Button, IconButton } from "@mui/material";
 
-import "styles/mypage.css";
-import icon1 from "assets/images/icon1.svg";
+// import icon1 from "assets/images/icon1.svg";
 import icon2 from "assets/images/icon2.svg";
 import icon3 from "assets/images/icon3.svg";
 import icon4 from "assets/images/icon4.svg";
@@ -18,6 +20,9 @@ import icon6 from "assets/images/icon6.svg";
 import banner from "assets/images/toss_banner.webp";
 // import BookmarkOff from "assets/images/bookmark-off.svg";
 // import BookmarkOn from "assets/images/bookmark-on.svg";
+
+import "styles/mypage.css";
+
 
 export default function MypageMain() {
     const [profile, setProfile] = useState(null);

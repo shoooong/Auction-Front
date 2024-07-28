@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import jwtAxios from "pages/user/jwtUtil";
-import { SERVER_URL } from "api/serverApi";
+
+import jwtAxios from "utils/jwtUtil";
 
 export default function useSell() {
     // 상태 정의

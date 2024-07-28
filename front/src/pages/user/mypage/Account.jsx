@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { getAccount, registerOrModifyAccount } from "api/user/mypageApi";
-import { getCookie } from "pages/user/cookieUtil";
+
+import { getCookie } from "utils/cookieUtil";
+
 import SalesSummary from "./SalesSummary";
 
 const initState = {

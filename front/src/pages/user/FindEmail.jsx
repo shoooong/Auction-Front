@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 
-import { TextField, Button } from "@mui/material";
 import { findEmail } from 'api/user/userApi';
-import Logo from "assets/images/logo.svg";
+
 import FindEmailResult from './FindEmailResult';
 import SocialLogin from 'components/SocialLogin';
+
+import { TextField, Button } from "@mui/material";
+
+import Logo from "assets/images/logo.svg";
+
 
 const FindEmail = () => {
     const [nickname, setNickname] = useState('');

@@ -1,4 +1,7 @@
 import React from "react";
+
+import { Box } from "@mui/material";
+
 import tempImg1 from "assets/images/feed4.png";
 import tempImg2 from "assets/images/feed5.png";
 import tempImg3 from "assets/images/feed6.png";
@@ -6,7 +9,6 @@ import tempImg4 from "assets/images/feed1.png";
 import tempImg5 from "assets/images/feed2.png";
 import tempImg6 from "assets/images/feed3.png";
 
-import { Box } from "@mui/material";
 
 const RecommendedStyles = () => {
     const styles = [

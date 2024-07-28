@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import jwtAxios from 'pages/user/jwtUtil';
+
+import jwtAxios from 'utils/jwtUtil';
 
 const InquiryDetail = ({ inquiryId }) => {
   const [inquiry, setInquiry] = useState(null);

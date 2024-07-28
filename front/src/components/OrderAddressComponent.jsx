@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Box, Dialog, DialogTitle, Button } from "@mui/material";
-import {
-    getAddress,
-    addAddress,
-    modifyAddress,
-    deleteAddress,
-} from "api/user/mypageApi";
-import { getCookie } from "pages/user/cookieUtil";
-import "styles/order.css";
-// import jwtAxios from "pages/user/jwtUtil";
-import "styles/order_coupon.css";
-import Postcode from "components/mypage/Postcode";
-import { maskName, formatPhoneNumber } from "../pages/user/mypageUtil";
 import { useNavigate } from "react-router-dom";
+
+import { getAddress, addAddress, modifyAddress, deleteAddress } from "api/user/mypageApi";
+
+import { getCookie } from "utils/cookieUtil";
+import { maskName, formatPhoneNumber } from "utils/mypageUtil";
+
+import Postcode from "components/mypage/Postcode";
+import { Box, Dialog, DialogTitle, Button } from "@mui/material";
+
+import "styles/order.css";
+import "styles/order_coupon.css";
+
 
 const fetchData = async (setAddresses, setLoading, navigate) => {
     const userInfo = getCookie("user");

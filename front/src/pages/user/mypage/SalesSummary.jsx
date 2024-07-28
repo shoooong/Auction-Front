@@ -1,8 +1,12 @@
-import { getSales } from "api/admin/aMypageApi";
 import { useEffect, useState } from "react";
-import "styles/sales.css";
+
 import { CLOUD_STORAGE_BASE_URL } from "api/admin/productApi";
+import { getSales } from "api/admin/aMypageApi";
+
 import { Pagination } from "@mui/material";
+
+import "styles/sales.css";
+
 
 const SalesSummary = () => {
   const [sales, setSales] = useState([]);

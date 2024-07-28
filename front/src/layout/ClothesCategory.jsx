@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-import { Card, Box } from "@mui/material";
-
 import BannerSlide from "./BannerSlide";
 import ClothesMain from "pages/clothes/ClothesMain";
+
+import { Card, Box } from "@mui/material";
 
 import Top from "assets/images/top.png";
 import Bottom from "assets/images/bottom.png";

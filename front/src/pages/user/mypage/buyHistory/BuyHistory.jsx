@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
-import { getCookie } from "pages/user/cookieUtil";
+
 import { getAllBuyHistory } from "api/user/mypageApi";
-import { formatPrice, getStatusText } from "pages/user/mypageUtil";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+
+import { getCookie } from "utils/cookieUtil";
+import { formatPrice, getStatusText } from "utils/mypageUtil";
+
 import BuyHistoryProcess from "./BuyHistoryProcess";
 import BuyHistoryComplete from "./BuyHistoryComplete";
-import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+
+import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
 
 export default function BuyHistory() {
     const [buyHistory, setBuyHistory] = useState(null);

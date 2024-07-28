@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 import { getLucky } from "api/admin/AdminLuckyApi";
 
 const AdminLuckyDetail = () => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import jwtAxios from "pages/user/jwtUtil";
+
+import jwtAxios from "utils/jwtUtil";
 
 // 입찰 등록
 // 입찰 -> 주문페이지(productId,)

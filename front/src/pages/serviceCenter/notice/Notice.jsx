@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 import NoticeTab from "./NoitceTab";
 import NoticeList from "./NoticeList";
-import { useLocation } from "react-router-dom";
 
 const Notice = () => {
     const location = useLocation();

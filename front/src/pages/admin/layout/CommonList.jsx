@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+
 import { DataGrid } from "@mui/x-data-grid";
 
 const CommonList = ({ rows, columns, onRowClick, loading }) => {

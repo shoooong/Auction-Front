@@ -1,7 +1,10 @@
 import React from 'react';
+
 import { IconButton } from "@mui/material";
-import BookmarkOff from "../../assets/images/bookmark-off.svg";
-import BookmarkOn from "../../assets/images/bookmark-on.svg";
+
+import BookmarkOff from "assets/images/bookmark-off.svg";
+import BookmarkOn from "assets/images/bookmark-on.svg";
+
 import "../../styles/product.css";
 
 const Product = ({ rank, productImg, productBrand, productName, modelNum, biddingPrice, liked, onLikeToggle }) => {

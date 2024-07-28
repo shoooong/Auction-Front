@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+
+import { Box } from "@mui/material";
 
 // 관리자 푸터 컴포넌트
 const AdminFooter = () => (

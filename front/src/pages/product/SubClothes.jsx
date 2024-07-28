@@ -10,8 +10,6 @@ import { Box, IconButton, Button } from "@mui/material";
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 
-import '../../styles/product.css';
-
 const SubClothes = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -95,21 +93,28 @@ const SubClothes = () => {
         <div className="container">
             <div className="sub-nav"></div>
             <h2 className="title">{getTitle()}</h2>
-            <main className="product-content" style={{ marginBottom: "80px" }}>
+            <main className="product-content mb80">
                 <Box className="box">
-                    <Box className="product-wrap inline-flex">
+                    <Box className="product-wrap grid grid-column-5 grid-gap-x30">
                         {products.map((product, index) => (
-                            <div className="product" key={index} onClick={() => handleCategoryChange(product.modelNum)}>
+                            <div
+                                className="product"
+                                key={index}
+                                onClick={() =>
+                                    handleCategoryChange(product.modelNum)
+                                }
+                            >
                                 <div>
-                                    <div className="image-container">
+                                    <div className="product-img-230">
                                         <img
                                             src={`${CLOUD_STORAGE_BASE_URL}/products/${product.productImg}`}
                                             alt={product.productName}
-                                            className="post-image"
                                         />
                                     </div>
                                     <IconButton
-                                        onClick={(e) => handleLikeToggle(index, e)}
+                                        onClick={(e) =>
+                                            handleLikeToggle(index, e)
+                                        }
                                         className="icon-button"
                                     >
                                         {product.liked ? (
@@ -140,7 +145,11 @@ const SubClothes = () => {
                                         {product.modelNum}
                                     </span>
                                     <span className="semibold-black">
-                                        {product.biddingPrice ? parseInt(product.biddingPrice).toLocaleString() : '-'}
+                                        {product.biddingPrice
+                                            ? parseInt(
+                                                  product.biddingPrice
+                                              ).toLocaleString()
+                                            : "-"}
                                         <span className="light-black">원</span>
                                     </span>
                                     <span className="light-grey">

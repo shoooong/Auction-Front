@@ -18,7 +18,9 @@ const LuckyDrawDetailPage = () => {
     useEffect(() => {
         const fetchLuckyDraw = async () => {
             try {
-                const response = await axios.get(`${SERVER_URL}/luckyDrawAnnouncement/${luckyAnnouncementId}`);
+                const response = await axios.get(
+                    `${SERVER_URL}/luckyDrawAnnouncement/${luckyAnnouncementId}`
+                );
                 setLuckyDraw(response.data);
                 setLoading(false);
             } catch (err) {
@@ -40,11 +42,19 @@ const LuckyDrawDetailPage = () => {
     if (!luckyDraw) return <div>이벤트 공지사항을 찾을 수 없습니다.</div>;
 
     return (
-        <div className="lucky-draw-detail">
-            <button onClick={handleBack}>목록으로 돌아가기</button>
-            <h2>{luckyDraw.luckyTitle}</h2>
-            <p>{luckyDraw.createDate}</p>
-            <div className="content">{luckyDraw.luckyContent}</div>
+        <div className="notice-detail-page">
+            <div className="notice-detail-content">
+                <div className="align-center space-bewteen">
+                    <h2>{luckyDraw.luckyTitle}</h2>
+                    <span>{luckyDraw.createDate}</span>
+                </div>
+                <div className="content">{luckyDraw.luckyContent}</div>
+                <div className="text-center">
+                    <button className="add-btn btn" onClick={handleBack}>
+                        목록으로 돌아가기
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };

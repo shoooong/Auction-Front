@@ -43,7 +43,7 @@ const ProductRequestDetail = () => {
         product.productStatus === "REJECTED" ? "반려" : "요청완료";
 
     return (
-        <div className="product-detail">
+        <div className="product-detail request-product-form inquiry-registration">
             <h2>{product.productName}</h2>
             <p>
                 <strong>Brand:</strong> {product.productBrand}
@@ -63,7 +63,13 @@ const ProductRequestDetail = () => {
             <p>
                 <strong>Sub Department:</strong> {product.subDepartment}
             </p>
-            {imageUrl && <img src={imageUrl} alt={product.productName} />}
+            {imageUrl && (
+                <img
+                    style={{ width: "300px" }}
+                    src={imageUrl}
+                    alt={product.productName}
+                />
+            )}
         </div>
     );
 };

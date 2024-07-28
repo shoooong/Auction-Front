@@ -7,7 +7,7 @@ const InquiryDetailPage = () => {
     const { inquiryId } = useParams();
 
     return (
-        <div className="inquiry-registration mb80">
+        <div className="inquiry-registration">
             <InquiryDetail inquiryId={inquiryId} />
 
             <div className="text-center">

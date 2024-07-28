@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+
 import axios from "axios";
-import { Box } from "@mui/material";
-import Heart from "assets/images/like-on.svg";
 import { SERVER_URL } from "api/serverApi";
 
-const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
+import { Box, Button } from "@mui/material";
+
+import Heart from "assets/images/like-on.svg";
+
+const CLOUD_STORAGE_BASE_URL =
+    "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
 const ProductRanking = () => {
     const { mainDepartment } = useParams();
@@ -21,9 +25,12 @@ const ProductRanking = () => {
     useEffect(() => {
         const fetchProductsByLikes = async () => {
             try {
-                const response = await axios.get(`${SERVER_URL}/all_product_likes`, {
-                    params: { mainDepartment },
-                });
+                const response = await axios.get(
+                    `${SERVER_URL}/all_product_likes`,
+                    {
+                        params: { mainDepartment },
+                    }
+                );
                 console.log(
                     "Fetched products:",
                     JSON.stringify(response.data, null, 2)
@@ -95,62 +102,79 @@ const ProductRanking = () => {
                                 {departmentNames[department]}
                             </h3>
                         </Box>
-                        <div className="grid grid-column-5 grid-gap-x30 product-wrap">
-                            {displayedProducts.map((product) => (
-                                <div key={product.productId}>
-                                    <Link
-                                        to={`/clothes/details/${product.modelNum}`}
-                                    >
-                                        <div className="product">
-                                            <div className="product-img-230">
-                                                <img
-                                                    src={`${CLOUD_STORAGE_BASE_URL}${product.productImg}`}
-                                                    alt={product.productName}
-                                                    className="w100p"
-                                                />
-                                            </div>
-                                            <div>
-                                                <p className="semibold-black">
-                                                    {product.productBrand}
-                                                </p>
-                                                <p className="light-black">
-                                                    {product.productName}
-                                                </p>
-                                                <span className="red-bullet">
-                                                    {product.modelNum}
-                                                </span>
-                                                <span className="semibold-black">
-                                                    {product.biddingPrice
-                                                        ? `${Number(product.biddingPrice).toLocaleString()} 원`
-                                                        : "-원"}
-                                                </span>
-                                                <span className="light-grey">
-                                                    즉시 구매가
-                                                </span>
-                                                <span
-                                                    className="inline-flex align-center black-label"
-                                                    style={{
-                                                        padding: "5px 0",
-                                                    }}
-                                                >
+                        <Box className="line mb40">
+                            <div className="grid grid-column-5 grid-gap-x30 product-wrap">
+                                {displayedProducts.map((product) => (
+                                    <div key={product.productId}>
+                                        <Link
+                                            to={`/clothes/details/${product.modelNum}`}
+                                        >
+                                            <div className="product">
+                                                <div className="product-img-230">
                                                     <img
-                                                        src={Heart}
-                                                        alt="heart"
-                                                        style={{
-                                                            paddingRight: "5px",
-                                                        }}
+                                                        src={`${CLOUD_STORAGE_BASE_URL}${product.productImg}`}
+                                                        alt={
+                                                            product.productName
+                                                        }
+                                                        className="w100p"
                                                     />
-                                                    {product.productLike}
-                                                </span>
+                                                </div>
+                                                <div>
+                                                    <p className="semibold-black">
+                                                        {product.productBrand}
+                                                    </p>
+                                                    <p className="light-black">
+                                                        {product.productName}
+                                                    </p>
+                                                    <span className="red-bullet">
+                                                        {product.modelNum}
+                                                    </span>
+                                                    <span className="semibold-black">
+                                                        {product.biddingPrice
+                                                            ? `${Number(
+                                                                  product.biddingPrice
+                                                              ).toLocaleString()} 원`
+                                                            : "-원"}
+                                                    </span>
+                                                    <span className="light-grey">
+                                                        즉시 구매가
+                                                    </span>
+                                                    <span
+                                                        className="inline-flex align-center black-label"
+                                                        style={{
+                                                            padding: "5px 0",
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={Heart}
+                                                            alt="heart"
+                                                            style={{
+                                                                paddingRight:
+                                                                    "5px",
+                                                            }}
+                                                        />
+                                                        {product.productLike}
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </Link>
+                                        </Link>
+                                    </div>
+                                ))}
+                            </div>
+                            {departmentProducts.length >
+                                productsDisplayed[department] && (
+                                <div className="text-center">
+                                    <Button
+                                        className="add-btn"
+                                        onClick={() =>
+                                            loadMoreProducts(department)
+                                        }
+                                    >
+                                        더보기
+                                    </Button>
                                 </div>
-                            ))}
-                        </div>
-                        {departmentProducts.length > productsDisplayed[department] && (
-                            <button onClick={() => loadMoreProducts(department)}>더보기</button>
-                        )}
+                            )}
+                        </Box>
                     </div>
                 );
             })}

@@ -72,34 +72,13 @@ hr {display: none;}
 .inline-flex {display: inline-flex !important;flex-wrap: wrap !important;}
 .flex {display: flex !important;flex-wrap: wrap !important;}
 .justify-center {display: flex !important;justify-content: center !important;}
-.space-between {
-    display: flex !important;
-    justify-content: space-between !important;
-}
-.flex-start {
-    display: flex !important;
-    justify-content: flex-start !important;
-}
-.flex-end {
-    display: flex !important;
-    justify-content: flex-end !important;
-}
-.align-center {
-    display: flex !important;
-    align-items: center !important;
-}
-.align-end {
-    display: flex;
-    align-items: flex-end !important;
-}
-.column-direction {
-    display: flex;
-    flex-direction: column;
-}
-.row-direction {
-    display: flex;
-    flex-direction: row;
-}
+.space-between {display: flex !important;justify-content: space-between !important;}
+.flex-start {display: flex !important;justify-content: flex-start !important;}
+.flex-end {display: flex !important;justify-content: flex-end !important;}
+.align-center {display: flex !important;align-items: center !important;}
+.align-end {display: flex;align-items: flex-end !important;}
+.column-direction {display: flex;flex-direction: column;}
+.row-direction {display: flex;flex-direction: row;}
 .no-wrap {display: flex;flex-wrap: nowrap;}
 .flex-grow {flex: 1 1;}
 

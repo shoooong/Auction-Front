@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import axios from "axios";
+import jwtAxios from "utils/jwtUtil";
 import { SERVER_URL } from "api/serverApi";
 
-import jwtAxios from "utils/jwtUtil";
+import LikeOn from "assets/images/like-on.svg";
+import LikeOff from "assets/images/like-off.svg";
+import BookmarkOn from "assets/images/bookmark-on.svg";
+import BookmarkOff from "assets/images/bookmark-off.svg";
 
 const FeedDetail = () => {
     const [feed, setFeed] = useState(null);
@@ -71,24 +75,55 @@ const FeedDetail = () => {
     if (!feed) return <div>Loading...</div>;
 
     return (
-        <div className="container">
-            <img
-                src={feed.feedImage}
-                alt={feed.feedTitle}
-                className="feed-detail-image"
-            />
-            <div className="feed-detail-info">
-                <h2>{feed.feedTitle}</h2>
-                <p className="username">{feed.nickName || "Unknown"}</p>{" "}
-                {/* Updated to display nickName */}
-                <p className="likes">❤️ {feed.likeCount}</p>
-                <p className="description">{feed.feedContent}</p>
-                <button onClick={handleLikeClick} className="like-button">
-                    ❤️ {isLiked ? "Liked" : "Like"}
-                </button>
-                <button onClick={handleSaveClick} className="save-button">
-                    💾 {isSaved ? "Saved" : "Save"}
-                </button>
+        <div className="container style-detail">
+            <img src={feed.feedImage} alt={feed.feedTitle} />
+            <div>
+                <div>
+                    <span className="flex black-label">
+                        <img src={LikeOn} alt="heart" />
+                        {feed.likeCount}
+                    </span>
+
+                    <div className="flex" style={{ marginTop: "5px" }}>
+                        <button
+                            onClick={handleLikeClick}
+                            className="black-label align-center"
+                        >
+                            {isLiked ? (
+                                <>
+                                    <img src={LikeOn} alt="likeon" />
+                                    Liked
+                                </>
+                            ) : (
+                                <>
+                                    <img src={LikeOff} alt="likeoff" />
+                                    Like
+                                </>
+                            )}
+                        </button>
+
+                        <button
+                            onClick={handleSaveClick}
+                            className="black-label align-center"
+                        >
+                            {isSaved ? (
+                                <>
+                                    <img src={BookmarkOn} alt="heart" />
+                                    Saved
+                                </>
+                            ) : (
+                                <>
+                                    <img src={BookmarkOff} alt="heart" />
+                                    Save
+                                </>
+                            )}
+                        </button>
+                    </div>
+                </div>
+                <div className="flex" style={{ marginTop: "10px" }}>
+                    <p className="black-label">{feed.feedTitle}</p>
+                    <p className="grey-label">{feed.nickName || "Unknown"}</p>
+                </div>
             </div>
         </div>
     );

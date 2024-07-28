@@ -9,7 +9,8 @@ import Feed from "pages/style/Feed";
 const StyleRankingList = () => {
     const [feeds, setFeeds] = useState([]);
 
-    const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
+    const CLOUD_STORAGE_BASE_URL =
+        "https://kr.object.ncloudstorage.com/push/shooong/";
 
     useEffect(() => {
         const fetchFeeds = async () => {
@@ -32,18 +33,25 @@ const StyleRankingList = () => {
     }, []);
 
     return (
-        <div className="feed-list">
-            {feeds.map((feed) => (
-                <Link key={feed.id} to={`/style/styledetail/${feed.id}`}>
-                    <Feed
-                        username={feed.username} // Display the nickname
-                        image={feed.image}
-                        description={feed.description}
-                        likes={feed.likes}
-                    />
-                </Link>
-            ))}
-        </div>
+        <>
+            <div className="sub-nav">
+                <Link to="/style">피드</Link>
+                <Link to="/style/rank">랭킹</Link>
+                <Link to="/style/register">스타일 등록하기</Link>
+            </div>
+            <div className="feed-list">
+                {feeds.map((feed) => (
+                    <Link key={feed.id} to={`/style/styledetail/${feed.id}`}>
+                        <Feed
+                            username={feed.username} // Display the nickname
+                            image={feed.image}
+                            description={feed.description}
+                            likes={feed.likes}
+                        />
+                    </Link>
+                ))}
+            </div>
+        </>
     );
 };
 

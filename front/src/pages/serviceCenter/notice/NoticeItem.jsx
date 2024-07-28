@@ -1,4 +1,5 @@
 import React from "react";
+
 import "./NoticeItem.css";
 
 const NoticeItem = ({ type, title }) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import jwtAxios from 'pages/user/jwtUtil';
+
+import jwtAxios from 'utils/jwtUtil';
 
 const AdminInquiryDetail = ({ inquiryId }) => {
   const [inquiry, setInquiry] = useState(null);

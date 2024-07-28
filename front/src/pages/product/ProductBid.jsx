@@ -1,8 +1,10 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SERVER_URL } from "../../api/serverApi";
+
+import { SERVER_URL } from "api/serverApi";
+
 import { Box } from "@mui/material";
+
 import "../../styles/productBid.css";
 
 const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+
 import NoticeDetailContainer from "./NoticeDetailContainer";
 
 const NoticeDetail = () => {

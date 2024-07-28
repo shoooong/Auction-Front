@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import jwtAxios from 'pages/user/jwtUtil';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+
+import jwtAxios from 'utils/jwtUtil';
+
 import NoticeDetailContent from './NoticeDetailContent';
 import NoticeEditForm from './NoticeEditForm';
 

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import jwtAxios from "pages/user/jwtUtil";
-import { SERVER_URL } from "../../api/serverApi";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
+import { SERVER_URL } from "api/serverApi";
+
+import jwtAxios from "utils/jwtUtil";
+
 
 const RequestProductForm = () => {
   const [productBrand, setProductBrand] = useState("");

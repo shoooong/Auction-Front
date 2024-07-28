@@ -1,7 +1,10 @@
-import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
-import "styles/bookmark.css";
 import BookmarkProduct from "pages/user/mypage/BookmarkProduct";
 import BookmarkFeed from "pages/user/mypage/BookmarkFeed";
+
+import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
+
+import "styles/bookmark.css";
+
 
 const MypageBookmark = () => {
     return (

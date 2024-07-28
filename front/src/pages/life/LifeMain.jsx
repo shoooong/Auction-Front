@@ -1,7 +1,7 @@
 import MainNewBuy from "pages/product/MainNewBuy";
-import RecommendedStyles from "../../pages/product/RecommendsStyles";
-import MainLatestProduct from "../product/MainLatestProduct";
+import RecommendedStyles from "pages/product/RecommendsStyles";
 import MainProductPopular from "pages/product/MainProductPopular";
+import MainLatestProduct from "../product/MainLatestProduct";
 import MainNewSales from "pages/product/MainNewSales";
 
 import SubBanner from "assets/images/sub-banner.png";

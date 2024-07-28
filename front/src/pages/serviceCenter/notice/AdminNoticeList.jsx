@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import jwtAxios from "pages/user/jwtUtil";
+
+import jwtAxios from "utils/jwtUtil";
 
 const AdminNoticeList = ({ activeTab }) => {
     const [notices, setNotices] = useState([]);

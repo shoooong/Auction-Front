@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+
 import FeedDetail from './FeedDetail';
 
 const FeedDetailWrapper = () => {

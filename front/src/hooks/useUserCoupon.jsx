@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { SERVER_URL } from "api/serverApi";
-import jwtAxios from "pages/user/jwtUtil";
-import { getCookie } from "pages/user/cookieUtil";
 import { useNavigate } from "react-router-dom";
+
+import jwtAxios from "utils/jwtUtil";
+import { getCookie } from "utils/cookieUtil";
+
 
 const useUserCoupon = () => {
     const [coupons, setCoupons] = useState([]);

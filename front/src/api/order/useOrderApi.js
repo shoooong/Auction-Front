@@ -1,5 +1,4 @@
-import useOrder from "hooks/useOrder";
-import jwtAxios from "pages/user/jwtUtil";
+import jwtAxios from "utils/jwtUtil";
 
 export const Product = async (data) => {
     const res = await jwtAxios.get("/order/productOne", {

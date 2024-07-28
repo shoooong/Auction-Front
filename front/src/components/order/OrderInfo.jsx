@@ -1,5 +1,3 @@
-import useBid from "hooks/useBid";
-import useOrderApi from "api/order/useOrderApi";
 const OrderInfo = ({ order }) => {
     console.log(order);
     return (

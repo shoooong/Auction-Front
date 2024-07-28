@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';  // Import Link from react-router-dom
+
 import axios from 'axios';
-import { SERVER_URL } from "../../api/serverApi";
+import { SERVER_URL } from 'api/serverApi';
 
 const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
 

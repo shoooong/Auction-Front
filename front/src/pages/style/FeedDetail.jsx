@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import jwtAxios from 'pages/user/jwtUtil';
-import { SERVER_URL } from "api/serverApi";
+
 import axios from 'axios';
+import { SERVER_URL } from "api/serverApi";
+
+import jwtAxios from 'utils/jwtUtil';
 
 const FeedDetail = () => {
   const [feed, setFeed] = useState(null);

@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import "styles/order_complete.css";
+
+import { Order } from "api/order/useOrderApi";
+
 import OrderProduct from "components/order/OrderProduct";
 import OrderInfo from "components/order/OrderInfo";
-import { Order } from "api/order/useOrderApi";
+
+import "styles/order_complete.css";
+
 export function SuccessPage() {
     const queryParams = new URLSearchParams(window.location.search);
     const fullOrderId = queryParams.get("orderId"); // 예: "Zi9UdirQdheViE-orderId12345"

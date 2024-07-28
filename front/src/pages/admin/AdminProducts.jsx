@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { getProductsByDepartment } from "../../api/admin/productApi";
+import { useNavigate } from "react-router-dom";
+
+import { getProductsByDepartment } from "api/admin/productApi";
+
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -8,7 +11,6 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import CheckroomOutlinedIcon from "@mui/icons-material/CheckroomOutlined";
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";

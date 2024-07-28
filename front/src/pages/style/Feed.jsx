@@ -1,4 +1,5 @@
 import React from "react";
+
 const Feed = ({ username, image, description, likes }) => {
     return (
         <div className="feed">

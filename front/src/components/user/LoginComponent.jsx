@@ -1,6 +1,8 @@
 import { useState } from "react";
-import useCustomLogin from "../../hooks/useCustomLogin";
+
 import KakaoLoginComponent from "./KakaoLoginComponent";
+import useCustomLogin from "hooks/useCustomLogin";
+
 
 const initState = {
     email: '',

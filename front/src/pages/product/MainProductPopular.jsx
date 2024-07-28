@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { Button, Box, IconButton } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom"; // useNavigate 훅을 import 합니다
-import { SERVER_URL } from "../../api/serverApi";
+
+import axios from "axios";
+import { SERVER_URL } from "api/serverApi";
+
+import { Button, Box, IconButton } from "@mui/material";
+
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 

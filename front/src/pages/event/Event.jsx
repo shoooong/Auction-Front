@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SERVER_URL } from "api/serverApi";
-import jwtAxios from "pages/user/jwtUtil";
+
+import jwtAxios from "utils/jwtUtil";
+import { getCookie } from "utils/cookieUtil";
 
 import useCouponEvent from "hooks/useCouponEvent";
-import { getCookie } from "pages/user/cookieUtil";
 
 import couponDownBtn from "assets/images/coupon_down.svg";
 

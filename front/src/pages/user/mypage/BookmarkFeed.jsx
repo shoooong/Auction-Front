@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { SERVER_URL } from "api/serverApi";
-import jwtAxios from "pages/user/jwtUtil";
+
+import jwtAxios from "utils/jwtUtil";
 
 const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/";
 

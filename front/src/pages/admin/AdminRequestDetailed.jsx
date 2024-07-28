@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+
 import { acceptRequest, getRequest, rejectRequest } from "api/admin/requestApi";
 import { CLOUD_STORAGE_BASE_URL } from "api/admin/productApi";
-import {
-  Box,
-  Modal,
-  Button,
-  TextField,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
+
+import { Box, Modal, Button, TextField, CircularProgress, Typography } from "@mui/material";
+
 import "styles/admin.css";
 
 const initialState = {

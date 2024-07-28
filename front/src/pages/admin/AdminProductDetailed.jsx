@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+import { getProduct, acceptProduct } from "api/admin/productApi";
+import { CLOUD_STORAGE_BASE_URL } from "api/admin/productApi";
+
+import CommonList from "./layout/CommonList";
+
 import {
   Box,
   Select,
@@ -11,10 +18,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
-import { getProduct, acceptProduct } from "api/admin/productApi";
-import CommonList from "./layout/CommonList";
-import { CLOUD_STORAGE_BASE_URL } from "api/admin/productApi";
+
 
 const AdminProductDetailed = () => {
   const { modelNum } = useParams();

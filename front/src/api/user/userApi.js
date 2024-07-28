@@ -1,7 +1,8 @@
 import axios from "axios";
-import { SERVER_URL } from "../serverApi";
-import jwtAxios from "pages/user/jwtUtil";
-import { getCookie } from "pages/user/cookieUtil";
+import { SERVER_URL } from "api/serverApi";
+
+import jwtAxios from "utils/jwtUtil";
+import { getCookie } from "utils/cookieUtil";
 
 
 export const loginPost = async (loginParam) => {

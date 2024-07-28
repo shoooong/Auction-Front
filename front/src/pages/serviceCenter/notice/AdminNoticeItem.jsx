@@ -1,4 +1,5 @@
 import React from "react";
+
 import "./NoticeItem.css";
 
 const AdminNoticeItem = ({ type, title }) => {

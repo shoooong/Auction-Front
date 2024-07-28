@@ -1,4 +1,5 @@
 import React from 'react';
+
 import AdminNoticeDetailContainer from './AdminNoticeDetailContainer';
 
 const AdminNoticeDetail = () => {

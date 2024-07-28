@@ -1,8 +1,9 @@
-import { Box, Typography, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
-
 import { useSelector } from "react-redux";
+
 import useCustomLogin from "hooks/useCustomLogin";
+
+import { Box, Typography, Avatar } from "@mui/material";
 
 const UserProfile = () => {
   const loginState = useSelector((state) => state.loginSlice);

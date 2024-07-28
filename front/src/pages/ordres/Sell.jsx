@@ -1,21 +1,20 @@
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import jwtAxios from "utils/jwtUtil";
+
+import OrderAddressComponent from "components/OrderAddressComponent";
+import OrderAccount from "components/order/OrderAccount";
+import useBid from "hooks/useBid";
+
+import { Dialog } from "@mui/material";
+
 import prImg from "assets/images/sample.png";
 import postImg from "assets/images/icon-post.png";
-
 import arrowImg from "assets/images/arrow2.svg";
-import "styles/order.css";
-import { useEffect, useState } from "react";
-import { Button, Box, Dialog, DialogTitle } from "@mui/material";
-import OrderAddressComponent from "components/OrderAddressComponent";
-import jwtAxios from "pages/user/jwtUtil";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import useBid from "hooks/useBid";
-import OrderAccount from "components/order/OrderAccount";
-// import Event from "pages/user/mypage/CouponMain";
-// import Postcode from "components/mypage/Postcode";
-// ------  SDK 초기화 ------
 
-// import useAddress from "hooks/useAddress";
+import "styles/order.css";
+
 
 export default function Sell() {
     // const [address, setAddress] = useState("");

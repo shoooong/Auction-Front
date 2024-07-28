@@ -33,6 +33,7 @@ export default function Buy() {
     console.log("jasn===" + JSON.stringify(bidData, null, 2));
 
     const { product, addressInfo } = useBid(bidData);
+    console.log("addressInfo==" + addressInfo);
     console.log("product===" + product);
     const [orderData, setOrderData] = useState({
         productId: 0,
@@ -77,7 +78,8 @@ export default function Buy() {
     // }, [bidData]);
 
     useEffect(() => {
-        if (userAddress && product) {
+        if (addressInfo && product) {
+            setUserAddress(addressInfo);
             const calculatedFee = bidData?.bidPrice * 0.04;
             console.log("calculatedFee=" + calculatedFee);
             setFee(Math.floor(calculatedFee / 10) * 10);
@@ -90,7 +92,7 @@ export default function Buy() {
                 exp: bidData?.selectedDays,
             }));
         }
-    }, [userAddress, product]);
+    }, [addressInfo, product]);
 
     useEffect(() => {
         if (

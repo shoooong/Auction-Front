@@ -6,8 +6,7 @@ import useUserCoupon from "hooks/useUserCoupon";
 import "styles/order.css";
 import "styles/order_coupon.css";
 
-
-const OrderCouponComponent = ({ onSelectCoupon }) => {
+const OrderCouponPopup = ({ onSelectCoupon }) => {
     const { coupons } = useUserCoupon();
 
     return (
@@ -47,4 +46,4 @@ const OrderCouponComponent = ({ onSelectCoupon }) => {
         </div>
     );
 };
-export default OrderCouponComponent;
+export default OrderCouponPopup;

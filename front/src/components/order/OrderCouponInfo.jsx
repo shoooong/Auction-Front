@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Dialog, DialogTitle } from "@mui/material";
 
-import OrderCouponComponent from "components/OrderCouponComponent";
+import OrderCouponPopup from "components/OrderCouponPopup";
 
 import arrowImg from "assets/images/arrow2.svg";
 
@@ -56,7 +56,7 @@ const OrderCouponInfo = ({
                 }}
             >
                 <DialogTitle>쿠폰 선택</DialogTitle>
-                <OrderCouponComponent onSelectCoupon={handleSelectCoupon} />
+                <OrderCouponPopup onSelectCoupon={handleSelectCoupon} />
             </Dialog>
         </div>
     );

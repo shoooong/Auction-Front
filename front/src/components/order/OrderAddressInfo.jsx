@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { maskName, formatPhoneNumber } from "utils/mypageUtil";
 
-import { Dialog, DialogTitle } from "@mui/material";
+import { Dialog } from "@mui/material";
 
 import arrowImg from "assets/images/arrow2.svg";
 import postImg from "assets/images/icon-post.png";
 
-import OrderAddressComponent from "components/OrderAddressComponent";
+import OrderAddressPopup from "components/OrderAddressPopup";
 import OrderMemoPopup from "./OrderMemoPopup";
 
 const OrderAddressInfo = ({
@@ -141,7 +141,7 @@ const OrderAddressInfo = ({
                     },
                 }}
             >
-                <OrderAddressComponent
+                <OrderAddressPopup
                     userAddress={userAddress}
                     setUserAddress={setUserAddress}
                     addressOpen={addressOpen}

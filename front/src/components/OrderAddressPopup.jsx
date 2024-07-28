@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getAddress, addAddress, modifyAddress, deleteAddress } from "api/user/mypageApi";
+import {
+    getAddress,
+    addAddress,
+    modifyAddress,
+    deleteAddress,
+} from "api/user/mypageApi";
 
 import { getCookie } from "utils/cookieUtil";
 import { maskName, formatPhoneNumber } from "utils/mypageUtil";
@@ -11,7 +16,6 @@ import { Box, Dialog, DialogTitle, Button } from "@mui/material";
 
 import "styles/order.css";
 import "styles/order_coupon.css";
-
 
 const fetchData = async (setAddresses, setLoading, navigate) => {
     const userInfo = getCookie("user");
@@ -31,7 +35,7 @@ const fetchData = async (setAddresses, setLoading, navigate) => {
     setLoading(false);
 };
 
-const OrderAddressComponent = ({
+const OrderAddressPopup = ({
     userAddress,
     setUserAddress,
     addressOpen,
@@ -263,4 +267,4 @@ const OrderAddressComponent = ({
         </div>
     );
 };
-export default OrderAddressComponent;
+export default OrderAddressPopup;

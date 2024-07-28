@@ -6,6 +6,7 @@ import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import jwtAxios from "utils/jwtUtil";
 
 import OrderCouponComponent from "components/OrderCouponComponent";
+import OrderAddressComponent from "components/OrderAddressComponent";
 import useBid from "hooks/useBid";
 
 import { Dialog, DialogTitle } from "@mui/material";

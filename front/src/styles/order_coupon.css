@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
 
+    padding: 0px 32px 32px 32px;
     gap: 12px;
 }
 .order-coupon-container {

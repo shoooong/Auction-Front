@@ -326,3 +326,44 @@ dd.desc {
 .account_btn {
     align-self: end;
 }
+
+/*OrderMemo*/
+
+.userMemo_box {
+    height: 70px;
+    width: 456px;
+    border: 1px solid #ebebeb;
+    border-radius: 10px;
+}
+.userMemo_box > textarea {
+    border: none;
+    /* margin: 2px; */
+    padding: 10px;
+}
+.userMemo_box > textarea::placeholder {
+    font-size: 14px;
+    color: rgba(34, 34, 34, 0.3);
+}
+
+.order_cancel_btn {
+}
+.order_btn {
+    width: 120px;
+    height: 42px;
+    border-radius: 15px;
+
+    color: #000;
+    border: 1px solid #ebebeb;
+    margin: 4px;
+    font-weight: 200;
+}
+.order_save_btn {
+    background-color: #333333;
+    color: #fff;
+}
+.order_cancel_btn {
+}
+
+.memo_form > h3 {
+    font-weight: 500;
+}

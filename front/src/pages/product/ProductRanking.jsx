@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-
 import axios from "axios";
-import { SERVER_URL } from "api/serverApi";
-
 import { Box } from "@mui/material";
 import Heart from "assets/images/like-on.svg";
+import { SERVER_URL } from "api/serverApi";
 
-const CLOUD_STORAGE_BASE_URL =
-    "https://kr.object.ncloudstorage.com/push/shooong/products/";
+const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
 const ProductRanking = () => {
     const { mainDepartment } = useParams();
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [productsDisplayed, setProductsDisplayed] = useState({
+        clothes: 5,
+        life: 5,
+        tech: 5,
+    });
 
     useEffect(() => {
         const fetchProductsByLikes = async () => {
             try {
-                const response = await axios.get(
-                    `${SERVER_URL}/all_product_likes`,
-                    {
-                        params: { mainDepartment },
-                    }
-                );
+                const response = await axios.get(`${SERVER_URL}/all_product_likes`, {
+                    params: { mainDepartment },
+                });
                 console.log(
                     "Fetched products:",
                     JSON.stringify(response.data, null, 2)
@@ -44,6 +43,13 @@ const ProductRanking = () => {
         return products.filter(
             (product) => product.mainDepartment === departmentName
         );
+    };
+
+    const loadMoreProducts = (department) => {
+        setProductsDisplayed((prev) => ({
+            ...prev,
+            [department]: prev[department] + 5,
+        }));
     };
 
     if (loading) return <div>Loading...</div>;
@@ -69,6 +75,11 @@ const ProductRanking = () => {
             </div>
             {departments.map((department) => {
                 const departmentProducts = getFilteredProducts(department);
+                const displayedProducts = departmentProducts.slice(
+                    0,
+                    productsDisplayed[department]
+                );
+
                 if (departmentProducts.length === 0) return null;
 
                 return (
@@ -85,7 +96,7 @@ const ProductRanking = () => {
                             </h3>
                         </Box>
                         <div className="grid grid-column-5 grid-gap-x30 product-wrap">
-                            {departmentProducts.map((product) => (
+                            {displayedProducts.map((product) => (
                                 <div key={product.productId}>
                                     <Link
                                         to={`/clothes/details/${product.modelNum}`}
@@ -105,16 +116,13 @@ const ProductRanking = () => {
                                                 <p className="light-black">
                                                     {product.productName}
                                                 </p>
-
                                                 <span className="red-bullet">
                                                     {product.modelNum}
                                                 </span>
                                                 <span className="semibold-black">
                                                     {product.biddingPrice
-                                                        ? `${Number(
-                                                              product.biddingPrice
-                                                          ).toLocaleString()} 원`
-                                                        : "정보 없음"}
+                                                        ? `${Number(product.biddingPrice).toLocaleString()} 원`
+                                                        : "-원"}
                                                 </span>
                                                 <span className="light-grey">
                                                     즉시 구매가
@@ -140,6 +148,9 @@ const ProductRanking = () => {
                                 </div>
                             ))}
                         </div>
+                        {departmentProducts.length > productsDisplayed[department] && (
+                            <button onClick={() => loadMoreProducts(department)}>더보기</button>
+                        )}
                     </div>
                 );
             })}

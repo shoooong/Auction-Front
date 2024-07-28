@@ -24,6 +24,9 @@ import {
 } from "@mui/material";
 import { Tabs, TabsList, TabPanel, Tab } from "@mui/base";
 
+import BookmarkOff from "assets/images/bookmark-off.svg";
+import BookmarkOn from "assets/images/bookmark-on.svg";
+
 const CLOUD_STORAGE_BASE_URL =
     "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
@@ -48,19 +51,32 @@ const ProductDetails = () => {
     const [bookmarkSize, setBookmarkSize] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [bookmarkCount, setBookmarkCount] = useState(0); // 북마크 개수 상태 추가
+    const [isBookmarked, setIsBookmarked] = useState(false); 
 
     const { exceptionHandler } = useCustomLogin();
+
+    const checkIfBookmarked = async () => {
+        try {
+            const response = await jwtAxios.get(`/product/bookmark/exists`, {
+                params: { modelNum }
+            });
+            setIsBookmarked(response.data);
+        } catch (error) {
+            console.error("Error checking bookmark status:", error);
+        }
+    };
 
     useEffect(() => {
         const checkUser = () => {
             const userInfo = getCookie("user");
             if (userInfo && userInfo.accessToken) {
                 setIsLoggedIn(true);
+                checkIfBookmarked();
             }
         };
         checkUser();
         fetchProductDetails();
-        fetchBookmarkCount(); // 북마크 개수 가져오기
+        fetchBookmarkCount();
     }, [modelNum]);
 
     const fetchProductDetails = async () => {
@@ -487,16 +503,19 @@ const ProductDetails = () => {
                 alert("관심상품으로 저장되었습니다.");
                 setBookmarkModalOpen(false);
                 setBookmarkSize(null);
-                fetchBookmarkCount(); // 북마크 개수 업데이트
+                fetchBookmarkCount();
+                setIsBookmarked(true);
+                window.location.reload();
             } else {
                 alert("관심상품으로 저장되었습니다.");
+                window.location.reload();
             }
         } catch (error) {
             console.error("요청 오류:", error);
             alert("요청 처리 중 오류가 발생했습니다.");
+            window.location.reload();
         }
     };
-
     return (
         <Box className="product-detail container">
             <div className="flex">
@@ -669,16 +688,9 @@ const ProductDetails = () => {
                             type="button"
                             onClick={handleBookmarkClick}
                         >
-                            <span>
-                                <img
-                                    src="/static/media/bookmark-off.6b051f0a6642a44e2147719b5bbbf331.svg"
-                                    alt="BookmarkOff"
-                                />
-                            </span>
-                            관심상품
-                            <span>{bookmarkCount}</span>{" "}
-                            {/* 북마크 개수를 동적으로 표시 */}
-                            <span className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span>
+                            <img src={isBookmarked ? BookmarkOn : BookmarkOff} alt="Bookmark Icon" />
+                            {isBookmarked ? "관심상품" : "관심상품 취소"}
+                            <span>{bookmarkCount}</span>
                         </button>
                         {/* 정식이 파트 */}
                     </div>

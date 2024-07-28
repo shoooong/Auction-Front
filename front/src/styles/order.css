@@ -86,12 +86,11 @@
     font-weight: 800;
 }
 .product_detail {
-    /* text-indent: 16px; */
     height: 76px;
-    /* align-content: space-between; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding-left: 10px;
 }
 
 .product_info {

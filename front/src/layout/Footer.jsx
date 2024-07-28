@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 import FooterLogo from "assets/images/footer-logo.svg";
-import Insta from "assets/images/instagram.svg";
-import Facebook from "assets/images/facebook.svg";
+import Git from "assets/images/git.svg";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 
 export default function Footer() {
@@ -58,9 +57,10 @@ export default function Footer() {
                             </span>
                             <span>©PUSH. ALL RIGHTS RESERVED</span>
                         </div>
-                        <div className="">
-                            <img src={Facebook} alt="facebook" />
-                            <img src={Insta} alt="instagram" />
+                        <div style={{ width: "100px", height: "100px" }}>
+                            <a href="https://github.com/shoooong">
+                                <img src={Git} alt="git" className="w100p" />
+                            </a>
                         </div>
                     </div>
                 </div>

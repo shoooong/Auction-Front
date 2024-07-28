@@ -156,3 +156,38 @@
 .text-field {width: 400px !important; border-radius: 4px;}
 .text-field > label {line-height: 1 !important; min-height: 400px;}
 .text-field .MuiInputBase-input {padding: 10px !important;}
+
+
+/*  ----------------------------- bidding-page -----------------------------------*/
+.bidding-page {padding: 20px 0 80px;}
+.bidding-page > div {max-width: 700px; margin: 0 auto;}
+.bidding-page .price-box {padding: 0 35px;}
+.bidding-page .price-box .black-label {font-size: var(--ft16); margin-top: 5px;}
+
+.tab_area.buy_tab .tab_list,
+.tab_area.sell_tab .tab_list {border: 1px solid #ebebeb;border-radius: 80px;display: flex;justify-content: center; margin-bottom: 30px; padding: 3px; background: var(--whitegrey); cursor: pointer;}
+
+.tab_area.buy_tab .item,
+.tab_area.sell_tab .item {border-radius: 80px;text-align: center; width: 100%;}
+.tab_area.buy_tab .item .item_link,
+.tab_area.sell_tab .item .item_link {border-radius: 80px;color: var(--black);font-size: var(--ft14);padding: 14px 0;display: block;text-align: center;}
+
+.tab_area.buy_tab .item.on,
+.tab_area.sell_tab .item.on {background-color: var(--red);border-radius: 80px;}
+.tab_area.sell_tab .item.on {background-color: var(--green);}
+.tab_area.buy_tab .item.on .item_link,
+.tab_area.sell_tab .item.on .item_link {color: var(--white);font-weight: var(--semibold);border-radius: 80px;}
+
+.bidding-form > div {padding: 0 35px;}
+.bidding-form > div:first-child div {border-bottom: 1px solid var(--borderBasic);}
+.bidding-form > div:first-child span:first-child,
+.bidding-form > div:first-child input {width: calc(100% - 40px); display: inline-block; text-align: right; font-size: var(--ft25); font-weight: var(--bold); color: var(--black);}
+.bidding-form > div:first-child span+span,
+.bidding-form > div:first-child input+span {font-size: var(--ft20);padding-left: 10px; font-weight: var(--regular); color: var(--black);}
+
+.bidding-form .deadline-tab {display: flex;justify-content: space-between;padding-bottom: 40px;}
+.bidding-form .deadline-tab > .small-btn {border: 1px solid var(--borderBasic) !important;color: var(--black) !important;}
+.bidding-form .deadline-tab > .small-btn.is_active {border: 1px solid var(--borderBlack) !important;color: var(--black) !important;font-weight: var(--bold) !important;}
+
+.bidding-form .confirm-box {border-top: 1px solid var(--borderBasic);}
+.bidding-form .disabled {background-color: #ebebeb !important;cursor: default; color: var(--white) !important;}

@@ -39,7 +39,7 @@ const ProductDetails = () => {
     const [selectedSize, setSelectedSize] = useState(null);
     const [currentTab, setCurrentTab] = useState("all");
     const [popupContent, setPopupContent] = useState("contract");
-    const [visibleReviews, setVisibleReviews] = useState(4);
+    const [visibleReviews, setVisibleReviews] = useState(5);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [reviewImg, setReviewImg] = useState(null);
     const [reviewContent, setReviewContent] = useState("");
@@ -94,7 +94,7 @@ const ProductDetails = () => {
     }
 
     const handleMoreReviews = () => {
-        setVisibleReviews((prev) => prev + 4);
+        setVisibleReviews((prev) => prev + 5);
     };
 
     const handleTabChange = (event, newValue) => {
@@ -550,7 +550,7 @@ const ProductDetails = () => {
                                             ? "blue-label"
                                             : product.differenceContract > 0
                                             ? "red-label"
-                                            : ""
+                                            : "black-label"
                                     }`}
                                 >
                                     {product.differenceContract !== null &&

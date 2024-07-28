@@ -51,7 +51,8 @@
 /* color */
 .green {color: var(--green);}
 .red {color: var(--red);}
-.bg-grey {}
+.bg-white {background: #fff;}
+.bg-grey {background: #f4f4f4;}
 
 /* -------------------------------------------- 컴포넌트 ---------------------------------------------------*/
 .box {padding-top: 40px;}
@@ -136,13 +137,17 @@
 .green-label {font-size: var(--ft14); color: var(--green); display: block;}
 .medium-btn-click {border: 1px solid var(--borderBlack) !important;}
 
+.fw600 {font-weight: var(--semibold);}
 .fw400 {font-weight: var(--regular);}
 .fw300 {font-weight: var(--light);}
 .big-size-price {font-size: var(--ft28); font-weight: var(--semibold); color: var(--black); margin-bottom: 20px; margin-top: 5px;}
 .miner-size-amount {font-size: var(--ft12); font-weight: var(--light);}
+.medium-size {font-size: var(--ft18);}
 .text-desc {font-size: var(--ft20); font-weight: var(--medium); color: var(--semiblack); margin-bottom: 40px;}
 .text-review {font-size: var(--ft16); font-weight: var(--medium); color: var(--black); margin-top: 10px;}
 .textarea {min-width: 400px; width: 100%; height: 400px; border-radius: 8px; border: 1px solid var(--borderBasic); margin-top: 10px; padding: 10px; font-size: var(--ft14); font-weight: var(--regular); color: var(--black);}
+.btn.buy {background: var(--red) !important; color: var(--white) !important;}
+.btn.sales {background: var(--green); color: var(--white) !important;}
 
 .cancel-btn,
 .confirm-btn {border-radius: 15px !important; padding: 13px 0 !important; width: 120px !important; border: 1px solid var(--borderBasic) !important;}
@@ -164,6 +169,7 @@
 .popup-title-box span {font-size: var(--ft13); font-weight: var(--regular); color: var(--grey); display: block;}
 
 .popup-product {padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--borderBasic);}
+.bidding-info-box .product-info,
 .popup-product .product-info {padding-left: 15px;}
 .popup-product .product-info span {display: block; line-height: 1.2; color: var(--black);}
 .popup-product .product-info span:nth-child(1),
@@ -171,6 +177,12 @@
 .popup-product .product-info span:nth-child(2),
 .popup-product .product-info span:nth-child(3) {font-weight: var(--regular);}
 .popup-product .product-info span:nth-child(3) {font-size: var(--ft13); color: var(--grey);}
+
+.bidding-info-box {padding: 35px;}
+.bidding-info-box img {border-radius: 10px; width: 80px; height: 80px;}
+.bidding-info-box .product-info span {display: block; color: var(--black); font-size: var(--ft15); font-weight: var(--regular); line-height: 1.4;}
+.bidding-info-box .product-info span:first-child {font-size: var(--ft16); font-weight: var(--bold);}
+.bidding-info-box .product-info span:last-child {font-weight: var(--bold);}
 
 .popup-content {padding: 20px 30px 0px;}
 .popup-content button {margin-bottom: 12px;}

@@ -1,0 +1,74 @@
+/* 전체 컨테이너 스타일 */
+.create-lucky-draw-announcement {
+    max-width: 800px; /* 폼 너비를 적당히 설정 */
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff; /* 배경색 흰색으로 설정 */
+    border: 1px solid #ddd; /* 경계선 색상 설정 */
+    border-radius: 8px; /* 모서리 둥글게 설정 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  }
+  
+  /* 제목 스타일 */
+  .create-lucky-draw-announcement h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px; /* 제목과 폼 사이의 여백 */
+    font-size: 28px; /* 제목 폰트 크기 설정 */
+  }
+  
+  /* 에러 메시지 스타일 */
+  .create-lucky-draw-announcement .error-message {
+    color: #d9534f; /* 에러 메시지 색상 빨간색으로 설정 */
+    font-size: 16px;
+    margin-bottom: 20px; /* 에러 메시지와 폼 사이의 여백 */
+    text-align: center; /* 에러 메시지 가운데 정렬 */
+  }
+  
+  /* 폼 그룹 스타일 */
+  .create-lucky-draw-announcement .form-group {
+    margin-bottom: 20px; /* 각 폼 그룹 간의 여백 */
+  }
+  
+  /* 레이블 스타일 */
+  .create-lucky-draw-announcement label {
+    display: block;
+    font-size: 18px; /* 레이블 폰트 크기 설정 */
+    color: #555; /* 레이블 색상 설정 */
+    margin-bottom: 8px; /* 레이블과 입력 필드 사이의 여백 */
+  }
+  
+  /* 입력 필드 스타일 */
+  .create-lucky-draw-announcement input[type="text"],
+  .create-lucky-draw-announcement textarea {
+    width: 100%; /* 입력 필드와 텍스트 영역 너비를 100%로 설정 */
+    padding: 12px; /* 입력 필드 내부 여백 설정 */
+    border: 1px solid #ccc; /* 입력 필드 경계선 색상 설정 */
+    border-radius: 8px; /* 입력 필드 모서리 둥글게 설정 */
+    font-size: 16px; /* 입력 필드 폰트 크기 설정 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 크기 계산 */
+  }
+  
+  .create-lucky-draw-announcement textarea {
+    resize: vertical; /* 세로로 크기 조절 가능 */
+    min-height: 200px; /* 최소 높이 설정 */
+  }
+  
+  /* 버튼 스타일 */
+  .create-lucky-draw-announcement button[type="submit"] {
+    display: block;
+    width: 100%;
+    background-color: #5bc0de; /* 버튼 배경색 설정 */
+    color: white; /* 버튼 글자 색상 설정 */
+    padding: 15px; /* 버튼 내부 여백 설정 */
+    border: none; /* 버튼 경계선 제거 */
+    border-radius: 8px; /* 버튼 모서리 둥글게 설정 */
+    cursor: pointer; /* 커서 포인터로 변경 */
+    font-size: 18px; /* 버튼 폰트 크기 설정 */
+    transition: background-color 0.3s ease; /* 배경색 변경 애니메이션 */
+  }
+  
+  .create-lucky-draw-announcement button[type="submit"]:hover {
+    background-color: #31b0d5; /* 버튼 호버 시 배경색 변경 */
+  }
+  

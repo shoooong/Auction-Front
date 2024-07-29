@@ -85,12 +85,12 @@
   
   .tabs {
     display: flex;
-    border-bottom: 2px solid #ddd;
+    /* border-bottom: 2px solid #ddd; */
   }
   
-  .tab {
+  /* .tab {
     margin-right: 20px;
-  }
+  } */
   
   .tab button {
     background: none;

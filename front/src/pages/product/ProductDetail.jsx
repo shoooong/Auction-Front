@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+import useCustomLogin from "hooks/useCustomLogin";
 import axios from "axios";
 import { SERVER_URL } from "api/serverApi";
 
@@ -10,7 +11,8 @@ import jwtAxios from "utils/jwtUtil";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 
-import useCustomLogin from "hooks/useCustomLogin";
+import likeOn from "assets/images/like-on.svg";
+import likeOff from "assets/images/like-off.svg";
 
 import {
     Box,
@@ -58,7 +60,7 @@ const ProductDetails = () => {
     const checkIfBookmarked = async () => {
         try {
             const response = await jwtAxios.get(`/product/bookmark/exists`, {
-                params: { modelNum }
+                params: { modelNum },
             });
             setIsBookmarked(response.data);
         } catch (error) {
@@ -414,8 +416,8 @@ const ProductDetails = () => {
                     ? buyingProduct.productId
                     : product.productId
                 : salesProduct
-                    ? salesProduct.productId
-                    : product.productId;
+                ? salesProduct.productId
+                : product.productId;
 
         console.log("ProductID 상품 고유 :", selectedProductId);
         console.log("Model Number:", modelNum);
@@ -564,21 +566,22 @@ const ProductDetails = () => {
                                     원
                                 </p>
                                 <p
-                                    className={`${product.differenceContract < 0
+                                    className={`${
+                                        product.differenceContract < 0
                                             ? "blue-label"
                                             : product.differenceContract > 0
-                                                ? "red-label"
-                                                : "black-label"
-                                        }`}
+                                            ? "red-label"
+                                            : "black-label"
+                                    }`}
                                 >
                                     {product.differenceContract !== null &&
-                                        product.differenceContract !== undefined
+                                    product.differenceContract !== undefined
                                         ? product.differenceContract.toLocaleString()
                                         : "-"}
                                     <span style={{ paddingLeft: "3px" }}>
                                         (
                                         {product.changePercentage !== null &&
-                                            product.changePercentage !== undefined
+                                        product.changePercentage !== undefined
                                             ? product.changePercentage
                                             : "-"}
                                         %)
@@ -666,15 +669,13 @@ const ProductDetails = () => {
                             tabIndex="0"
                             type="button"
                             onClick={handleLikeClick}
+                            style={{ marginBottom: "10px" }}
                         >
                             <span>
                                 <img
-                                    src={
-                                        isLiked
-                                            ? "/static/media/heart-filled.svg"
-                                            : "/static/media/heart-empty.svg"
-                                    }
+                                    src={isLiked ? likeOn : likeOff}
                                     alt="Like"
+                                    style={{ marginRight: "4px" }}
                                 />
                             </span>
                             좋아요
@@ -687,7 +688,11 @@ const ProductDetails = () => {
                             type="button"
                             onClick={handleBookmarkClick}
                         >
-                            <img src={isBookmarked ? BookmarkOn : BookmarkOff} alt="Bookmark Icon" />
+                            <img
+                                src={isBookmarked ? BookmarkOn : BookmarkOff}
+                                alt="Bookmark Icon"
+                                style={{ marginRight: "4px" }}
+                            />
                             {isBookmarked ? "관심상품" : "관심상품 취소"}
                             <span>{bookmarkCount}</span>
                         </button>
@@ -784,16 +789,16 @@ const ProductDetails = () => {
                                     </table>
                                     {visibleItems <
                                         product.contractInfoList.length && (
-                                            <Button
-                                                className="full-btn border-btn align-center pdy10"
-                                                style={{ marginTop: "15px" }}
-                                                onClick={() =>
-                                                    handleMoreItems("contract")
-                                                }
-                                            >
-                                                체결 내역 더보기
-                                            </Button>
-                                        )}
+                                        <Button
+                                            className="full-btn border-btn align-center pdy10"
+                                            style={{ marginTop: "15px" }}
+                                            onClick={() =>
+                                                handleMoreItems("contract")
+                                            }
+                                        >
+                                            체결 내역 더보기
+                                        </Button>
+                                    )}
                                 </div>
                             </TabPanel>
                             <TabPanel value={2}>
@@ -832,15 +837,16 @@ const ProductDetails = () => {
                                     </table>
                                     {visibleItems <
                                         product.salesHopeList.length && (
-                                            <button
-                                                className="more-info-btn"
-                                                onClick={() =>
-                                                    handleMoreItems("sales")
-                                                }
-                                            >
-                                                판매 내역 더보기
-                                            </button>
-                                        )}
+                                        <Button
+                                            className="full-btn border-btn align-center pdy10"
+                                            style={{ marginTop: "15px" }}
+                                            onClick={() =>
+                                                handleMoreItems("sales")
+                                            }
+                                        >
+                                            판매 내역 더보기
+                                        </Button>
+                                    )}
                                 </div>
                             </TabPanel>
                             <TabPanel value={3}>
@@ -881,16 +887,16 @@ const ProductDetails = () => {
                                     </table>
                                     {visibleItems <
                                         product.buyingHopeList.length && (
-                                            <Button
-                                                className="full-btn border-btn align-center pdy10"
-                                                style={{ marginTop: "15px" }}
-                                                onClick={() =>
-                                                    handleMoreItems("buying")
-                                                }
-                                            >
-                                                구매 내역 더보기
-                                            </Button>
-                                        )}
+                                        <Button
+                                            className="full-btn border-btn align-center pdy10"
+                                            style={{ marginTop: "15px" }}
+                                            onClick={() =>
+                                                handleMoreItems("buying")
+                                            }
+                                        >
+                                            구매 내역 더보기
+                                        </Button>
+                                    )}
                                 </div>
                             </TabPanel>
                         </Tabs>
@@ -909,23 +915,23 @@ const ProductDetails = () => {
                 )}
                 <div className="grid grid-column-5 grid-gap-x20">
                     {product.photoReviewList &&
-                        product.photoReviewList.length > 0
+                    product.photoReviewList.length > 0
                         ? product.photoReviewList
-                            .slice(0, visibleReviews)
-                            .map((review, index) => (
-                                <div key={index}>
-                                    <div className="product-img-230">
-                                        <img
-                                            src={`${CLOUD_STORAGE_BASE_URL}${review.reviewImg}`}
-                                            alt={`Review ${index + 1}`}
-                                            className="object-fit-scale-down"
-                                        />
-                                    </div>
-                                    <p className="text-review text-ellipsis">
-                                        {review.reviewContent}
-                                    </p>
-                                </div>
-                            ))
+                              .slice(0, visibleReviews)
+                              .map((review, index) => (
+                                  <div key={index}>
+                                      <div className="product-img-230">
+                                          <img
+                                              src={`${CLOUD_STORAGE_BASE_URL}${review.reviewImg}`}
+                                              alt={`Review ${index + 1}`}
+                                              className="object-fit-scale-down"
+                                          />
+                                      </div>
+                                      <p className="text-review text-ellipsis">
+                                          {review.reviewContent}
+                                      </p>
+                                  </div>
+                              ))
                         : ""}
                 </div>
 
@@ -1003,8 +1009,8 @@ const ProductDetails = () => {
                         {popupContent === "contract"
                             ? "체결 내역"
                             : popupContent === "sales"
-                                ? "판매 내역"
-                                : "구매 내역"}
+                            ? "판매 내역"
+                            : "구매 내역"}
                         <span>(가격 단위: 원)</span>
                     </DialogTitle>
                     <Button
@@ -1071,7 +1077,9 @@ const ProductDetails = () => {
                                                             원
                                                         </td>
                                                         <td>
-                                                            {info.productContractDate}
+                                                            {
+                                                                info.productContractDate
+                                                            }
                                                         </td>
                                                     </tr>
                                                 )
@@ -1133,7 +1141,9 @@ const ProductDetails = () => {
                                                             원
                                                         </td>
                                                         <td>
-                                                            {info.buyingQuantity}
+                                                            {
+                                                                info.buyingQuantity
+                                                            }
                                                         </td>
                                                     </tr>
                                                 )
@@ -1153,15 +1163,14 @@ const ProductDetails = () => {
                 </div>
             </Dialog>
 
-
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <div className="popup-title-box">
                     <DialogTitle>
                         {currentTab === "buy"
                             ? "구매하기"
                             : currentTab === "sales"
-                                ? "판매하기"
-                                : "모든 사이즈"}
+                            ? "판매하기"
+                            : "모든 사이즈"}
                         <span>(가격 단위: 원)</span>
                     </DialogTitle>
                     <Button

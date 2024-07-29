@@ -294,23 +294,23 @@ const ProductDetails = () => {
 
     const getSizePrice = (size) => {
         if (currentTab === "buy" || currentTab === "all") {
-            const sizeInfo = product.groupByBuyingList.find(
+            const sizeInfo = product.groupBySalesList.find(
                 (item) => item.productSize === String(size)
             );
             return sizeInfo ? (
                 <span className="red-label">
-                    {sizeInfo.buyingBiddingPrice.toLocaleString()} 원
+                    {sizeInfo.productMaxPrice.toLocaleString()} 원
                 </span>
             ) : (
                 "-"
             );
         } else if (currentTab === "sales") {
-            const sizeInfo = product.groupBySalesList.find(
+            const sizeInfo = product.groupByBuyingList.find(
                 (item) => item.productSize === String(size)
             );
             return sizeInfo ? (
                 <span className="green-label">
-                    {sizeInfo.productMaxPrice.toLocaleString()} 원{" "}
+                    {sizeInfo.buyingBiddingPrice.toLocaleString()} 원{" "}
                 </span>
             ) : (
                 "-"
@@ -533,8 +533,8 @@ const ProductDetails = () => {
                     <div>
                         <h4 className="grey-label fw400">즉시 구매가</h4>
                         <p className="big-size-price">
-                            {product.buyingBiddingPrice
-                                ? product.buyingBiddingPrice.toLocaleString()
+                            {product.salesBiddingPrice
+                                ? product.salesBiddingPrice.toLocaleString()
                                 : "-"}{" "}
                             원
                         </p>
@@ -634,8 +634,8 @@ const ProductDetails = () => {
                             구매
                             <span>
                                 <span>
-                                    {product.buyingBiddingPrice.toLocaleString()
-                                        ? product.buyingBiddingPrice.toLocaleString()
+                                    {product.salesBiddingPrice.toLocaleString()
+                                        ? product.salesBiddingPrice.toLocaleString()
                                         : "-"}
                                     원
                                 </span>
@@ -650,8 +650,8 @@ const ProductDetails = () => {
                             판매
                             <span>
                                 <span>
-                                    {product.salesBiddingPrice.toLocaleString()
-                                        ? product.salesBiddingPrice.toLocaleString()
+                                    {product.buyingBiddingPrice.toLocaleString()
+                                        ? product.buyingBiddingPrice.toLocaleString()
                                         : "-"}
                                     원
                                 </span>
@@ -813,7 +813,7 @@ const ProductDetails = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {product.salesHopeList
+                                            {product.buyingHopeList
                                                 .slice(0, visibleItems)
                                                 .map((info, index) => (
                                                     <tr key={index}>
@@ -821,18 +821,18 @@ const ProductDetails = () => {
                                                             {info.productSize}
                                                         </td>
                                                         <td>
-                                                            {info.salesBiddingPrice.toLocaleString()}
+                                                            {info.buyingBiddingPrice.toLocaleString()}
                                                             원
                                                         </td>
                                                         <td>
-                                                            {info.salesQuantity}
+                                                            {info.buyingQuantity}
                                                         </td>
                                                     </tr>
                                                 ))}
                                         </tbody>
                                     </table>
                                     {visibleItems <
-                                        product.salesHopeList.length && (
+                                        product.buyingHopeList.length && (
                                         <button
                                             className="more-info-btn"
                                             onClick={() =>
@@ -860,7 +860,7 @@ const ProductDetails = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {product.buyingHopeList
+                                            {product.salesHopeList
                                                 .slice(0, visibleItems)
                                                 .map((info, index) => (
                                                     <tr key={index}>
@@ -868,7 +868,7 @@ const ProductDetails = () => {
                                                             {info.productSize}
                                                         </td>
                                                         <td>
-                                                            {info.buyingBiddingPrice.toLocaleString()}
+                                                            {info.salesBiddingPrice.toLocaleString()}
                                                             원
                                                         </td>
                                                         <td>
@@ -881,7 +881,7 @@ const ProductDetails = () => {
                                         </tbody>
                                     </table>
                                     {visibleItems <
-                                        product.buyingHopeList.length && (
+                                        product.salesHopeList.length && (
                                         <Button
                                             className="full-btn border-btn align-center pdy10"
                                             style={{ marginTop: "15px" }}

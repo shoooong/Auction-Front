@@ -57,28 +57,22 @@ export default function ProductBid() {
 
     const handleSubmit = async () => {
         if (bidPrice < MIN_BID_PRICE) {
-            alert(
-                `입찰 최소 금액은 ${MIN_BID_PRICE.toLocaleString()}원입니다.`
-            );
+            alert(`입찰 최소 금액은 ${MIN_BID_PRICE.toLocaleString()}원입니다.`);
             return;
         }
-
-        const productId =
-            currentForm === "buy"
-                ? data.productId || data.buyingProductId
-                : data.productId || data.salesProductId; // 입찰일 경우 적절한 productId 사용
+    
+        const productId = data.productId; // 입찰할 때 상품 고유 ID 사용
         const url = currentForm === "buy" ? "/buy" : "/sell";
         const postData = {
             bidPrice,
-            selectedDays,
             productId,
+            selectedDays, // 선택한 입찰 마감 기한 일수 추가
         };
-
+    
         console.log(`Submitting to URL: ${SERVER_URL}${url}`);
-        console.log("Post Data:", postData);
-
+        console.log("Post Data:", JSON.stringify(postData));
+    
         try {
-            // 요청이 성공적으로 완료되면 페이지를 이동
             navigate(url, { state: postData });
         } catch (error) {
             console.error("에러 발생:", error);
@@ -87,28 +81,30 @@ export default function ProductBid() {
     };
 
     const handleInstantSubmit = async () => {
-        let productId, biddingPrice, url;
-
+        let biddingId, biddingPrice, url, postData;
+    
         if (currentForm === "buy_now") {
-            productId = data.salesProductId || data.productId; // 즉시 구매가의 ID가 없으면 상품 고유 ID 사용
-            biddingPrice = data.salesBiddingPrice || 0; // 즉시 구매가가 없으면 기본값 사용
+            biddingId = data.salesProductId || data.productId;
+            biddingPrice = data.salesBiddingPrice || 0;
             url = "/buy";
+            postData = {
+                biddingPrice: parseInt(biddingPrice.toString().replace(/,/g, ''), 10), // 문자열에서 콤마 제거 및 정수 변환
+                salesBiddingId: biddingId,
+            };
         } else if (currentForm === "sell_now") {
-            productId = data.buyingProductId || data.productId; // 즉시 판매가의 ID가 없으면 상품 고유 ID 사용
-            biddingPrice = data.buyingBiddingPrice || 0; // 즉시 판매가가 없으면 기본값 사용
+            biddingId = data.buyingProductId || data.productId;
+            biddingPrice = data.buyingBiddingPrice || 0;
             url = "/sell";
+            postData = {
+                biddingPrice: parseInt(biddingPrice.toString().replace(/,/g, ''), 10), // 문자열에서 콤마 제거 및 정수 변환
+                buyingBiddingId: biddingId,
+            };
         }
-
-        const postData = {
-            biddingPrice,
-            productId,
-        };
-
+    
         console.log(`Submitting to URL: ${SERVER_URL}${url}`);
-        console.log("Post Data:", postData);
-
+        console.log("Post Data:", JSON.stringify(postData));
+    
         try {
-            // 요청이 성공적으로 완료되면 페이지를 이동
             navigate(url, { state: postData });
         } catch (error) {
             console.error("에러 발생:", error);

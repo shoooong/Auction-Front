@@ -102,11 +102,6 @@
     border-bottom: 3px solid transparent;
   }
   
-  .tab button.active {
-    color: #007BFF;
-    border-bottom: 3px solid #007BFF;
-  }
-  
   .tab button:hover {
     color: #0056b3;
   }

@@ -27,11 +27,6 @@
   color: #000; /* 검은색 */
 }
 
-.admin-inquiry-list td a {
-  color: #007bff; /* 링크 기본색 */
-  text-decoration: none;
-}
-
 .admin-inquiry-list td a:hover {
   text-decoration: underline;
 }

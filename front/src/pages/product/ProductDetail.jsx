@@ -51,7 +51,7 @@ const ProductDetails = () => {
     const [bookmarkSize, setBookmarkSize] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [bookmarkCount, setBookmarkCount] = useState(0); // 북마크 개수 상태 추가
-    const [isBookmarked, setIsBookmarked] = useState(false); 
+    const [isBookmarked, setIsBookmarked] = useState(false);
 
     const { exceptionHandler } = useCustomLogin();
 
@@ -414,8 +414,8 @@ const ProductDetails = () => {
                     ? buyingProduct.productId
                     : product.productId
                 : salesProduct
-                ? salesProduct.productId
-                : product.productId;
+                    ? salesProduct.productId
+                    : product.productId;
 
         console.log("ProductID 상품 고유 :", selectedProductId);
         console.log("Model Number:", modelNum);
@@ -564,22 +564,21 @@ const ProductDetails = () => {
                                     원
                                 </p>
                                 <p
-                                    className={`${
-                                        product.differenceContract < 0
+                                    className={`${product.differenceContract < 0
                                             ? "blue-label"
                                             : product.differenceContract > 0
-                                            ? "red-label"
-                                            : "black-label"
-                                    }`}
+                                                ? "red-label"
+                                                : "black-label"
+                                        }`}
                                 >
                                     {product.differenceContract !== null &&
-                                    product.differenceContract !== undefined
+                                        product.differenceContract !== undefined
                                         ? product.differenceContract.toLocaleString()
                                         : "-"}
                                     <span style={{ paddingLeft: "3px" }}>
                                         (
                                         {product.changePercentage !== null &&
-                                        product.changePercentage !== undefined
+                                            product.changePercentage !== undefined
                                             ? product.changePercentage
                                             : "-"}
                                         %)
@@ -689,7 +688,7 @@ const ProductDetails = () => {
                             onClick={handleBookmarkClick}
                         >
                             <img src={isBookmarked ? BookmarkOn : BookmarkOff} alt="Bookmark Icon" />
-                            {isBookmarked ? "관심상품" : "관심상품"}
+                            {isBookmarked ? "관심상품" : "관심상품 취소"}
                             <span>{bookmarkCount}</span>
                         </button>
                         {/* 정식이 파트 */}
@@ -785,16 +784,16 @@ const ProductDetails = () => {
                                     </table>
                                     {visibleItems <
                                         product.contractInfoList.length && (
-                                        <Button
-                                            className="full-btn border-btn align-center pdy10"
-                                            style={{ marginTop: "15px" }}
-                                            onClick={() =>
-                                                handleMoreItems("contract")
-                                            }
-                                        >
-                                            체결 내역 더보기
-                                        </Button>
-                                    )}
+                                            <Button
+                                                className="full-btn border-btn align-center pdy10"
+                                                style={{ marginTop: "15px" }}
+                                                onClick={() =>
+                                                    handleMoreItems("contract")
+                                                }
+                                            >
+                                                체결 내역 더보기
+                                            </Button>
+                                        )}
                                 </div>
                             </TabPanel>
                             <TabPanel value={2}>
@@ -813,7 +812,7 @@ const ProductDetails = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {product.buyingHopeList
+                                            {product.salesHopeList
                                                 .slice(0, visibleItems)
                                                 .map((info, index) => (
                                                     <tr key={index}>
@@ -821,27 +820,27 @@ const ProductDetails = () => {
                                                             {info.productSize}
                                                         </td>
                                                         <td>
-                                                            {info.buyingBiddingPrice.toLocaleString()}
+                                                            {info.salesBiddingPrice.toLocaleString()}
                                                             원
                                                         </td>
                                                         <td>
-                                                            {info.buyingQuantity}
+                                                            {info.salesQuantity}
                                                         </td>
                                                     </tr>
                                                 ))}
                                         </tbody>
                                     </table>
                                     {visibleItems <
-                                        product.buyingHopeList.length && (
-                                        <button
-                                            className="more-info-btn"
-                                            onClick={() =>
-                                                handleMoreItems("sales")
-                                            }
-                                        >
-                                            판매 내역 더보기
-                                        </button>
-                                    )}
+                                        product.salesHopeList.length && (
+                                            <button
+                                                className="more-info-btn"
+                                                onClick={() =>
+                                                    handleMoreItems("sales")
+                                                }
+                                            >
+                                                판매 내역 더보기
+                                            </button>
+                                        )}
                                 </div>
                             </TabPanel>
                             <TabPanel value={3}>
@@ -860,7 +859,7 @@ const ProductDetails = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {product.salesHopeList
+                                            {product.buyingHopeList
                                                 .slice(0, visibleItems)
                                                 .map((info, index) => (
                                                     <tr key={index}>
@@ -868,7 +867,7 @@ const ProductDetails = () => {
                                                             {info.productSize}
                                                         </td>
                                                         <td>
-                                                            {info.salesBiddingPrice.toLocaleString()}
+                                                            {info.buyingBiddingPrice.toLocaleString()}
                                                             원
                                                         </td>
                                                         <td>
@@ -881,17 +880,17 @@ const ProductDetails = () => {
                                         </tbody>
                                     </table>
                                     {visibleItems <
-                                        product.salesHopeList.length && (
-                                        <Button
-                                            className="full-btn border-btn align-center pdy10"
-                                            style={{ marginTop: "15px" }}
-                                            onClick={() =>
-                                                handleMoreItems("buying")
-                                            }
-                                        >
-                                            구매 내역 더보기
-                                        </Button>
-                                    )}
+                                        product.buyingHopeList.length && (
+                                            <Button
+                                                className="full-btn border-btn align-center pdy10"
+                                                style={{ marginTop: "15px" }}
+                                                onClick={() =>
+                                                    handleMoreItems("buying")
+                                                }
+                                            >
+                                                구매 내역 더보기
+                                            </Button>
+                                        )}
                                 </div>
                             </TabPanel>
                         </Tabs>
@@ -910,23 +909,23 @@ const ProductDetails = () => {
                 )}
                 <div className="grid grid-column-5 grid-gap-x20">
                     {product.photoReviewList &&
-                    product.photoReviewList.length > 0
+                        product.photoReviewList.length > 0
                         ? product.photoReviewList
-                              .slice(0, visibleReviews)
-                              .map((review, index) => (
-                                  <div key={index}>
-                                      <div className="product-img-230">
-                                          <img
-                                              src={`${CLOUD_STORAGE_BASE_URL}${review.reviewImg}`}
-                                              alt={`Review ${index + 1}`}
-                                              className="object-fit-scale-down"
-                                          />
-                                      </div>
-                                      <p className="text-review text-ellipsis">
-                                          {review.reviewContent}
-                                      </p>
-                                  </div>
-                              ))
+                            .slice(0, visibleReviews)
+                            .map((review, index) => (
+                                <div key={index}>
+                                    <div className="product-img-230">
+                                        <img
+                                            src={`${CLOUD_STORAGE_BASE_URL}${review.reviewImg}`}
+                                            alt={`Review ${index + 1}`}
+                                            className="object-fit-scale-down"
+                                        />
+                                    </div>
+                                    <p className="text-review text-ellipsis">
+                                        {review.reviewContent}
+                                    </p>
+                                </div>
+                            ))
                         : ""}
                 </div>
 
@@ -1004,8 +1003,8 @@ const ProductDetails = () => {
                         {popupContent === "contract"
                             ? "체결 내역"
                             : popupContent === "sales"
-                            ? "판매 내역"
-                            : "구매 내역"}
+                                ? "판매 내역"
+                                : "구매 내역"}
                         <span>(가격 단위: 원)</span>
                     </DialogTitle>
                     <Button
@@ -1072,9 +1071,7 @@ const ProductDetails = () => {
                                                             원
                                                         </td>
                                                         <td>
-                                                            {
-                                                                info.productContractDate
-                                                            }
+                                                            {info.productContractDate}
                                                         </td>
                                                     </tr>
                                                 )
@@ -1136,9 +1133,7 @@ const ProductDetails = () => {
                                                             원
                                                         </td>
                                                         <td>
-                                                            {
-                                                                info.buyingQuantity
-                                                            }
+                                                            {info.buyingQuantity}
                                                         </td>
                                                     </tr>
                                                 )
@@ -1158,14 +1153,15 @@ const ProductDetails = () => {
                 </div>
             </Dialog>
 
+
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <div className="popup-title-box">
                     <DialogTitle>
                         {currentTab === "buy"
                             ? "구매하기"
                             : currentTab === "sales"
-                            ? "판매하기"
-                            : "모든 사이즈"}
+                                ? "판매하기"
+                                : "모든 사이즈"}
                         <span>(가격 단위: 원)</span>
                     </DialogTitle>
                     <Button

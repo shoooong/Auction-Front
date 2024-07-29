@@ -23,6 +23,7 @@ export default function Alarm(props) {
                 headers: {
                     "Content-Type": "text/event-stream",
                     Authorization: `Bearer ${accessToken}`,
+                    "cors-proxy-url": "https://sho0ong.com/",
                 },
             }
         );

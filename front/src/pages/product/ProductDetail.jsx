@@ -689,7 +689,7 @@ const ProductDetails = () => {
                             onClick={handleBookmarkClick}
                         >
                             <img src={isBookmarked ? BookmarkOn : BookmarkOff} alt="Bookmark Icon" />
-                            {isBookmarked ? "관심상품" : "관심상품 취소"}
+                            {isBookmarked ? "관심상품" : "관심상품"}
                             <span>{bookmarkCount}</span>
                         </button>
                         {/* 정식이 파트 */}

@@ -1,14 +1,17 @@
-import prImg from "assets/images/sample.png";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 
-const OrderProduct = (product) => {
+const OrderBuyProduct = ({ orderData }) => {
     return (
         <div className="order_product_box">
-            <h3 className="order_main_title">구매 입찰이 완료되었습니다.</h3>
+            <h3 className="order_main_title">구매가 완료되었습니다.</h3>
             <p className="order_sub_title">
                 검수에 합격한 상품이 등록한 배송지로 배송됩니다.
             </p>
             <div className="order_img">
-                <img src={prImg} alt="" />
+                <img
+                    src={`${CLOUD_STORAGE_BASE_URL}/products/${orderData?.product?.productImg}`}
+                    alt=""
+                />
             </div>
             <button className="buyHistory_btn">구매 내역 상세 보기</button>
             <p className="order_sub_title">
@@ -18,4 +21,4 @@ const OrderProduct = (product) => {
     );
 };
 
-export default OrderProduct;
+export default OrderBuyProduct;

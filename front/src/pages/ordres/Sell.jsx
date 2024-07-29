@@ -25,6 +25,7 @@ export default function Sell() {
         memo: null,
     });
 
+    const [type, setType] = useState(0);
     const [fee, setFee] = useState(0);
     const [userAddress, setUserAddress] = useState();
     const [userAccount, setUserAccount] = useState();
@@ -93,12 +94,14 @@ export default function Sell() {
                     addressId: userAddress.addressId,
                     memo: userMemo,
                 };
+                setType("sale");
             } else if (bidData2.buyingBiddingId) {
                 newOrderData = {
                     buyingBiddingId: bidData2.buyingBiddingId,
                     price: bidData2.bidPrice - fee,
                     addressId: userAddress.addressId,
                 };
+                setType("saleNow");
             }
 
             setOrderData(newOrderData);
@@ -131,6 +134,7 @@ export default function Sell() {
                     fee={fee}
                     orderData={orderData}
                     isDisabled={isDisabled}
+                    type={type}
                 />
             </div>
         </div>

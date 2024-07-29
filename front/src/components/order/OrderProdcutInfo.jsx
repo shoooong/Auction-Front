@@ -28,9 +28,8 @@ const OrderProductInfo = (product) => {
                 <div className="buy_product">
                     <img
                         src={`${CLOUD_STORAGE_BASE_URL}/products/${productData?.product?.productImg}`}
-                        // src={productData?.product.productImg}
                         alt="상품 이미지"
-                    />
+                    ></img>
                 </div>
                 <div className="product_detail">
                     <p className="product_model_number bold_title">

@@ -3,8 +3,7 @@ import { getCookie, setCookie } from "./cookieUtil";
 import { SERVER_URL } from "api/serverApi";
 
 const jwtAxios = axios.create({
-    baseURL: `${SERVER_URL}/api`,
-    withCredentials: true,
+    baseURL: `${SERVER_URL}/api`
 });
 
 const refresh = async (accessToken, refreshToken) => {

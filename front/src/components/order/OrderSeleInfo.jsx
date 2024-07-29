@@ -6,12 +6,14 @@ const OrderSaleInfo = ({ bidPrice, fee, orderData, isDisabled }) => {
     const navigate = useNavigate();
     const handleSell = async () => {
         try {
-            const orderResponse = await jwtAxios.post(
-                `/bid/salesBidding/register`,
-                orderData
-            );
+            let endpoint = "bid/buyingBidding/register"; // 기본 엔드포인트
+            if (orderData.buyingBiddingId) {
+                endpoint = "bid/saleNow";
+            }
+            const response = await jwtAxios.post(endpoint, orderData);
             alert("주문이 성공적으로 생성되었습니다.");
             navigate("/success");
+            return response.data;
         } catch (error) {
             console.error("주문 생성 중 오류가 발생했습니다.", error);
             alert("주문 생성 중 오류가 발생했습니다.");

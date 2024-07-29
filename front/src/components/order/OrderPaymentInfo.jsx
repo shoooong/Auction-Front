@@ -187,26 +187,47 @@ const OrderPaymentInfo = ({
     couponDiscountType,
     couponAmount,
     orderData,
+    amount,
+    setAmount,
+    isDisabled,
 }) => {
     const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
     const customerKey = "HOytG9DDEHHgTxwNS0YWT";
 
     console.log("bidPrice===" + bidPrice);
+    console.log("orderData===" + JSON.stringify(orderData, null, 2));
     const [couponDiscount, setCouponDiscount] = useState(0);
-    const [amount, setAmount] = useState({
-        currency: "KRW",
-        value: 0,
-    });
+    // const [amount, setAmount] = useState({
+    //     currency: "KRW",
+    //     value: 0,
+    // });
     const immediateBuyPrice = parseInt(bidPrice) || 0;
     const deliveryFee = 3000;
     const [payment, setPayment] = useState(null);
 
+    // async function saveOrderData() {
+    //     try {
+    //         const response = await jwtAxios.post(
+    //             `bid/buyingBidding/register`, // 주문 정보를 저장하는 API 엔드포인트
+    //             orderData
+    //         );
+    //         return response.data; // 서버에서 반환한 주문 ID
+    //     } catch (error) {
+    //         console.error("Error saving order data:", error);
+    //         throw error; // 오류가 발생하면 결제 요청을 진행하지 않음
+    //     }
+    // }
     async function saveOrderData() {
         try {
-            const response = await jwtAxios.post(
-                `bid/buyingBidding/register`, // 주문 정보를 저장하는 API 엔드포인트
-                orderData
-            );
+            console.log("endorderData===" + JSON.stringify(orderData, null, 2));
+            let endpoint = "bid/buyingBidding/register"; // 기본 엔드포인트
+
+            // orderData에 따라 엔드포인트 변경
+            if (orderData.salesBiddingId) {
+                endpoint = "bid/buyNow";
+            }
+
+            const response = await jwtAxios.post(endpoint, orderData);
             return response.data; // 서버에서 반환한 주문 ID
         } catch (error) {
             console.error("Error saving order data:", error);
@@ -242,6 +263,7 @@ const OrderPaymentInfo = ({
 
         try {
             const orderId = await saveOrderData();
+            console.log(typeof amount.value);
             await payment.requestPayment({
                 method: "CARD",
                 amount: amount,
@@ -249,7 +271,7 @@ const OrderPaymentInfo = ({
                 orderName: "토스 티셔츠 외 2건",
                 successUrl: window.location.origin + "/success",
                 failUrl: window.location.origin + "/fail",
-                customerEmail: "customer123@gmail.com",
+                customerEmail: "이메일을 입력해주세요.",
                 customerName: "김토스",
                 customerMobilePhone: "01012341234",
                 card: {
@@ -334,11 +356,12 @@ const OrderPaymentInfo = ({
                 <div className="pay_btn_box">
                     <button
                         className="pay_btn"
-                        disabled={
-                            !orderData.addressId ||
-                            !orderData.productId ||
-                            !orderData.price
-                        }
+                        // disabled={
+                        //     !orderData.addressId ||
+                        //     !orderData.productId ||
+                        //     !orderData.price
+                        // }
+                        disabled={isDisabled}
                         onClick={requestPayment}
                     >
                         {amount.value.toLocaleString()}원 • 일반배송 결제하기

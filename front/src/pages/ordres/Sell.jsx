@@ -54,21 +54,54 @@ export default function Sell() {
         }
     }, [addressInfo, product, bidData2?.bidPrice]);
 
+    // useEffect(() => {
+    //     console.log(userMemo);
+    //     if (
+    //         userAddress?.addressId &&
+    //         bidData2?.productId &&
+    //         bidData2?.bidPrice != null &&
+    //         userAccount
+    //     ) {
+    //         setOrderData({
+    //             productId: bidData2.productId,
+    //             price: bidData2.bidPrice - fee,
+    //             exp: bidData2.selectedDays,
+    //             addressId: userAddress.addressId,
+    //             // memo: userMemo,
+    //         });
+    //         setIsDisabled(false);
+    //     } else {
+    //         setIsDisabled(true);
+    //     }
+    // }, [userAddress, userMemo, userAccount, bidData2, fee]);
+
     useEffect(() => {
         console.log(userMemo);
         if (
             userAddress?.addressId &&
-            bidData2?.productId &&
-            bidData2?.bidPrice != null &&
-            userAccount
+            userAccount &&
+            (bidData2?.productId || bidData2?.buyingBiddingId) &&
+            bidData2?.bidPrice != null
         ) {
-            setOrderData({
-                productId: bidData2.productId,
-                price: bidData2.bidPrice - fee,
-                exp: bidData2.selectedDays,
-                addressId: userAddress.addressId,
-                memo: userMemo,
-            });
+            let newOrderData = null;
+
+            if (bidData2.productId) {
+                newOrderData = {
+                    productId: bidData2.productId,
+                    price: bidData2.bidPrice - fee,
+                    exp: bidData2.selectedDays,
+                    addressId: userAddress.addressId,
+                    memo: userMemo,
+                };
+            } else if (bidData2.buyingBiddingId) {
+                newOrderData = {
+                    buyingBiddingId: bidData2.buyingBiddingId,
+                    price: bidData2.bidPrice - fee,
+                    addressId: userAddress.addressId,
+                };
+            }
+
+            setOrderData(newOrderData);
             setIsDisabled(false);
         } else {
             setIsDisabled(true);

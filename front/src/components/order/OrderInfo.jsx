@@ -1,10 +1,13 @@
 const OrderInfo = ({ order }) => {
     console.log(order);
+    const date = new Date(order?.biddingBidding?.buyingBiddingTime);
     return (
         <div className="order_info_box">
             <div className="total_box">
                 <p className="total_pay">총 결제금액</p>
-                <p className="total_pay pay_end">{order?.orderPrice}</p>
+                <p className="total_pay pay_end">
+                    {order?.orderPrice.toLocaleString()}원
+                </p>
             </div>
             <div className="final_info">
                 <div className="order_item">
@@ -39,6 +42,10 @@ const OrderInfo = ({ order }) => {
                                     : "-"}
                             </p> */}
                     <p className="sub_text desc">
+                        {date
+                            .toISOString()
+                            .replace(/T/, " ")
+                            .replace(/\..+/, "")}
                         {/* {Order?.buyingBidding.buyingBiddingTime} */}
                     </p>
                 </div>

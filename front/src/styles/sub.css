@@ -91,8 +91,8 @@
 .notice-list {margin: 20px 0 80px;}
 .notice-list li {height: 60px;line-height: 60px;border-bottom: 1px solid var(--borderGrey);}
 .notice-list .title,
-.notice-detail-content h2 {color: var(--black); font-weight: var(--bold);font-size: var(--ft15); width: 95px; display: inline-block; text-align: left;}
-.notice-list .content {font-size: var(--ft15);color: var(--grey); font-weight: var(--regular);}
+.notice-detail-content h2 {color: var(--grey); font-weight: var(--regular);font-size: var(--ft15); display: inline-block; text-align: left;}
+.notice-list .content {font-size: var(--ft15);color: var(--black); font-weight: var(--bold); width: 95px; display: inline-block;}
 
 .notice-detail-content > div:first-child {margin-bottom: 20px; border-bottom: 1px solid var(--black); height: 60px;}
 .notice-detail-content span {font-size: var(--ft11); font-weight: var(--light); color: var(--grey);}

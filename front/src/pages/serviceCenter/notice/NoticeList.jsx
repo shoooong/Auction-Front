@@ -82,14 +82,14 @@ const NoticeList = ({ activeTab }) => {
                                     }?tab=${activeTab}`}
                                 >
                                     <div>
-                                        <span className="title">
-                                            {item.noticeTitle ||
-                                                item.luckyTitle}
-                                        </span>
                                         <span className="content">
                                             {item.noticeTitle
                                                 ? "일반공지"
                                                 : "이벤트 공지"}
+                                        </span>
+                                        <span className="title">
+                                            {item.noticeTitle ||
+                                                item.luckyTitle}
                                         </span>
                                     </div>
                                 </Link>

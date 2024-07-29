@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 
 const OrderSaleProduct = ({ orderData }) => {
+    const navigate = useNavigate();
     console.log("order===" + orderData);
     console.log("responseData===" + JSON.stringify(orderData, null, 2));
     console.log(
@@ -20,7 +22,12 @@ const OrderSaleProduct = ({ orderData }) => {
                     alt=""
                 />
             </div>
-            <button className="buyHistory_btn">판매 내역 상세 보기</button>
+            <button
+                className="buyHistory_btn"
+                onClick={() => navigate("/mypage/salesHistory")}
+            >
+                판매 내역 상세 보기
+            </button>
             <p className="order_sub_title">
                 ‘판매내역 > 입찰 중’ 상태일 때는 입찰 지우기가 가능합니다.
             </p>

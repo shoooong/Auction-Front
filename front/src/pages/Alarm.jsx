@@ -19,10 +19,11 @@ export default function Alarm(props) {
         const eventSource = new EventSourcePolyfill(
             `${SERVER_URL}/api/alarm/subscribe`,
             {
-                withCredentials: true,
+                // withCredentials: true,
                 headers: {
                     "Content-Type": "text/event-stream",
                     Authorization: `Bearer ${accessToken}`,
+                    "cors-proxy-url": "https://sho0ong.com/",
                 },
             }
         );

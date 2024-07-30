@@ -1,7 +1,8 @@
 import axios from "axios";
-import { SERVER_URL } from "../serverApi";
-import jwtAxios from "pages/user/jwtUtil";
-import { getCookie } from "pages/user/cookieUtil";
+import { SERVER_URL } from "api/serverApi";
+
+import jwtAxios from "utils/jwtUtil";
+import { getCookie } from "utils/cookieUtil";
 
 
 export const loginPost = async (loginParam) => {
@@ -102,3 +103,13 @@ export const registerAdmin = async (userData, file) => {
     throw error;
   }
 };
+
+export const findEmail = async (userFindEmailReqDto) => {
+  try {
+    const res = await axios.post(`${SERVER_URL}/user/findEmail`, userFindEmailReqDto);
+    return res.data;
+  } catch (error) {
+    console.error("axios findEmail error...", error);
+    throw error;
+  }
+}

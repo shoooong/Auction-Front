@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { StatusDisplay } from "../mypageUtil";
 import { getDrawHistory } from "api/user/mypageApi";
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+
+import { StatusDisplay } from "utils/mypageUtil";
 
 const DrawHistory = () => {
     const [drawHistory, setDrawHistory] = useState(null);

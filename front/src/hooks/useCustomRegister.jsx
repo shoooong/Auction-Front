@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
+
 import { registerUser, registerAdmin, loginPost } from "api/user/userApi";
 
-import { setCookie } from "pages/user/cookieUtil";
+import { setCookie } from "utils/cookieUtil";
 
 const useCustomRegister = () => {
   const navigate = useNavigate();

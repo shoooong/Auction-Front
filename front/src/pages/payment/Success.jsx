@@ -1,10 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import "styles/order_complete.css";
-import OrderProduct from "components/order/OrderProduct";
-import OrderInfo from "components/order/OrderInfo";
+import { useLocation } from "react-router-dom";
+
 import { Order } from "api/order/useOrderApi";
+
+import OrderBuyProduct from "components/order/OrderBuyProduct";
+import OrderSaleProduct from "components/order/OrderSaleProduct";
+import OrderInfo from "components/order/OrderInfo";
+
+import "styles/order_complete.css";
+
 export function SuccessPage() {
+    const location = useLocation();
+    const { responseData, type } = location.state || {};
+
     const queryParams = new URLSearchParams(window.location.search);
     const fullOrderId = queryParams.get("orderId"); // 예: "Zi9UdirQdheViE-orderId12345"
     const navigate = useNavigate();
@@ -15,6 +24,12 @@ export function SuccessPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    console.log("tyep====" + type);
+
+    console.log("responseData===" + JSON.stringify(location.state, null, 2));
+    console.log("responseData===" + location.state?.responseData);
+    console.log(responseData);
+    console.log(type);
     // console.log(searchParams.get("orderId"));
 
     useEffect(() => {
@@ -24,6 +39,9 @@ export function SuccessPage() {
                     "Zi9UdirQdheViE-1c0oca1".length
             );
             setOrderId(extractedOrderId);
+        }
+        if (responseData) {
+            setOrderId(responseData);
         }
         const fetchOrderData = async () => {
             try {
@@ -83,12 +101,17 @@ export function SuccessPage() {
         }
 
         confirm();
-    }, [Order, searchParams, navigate]);
+    }, [order, searchParams, navigate]);
+    console.log("ord" + orderData);
 
     return (
         <div className="success_main">
             <div className="complete_box">
-                <OrderProduct />
+                {responseData ? (
+                    <OrderSaleProduct orderData={orderData} />
+                ) : (
+                    <OrderBuyProduct orderData={orderData} />
+                )}
                 {orderData && <OrderInfo order={orderData} />}
             </div>
         </div>

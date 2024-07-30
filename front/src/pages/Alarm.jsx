@@ -23,7 +23,6 @@ export default function Alarm(props) {
                 headers: {
                     "Content-Type": "text/event-stream",
                     Authorization: `Bearer ${accessToken}`,
-                    "Cache-Control": "no-cache",
                 },
             }
         );
@@ -38,6 +37,9 @@ export default function Alarm(props) {
                 console.log(JSON.parse(event.data));
                 // setAlarm(JSON.parse(event.data));
                 setAllAlarm((list) => [...list, JSON.parse(event.data)]);
+            });
+            eventSource.addEventListener("beat", (event) => {
+                console.log(event.data);
             });
 
             eventSource.addEventListener("error", () => {
@@ -80,7 +82,7 @@ export default function Alarm(props) {
                             className="alarm-box scroll"
                             style={{ maxHeight: "100%", marginTop: 0 }}
                         >
-                            {allAlarm === null ? (
+                            {allAlarm === "" ? (
                                 <div>받은 알람이 없습니다.</div>
                             ) : (
                                 allAlarm.map((list) => (

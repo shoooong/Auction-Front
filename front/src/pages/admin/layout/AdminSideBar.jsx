@@ -1,12 +1,15 @@
 import React from "react";
-import { Box, List, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
-import UserProfile from "./UserProfile"; // UserProfile 컴포넌트 경로에 맞게 수정하세요.
-import "styles/admin.css";
+
+import { Box, List, ListItemText } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
 import SentimentVerySatisfiedOutlinedIcon from "@mui/icons-material/SentimentVerySatisfiedOutlined";
 import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
+
+import UserProfile from "./UserProfile"; // UserProfile 컴포넌트 경로에 맞게 수정하세요.
+
+import "styles/admin.css";
 
 const mainDepartments = ["의류", "라이프", "테크"]; // 대분류 항목을 배열로 관리
 

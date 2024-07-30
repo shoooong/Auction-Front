@@ -1,7 +1,4 @@
-import { PanoramaSharp } from "@mui/icons-material";
-import { SERVER_URL } from "api/serverApi";
-import axios from "axios";
-import jwtAxios from "pages/user/jwtUtil";
+import jwtAxios from "utils/jwtUtil";
 
 // 관리자 페이지 요청상품 전체 조회
 export const getRequests = async (page, pageSize) => {

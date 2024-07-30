@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getCookie } from "pages/user/cookieUtil";
 import { getUser, modifyUser } from "api/user/userApi";
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
-import { passwordRegExp, phoneNumRegExp } from "../mypageUtil";
+
+import { getCookie } from "utils/cookieUtil";
+import { passwordRegExp, phoneNumRegExp } from "utils/mypageUtil";
+
 import useCustomLogin from "hooks/useCustomLogin";
 
 const initState = {

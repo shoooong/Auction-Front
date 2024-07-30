@@ -1,0 +1,68 @@
+/* 전체 컨테이너 스타일 */
+.notice-registration-container {
+    max-width: 900px; /* 컨테이너 너비를 더 넓게 설정 */
+    margin: 0 auto;
+    padding: 40px; /* 패딩을 더 추가 */
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 제목 스타일 */
+  .notice-registration-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px; /* 제목과 폼 간의 여백 추가 */
+    font-size: 24px; /* 제목 폰트 크기 증가 */
+  }
+  
+  /* 폼 요소 스타일 */
+  .notice-registration-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* 각 폼 요소 간의 여백 추가 */
+  }
+  
+  .notice-registration-container label {
+    font-size: 18px; /* 레이블 폰트 크기 증가 */
+    color: #555;
+  }
+  
+  .notice-registration-container input[type="text"],
+  .notice-registration-container textarea {
+    width: 100%;
+    padding: 20px; /* 입력 필드 패딩 증가 */
+    border: 1px solid #ccc;
+    border-radius: 12px; /* 모서리 둥글게 설정 */
+    font-size: 20px; /* 폰트 크기 증가 */
+  }
+  
+  .notice-registration-container textarea {
+    resize: vertical; /* 수직 크기 조절 가능 */
+    min-height: 300px; /* 최소 높이 증가 */
+  }
+  
+  .notice-registration-container button[type="submit"] {
+    align-self: center;
+    background-color: #4caf50;
+    color: white;
+    padding: 15px 30px; /* 버튼 패딩 증가 */
+    border: none;
+    border-radius: 12px; /* 모서리 둥글게 설정 */
+    cursor: pointer;
+    font-size: 20px; /* 버튼 폰트 크기 증가 */
+    transition: background-color 0.3s ease;
+  }
+  
+  .notice-registration-container button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  .notice-registration-container .message {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 18px; /* 메시지 폰트 크기 증가 */
+    color: green;
+  }
+  

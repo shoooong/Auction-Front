@@ -1,4 +1,4 @@
-import jwtAxios from "pages/user/jwtUtil";
+import jwtAxios from "utils/jwtUtil";
 
 export const getMypageData = async () => {
     try {

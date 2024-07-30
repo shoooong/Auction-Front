@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import jwtAxios from "../../../pages/user/jwtUtil";
-import { SERVER_URL } from "../../../api/serverApi";
+
+import { SERVER_URL } from "api/serverApi";
+
+import jwtAxios from "utils/jwtUtil";
 
 const NoticeList = ({ activeTab }) => {
     const [notices, setNotices] = useState([]);
@@ -13,7 +15,9 @@ const NoticeList = ({ activeTab }) => {
     useEffect(() => {
         const fetchNoticesAndLuckyDraws = async () => {
             try {
-                const response = await jwtAxios.get(`${SERVER_URL}/user/combinedNoticeList`);
+                const response = await jwtAxios.get(
+                    `${SERVER_URL}/user/combinedNoticeList`
+                );
                 const { notices, luckyDrawAnnouncements } = response.data;
                 setNotices(notices);
                 setLuckyDraws(luckyDrawAnnouncements);
@@ -59,40 +63,55 @@ const NoticeList = ({ activeTab }) => {
     return (
         <section className="notice-list">
             <ul>
-                {paginatedNotices.length === 0 && paginatedLuckyDraws.length === 0 ? (
+                {paginatedNotices.length === 0 &&
+                paginatedLuckyDraws.length === 0 ? (
                     <li>
-                        <span className="title">No notices or lucky draws available</span>
+                        <span className="title">
+                            No notices or lucky draws available
+                        </span>
                     </li>
                 ) : (
-                    [...paginatedNotices, ...paginatedLuckyDraws].map((item) => (
-                        <li key={item.noticeId || item.luckyAnnouncementId}>
-                            <Link 
-                                to={`/service/notice/${item.noticeId ? `notice/${item.noticeId}` : `event/${item.luckyAnnouncementId}`}?tab=${activeTab}`}
-                            >
-                                <div>
-                                    <span className="type">
-                                        {item.noticeTitle ? "일반공지" : "이벤트 공지"}
-                                    </span>
-                                    <span className="title">
-                                        {item.noticeTitle || item.luckyTitle}
-                                    </span>
-                                </div>
-                            </Link>
-                        </li>
-                    ))
+                    [...paginatedNotices, ...paginatedLuckyDraws].map(
+                        (item) => (
+                            <li key={item.noticeId || item.luckyAnnouncementId}>
+                                <Link
+                                    to={`/service/notice/${
+                                        item.noticeId
+                                            ? `notice/${item.noticeId}`
+                                            : `event/${item.luckyAnnouncementId}`
+                                    }?tab=${activeTab}`}
+                                >
+                                    <div>
+                                        <span className="content">
+                                            {item.noticeTitle
+                                                ? "일반공지"
+                                                : "이벤트 공지"}
+                                        </span>
+                                        <span className="title">
+                                            {item.noticeTitle ||
+                                                item.luckyTitle}
+                                        </span>
+                                    </div>
+                                </Link>
+                            </li>
+                        )
+                    )
                 )}
             </ul>
             <div className="pagination">
-                <button 
-                    onClick={() => handlePageChange(currentPage - 1)} 
+                <button
+                    onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                 >
                     이전
                 </button>
-                <span>페이지 {currentPage} / {totalPages}</span>
-                <button 
-                    onClick={() => handlePageChange(currentPage + 1)} 
+                <span style={{ color: "#222" }}>
+                    페이지 {currentPage} / {totalPages}
+                </span>
+                <button
+                    onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
+                    style={{ background: "#222" }}
                 >
                     다음
                 </button>

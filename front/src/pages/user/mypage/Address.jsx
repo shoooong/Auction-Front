@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Dialog, DialogTitle, Button } from "@mui/material";
 import { getAddress, addAddress, modifyAddress, deleteAddress } from "api/user/mypageApi";
+
+import { getCookie } from 'utils/cookieUtil';
+import { maskName, formatPhoneNumber } from 'utils/mypageUtil';
+
 import Postcode from "components/mypage/Postcode";
-import { getCookie } from 'pages/user/cookieUtil';
-import { maskName, formatPhoneNumber } from '../mypageUtil';
+
+import { Box, Dialog, DialogTitle, Button } from "@mui/material";
 
 
 const fetchData = async (setAddresses, setLoading, navigate) => {

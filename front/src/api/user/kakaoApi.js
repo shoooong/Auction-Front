@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SERVER_URL } from "../serverApi";
+import { SERVER_URL } from "api/serverApi";
 
 const rest_api_key = process.env.REACT_APP_KAKAO_REST_API_KEY;
 const redirect_uri = process.env.REACT_APP_KAKAO_REDIRECT_URI;

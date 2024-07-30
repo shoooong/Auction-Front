@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import { getSub, getAll } from "api/shopApi";
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 
@@ -199,7 +200,14 @@ export default function Shop() {
                                             {list.modelNum}
                                         </span>
                                         {list.buyingBiddingPrice === null ? (
-                                            <></>
+                                            <>
+                                                <span className="semibold-black">
+                                                    -
+                                                    <span className="light-black">
+                                                        원
+                                                    </span>
+                                                </span>
+                                            </>
                                         ) : (
                                             <>
                                                 <span className="semibold-black">
@@ -208,11 +216,11 @@ export default function Shop() {
                                                         원
                                                     </span>
                                                 </span>
-                                                <span className="light-grey">
-                                                    즉시 구매가
-                                                </span>
                                             </>
                                         )}
+                                        <span className="light-grey">
+                                            즉시 구매가
+                                        </span>
                                     </div>
                                 </div>
                             ))}

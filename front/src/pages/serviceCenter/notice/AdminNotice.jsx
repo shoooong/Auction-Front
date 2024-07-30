@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+
 import AdminNoticeTabs from "./AdminNoticeTabs";
 import AdminNoticeList from "./AdminNoticeList";
-import { Link } from "react-router-dom";
+import './AdminNotice.css';
 
 const AdminNotice = () => {
     const location = useLocation();

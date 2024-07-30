@@ -1,5 +1,8 @@
 import React from 'react';
+
 import NoticeRegistrationForm from './NoticeRegistrationForm';
+import './NoticeRegistration.css';
+
 
 const NoticeRegistration = () => {
   return (

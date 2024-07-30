@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SERVER_URL } from "api/serverApi";
-import jwtAxios from "pages/user/jwtUtil";
+
+import jwtAxios from "utils/jwtUtil";
+import { getCookie } from "utils/cookieUtil";
 
 import useCouponEvent from "hooks/useCouponEvent";
-import { getCookie } from "pages/user/cookieUtil";
 
 import couponDownBtn from "assets/images/coupon_down.svg";
 
@@ -43,7 +43,7 @@ export default function Event() {
 
     return (
         <>
-            <div className="coupon-event bg-gray">
+            <div className="coupon-event bg-whitegrey">
                 <div className="event-banner"></div>
                 <div className="container">
                     <div className="text-box text-center">

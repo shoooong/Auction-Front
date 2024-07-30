@@ -1,5 +1,7 @@
-import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
+
+import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
+
 
 // ------  SDK 초기화 ------
 // @docs https://docs.tosspayments.com/sdk/v2/js#토스페이먼츠-초기화

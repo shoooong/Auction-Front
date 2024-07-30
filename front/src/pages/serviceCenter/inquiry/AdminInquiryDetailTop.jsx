@@ -1,6 +1,8 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import AdminInquiryDetail from './AdminInquiryDetail'
+import { useParams } from 'react-router-dom';
+
+import AdminInquiryDetail from './AdminInquiryDetail';
+import './AdminInquiryDetailPage.css';
 
 const AdminInquiryDetailPage = () => {
   const { inquiryId } = useParams();

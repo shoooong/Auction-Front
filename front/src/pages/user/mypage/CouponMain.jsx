@@ -1,8 +1,10 @@
 import React from "react";
-import useUserCoupon from "hooks/useUserCoupon";
 import { useNavigate } from "react-router-dom";
-import "styles/coupon.css";
+
+import useUserCoupon from "hooks/useUserCoupon";
 import CouponDday from "components/CouponDday";
+
+import "styles/coupon.css";
 
 export default function Event() {
     const { coupons } = useUserCoupon();

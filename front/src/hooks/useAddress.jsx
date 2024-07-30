@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-    getAddress,
-    addAddress,
-    modifyAddress,
-    deleteAddress,
-} from "api/user/mypageApi";
-import { getCookie } from "pages/user/cookieUtil";
+import { getAddress, addAddress, modifyAddress, deleteAddress } from "api/user/mypageApi";
+
+import { getCookie } from "utils/cookieUtil";
 
 const fetchData = async (setAddresses, setLoading, navigate) => {
     const userInfo = getCookie("user");

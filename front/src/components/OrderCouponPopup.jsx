@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import useUserCoupon from "hooks/useUserCoupon";
-import "styles/order.css";
-// import jwtAxios from "pages/user/jwtUtil";
-import "styles/order_coupon.css";
+import React from "react";
+
 import CouponDday from "components/CouponDday";
-const OrderCouponComponent = ({ onSelectCoupon }) => {
+import useUserCoupon from "hooks/useUserCoupon";
+
+import "styles/order.css";
+import "styles/order_coupon.css";
+
+const OrderCouponPopup = ({ onSelectCoupon }) => {
     const { coupons } = useUserCoupon();
 
     return (
@@ -44,4 +46,4 @@ const OrderCouponComponent = ({ onSelectCoupon }) => {
         </div>
     );
 };
-export default OrderCouponComponent;
+export default OrderCouponPopup;

@@ -11,9 +11,6 @@
     color: var(--black);
 }
 
-.data-container {
-    margin-bottom: 80px;
-}
 
 .detail-history-title {
     display: flex;
@@ -577,7 +574,8 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
     margin-bottom: 10px;
   }
 

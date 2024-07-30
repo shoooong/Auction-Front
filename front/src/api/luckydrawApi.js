@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SERVER_URL } from "./serverApi";
-import jwtAxios from "pages/user/jwtUtil";
+
+import jwtAxios from "utils/jwtUtil";
 
 export const getLuckyDraw = async () => {
     try {

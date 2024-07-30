@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Box, Dialog, DialogTitle, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 import {
     getAddress,
     addAddress,
     modifyAddress,
     deleteAddress,
 } from "api/user/mypageApi";
-import { getCookie } from "pages/user/cookieUtil";
-import "styles/order.css";
-// import jwtAxios from "pages/user/jwtUtil";
-import "styles/order_coupon.css";
+
+import { getCookie } from "utils/cookieUtil";
+import { maskName, formatPhoneNumber } from "utils/mypageUtil";
+
 import Postcode from "components/mypage/Postcode";
-import { maskName, formatPhoneNumber } from "../pages/user/mypageUtil";
-import { useNavigate } from "react-router-dom";
+import { Box, Dialog, DialogTitle, Button } from "@mui/material";
+
+import "styles/order.css";
+import "styles/order_coupon.css";
 
 const fetchData = async (setAddresses, setLoading, navigate) => {
     const userInfo = getCookie("user");
@@ -32,7 +35,12 @@ const fetchData = async (setAddresses, setLoading, navigate) => {
     setLoading(false);
 };
 
-const OrderAddressComponent = ({ onSelectAddress }) => {
+const OrderAddressPopup = ({
+    userAddress,
+    setUserAddress,
+    addressOpen,
+    setAddressOpen,
+}) => {
     const [addresses, setAddresses] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
@@ -137,6 +145,10 @@ const OrderAddressComponent = ({ onSelectAddress }) => {
         setOpen(false);
     };
 
+    const handleAddressSelect = (address) => {
+        setSelectedAddress(address);
+        setUserAddress(address); // Pass the selected address to the parent component
+    };
     return (
         <div className="address-management">
             <div className="detail-history-title">
@@ -183,7 +195,18 @@ const OrderAddressComponent = ({ onSelectAddress }) => {
                                 {address.detailAddress}
                             </p>
                         </div>
+
                         <div className="address-actions">
+                            <button
+                                type="button"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAddressSelect(address);
+                                    setAddressOpen(false);
+                                }}
+                            >
+                                선택
+                            </button>
                             <button
                                 type="button"
                                 onClick={() => {
@@ -198,6 +221,7 @@ const OrderAddressComponent = ({ onSelectAddress }) => {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleDeleteAddress(address.addressId);
+                                    handleAddressSelect("");
                                 }}
                             >
                                 삭제
@@ -243,4 +267,4 @@ const OrderAddressComponent = ({ onSelectAddress }) => {
         </div>
     );
 };
-export default OrderAddressComponent;
+export default OrderAddressPopup;

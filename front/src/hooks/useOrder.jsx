@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import jwtAxios from "pages/user/jwtUtil";
-import { SERVER_URL } from "api/serverApi";
+
+import jwtAxios from "utils/jwtUtil";
 
 // 구매입찰 정보를 가져와서 즉시판매
 export default function useOrder(data) {

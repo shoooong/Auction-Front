@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+
 import NoticeDetailContainer from "./NoticeDetailContainer";
 
 const NoticeDetail = () => {
@@ -14,8 +15,12 @@ const NoticeDetail = () => {
 
     return (
         <div className="notice-detail-page">
-            <button onClick={handleBack}>목록으로 돌아가기</button>
             <NoticeDetailContainer />
+            <div className="text-center">
+                <button className="btn add-btn" onClick={handleBack}>
+                    목록으로 돌아가기
+                </button>
+            </div>
         </div>
     );
 };

@@ -86,12 +86,11 @@
     font-weight: 800;
 }
 .product_detail {
-    /* text-indent: 16px; */
     height: 76px;
-    /* align-content: space-between; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding-left: 10px;
 }
 
 .product_info {
@@ -283,6 +282,9 @@ dd.desc {
     display: flex;
 }
 .pay_btn {
+    border-radius: 10px;
+    height: 52px;
+    width: 636px;
     font-size: 16px;
     color: #fff;
     font-weight: 500;
@@ -293,6 +295,12 @@ dd.desc {
     margin-top: 100px;
     margin-bottom: 100px;
 }
+.pay_btn:disabled {
+    background-color: #d6d6d6; /* 비활성화 상태 배경색 */
+    color: #ffffff; /* 비활성화 상태 텍스트 색상 */
+    cursor: not-allowed; /* 비활성화 상태 커서 스타일 */
+}
+
 .order_box_section {
     width: 440px;
     height: 708px;
@@ -317,4 +325,45 @@ dd.desc {
 }
 .account_btn {
     align-self: end;
+}
+
+/*OrderMemo*/
+
+.userMemo_box {
+    height: 70px;
+    width: 456px;
+    border: 1px solid #ebebeb;
+    border-radius: 10px;
+}
+.userMemo_box > textarea {
+    border: none;
+    /* margin: 2px; */
+    padding: 10px;
+}
+.userMemo_box > textarea::placeholder {
+    font-size: 14px;
+    color: rgba(34, 34, 34, 0.3);
+}
+
+.order_cancel_btn {
+}
+.order_btn {
+    width: 120px;
+    height: 42px;
+    border-radius: 15px;
+
+    color: #000;
+    border: 1px solid #ebebeb;
+    margin: 4px;
+    font-weight: 200;
+}
+.order_save_btn {
+    background-color: #333333;
+    color: #fff;
+}
+.order_cancel_btn {
+}
+
+.memo_form > h3 {
+    font-weight: 500;
 }

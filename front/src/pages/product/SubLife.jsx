@@ -1,10 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import { SERVER_URL } from "api/serverApi";
+
 import { Box, IconButton, Button } from "@mui/material";
+
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
+
 import '../../styles/product.css';
 
 const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
@@ -139,7 +143,7 @@ const SubLife = () => {
                                         {product.modelNum}
                                     </span>
                                     <span className="semibold-black">
-                                        {parseInt(product.biddingPrice).toLocaleString()}
+                                        {product.biddingPrice ? parseInt(product.biddingPrice).toLocaleString() : '-'}
                                         <span className="light-black">원</span>
                                     </span>
                                     <span className="light-grey">

@@ -1,6 +1,4 @@
-import { SERVER_URL } from "api/serverApi";
-import axios from "axios";
-import jwtAxios from "pages/user/jwtUtil";
+import jwtAxios from "utils/jwtUtil";
 
 //사용자 판매정산 내역 조회
 export const getSales = async (page) => {

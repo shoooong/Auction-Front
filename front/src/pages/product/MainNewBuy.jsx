@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { Button, Box, IconButton } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom"; // useNavigate 훅을 import 합니다
+
+import axios from "axios";
 import { SERVER_URL } from "api/serverApi";
+
+import { Button, Box, IconButton } from "@mui/material";
+
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
 
-const CLOUD_STORAGE_BASE_URL = "https://kr.object.ncloudstorage.com/push/shooong/products/";
+const CLOUD_STORAGE_BASE_URL =
+    "https://kr.object.ncloudstorage.com/push/shooong/products/";
 
 const MainNewBuy = () => {
     const location = useLocation(); // 현재 경로를 가져옵니다
@@ -27,7 +31,9 @@ const MainNewBuy = () => {
                     productBrand: product.productBrand,
                     productName: product.productName,
                     modelNum: product.modelNum,
-                    biddingPrice: product.biddingPrice ? product.biddingPrice.toLocaleString() : product.originalPrice.toLocaleString(),
+                    biddingPrice: product.biddingPrice
+                        ? product.biddingPrice.toLocaleString()
+                        : "-",
                     liked: false, // 초기 좋아요 상태
                     rank: index + 1, // 순위 추가
                 }));
@@ -68,14 +74,19 @@ const MainNewBuy = () => {
                     {products
                         .slice(0, visibleProducts)
                         .map((product, index) => (
-                            <div className="product" key={index} onClick={() => handleProductClick(product.modelNum)}>
+                            <div
+                                className="product"
+                                key={index}
+                                onClick={() =>
+                                    handleProductClick(product.modelNum)
+                                }
+                            >
                                 <div>
                                     <span className="rank">{product.rank}</span>
-                                    <div className="image-container">
+                                    <div className="product-img-230">
                                         <img
                                             src={product.productImg}
                                             alt={product.productName}
-                                            className="post-image"
                                         />
                                     </div>
                                     <IconButton

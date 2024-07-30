@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { getBuyHistoryProcess, cancelBuyingBidding } from "api/user/mypageApi";
-import { formatPrice, getStatusText } from "pages/user/mypageUtil";
+import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+
+import { formatPrice, getStatusText } from "utils/mypageUtil";
+
 import { Button } from "@mui/material";
 
-import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
+
 
 export default function BuyHistoryProcess() {
     const [buyHistory, setBuyHistory] = useState(null);

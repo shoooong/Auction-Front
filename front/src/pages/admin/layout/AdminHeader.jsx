@@ -1,6 +1,7 @@
 import React from "react";
-import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
+
+import { Box } from "@mui/material";
 
 import logo from "assets/images/logo.svg";
 

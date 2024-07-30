@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
-import { Box, IconButton, Button } from "@mui/material";
 import { useLocation, useNavigate } from 'react-router-dom';
-import "../../styles/product.css";
-import { SERVER_URL } from '../../api/serverApi';
+
+import axios from "axios";
+import { SERVER_URL } from "api/serverApi";
+
+import { Box, IconButton, Button } from "@mui/material";
+
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
+
+import "../../styles/product.css";
 
 const SubShoes = () => {
     const location = useLocation();

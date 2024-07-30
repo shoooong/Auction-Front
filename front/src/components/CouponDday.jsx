@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import calculateDaysLeft from "api/calculateDaysLeft";
 
 const Countdown = ({ startDate, endDate }) => {
@@ -9,7 +10,7 @@ const Countdown = ({ startDate, endDate }) => {
         setDaysLeft(days);
     }, [startDate, endDate]);
 
-    return <div>{daysLeft > 0 ? `D-${daysLeft}` : "Coupon expired"}</div>;
+    return <span>{daysLeft > 0 ? `D-${daysLeft}` : "Coupon expired"}</span>;
 };
 
 export default Countdown;

@@ -1,11 +1,22 @@
-/*  ----------------------------- tree-view -----------------------------------*/
-.tree-view {margin-top: 45px; padding-right: 20px;}
-.tree-view b {color: var(--black); font-size: var(--ft16); font-weight: var(--semibold); padding-left: 10px; width: 100%; display: flex; justify-content: space-between; position: relative; margin-bottom: 20px;}
-.tree-view b::before {content: ""; position: absolute; background-color: var(--black); width: 3px; height: 15px; top: 0px; left: 0px;}
-.tree-view b > span {font-size: var(--ft13); font-weight: var(--light); color: var(--grey); cursor: pointer;}
-.tree-view .MuiTreeItem-iconContainer {display: none !important;}
-.tree-view .Mui-checked .MuiSvgIcon-root {color: black;}
-.tree-view .MuiTreeItem-label {font-size: var(--ft15) !important; font-weight: var(--light) !important; color: var(--black) !important;}
+/* 알림 */
+.alarm-popup {background: rgba(0,0,0,0.4); width: 100%; height: 100%; z-index: 9999999999; position: fixed; top: 0; left: 0;}
+.alarm-wrap {background: #fff; width: 400px; height: 100%; position: fixed; top: 0; right: 0;}
+
+.alarm-wrap .title-box {padding: 25px 20px;}
+.alarm-wrap .title-box .title {text-align: left; margin-bottom: 0px;}
+.alarm-wrap .title-box .popup-close-btn {top: 25px; right: 0px; position: absolute; width: 20px; height: 20px;}
+
+.alarm-box {border-top: 1px solid var(--borderBasic); padding: 20px 20px;}
+.alarm-box .black-label {margin-bottom: 5px; font-weight: var(--bold); font-size: var(--ft16);}
+.alarm-box .alarm {padding-bottom: 10px; border-bottom: 1px solid var(--borderBasic); margin-bottom: 15px; padding: 0px 3px 10px; word-break: keep-all;}
+
+/* 메인페이지 추천 스타일 */
+.recommended-styles-container {margin: 20px 0;}
+.recommended-styles-title {font-size: 20px;margin-bottom: 10px;}
+.recommended-styles-grid {display: flex;flex-wrap: wrap;gap: 15px;}
+.recommended-style {flex: 1 1 150px; text-align: center;}
+.recommended-style-img {width: 100%;height: auto;border-radius: 10px;}
+.recommended-style-label {margin-top: 5px;font-size: 0.9em;color: #666;}
 
 
 /*  ----------------------------- luckydraw -----------------------------------*/
@@ -79,31 +90,56 @@
 /*  ----------------------------- service-center board -----------------------------------*/
 .notice-list {margin: 20px 0 80px;}
 .notice-list li {height: 60px;line-height: 60px;border-bottom: 1px solid var(--borderGrey);}
-.notice-list .title,
-.notice-detail-content h2 {color: var(--black); font-weight: var(--bold);font-size: var(--ft15); width: 84px; display: inline-block; text-align: left;}
-.notice-list .content {font-size: var(--ft15);color: var(--grey); font-weight: var(--regular);}
+.notice-list .title {color: var(--grey); font-weight: var(--regular);font-size: var(--ft15); display: inline-block; text-align: left;}
+.notice-detail-content h2 {color: var(--black); font-weight: var(--semibold);font-size: var(--ft18);text-align: left;}
+.notice-list .content {font-size: var(--ft15);color: var(--black); font-weight: var(--bold); width: 95px; display: inline-block;}
 
 .notice-detail-content > div:first-child {margin-bottom: 20px; border-bottom: 1px solid var(--black); height: 60px;}
 .notice-detail-content span {font-size: var(--ft11); font-weight: var(--light); color: var(--grey);}
 .notice-detail-content .content {background: #f5f5f5; font-size: var(--ft15);color: var(--black); font-weight: var(--regular); padding: 25px; margin-bottom: 80px;}
 
+/* 1:1 문의 */
+.inquiry-registration {margin-top: 13px;}
 .inquiry-registration h2 {font-size: var(--ft22); font-weight: var(--semibold); padding-bottom: 10px; border-bottom: 4px solid var(--borderBlack); color: var(--black);}
-.inquiry-registration p {font-size: var(--ft18); font-weight: var(--medium); padding: 20px 0; color: var(--grey);}
+.inquiry-registration p {font-size: var(--ft16); font-weight: var(--regular); color: var(--grey);}
+
+.inquiry-list .inquiry-item {color: var(--black); margin-top: 10px;}
+.inquiry-list .inquiry-item h3 {font-size: var(--ft18); font-weight: var(--bold); margin-bottom: 5px;}
+.inquiry-list .inquiry-item p {font-size: var(--ft16); font-weight: var(--light); color: var(--grey); line-height: 1.2;}
+
+.inquiry-detail {padding: 10px 0;}
+.inquiry-detail .inquiry-item {height: 40px; display: flex; align-items: center;}
+.inquiry-detail > div {padding:10px 0 50px;}
+.inquiry-detail div h3 {font-size: var(--ft16); font-weight: var(--semibold); width: 80px; color: var(--black);}
+.inquiry-detail div h3 + p {font-size: var(--ft15); font-weight: var(--regular); color: var(--black);}
+
+.request-list {margin-bottom: 80px;}
+.request-list .request-card {color: var(--black); padding: 15px 0 10px; border-bottom: 1px solid var(--borderBlack);}
+.request-list .request-card h3 {font-size: var(--ft16); font-weight: var(--bold); margin-bottom: 10px;}
+.request-list .request-card p {font-size: var(--ft16); font-weight: var(--regular); color: var(--black); margin-bottom: 5px;}
+.request-list .request-card span {font-weight: var(--semibold); width: 55px; display: inline-block;}
+
+
+.inquiry-registration.second form label {font-size: var(--ft15); font-weight: var(--semibold); color: var(--black); width: 100%; display: flex; align-items: center; width: 100%; margin-bottom: 10px;}
+
+
 .inquiry-registration form {margin: 30px 0 80px;}
-.inquiry-registration form label {font-size: var(--ft15); font-weight: var(--semibold); color: var(--black); display: block; width: 100%; display: flex; align-items: center; margin-bottom: 20px;}
+.inquiry-registration .form-group {margin-top: 8px;}
+.inquiry-registration .form-group:first-of-type {margin-top: 30px;}
+.inquiry-registration .form-group + .text-center > * {padding: 0 10px; margin-top: 50px;}
+.inquiry-registration form label {font-size: var(--ft15); font-weight: var(--semibold); color: var(--black); width: 80px; display: inline-block;}
 .inquiry-registration form label:last-of-type {align-items: flex-start;}
 .inquiry-registration form label input[type="text"] {border: 1px solid var(--borderBasic); border-radius: 4px; height: 32px; padding: 0 8px; width: calc(100% - 50px); margin-left: 10px;}
 .inquiry-registration form label textarea {outline: 0; border-radius: 4px; border: 1px solid var(--borderBasic); margin-left: 10px; width: calc(100% - 50px); height: 400px; padding: 10px;}
 .inquiry-registration .btn-box {margin-top: 40px;}
 .inquiry-registration .btn-box button {margin: 0 10px;}
 
-.inquiry-item {border-bottom: 1px solid var(--borderBasic); display: flex; align-items: center; color: var(--black); justify-content: space-between; width: 100%; flex-wrap: wrap; padding-bottom: 10px; margin-top: 30px;}
-.inquiry-item div h3 {font-size: var(--ft18); font-weight: var(--semibold);}
-.inquiry-item div h3 + p {font-size: var(--ft15); font-weight: var(--regular); color: var(--black);}
-.inquiry-item div > p {color: var(--grey); font-size: var(--ft14);}
-.inquiry-item div > p:last-child {margin-top: 5px;}
+.product-detail.inquiry-registration p:first-of-type {margin-top: 15px;}
+.product-detail.inquiry-registration strong {font-size: var(--ft16); font-weight: var(--semibold); color: var(--black); line-height: 1.4;}
+.product-detail.inquiry-registration p {font-size: var(--ft15); font-weight: var(--regular); color: var(--grey); line-height: 1.4;}
 
-.inquiry-list {color: var(--black);}
+
+.title-btn {position: absolute; right: 0; top: -13px;}
 
 
 /*  ----------------------------- feed -----------------------------------*/
@@ -125,6 +161,71 @@
 
 
 /*  ----------------------------- search -----------------------------------*/
-.search-box {display: flex; width: 100%; justify-content: center; padding: 50px 0;}
+.search-box {display: flex; width: 100%; justify-content: center; padding: 20px 0 30px;}
 .search-box input{border-bottom: 4px solid var(--black); height: 40px; font-size: var(--ft14); font-weight: var(--medium); color: var(--black); width: 400px;}
-.search-box button {}
+.search-box button {position: relative; right: 23px;}
+
+
+/*  ----------------------------- scroll top -----------------------------------*/
+.scroll-top {position: fixed; bottom: 40px; right: 8%; background-color: var(--black); border-radius: 100%; width: 41px; height: 41px; cursor: pointer;}
+.scroll-top .css-i4bv87-MuiSvgIcon-root {color: var(--white); position: relative; top: 9px; left: 9px;}
+
+
+/*  ----------------------------- product -----------------------------------*/
+.contract-info table {width: 98%;}
+.contract-info table th {font-size: var(--ft12); font-weight: var(--regular); color: var(--grey); border-bottom: 1px solid var(--borderBasic); padding: 20px 0 10px; text-align: right;}
+.contract-info table td {font-size: var(--ft12); font-weight:var(--regular); color: var(--black); text-align: right; padding-top: 10px;}
+.contract-info table th:first-child,
+.contract-info table td:first-child {text-align: left;}
+
+.text-field {width: 400px !important; border-radius: 4px;}
+.text-field > label {line-height: 1 !important; min-height: 400px;}
+.text-field .MuiInputBase-input {padding: 10px !important;}
+
+
+/*  ----------------------------- bidding-page -----------------------------------*/
+.bidding-page {padding: 20px 0 80px;}
+.bidding-page > div {max-width: 700px; margin: 0 auto;}
+.bidding-page .price-box {padding: 0 35px;}
+.bidding-page .price-box .black-label {font-size: var(--ft16); margin-top: 5px;}
+
+.tab_area.buy_tab .tab_list,
+.tab_area.sell_tab .tab_list {border: 1px solid #ebebeb;border-radius: 80px;display: flex;justify-content: center; margin-bottom: 30px; padding: 3px; background: var(--whitegrey); cursor: pointer;}
+
+.tab_area.buy_tab .item,
+.tab_area.sell_tab .item {border-radius: 80px;text-align: center; width: 100%;}
+.tab_area.buy_tab .item .item_link,
+.tab_area.sell_tab .item .item_link {border-radius: 80px;color: var(--black);font-size: var(--ft14);padding: 14px 0;display: block;text-align: center;}
+
+.tab_area.buy_tab .item.on,
+.tab_area.sell_tab .item.on {background-color: var(--red);border-radius: 80px;}
+.tab_area.sell_tab .item.on {background-color: var(--green);}
+.tab_area.buy_tab .item.on .item_link,
+.tab_area.sell_tab .item.on .item_link {color: var(--white);font-weight: var(--semibold);border-radius: 80px;}
+
+.bidding-form > div {padding: 0 35px;}
+.bidding-form > div:first-child div {border-bottom: 1px solid var(--borderBasic);}
+.bidding-form > div:first-child span:first-child,
+.bidding-form > div:first-child input {width: calc(100% - 40px); display: inline-block; text-align: right; font-size: var(--ft25); font-weight: var(--bold); color: var(--black);}
+.bidding-form > div:first-child span+span,
+.bidding-form > div:first-child input+span {font-size: var(--ft20);padding-left: 10px; font-weight: var(--regular); color: var(--black);}
+
+.bidding-form .deadline-tab {display: flex;justify-content: space-between;padding-bottom: 40px;}
+.bidding-form .deadline-tab > .small-btn {border: 1px solid var(--borderBasic) !important;color: var(--black) !important;}
+.bidding-form .deadline-tab > .small-btn.is_active {border: 1px solid var(--borderBlack) !important;color: var(--black) !important;font-weight: var(--bold) !important;}
+
+.bidding-form .confirm-box {border-top: 1px solid var(--borderBasic);}
+.bidding-form .disabled {background-color: #ebebeb !important;cursor: default; color: var(--white) !important;}
+
+
+/*  ----------------------------- bidding-page -----------------------------------*/
+.style-detail {max-width: 700px; margin-bottom: 80px;}
+.style-detail > img {margin-bottom: 20px; width: 100%;}
+.style-detail div > p {font-size: var(--ft16);}
+.style-detail div > span:last-child {padding-left: 10px;}
+.style-detail button {padding-right: 15px;}
+.style-detail button > img {padding-right: 5px;}
+
+
+/*  ----------------------------- pagination -----------------------------------*/
+.pagination {text-align: center; margin-top: 20px;}

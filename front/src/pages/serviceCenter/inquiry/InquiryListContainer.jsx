@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+
+import jwtAxios from 'utils/jwtUtil';
+
 import InquiryItemList from './InquiryItemList';
-import jwtAxios from '../../../pages/user/jwtUtil';
+
 
 const InquiryListContainer = () => {
   const [inquiries, setInquiries] = useState([]);

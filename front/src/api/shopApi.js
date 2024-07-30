@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SERVER_URL } from "api/serverApi";
+import { SERVER_URL } from "./serverApi";
 
 export const getAll = async (pageNum = 0) => {
 	const res = await axios.get(`${SERVER_URL}/shop/all?pageNumber=${pageNum}`);

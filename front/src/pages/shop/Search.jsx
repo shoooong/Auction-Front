@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import { getSearch } from "api/shopApi";
 import { CLOUD_STORAGE_BASE_URL } from "api/cloudStrorageApi";
 
@@ -7,6 +8,7 @@ import { Box, IconButton } from "@mui/material";
 
 import BookmarkOff from "assets/images/bookmark-off.svg";
 import BookmarkOn from "assets/images/bookmark-on.svg";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 export default function Shop() {
     // 북마크 훅
@@ -48,15 +50,15 @@ export default function Shop() {
         setSearchProduct([]);
     };
 
-    const handleSearchClick = () => {
-        setPageNum(0);
-        setSearchProduct([]);
-        fetchSearchData(0, keyword);
+    const resetClick = () => {
+        setKeyword("");
     };
 
     const activeEnter = (e) => {
         if (e.key === "Enter") {
-            handleSearchClick();
+            setPageNum(0);
+            setSearchProduct([]);
+            fetchSearchData(0, keyword);
         }
     };
 
@@ -120,7 +122,9 @@ export default function Shop() {
                         onChange={handleChange}
                         onKeyDown={activeEnter}
                     />
-                    <button onClick={handleSearchClick}>찾기</button>
+                    <button onClick={resetClick}>
+                        <CloseRoundedIcon />
+                    </button>
                 </Box>
                 <div className="w100p">
                     <Box className="box">
@@ -176,20 +180,23 @@ export default function Shop() {
                                             {list.modelNum}
                                         </span>
                                         {list.buyingBiddingPrice === null ? (
-                                            <></>
+                                            <span className="semibold-black">
+                                                -
+                                                <span className="light-black">
+                                                    원
+                                                </span>
+                                            </span>
                                         ) : (
-                                            <>
-                                                <span className="semibold-black">
-                                                    {list.buyingBiddingPrice}
-                                                    <span className="light-black">
-                                                        원
-                                                    </span>
+                                            <span className="semibold-black">
+                                                {list.buyingBiddingPrice}
+                                                <span className="light-black">
+                                                    원
                                                 </span>
-                                                <span className="light-grey">
-                                                    즉시 구매가
-                                                </span>
-                                            </>
+                                            </span>
                                         )}
+                                        <span className="light-grey">
+                                            즉시 구매가
+                                        </span>
                                     </div>
                                 </div>
                             ))}

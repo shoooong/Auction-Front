@@ -168,7 +168,7 @@
 
 /*  ----------------------------- scroll top -----------------------------------*/
 .scroll-top {position: fixed; bottom: 40px; right: 8%; background-color: var(--black); border-radius: 100%; width: 41px; height: 41px; cursor: pointer;}
-.scroll-top .css-i4bv87-MuiSvgIcon-root {color: var(--white); position: relative; top: 9px; left: 9px;}
+.scroll-top > button {color: var(--white); position: relative; top: 9px; left: 9px;}
 
 
 /*  ----------------------------- product -----------------------------------*/

@@ -105,12 +105,13 @@ const NoticeList = ({ activeTab }) => {
                 >
                     이전
                 </button>
-                <span>
+                <span style={{ color: "#222" }}>
                     페이지 {currentPage} / {totalPages}
                 </span>
                 <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
+                    style={{ background: "#222" }}
                 >
                     다음
                 </button>

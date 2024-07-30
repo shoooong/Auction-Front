@@ -19,7 +19,7 @@ const AdminInquiryItemList = ({ inquiries }) => {
           {inquiries.map((inquiry) => (
             <tr key={inquiry.inquiryId}>
               <td>{inquiry.inquiryId}</td>
-              <td>{inquiry.title}</td>
+              <td>{inquiry.inquiryTitle}</td>
               <td>{inquiry.nickName}</td>
               <td>{new Date(inquiry.createdDate).toLocaleString()}</td>
               <td>{inquiry.response ? '답변 완료' : '답변 대기'}</td>

@@ -57,10 +57,12 @@ export default function ProductBid() {
 
     const handleSubmit = async () => {
         if (bidPrice < MIN_BID_PRICE) {
-            alert(`입찰 최소 금액은 ${MIN_BID_PRICE.toLocaleString()}원입니다.`);
+            alert(
+                `입찰 최소 금액은 ${MIN_BID_PRICE.toLocaleString()}원입니다.`
+            );
             return;
         }
-    
+
         const productId = data.productId; // 입찰할 때 상품 고유 ID 사용
         const url = currentForm === "buy" ? "/buy" : "/sell";
         const postData = {
@@ -68,10 +70,10 @@ export default function ProductBid() {
             productId,
             selectedDays, // 선택한 입찰 마감 기한 일수 추가
         };
-    
+
         console.log(`Submitting to URL: ${SERVER_URL}${url}`);
         console.log("Post Data:", JSON.stringify(postData));
-    
+
         try {
             navigate(url, { state: postData });
         } catch (error) {
@@ -81,29 +83,29 @@ export default function ProductBid() {
     };
 
     const handleInstantSubmit = async () => {
-        let biddingId, biddingPrice, url, postData;
-    
+        let biddingId, bidPrice, url, postData;
+
         if (currentForm === "buy_now") {
             biddingId = data.salesProductId || data.productId;
-            biddingPrice = data.salesBiddingPrice || 0;
+            bidPrice = data.salesBiddingPrice || 0;
             url = "/buy";
             postData = {
-                biddingPrice: parseInt(biddingPrice.toString().replace(/,/g, ''), 10), // 문자열에서 콤마 제거 및 정수 변환
+                bidPrice: parseInt(bidPrice.toString().replace(/,/g, ""), 10), // 문자열에서 콤마 제거 및 정수 변환
                 salesBiddingId: biddingId,
             };
         } else if (currentForm === "sell_now") {
             biddingId = data.buyingProductId || data.productId;
-            biddingPrice = data.buyingBiddingPrice || 0;
+            bidPrice = data.buyingBiddingPrice || 0;
             url = "/sell";
             postData = {
-                biddingPrice: parseInt(biddingPrice.toString().replace(/,/g, ''), 10), // 문자열에서 콤마 제거 및 정수 변환
+                bidPrice: parseInt(bidPrice.toString().replace(/,/g, ""), 10), // 문자열에서 콤마 제거 및 정수 변환
                 buyingBiddingId: biddingId,
             };
         }
-    
+
         console.log(`Submitting to URL: ${SERVER_URL}${url}`);
         console.log("Post Data:", JSON.stringify(postData));
-    
+
         try {
             navigate(url, { state: postData });
         } catch (error) {

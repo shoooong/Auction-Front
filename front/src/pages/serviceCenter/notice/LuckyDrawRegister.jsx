@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import jwtAxios from "utils/jwtUtil";
+import './LuckyDrawRegister.css';
 
 const LuckyDrawRegister = () => {
     const [luckyTitle, setLuckyTitle] = useState("");

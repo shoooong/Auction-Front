@@ -13,11 +13,16 @@ import OrderPaymentInfo from "components/order/OrderPaymentInfo";
 export default function Buy() {
     const location = useLocation();
     const bidData = location.state || {
-        productId: 1,
-        bidPrice: 128000,
-        selectedDays: 30,
+        productId: null,
+        slaesBiddingId: null,
+        buyingBiddingId: null,
+        bidPrice: null,
+        selectedDays: null,
     };
     const { product, addressInfo } = useBid(bidData);
+    console.log("biddataproductjasn===" + JSON.stringify(bidData, null, 2));
+    // console.log("즉시구매biddatajasn===" + JSON.stringify(bidData, null, 2));
+    console.log("즉시구매productjasn===" + JSON.stringify(product, null, 2));
 
     const [orderData, setOrderData] = useState({
         productId: 0,
@@ -36,44 +41,94 @@ export default function Buy() {
     const [couponAmount, setCouponAmount] = useState(0);
     // const [couponDiscount, setCouponDiscount] = useState(0);
     const [fee, setFee] = useState(0);
+    const [amount, setAmount] = useState({
+        currency: "KRW",
+        value: 0,
+    });
 
-    console.log("data====" + bidData);
-    console.log("jasn===" + JSON.stringify(bidData, null, 2));
+    // console.log("data====" + bidData);
+    // console.log("jasn===" + JSON.stringify(bidData, null, 2));
 
-    console.log("addressInfo==" + addressInfo);
-    console.log("product===" + product);
+    // console.log("addressInfo==" + addressInfo);
+    // console.log("product===" + product);
 
-    console.log("useBid==" + product);
+    // console.log("useBid==" + product);
+
+    // useEffect(() => {
+    //     if (addressInfo && product) {
+    //         setUserAddress(addressInfo);
+    //         const calculatedFee = bidData?.bidPrice * 0.04;
+    //         console.log("calculatedFee=" + calculatedFee);
+    //         setFee(Math.floor(calculatedFee / 10) * 10);
+
+    //         const newOrderData = {
+    //             addressId: addressInfo.addressId,
+    //             productId: bidData?.productId,
+    //             couponId: selectedCoupon?.coupon?.couponId,
+    //             price: amount.value,
+    //             // price: bidData?.bidPrice - Math.floor(calculatedFee / 10) * 10,
+    //             exp: bidData?.selectedDays,
+    //             // memo: userMemo,
+    //         };
+
+    //         setOrderData(newOrderData);
+
+    //         if (
+    //             addressInfo.addressId &&
+    //             bidData?.productId &&
+    //             bidData?.bidPrice != null
+    //         ) {
+    //             setIsDisabled(false);
+    //         } else {
+    //             setIsDisabled(true);
+    //         }
+    //     }
+    // }, [addressInfo, product, userMemo, bidData, selectedCoupon]);
 
     useEffect(() => {
         if (addressInfo && product) {
             setUserAddress(addressInfo);
-            const calculatedFee = bidData?.bidPrice * 0.04;
+
+            // bidData에 따라 다른 처리
+            const bidPrice = bidData?.bidPrice || 0; // bidPrice가 존재하지 않는 경우 0으로 초기화
+            const calculatedFee = bidPrice * 0.04;
             console.log("calculatedFee=" + calculatedFee);
             setFee(Math.floor(calculatedFee / 10) * 10);
 
-            const newOrderData = {
-                addressId: addressInfo.addressId,
-                productId: bidData?.productId,
-                couponId: selectedCoupon?.coupon?.couponId,
-                price: bidData?.bidPrice - Math.floor(calculatedFee / 10) * 10,
-                exp: bidData?.selectedDays,
-                memo: userMemo,
-            };
+            let newOrderData = null;
+
+            // bidData에 따라 다른 DTO를 생성
+            if (bidData?.productId) {
+                newOrderData = {
+                    productId: bidData.productId,
+                    addressId: addressInfo.addressId,
+                    couponId: selectedCoupon?.coupon?.couponId,
+                    price: amount.value,
+                    exp: bidData?.selectedDays,
+                };
+            } else if (bidData?.salesBiddingId) {
+                newOrderData = {
+                    salesBiddingId: bidData.salesBiddingId,
+                    addressId: addressInfo.addressId,
+                    couponId: selectedCoupon?.coupon?.couponId,
+                    price: amount.value,
+                };
+            }
 
             setOrderData(newOrderData);
 
+            // 필수 필드 존재 여부에 따라 버튼 활성화/비활성화
             if (
                 addressInfo.addressId &&
-                bidData?.productId &&
-                bidData?.bidPrice != null
+                ((bidData?.productId && bidData?.bidPrice != null) ||
+                    (bidData?.salesBiddingId && bidData?.bidPrice != null))
             ) {
                 setIsDisabled(false);
             } else {
                 setIsDisabled(true);
             }
         }
-    }, [userAddress, product, userMemo, bidData, selectedCoupon]);
+    }, [addressInfo, product, userMemo, bidData, selectedCoupon]);
 
     console.log("orderData===" + orderData);
 
@@ -105,6 +160,9 @@ export default function Buy() {
                     bidPrice={bidData?.bidPrice}
                     orderData={orderData}
                     couponAmount={couponAmount}
+                    amount={amount}
+                    setAmount={setAmount}
+                    isDisabled={isDisabled}
                 />
             </div>
         </div>

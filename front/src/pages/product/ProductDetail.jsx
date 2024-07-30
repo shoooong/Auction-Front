@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+import useCustomLogin from "hooks/useCustomLogin";
 import axios from "axios";
 import { SERVER_URL } from "api/serverApi";
 
@@ -10,7 +11,8 @@ import jwtAxios from "utils/jwtUtil";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 
-import useCustomLogin from "hooks/useCustomLogin";
+import likeOn from "assets/images/like-on.svg";
+import likeOff from "assets/images/like-off.svg";
 
 import {
     Box,
@@ -51,14 +53,14 @@ const ProductDetails = () => {
     const [bookmarkSize, setBookmarkSize] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [bookmarkCount, setBookmarkCount] = useState(0); // 북마크 개수 상태 추가
-    const [isBookmarked, setIsBookmarked] = useState(false); 
+    const [isBookmarked, setIsBookmarked] = useState(false);
 
     const { exceptionHandler } = useCustomLogin();
 
     const checkIfBookmarked = async () => {
         try {
             const response = await jwtAxios.get(`/product/bookmark/exists`, {
-                params: { modelNum }
+                params: { modelNum },
             });
             setIsBookmarked(response.data);
         } catch (error) {
@@ -667,15 +669,13 @@ const ProductDetails = () => {
                             tabIndex="0"
                             type="button"
                             onClick={handleLikeClick}
+                            style={{ marginBottom: "10px" }}
                         >
                             <span>
                                 <img
-                                    src={
-                                        isLiked
-                                            ? "/static/media/heart-filled.svg"
-                                            : "/static/media/heart-empty.svg"
-                                    }
+                                    src={isLiked ? likeOn : likeOff}
                                     alt="Like"
+                                    style={{ marginRight: "4px" }}
                                 />
                             </span>
                             좋아요
@@ -688,8 +688,12 @@ const ProductDetails = () => {
                             type="button"
                             onClick={handleBookmarkClick}
                         >
-                            <img src={isBookmarked ? BookmarkOn : BookmarkOff} alt="Bookmark Icon" />
-                            {isBookmarked ? "관심상품" : "관심상품"}
+                            <img
+                                src={isBookmarked ? BookmarkOn : BookmarkOff}
+                                alt="Bookmark Icon"
+                                style={{ marginRight: "4px" }}
+                            />
+                            {isBookmarked ? "관심상품" : "관심상품 취소"}
                             <span>{bookmarkCount}</span>
                         </button>
                         {/* 정식이 파트 */}
@@ -813,7 +817,7 @@ const ProductDetails = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {product.buyingHopeList
+                                            {product.salesHopeList
                                                 .slice(0, visibleItems)
                                                 .map((info, index) => (
                                                     <tr key={index}>
@@ -821,26 +825,27 @@ const ProductDetails = () => {
                                                             {info.productSize}
                                                         </td>
                                                         <td>
-                                                            {info.buyingBiddingPrice.toLocaleString()}
+                                                            {info.salesBiddingPrice.toLocaleString()}
                                                             원
                                                         </td>
                                                         <td>
-                                                            {info.buyingQuantity}
+                                                            {info.salesQuantity}
                                                         </td>
                                                     </tr>
                                                 ))}
                                         </tbody>
                                     </table>
                                     {visibleItems <
-                                        product.buyingHopeList.length && (
-                                        <button
-                                            className="more-info-btn"
+                                        product.salesHopeList.length && (
+                                        <Button
+                                            className="full-btn border-btn align-center pdy10"
+                                            style={{ marginTop: "15px" }}
                                             onClick={() =>
                                                 handleMoreItems("sales")
                                             }
                                         >
                                             판매 내역 더보기
-                                        </button>
+                                        </Button>
                                     )}
                                 </div>
                             </TabPanel>
@@ -860,7 +865,7 @@ const ProductDetails = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {product.salesHopeList
+                                            {product.buyingHopeList
                                                 .slice(0, visibleItems)
                                                 .map((info, index) => (
                                                     <tr key={index}>
@@ -868,7 +873,7 @@ const ProductDetails = () => {
                                                             {info.productSize}
                                                         </td>
                                                         <td>
-                                                            {info.salesBiddingPrice.toLocaleString()}
+                                                            {info.buyingBiddingPrice.toLocaleString()}
                                                             원
                                                         </td>
                                                         <td>
@@ -881,7 +886,7 @@ const ProductDetails = () => {
                                         </tbody>
                                     </table>
                                     {visibleItems <
-                                        product.salesHopeList.length && (
+                                        product.buyingHopeList.length && (
                                         <Button
                                             className="full-btn border-btn align-center pdy10"
                                             style={{ marginTop: "15px" }}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import jwtAxios from 'utils/jwtUtil';
+import './NoticeRegistration.css';
 
 const NoticeRegistrationForm = () => {
   const [title, setTitle] = useState('');

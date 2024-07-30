@@ -3,6 +3,7 @@ import { useLocation, Link } from "react-router-dom";
 
 import AdminNoticeTabs from "./AdminNoticeTabs";
 import AdminNoticeList from "./AdminNoticeList";
+import './AdminNotice.css';
 
 const AdminNotice = () => {
     const location = useLocation();

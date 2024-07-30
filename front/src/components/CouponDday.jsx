@@ -10,7 +10,7 @@ const Countdown = ({ startDate, endDate }) => {
         setDaysLeft(days);
     }, [startDate, endDate]);
 
-    return <div>{daysLeft > 0 ? `D-${daysLeft}` : "Coupon expired"}</div>;
+    return <span>{daysLeft > 0 ? `D-${daysLeft}` : "Coupon expired"}</span>;
 };
 
 export default Countdown;

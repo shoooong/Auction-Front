@@ -1,4 +1,5 @@
-// import { useState, useEffect } from "react";
+// import { useState, useEffect, useNavigate } from "react";
+import { SalesBidding } from "api/order/useOrderApi";
 import { useNavigate } from "react-router-dom";
 import jwtAxios from "utils/jwtUtil";
 
@@ -6,12 +7,26 @@ const OrderSaleInfo = ({ bidPrice, fee, orderData, isDisabled }) => {
     const navigate = useNavigate();
     const handleSell = async () => {
         try {
-            const orderResponse = await jwtAxios.post(
-                `/bid/salesBidding/register`,
-                orderData
-            );
+            let Type = "sale";
+            let endpoint = "bid/salesBidding/register"; // 기본 엔드포인트
+            if (orderData.buyingBiddingId) {
+                endpoint = "bid/saleNow";
+                Type = "saleNow";
+            }
+            const response = await jwtAxios
+                .post(endpoint, orderData)
+                .then((res) => {
+                    return res.data;
+                });
+
+            console.log("orderData===" + JSON.stringify(orderData, null, 2));
+            console.log("response===" + JSON.stringify(response, null, 2));
             alert("주문이 성공적으로 생성되었습니다.");
-            navigate("/success");
+
+            navigate("/success", {
+                state: { responseData: response, Type: Type },
+            });
+            // return response.data;
         } catch (error) {
             console.error("주문 생성 중 오류가 발생했습니다.", error);
             alert("주문 생성 중 오류가 발생했습니다.");

@@ -36,7 +36,7 @@ const OrderAccountInfo = ({ userAccount, setUserAccount }) => {
                         textAlign: "center",
                         width: "520px",
                         maxWidth: "unset",
-                        height: "600px",
+                        height: "330px",
                         maxHeight: "unset",
                     },
                 }}

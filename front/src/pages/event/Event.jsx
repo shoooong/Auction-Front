@@ -43,7 +43,7 @@ export default function Event() {
 
     return (
         <>
-            <div className="coupon-event bg-gray">
+            <div className="coupon-event bg-whitegrey">
                 <div className="event-banner"></div>
                 <div className="container">
                     <div className="text-box text-center">

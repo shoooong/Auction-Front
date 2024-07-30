@@ -1,9 +1,9 @@
 import prImg from "assets/images/sample.png";
 
-const OrderProduct = (product) => {
+const OrderBuyNowProduct = (product) => {
     return (
         <div className="order_product_box">
-            <h3 className="order_main_title">구매 입찰이 완료되었습니다.</h3>
+            <h3 className="order_main_title">구매가 완료되었습니다.</h3>
             <p className="order_sub_title">
                 검수에 합격한 상품이 등록한 배송지로 배송됩니다.
             </p>
@@ -18,4 +18,4 @@ const OrderProduct = (product) => {
     );
 };
 
-export default OrderProduct;
+export default OrderBuyNowProduct;

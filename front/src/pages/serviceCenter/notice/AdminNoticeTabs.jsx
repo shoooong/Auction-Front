@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import './AdminNotice.css';
 
 const AdminNoticeTabs = ({ activeTab, setActiveTab }) => {
     const navigate = useNavigate();

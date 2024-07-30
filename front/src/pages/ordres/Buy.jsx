@@ -128,7 +128,7 @@ export default function Buy() {
                 setIsDisabled(true);
             }
         }
-    }, [addressInfo, product, userMemo, bidData, selectedCoupon]);
+    }, [addressInfo, amount, product, userMemo, bidData, selectedCoupon]);
 
     console.log("orderData===" + orderData);
 
